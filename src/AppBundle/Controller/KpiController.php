@@ -135,7 +135,10 @@ class KpiController extends Controller
 		if ($brand == null) $brand = '';
 		
 		if ($year == null) {
-			$year = $date->format('Y');
+			if ($date->format('m') == 01)
+				$year = $date->format('Y') - 1;
+			else 
+				$year = $date->format('Y');
 		}
 
 		$kpis = $em->getRepository('AppBundle:KpiYearToDate')->getUserKpiYtd($user->getUsername(), $year, $brand);
