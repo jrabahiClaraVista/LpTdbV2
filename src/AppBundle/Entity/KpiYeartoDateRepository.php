@@ -14,14 +14,16 @@ use Application\Sonata\UserBundle\Entity\User;
  */
 class KpiYeartoDateRepository extends EntityRepository
 {
-	public function getUserKpiYtd(User $user, $year, $brand){
+	public function getUserKpiYtd($username, $year, $brand){
 		$qb = $this
 			->createQueryBuilder('k')
 			->where('k.date BETWEEN :date1 AND :date2')
 			->leftJoin('k.user', 'u')
 		  	->addSelect('u')
-		  	->andWhere('u.brand = :brand')		  	
+		  	->andWhere('u.brand = :brand')
+		  	->andWhere('k.username = :username')		  	
 		  	->setParameter('brand', $brand)
+		  	->setParameter('username', $username)
 		  	->setParameter('date1', $year.'-01-01')
 		  	->setParameter('date2', $year.'-12-31')
 		  	->orderBy('k.date', 'DESC')

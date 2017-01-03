@@ -1,0 +1,23 @@
+{% extends "AppBundle::layout.html.twig" %}
+
+{% block content %}
+	<h3>Liste des boutiques / DR / Marque</h3>
+	<table>
+		<tr>
+			<th style="padding:5px;">ID</th>
+			<th style="padding:5px;">Nom</th>
+		</tr>
+		{% for user in users %}	
+			{% if user.id != 1 and user.id != 12 %}
+			<tr>
+				<td style="padding:5px;">{{ user.id }}</td>
+				<td style="padding:5px;"><a target="_blank" href="{{ path('app_kpi_month', { 'user_id' : user.id } ) }}">{{user.username }}</a></td>
+			</tr>
+		{% endif %}
+		{% endfor %}
+	</table>
+{% endblock %}
+
+{% block layout %}
+    <div class="home-layout"></div>
+{% endblock %}

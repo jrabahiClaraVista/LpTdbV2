@@ -69,10 +69,6 @@ class KpiController extends Controller
 
 		$kpis = $em->getRepository('AppBundle:KpiMonth')->getUserKpisBetweenDates($user, $date1, $date2, $brand);
 
-		$topNpe = $em->getRepository('AppBundle:KpiMonth')->getRank1Npe($date1, $date2, $brand);
-		$topNpes = $em->getRepository('AppBundle:KpiMonth')->getRank1Npes($date1, $date2, $brand);
-		$topNpesa = $em->getRepository('AppBundle:KpiMonth')->getRank1Npesa($date1, $date2, $brand);
-
 		//get current month depending on url parameter
 		foreach ($kpis as $key => $kpi) {
 			
@@ -87,6 +83,24 @@ class KpiController extends Controller
 				}
 			}
 		}
+
+
+		switch ($dateMonth) {
+			case "01" :
+				$dateMois1 = ($dateYear-1)."-".$month."-01";
+				$dateMois2 = ($dateYear-1)."-".$month."-01";
+			break;
+			default :
+				$dateMois1 = $dateYear."-".$month."-01";
+				$dateMois2 = $dateYear."-".$month."-01";
+			break;
+		}
+
+		$topNpe = $em->getRepository('AppBundle:KpiMonth')->getRank1Npe($dateMois1, $dateMois2, $brand);
+		$topNpes = $em->getRepository('AppBundle:KpiMonth')->getRank1Npes($dateMois1, $dateMois2, $brand);
+		$topNpesa = $em->getRepository('AppBundle:KpiMonth')->getRank1Npesa($dateMois1, $dateMois2, $brand);
+
+		
 
 		if ($kpis == null or $kpiCurrentMonth == null){
 			throw new NotFoundHttpException("No data Available");
@@ -124,7 +138,7 @@ class KpiController extends Controller
 			$year = $date->format('Y');
 		}
 
-		$kpis = $em->getRepository('AppBundle:KpiYearToDate')->getUserKpiYtd($user, $year, $brand);
+		$kpis = $em->getRepository('AppBundle:KpiYearToDate')->getUserKpiYtd($user->getUsername(), $year, $brand);
 
 		$topNpe = $em->getRepository('AppBundle:KpiYearToDate')->getRank1Npe($year, $brand);
 		$topNpes = $em->getRepository('AppBundle:KpiYearToDate')->getRank1Npes($year, $brand);

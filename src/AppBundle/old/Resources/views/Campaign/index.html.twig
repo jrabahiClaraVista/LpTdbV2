@@ -1,0 +1,37 @@
+{% extends "AppBundle::layout.html.twig" %}
+
+{% block subheader %}
+	{% include 'AppBundle:Commons:subheader.html.twig' with {'ariane': 'Campaign list'} %}
+{% endblock %}
+
+{% block content %}
+
+	{% for campaign in campaigns %}
+		<div class="campaign-block-list col-md-offset-1 col-md-10 col-xs-12">
+			<div class="channel col-xs-2 col-md-1">
+				{% if campaign.channelOne == 'Email' %}
+					<img src="{{ asset('images/icon_email.png') }}" alt="Channel Email" width="" />
+				{% elseif campaign.channelOne == 'Mail' %}
+					<img src="{{ asset('images/icon_mail.png') }}" alt="Channel Mail" width="" />
+				{% elseif campaign.channelOne == 'Phone' %}
+					<img src="{{ asset('images/icon_phone.png') }}" alt="Channel Phone" width="" />
+				{% elseif campaign.channelOne == 'SMS' %}
+					<img src="{{ asset('images/icon_sms.png') }}" alt="Channel SMS" width="" />
+				{% endif %}
+			</div>
+			<div class="data col-md-9 col-xs-7">
+				<h2>{{ campaign.name }}</h2>
+				<p>
+					{{"Clients contacted:"|trans}} {{ campaign.nbContacted }}/{{ campaign.nbClients }}  |  opt out: {{ campaign.nbOptOut }}
+				</p>
+			</div>
+			<div class="action pull-right col-xs-3 col-md-2">
+				<a href="{{ path( 'app_campaign_clients_list', { 'campaign_id' : campaign.id } ) }}" class="btn btn-action pull right">{{"Select"|trans}}</a>
+			</div>
+		</div>
+	{% endfor %}
+
+	<div class="col-xs-12">
+	{#dump(campaigns)#}
+	</div>
+{% endblock %}

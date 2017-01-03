@@ -8,23 +8,23 @@
 
 {% block imgNav %}
 	{% if user.brand == "LOUIS PION" and not is_granted("ROLE_ADMIN") %}
-		<img style="display:block; float:left;padding-right:20px;" src="{{ asset('images/logolouispion.png') }}" alt="logo" height="50" />		
+		<img style="display:block; float:left;padding-right:20px;" src="{{ asset('web/images/logolouispion.png') }}" alt="logo" height="50" />		
 	{% endif %}
 	{% if user.brand == "ROYAL QUARTZ" and not is_granted("ROLE_ADMIN") %}
-		<img style="display:block; float:left;padding-right:20px;" src="{{ asset('images/logoroyalquartz.jpg') }}" alt="logo" height="50" />
+		<img style="display:block; float:left;padding-right:20px;" src="{{ asset('web/images/logoroyalquartz.jpg') }}" alt="logo" height="50" />
 	{% endif %}
 	{% if is_granted("ROLE_ADMIN") %}
-		<img style="display:block; float:left;padding-right:20px;" src="{{ asset('images/logo_claravista.png') }}" alt="logo" height="50" />
+		<img style="display:block; float:left;padding-right:20px;" src="{{ asset('web/images/logo_claravista.png') }}" alt="logo" height="50" />
 	{% endif %}
 {% endblock %}
 
 {% block dorisS %}
     <li>
 		{% if user.username == "Doris SEITZ Royal Quartz" %}
-			<a target="_blank" class="small" href="{{ path('app_kpi_month', {'user_id' : 460 } ) }}">voir la boutique Louis Pion</a>
+			<a target="_blank" class="small" href="{{ path('app_kpi_month', {'user_id' : 10 } ) }}">voir la boutique Louis Pion</a>
 		{% endif %}
 		{% if user.username == "Doris SEITZ Louis Pion" %}
-			<a target="_blank" class="small" href="{{ path('app_kpi_month', {'user_id' : 461 } ) }}">voir la boutique Royal Quartz</a>
+			<a target="_blank" class="small" href="{{ path('app_kpi_month', {'user_id' : 21 } ) }}">voir la boutique Royal Quartz</a>
 		{% endif %}
     </li>
 {% endblock %}

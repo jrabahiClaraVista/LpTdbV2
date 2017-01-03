@@ -1,0 +1,80 @@
+{% extends "AppBundle::layout.html.twig" %}
+
+{% block subheader %}
+	{% include 'AppBundle:Commons:subheader.html.twig' 
+		with { 'ariane': 
+			'<a href="' ~
+			path( 'app_campaigns_index') ~
+			'"> ' ~
+			'My Campaigns'|trans ~
+			'</a> > ' ~
+			campaign.name ~ 
+			' : '~'Client list'|trans
+		} 
+	%}
+{% endblock %}
+
+{% block content %}	
+
+	{% for recipient in recipients %}
+		<div class="campaign-block-list col-md-offset-1 col-md-10  col-xs-12">
+			<div class="channel col-md-1 col-xs-2">
+				<span class="glyphicon glyphicon-user" style="font-size:34px; color: #16a085;" aria-hidden="true"></span>
+				<p class="small">{{ recipient.client.vendorCode }}</a>
+			</div>
+			<div class="data col-md-9 col-xs-7">
+				<h2>
+					{{ recipient.client.getFullName() }}
+					{% if recipient.contactedAt != null %}
+						<span class="small">{{"Contacted"|trans}} <span class="glyphicon glyphicon-ok" aria-hidden="true"></span></span>
+					{% endif %}
+				</h2>
+				<p>
+					<span class="badge">{% if recipient.comment != "" %}1{% else %}0{% endif %}</span> {{"comment"|trans}} |
+					<a data-toggle="collapse" class="details" href="#collapse_{{ loop.index }}" aria-expanded="false" aria-controls="collapse_{{ loop.index }}" data="hidden">
+					  {{"see more details"|trans}}
+					</a>
+				</p>
+			</div>
+			<div class="action pull-right col-md-2 col-xs-3">
+				{% if recipient.contactedAt == null %}
+					<a href="{{ path( 'app_campaign_client', { 'campaign_id' : campaign.id, 'client_id' : recipient.client.id } ) }}" class="btn btn-action pull right">{{"Select"|trans}}</a>
+				{% endif %}
+			</div>
+
+			<div class="spacer"></div>
+
+			<div class="collapse" id="collapse_{{ loop.index }}">
+			 	<div class="well">
+			    	Content TBD
+			 	</div>
+			</div>
+		</div>
+	{% endfor %}
+
+	<div class="col-xs-12">
+	{#dump(clients)#}
+	</div>
+{% endblock %}
+
+{% block javascripts %}
+	{{ parent() }}
+
+	<script type="text/javascript">
+	    $(function(){
+
+	    	$('a.details').on('click', function() {    			
+
+	    			if( $(this).attr('data') == 'hidden' ){
+	    				$(this).text({{'hide details'|trans}});
+	    				$(this).attr('data', 'shown');
+	    			}
+	    			else {
+	    				$(this).text({{'see more details'|trans}});
+	    				$(this).attr('data', 'hidden');
+	    			}
+	    		}
+	    	);
+	    });
+	</script>
+{% endblock %}

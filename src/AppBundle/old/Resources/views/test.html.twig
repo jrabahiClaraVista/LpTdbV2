@@ -1,0 +1,30 @@
+{# src/OC/PlatformBundle/Resources/views/layout.html.twig #}
+
+{% extends "::layout.html.twig" %}
+
+{% block title %}
+  {{ "Campaigns"|trans }} - {{ parent() }}
+{% endblock %}
+
+{% block subheader %}
+{% endblock %}
+
+{% block body %}	
+
+	{# On définit un nouveau bloc, que les vues du bundle pourront remplir #}
+	{% block content %}
+		<h1>TEST PAGE</h1>
+
+		<p>Date 1 :
+			{{date1|date("m/d/Y")}}
+		</p>
+		<p>Date 2 :
+			{{date2|date("m/d/Y")}}
+		</p>
+		<p>Date Diff :
+			{# dateDiff|date("%R%a") #}
+			{{ dateDiff - 15 }}
+		</p>
+	{% endblock %}
+
+{% endblock %}

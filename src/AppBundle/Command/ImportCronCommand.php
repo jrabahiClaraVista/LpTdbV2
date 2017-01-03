@@ -28,14 +28,16 @@ class ImportCronCommand extends ContainerAwareCommand
 
 		$import = $this->getContainer()->get('cron.import');
 
-		$output->writeln("Configuration du séparateur");
+		$output->writeln("Configuration du separateur");
 		$import->setSeparator($input->getArgument('separator'));
 		
 		#Lncl
 		# -> Set Import table clean for new update
 		# -> import clients - update campaign
 		# -> Delete users not in import file
-		#$import->deleteImportLncl();
+		#$output->writeln("Nettoyage de la table d'import");
+		#$import->deleteImportLncl();		
+		#$output->writeln("Importation des clients et mise a jour des cibles");
 		#$result = $import->importClientCSVFileLncl();
 		#$import->deleteClientsNotInImport();
 		# -> Delete Clients not in Import to do

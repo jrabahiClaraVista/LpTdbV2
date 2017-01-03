@@ -59,12 +59,7 @@
 			<h3 class="black text-center text-uppercase" style="line-height: 24px;">Depuis janvier,<br />
 				vos clients contactés <br />
 				par email ont généré<br />
-				<span style="color: #16a085; font-size: 28px;line-height:34px;">{{ kpisYtd.caCrmYtd|number_format(0, '.', ' ') }} €</span><br />
-				{% if user.role == "ROLE_BOUTIQUE" %}
-					dans votre magasin
-				{% else %}
-					dans vos magasins
-				{% endif %}
+				<span style="color: #16a085; font-size: 28px;line-height:34px;">{{ kpisYtd.caCrmYtd|number_format(0, '.', ' ') }} €</span>
 			</h3>
 			
 			<div class="spacer"></div>
@@ -101,13 +96,13 @@
 
 	<script type="text/javascript">
 
-	if ( {{kpis.nbreClientsContactablesEmailH}} > 100000) {
+	if ( {{kpis.nbreClientsContactablesEmailH}} > 10000) {
 		var inactifs = "{{ roundLetter(kpis.nbreClientsInactifsEmailH) }}";
 		var actifs = "{{ roundLetter(kpis.nbreClientsContactablesEmailH) }}";
 	}
 	else{
-		var inactifs = "{{ kpis.nbreClientsInactifsEmailH|number_format(0, ',', ' ') }}";
-		var actifs = "{{ kpis.nbreClientsContactablesEmailH|number_format(0, ',', ' ') }}";
+		var inactifs = "{{ kpis.nbreClientsInactifsEmailH|number_format(0, ',', '') }}";
+		var actifs = "{{ kpis.nbreClientsContactablesEmailH|number_format(0, ',', '') }}";
 	}
 
     CanvasJS.addColorSet("set1",
@@ -141,13 +136,14 @@
 				startAngle: -90,  
 				indexLabelFontColor: "white",
 				indexLabelLineColor: "#4c4c4c",
+				toolTipContent: "{indexLabel}",
 
 				indexLabelPlacement: "inside",
 				type: "pie",
 				radius: "120%",
 				dataPoints: [
-					{  y: {{ kpis.nbreClientsContactablesEmailH }},  indexLabel: actifs,indexLabelFontWeight: "bold",indexLabelFontSize: 14 },
-					{  y: {{ kpis.nbreClientsInactifsEmailH }},  indexLabel: inactifs,indexLabelFontWeight: "bold",indexLabelFontSize: 14 },
+					{  y: {{ kpis.nbreClientsContactablesEmailH }},  indexLabel: actifs,indexLabelFontWeight: "bold",indexLabelFontSize: 10 },
+					{  y: {{ kpis.nbreClientsInactifsEmailH }},  indexLabel: inactifs,indexLabelFontWeight: "bold",indexLabelFontSize: 10 },
 				]
 			}
 			]

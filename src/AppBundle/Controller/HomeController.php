@@ -33,7 +33,7 @@ class HomeController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-    	return $this->render('AppBundle:Home:index.html.twig', array(
+        return $this->render('AppBundle:Home:index.html.twig', array(
             
             )
         );
@@ -41,6 +41,18 @@ class HomeController extends Controller
         /*return $this->render('default/index.html.twig', array(
             'base_dir' => realpath($this->container->getParameter('kernel.root_dir').'/..'),
         ));*/
+    }
+
+    public function listAction(Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $users = $em->getRepository('ApplicationSonataUserBundle:User')->findAll();
+
+        return $this->render('AppBundle:Home:list.html.twig', array(
+            'users' => $users
+            )
+        );
     }
     public function testAction(Request $request)
     {

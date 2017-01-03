@@ -1,0 +1,180 @@
+{% extends "AppBundle::layout.html.twig" %}
+
+{% block subheader %}
+	{% include 'AppBundle:Commons:subheader.html.twig' 
+		with { 'ariane': 
+			'<a href="' ~
+			path( 'app_campaign_clients_list', {'campaign_id' : campaign.id}) ~
+			'"> ' ~
+			campaign.name ~ 
+			'</a> > <a href="' ~
+			path( 'app_campaign_clients_list', { 'campaign_id' : campaign.id } ) ~
+			'">'~'Client list'|trans~'</a> > '~'Recipient'|trans 
+		} 
+	%}
+{% endblock %}
+
+{% block content %}
+
+	{% include 'AppBundle:Commons:clientHead.html.twig' %}
+
+	<div class="client-block col-md-offset-1 col-md-10 col-xs-12">
+		
+		<h3>{{"Client Information"|trans}}</h3>
+
+		<div class="col-xs-3 field">
+			<ul class="list-group">
+				<li class="list-group-item">{{"Firstname:"|trans}}</li>
+				<li class="list-group-item">{{"Lastname:"|trans}}</li>
+				{% if recipient.channel == "Email" %}
+					<li class="list-group-item">{{"Email:"|trans}}</li>
+				{% elseif recipient.channel == "Phone" or recipient.channel == "SMS" %}
+					<li class="list-group-item">{{"Phone 1:"|trans}}</li>
+					<li class="list-group-item">{{"Phone 2:"|trans}}</li>
+				{% elseif recipient.channel == "Mail" %}
+					<li class="list-group-item">{{"Adress:"|trans}}</li>
+					<li class="list-group-item">{{"Adress complement:"|trans}}</li>
+					<li class="list-group-item">{{"Postal code:"|trans}}</li>
+					<li class="list-group-item">{{"City:"|trans}}</li>
+					<li class="list-group-item">{{"Country:"|trans}}</li>
+				{% endif %}
+			</ul>
+		</div>
+		<div class="col-xs-5 data">
+			<ul class="list-group">
+				<li class="list-group-item">{{ client.firstname }}</li>
+				<li class="list-group-item">{{ client.lastname }}</li>
+				{% if recipient.channel == "Email" %}
+					<li class="list-group-item">{{ client.email }}</li>
+				{% elseif recipient.channel == "Phone" or recipient.channel == "SMS" %}
+					<li class="list-group-item">{{ client.phone1 }}</li>
+					<li class="list-group-item">{{ client.phone2 }}</li>
+				{% elseif recipient.channel == "Mail" %}
+					<li class="list-group-item">{{ client.adress1 }}</li>
+					<li class="list-group-item">{{ client.adress2 }}</li>
+					<li class="list-group-item">{{ client.postalCode }}</li>
+					<li class="list-group-item">{{ client.city }}</li>
+					<li class="list-group-item">{{ client.country }}</li>
+				{% endif %}
+			</ul>
+		</div>
+		<div class="col-xs-4 action">
+			{% if recipient.channel == "Email" %}
+				<a href="{{ path("app_campaign_send_email",  { 'recipient_id' : recipient.id }) }}" class="btn big-action-btn">{{"Send the email"|trans}}</a>
+			{% else %}
+				{{ form_start(formFour) }}
+					{{ form_widget(formFour.submit, {'attr': {'class': 'btn big-action-btn', 'onclick': 'return confirm("Confirm?");' }, 'label' : 'Validate the contact'|trans}) }}
+					{{ form_rest(formFour) }}
+				{{ form_end(formFour) }}
+			{% endif %}
+			<a class="btn big-gray-btn" data-toggle="modal" data-target="#myModalThree">{{"Change channel"|trans}}</a>
+			<a class="btn big-gray-btn" data-toggle="modal" data-target="#myModal">{{"Exclude client"|trans}}</a>
+		</div> 
+
+		<div class="spacer"></div>
+
+		<hr>
+
+		<h3>{{"Leave a comment"|trans}}</h3>
+
+		{{ form_start(formTwo, {'attr': {'class': 'form-horizontal'}}) }}
+			{{ form_errors(formTwo) }}
+			<div class="form-group">
+				{{ form_label(formTwo.comment, "Comment:", {'label_attr': {'class': 'col-xs-3 control-label'}}) }}
+				<div class="col-xs-9">
+					{{ form_widget(formTwo.comment, {'attr': {'class': 'form-control'}}) }}
+				</div>
+			</div>
+			{{ form_widget(formTwo.submit, {'attr': {'class': 'btn big-orange-btn pull-center'}, 'label': 'Contact later'|trans}) }}
+			{{ form_rest(formTwo) }}
+		{{ form_end(formTwo) }}
+
+	</div>
+	<div id="myModal" class="modal fade" tabindex="-1" role="dialog">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+					<h4 class="modal-title">{{"Exclude client from"|trans}} {{ campaign.name }}</h4>
+				</div>
+				<div class="modal-body">
+					{{ form_start(form, {'attr': {'class': 'form-horizontal'}}) }}
+						{{ form_errors(form) }}
+						<div class="form-group">
+							{{ form_label(form.optOutNotRelevant, "Not relevant"|trans, {'label_attr': {'class': 'col-xs-4 control-label'}}) }}
+							<div class="col-xs-8 checkbox">
+								<label>
+									{{ form_widget(form.optOutNotRelevant) }}
+								</label>
+							</div>
+						</div>
+						<div class="form-group">
+							{{ form_label(form.client.emailErr, "Wrong Email"|trans, {'label_attr': {'class': 'col-xs-4 control-label'}}) }}
+							<div class="col-xs-8 checkbox">
+								<label>
+									{{ form_widget(form.client.emailErr) }}
+								</label>
+							</div>
+						</div>
+						<div class="form-group">
+							{{ form_label(form.client.optOutEmail, "Opt out email"|trans, {'label_attr': {'class': 'col-xs-4 control-label'}}) }}
+							<div class="col-xs-8 checkbox">
+								<label>
+									{{ form_widget(form.client.optOutEmail) }}
+								</label>
+							</div>
+						</div>
+						<div class="form-group">
+							{{ form_label(form.optOutOther, "Other reason"|trans, {'label_attr': {'class': 'col-xs-4 control-label'}}) }}
+							<div class="col-xs-8">
+								{{ form_widget(form.optOutOther, {'attr': {'class': 'form-control'}}) }}
+							</div>
+						</div>
+
+						<div class="modal-footer">
+							<button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+							{{ form_widget(form.submit, {'attr': {'class': 'btn btn-action pull-right'}, 'label': 'Exclude'|trans} ) }}
+						</div>
+						{{ form_rest(form) }}
+					{{ form_end(form) }}
+				</div>
+			</div><!-- /.modal-content -->
+		</div><!-- /.modal-dialog -->
+	</div><!-- /.modal -->
+
+	<div id="myModalThree" class="modal fade" tabindex="-1" role="dialog">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+					<h4 class="modal-title">{{"Change channel"|trans}}</h4>
+				</div>
+				<div class="modal-body">
+					{{ form_start(formThree, {'attr': {'class': 'form-horizontal'}}) }}
+						{{ form_errors(formThree) }}
+						<div class="form-group">
+							{{ form_label(formThree.channel, "Channel", {'label_attr': {'class': 'col-xs-4 control-label'}}) }}
+							<div class="col-xs-8">
+								{{ form_widget(formThree.channel, {'attr': {'class': 'form-control'}}) }}
+							</div>
+						</div>
+
+						<div class="modal-footer">
+							<button type="button" class="btn btn-default" data-dismiss="modal">{{"Cancel"|trans}}</button>
+							{{ form_widget(formThree.submit, {'attr': {'class': 'btn btn-action pull-right'}, 'label': 'Select'|trans} ) }}
+						</div>
+						{{ form_rest(formThree) }}
+					{{ form_end(formThree) }}
+				</div>
+			</div><!-- /.modal-content -->
+		</div><!-- /.modal-dialog -->
+	</div><!-- /.modal -->
+
+
+
+	<div class="col-xs-12">
+	{#dump(campaign)#}
+	{#dump(client)#}
+	{#dump(recipient)#}
+	</div>
+{% endblock %}

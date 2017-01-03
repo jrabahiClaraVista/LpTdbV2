@@ -1,0 +1,119 @@
+{% extends "AppBundle::layout.html.twig" %}
+
+{% block subheader %}
+	{% include 'AppBundle:Commons:kpiNav.html.twig' %}
+{% endblock %}
+
+{% block content %}	
+	{% set cEmail = 0 %}
+	{% set cMail = 0 %}
+	{% set cSms = 0 %}
+	<div class="col-xs-12">
+		<h3 class="text-uppercase">{{ "Résultats des dernières campagnes"|trans }}</h3>
+	</div>
+
+	<div class="col-xs-12 col-md-8 kpi-box">
+		<div class="inside col-xs-12">
+			<h4 class="text-uppercase black text-center">{{ "Email"|trans }}</h4>
+			<p class="small text-center">
+				Les campagnes sont réalisées sur l'ensemble de la base Louis Pion.<br />
+				L'indicateur taux d'ouverture ci-dessous n'est pas disponible au niveau boutique.
+			</p>
+			{% for campaign in campaigns %}
+				{% if campaign.channelOne == "Email" %}
+					{% set cEmail = cEmail + 1 %}
+					<figure class="col-xs-12 col-md-4">
+						<h4 class="text-center bg-white black" style="height:40px;">{{campaign.name}}</h4>
+						<div class="bordered img-container text-center">
+							{% if campaign.image is not null %}
+								<img alt="{{ campaign.image.alt }}" src="{{ asset('uploads/img/' ~ campaign.image.url) }}" height="100%" />
+							{% endif %}
+						</div>
+						<div class="text-center" class="small">
+							le <span style="font-weight:bold;">{{campaign.startDate|date('d/m/Y')}}</span><br />
+							Nombre d'emails envoyés :<br /><strong>{{ campaign.emailsSent|number_format(0, ',', ' ') }}<br /></strong>
+							Taux d'ouverture : <strong>{{ campaign.txO|number_format(1, ',', ' ') }} %<br /></strong>
+							{% if campaign.ca > 1000 %}CA généré : <strong>{{ campaign.ca }} &euro;</strong>{% endif %}
+							<hr />
+						</div>
+					</figure>
+				{%  endif %}
+			{% endfor %}
+			{% if cEmail == 0 %}
+				<div class="col-xs-12 text-center">
+					<p class="small">
+						&nbsp;<br />&nbsp;<br />
+						Aucune campagne Email en {{ getMonthWording(month) }}.</p>
+				</div>
+			{% endif %}
+			<div class="spacer"></div>
+		</div>
+	</div>
+
+	<div class="col-xs-12 col-md-4 kpi-box">
+		<div class="inside col-xs-12">
+			<h4 class="text-uppercase black text-center">{{ "SMS"|trans }}</h4>
+			{% for campaign in campaigns %}
+				{% if campaign.channelOne == "SMS" %}
+					{% set cSms = cSms + 1 %}
+					<figure class="col-xs-12">
+						<h4 class="bg-white black">{{campaign.name}}</h4>
+						<div class="text-left">
+							le {{campaign.startDate|date('d/m/Y')}}<br />
+							Nombre de sms envoyés : <strong>{{ campaign.smsSent|number_format(0, ',', ' ') }}</strong>
+						</div>
+						<hr />
+					</figure>
+				{%  endif %}
+			{% endfor %}
+			{% if cSms == 0 %}
+				<div class="col-xs-12 text-center">
+					<p class="small">
+						&nbsp;<br />&nbsp;<br />
+						Aucune campagne SMS en {{ getMonthWording(month) }}.</p>
+				</div>
+			{% endif %}
+			<div class="spacer"></div>
+		</div>
+		<div class="spacer" style="margin-bottom:20px;"></div>
+		<div class="inside col-xs-12">
+			<h4 class="text-uppercase black text-center">{{ "PRINT"|trans }}</h4>
+			{% for campaign in campaigns %}
+				{% if campaign.channelOne == "Mail" %}
+					{% set cMail = cMail + 1 %}
+					<figure class="col-xs-12">
+						<h4 class="bg-white black">{{campaign.name}}</h4>
+						<div class="text-leftr">
+							le {{campaign.startDate|date('d/m/Y')}}<br />
+							Nombre de courriers envoyés : <strong>{{ campaign.smsSent|number_format(0, ',', ' ') }}</strong>
+						</div>
+						<hr />
+					</figure>
+				{%  endif %}
+			{% endfor %}
+			{% if cMail == 0 %}
+				<div class="col-xs-12 text-center">
+					<p class="small">
+						&nbsp;<br />&nbsp;<br />
+						Aucune campagne Print en {{ getMonthWording(month) }}.</p>
+				</div>
+			{% endif %}
+			<div class="spacer"></div>
+		</div>
+	</div>
+
+	<div style="height:30px;" class="spacer"></div>
+
+	<div class="col-xs-12">		
+		<a href="{{ path('app_kpi_planning', { 'user_id' : user.id, 'month' : '05' } ) }}" class="btn-kpi btn btn-sm {% if currentMonth < "05" %}disabled{% endif %} {% if month == "05" %}active {% endif %}">{{ "Mai"|trans }}</a>
+		<a href="{{ path('app_kpi_planning', { 'user_id' : user.id, 'month' : '06' } ) }}" class="btn-kpi btn btn-sm {% if currentMonth < "06" %}disabled{% endif %} {% if month == "06" %}active {% endif %}">{{ "Juin"|trans }}</a>
+		<a href="{{ path('app_kpi_planning', { 'user_id' : user.id, 'month' : '07' } ) }}" class="btn-kpi btn btn-sm {% if currentMonth < "07" %}disabled{% endif %} {% if month == "07" %}active {% endif %}">{{ "Juillet"|trans }}</a>
+		<a href="{{ path('app_kpi_planning', { 'user_id' : user.id, 'month' : '08' } ) }}" class="btn-kpi btn btn-sm {% if currentMonth < "08" %}disabled{% endif %} {% if month == "08" %}active {% endif %}">{{ "Août"|trans }}</a>
+		<a href="{{ path('app_kpi_planning', { 'user_id' : user.id, 'month' : '09' } ) }}" class="btn-kpi btn btn-sm {% if currentMonth < "09" %}disabled{% endif %} {% if month == "09" %}active {% endif %}">{{ "Septembre"|trans }}</a>
+		<a href="{{ path('app_kpi_planning', { 'user_id' : user.id, 'month' : '10' } ) }}" class="btn-kpi btn btn-sm {% if currentMonth < "10" %}disabled{% endif %} {% if month == "10" %}active {% endif %}">{{ "Octobre"|trans }}</a>
+		<a href="{{ path('app_kpi_planning', { 'user_id' : user.id, 'month' : '11' } ) }}" class="btn-kpi btn btn-sm {% if currentMonth < "11" %}disabled{% endif %} {% if month == "11" %}active {% endif %}">{{ "Novembre"|trans }}</a>
+		<a href="{{ path('app_kpi_planning', { 'user_id' : user.id, 'month' : '12' } ) }}" class="btn-kpi btn btn-sm {% if currentMonth < "12" %}disabled{% endif %} {% if month == "12" %}active {% endif %}">{{ "Décembre"|trans }}</a>
+	</div>
+
+	<div style="height:30px;" class="spacer"></div>
+{% endblock %}
