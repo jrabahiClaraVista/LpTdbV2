@@ -122,10 +122,10 @@
 	<div style="height:30px;" class="spacer"></div>
 
 	<div class="col-xs-12">
-		<!--a href="{{ path('app_kpi_month', { 'user_id' : user.id, 'month' : '01' } ) }}" class="btn-kpi btn btn-sm {% if month == "01" %}active {% endif %}">{{ "Janvier"|trans }}</a>
+		<a href="{{ path('app_kpi_month', { 'user_id' : user.id, 'month' : '01' } ) }}" class="btn-kpi btn btn-sm {% if month == "01" %}active {% endif %}">{{ "Janvier"|trans }}</a>
 		<a href="{{ path('app_kpi_month', { 'user_id' : user.id, 'month' : '02' } ) }}" class="btn-kpi btn btn-sm {% if currentMonth|number_format < "02"|number_format %}disabled{% endif %} {% if month == "02" %}active {% endif %}">{{ "Février"|trans }}</a>
 		<a href="{{ path('app_kpi_month', { 'user_id' : user.id, 'month' : '03' } ) }}" class="btn-kpi btn btn-sm {% if currentMonth|number_format < "03"|number_format %}disabled{% endif %} {% if month == "03" %}active {% endif %}">{{ "Mars"|trans }}</a>
-		<a href="{{ path('app_kpi_month', { 'user_id' : user.id, 'month' : '04' } ) }}" class="btn-kpi btn btn-sm {% if currentMonth|number_format < "04"|number_format %}disabled{% endif %} {% if month == "04" %}active {% endif %}">{{ "Avril"|trans }}</a-->
+		<a href="{{ path('app_kpi_month', { 'user_id' : user.id, 'month' : '04' } ) }}" class="btn-kpi btn btn-sm {% if currentMonth|number_format < "04"|number_format %}disabled{% endif %} {% if month == "04" %}active {% endif %}">{{ "Avril"|trans }}</a>
 		<a href="{{ path('app_kpi_month', { 'user_id' : user.id, 'month' : '05' } ) }}" class="btn-kpi btn btn-sm {% if currentMonth|number_format < "05"|number_format %}disabled{% endif %} {% if month == "05" %}active {% endif %}">{{ "Mai"|trans }}</a>
 		<a href="{{ path('app_kpi_month', { 'user_id' : user.id, 'month' : '06' } ) }}" class="btn-kpi btn btn-sm {% if currentMonth|number_format < "06"|number_format %}disabled{% endif %} {% if month == "06" %}active {% endif %}">{{ "Juin"|trans }}</a>
 		<a href="{{ path('app_kpi_month', { 'user_id' : user.id, 'month' : '07' } ) }}" class="btn-kpi btn btn-sm {% if currentMonth|number_format < "07"|number_format %}disabled{% endif %} {% if month == "07" %}active {% endif %}">{{ "Juillet"|trans }}</a>
@@ -174,6 +174,14 @@
 {% block canvasJs %}
 
 	<script type="text/javascript">
+
+
+	var date = new Date({{ kpiCurrentMonth.date|date("Y") }}, {{ kpiCurrentMonth.date|date("m") - 1 }});
+	var month = date.getMonth();
+	var year  = date.getFullYear();
+	
+	var startDate = new Date( year , month - 12)
+	var endDate = new Date( year, month +1 );
 
 	var dataToBeC1 = {{ 100 - kpiCurrentMonth.txTransacNpeM0|number_format - kpiCurrentMonth.txTransacNveM0|number_format }};
 	var dataToBeC2 = {{ 100 - kpiCurrentMonth.txTransacNpesM0|number_format - kpiCurrentMonth.txTransacNvesM0|number_format }};
@@ -233,10 +241,10 @@
 				indexLabelLineColor: "#4c4c4c",
 				indexLabelPlacement: "inside",
 				type: "doughnut",
-				innerRadius: "60%",
+				innerRadius: "70%",
 				dataPoints: [
 					{  y: {{ kpiCurrentMonth.txTransacNpeM0|number_format }}, toolTipContent: "Qualification email {y}%"},
-					{  y: dataToBeC1, indexLabel: "{y}%", indexLabelFontWeight: "bold", indexLabelFontColor: "white", indexLabelFontSize: 12, toolTipContent: "Données non collectées : {y}%"},
+					{  y: dataToBeC1, indexLabel: "", indexLabelFontWeight: "bold", indexLabelFontColor: "white", indexLabelFontSize: 12, toolTipContent: "Données non collectées : {y}%"},
 					{  y: {{ kpiCurrentMonth.txTransacNveM0|number_format }}, indexLabel: "", indexLabelFontWeight: "bold", indexLabelFontColor: "black", indexLabelFontSize: 8, toolTipContent: "Données non-valides : {y}%"}
 				]
 			}
@@ -267,10 +275,10 @@
 
 				indexLabelPlacement: "inside",
 				type: "doughnut",
-				innerRadius: "60%",
+				innerRadius: "70%",
 				dataPoints: [
 					{  y: {{ kpiCurrentMonth.txTransacNpesM0|number_format }}, indexLabel: "", indexLabelFontWeight: "bold", toolTipContent: "Qualification email + sms {y}%"},
-					{  y: dataToBeC2, indexLabel: "{y}%", indexLabelFontSize: 12,indexLabelFontColor: "white",indexLabelFontWeight: "bold",toolTipContent: "Données non collectées : {y}%"},
+					{  y: dataToBeC2, indexLabel: "", indexLabelFontSize: 12,indexLabelFontColor: "white",indexLabelFontWeight: "bold",toolTipContent: "Données non collectées : {y}%"},
 					{  y: {{ kpiCurrentMonth.txTransacNvesM0|number_format }}, indexLabel: "", indexLabelFontWeight: "bold", indexLabelFontColor: "black", indexLabelFontSize: 10, toolTipContent: "Données non-valides : {y}%"}
 				]
 			}
@@ -301,10 +309,10 @@
 
 				indexLabelPlacement: "inside",
 				type: "doughnut",
-				innerRadius: "60%",
+				innerRadius: "70%",
 				dataPoints: [
 					{  y: {{ kpiCurrentMonth.txTransacNpesaM0|number_format }}, indexLabel: "",indexLabelFontSize: 12, indexLabelFontWeight: "bold", toolTipContent: "Qualification email +sms + adresse : {y}%"},
-					{  y: dataToBeC3, indexLabel: "{y}%",indexLabelFontSize: 12,indexLabelFontColor: "white", indexLabelFontWeight: "bold",toolTipContent: "Données non collectées : {y}%"},
+					{  y: dataToBeC3, indexLabel: "",indexLabelFontSize: 12,indexLabelFontColor: "white", indexLabelFontWeight: "bold",toolTipContent: "Données non collectées : {y}%"},
 					{  y: {{ kpiCurrentMonth.txTransacNvesaM0|number_format }}, indexLabel: "", indexLabelFontWeight: "bold", indexLabelFontColor: "black", indexLabelFontSize: 10, toolTipContent: "Données non-valides : {y}%"}
 				]
 			}
@@ -328,8 +336,8 @@
 			axisX:{
 		        interval: 1,
 		        intervalType: "month",
-		        minimum : new Date(2016, 00, 1),
-		        maximum : new Date(2016 , 11, 1),
+		        minimum : startDate,
+		        maximum : endDate,
 		        valueFormatString: "MMM", 
 		        labelFontSize: 13,
 		        labelAngle: -45

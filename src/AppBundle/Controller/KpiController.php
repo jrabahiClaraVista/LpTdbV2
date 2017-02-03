@@ -35,10 +35,27 @@ class KpiController extends Controller
 	public function monthAction(User $user, $month = null) {
 		$em = $this->getDoctrine()->getManager();
 
-		$date = new \DateTime();
+		$lastKpi = $em->getRepository('AppBundle:KpiMonth')->findOneBy(array('user' => $user), array('date' => "DESC"));
 
-		$dateMonth 	= $date->format('m');
-		$dateYear 	= $date->format('Y');
+		$date = $lastKpi->getDate();
+
+		$month = $date->format('m');
+		$year = $date->format('Y');
+
+		$date2 = new \DateTime($date->format('Y-m-d'));
+		$date2->modify('last day of this month');
+		$date2 = $date2->format("Y-m-d");
+		
+
+
+		$date1 = new \DateTime($date2);
+		$date1->modify('-12 months')->modify('first day of this month');
+		$date1 = $date1->format("Y-m-d");
+
+		$lastKpi = null;
+
+
+		$date = new \DateTime();
 
 		$brand = $user->getBrand();
 		if ($brand == null) $brand = '';
@@ -46,19 +63,6 @@ class KpiController extends Controller
 		$getBoutiquesDr = null;
 		$getDrsMarque = null;
 
-		$kpiCurrentMonth = null;
-
-		//get date range for data month -1 for the year
-		switch ($dateMonth) {
-			case "01" :
-				$date1 = ($dateYear-1)."-01-01";
-				$date2 = ($dateYear-1)."-12-31";
-			break;
-			default :
-				$date1 = $dateYear."-01-01";
-				$date2 = $dateYear."-12-31";
-			break;
-		}
 
 		if( $user->getRole() == 'ROLE_DR' ) {
 			$getBoutiquesDr = $em->getRepository('ApplicationSonataUserBundle:User')->findBy( array('dr' => $user->getUsername()) );
@@ -85,20 +89,11 @@ class KpiController extends Controller
 		}
 
 
-		switch ($dateMonth) {
-			case "01" :
-				$dateMois1 = ($dateYear-1)."-".$month."-01";
-				$dateMois2 = ($dateYear-1)."-".$month."-01";
-			break;
-			default :
-				$dateMois1 = $dateYear."-".$month."-01";
-				$dateMois2 = $dateYear."-".$month."-01";
-			break;
-		}
+		
 
-		$topNpe = $em->getRepository('AppBundle:KpiMonth')->getRank1Npe($dateMois1, $dateMois2, $brand);
-		$topNpes = $em->getRepository('AppBundle:KpiMonth')->getRank1Npes($dateMois1, $dateMois2, $brand);
-		$topNpesa = $em->getRepository('AppBundle:KpiMonth')->getRank1Npesa($dateMois1, $dateMois2, $brand);
+		$topNpe = $em->getRepository('AppBundle:KpiMonth')->getRank1Npe($date1, $date2, $brand);
+		$topNpes = $em->getRepository('AppBundle:KpiMonth')->getRank1Npes($date1, $date2, $brand);
+		$topNpesa = $em->getRepository('AppBundle:KpiMonth')->getRank1Npesa($date1, $date2, $brand);
 
 		
 
@@ -263,8 +258,7 @@ class KpiController extends Controller
         	'campaigns' 		=> $campaigns,
         	'month'				=> $month,
         	'currentMonth'		=> $currentMonth,
-        	'user'				=> $user,
-        	'month'				=> $month
+        	'user'				=> $user
         	)
         );
 	}

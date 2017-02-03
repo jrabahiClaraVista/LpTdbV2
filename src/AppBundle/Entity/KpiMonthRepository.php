@@ -44,6 +44,7 @@ class KpiMonthRepository extends EntityRepository
 		  	->setParameter('brand', $brand)
 		  	->andWhere('u.role = :role')
 		  	->andWhere('k.date = :date')
+		  	->andWhere('u.ispremium != 1')
 		  	->setParameter('role', "ROLE_BOUTIQUE") 	
 		  	->setParameter('date', $date)
 		  	->setMaxResults(3);

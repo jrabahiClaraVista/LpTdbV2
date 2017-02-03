@@ -13,9 +13,9 @@
 		<div class="inside col-xs-12">
 			&nbsp;<br />
 
-			<figure class="col-xs-12 col-md-3" style="padding:0;">
+			<figure class="col-xs-12 col-md-12" style="padding:0;">
 				<h5 class="height text-center bg-white black">Clients contactables par email</h5>
-				<div id="chartContainer1" style="height: 150px;"></div>
+				<div id="chartContainer1" style="height: 200px;"></div>
 				<figcaption>
 					<p class="small">
 						<i style="color: #44ccfe;" class="fa fa-square fa-lg" aria-hidden="true"></i> {{ "Inactifs email"|trans}}<br />
@@ -23,24 +23,24 @@
 					</p>
 				</figcaption>
 			</figure>
-			<figure class="col-xs-12 col-md-3 text-center" style="padding:0;">
+			<figure class="col-xs-12 col-md-4 text-center" style="padding:0;">
 				<h5 class="height text-center bg-white black" style="position:relative;">Clients contactés par email sur le mois</h5>
-				<i style="color: #FFD819; font-size: 10em;" class="fa fa-circle" aria-hidden="true"></i>		
-				<div style="position:relative;color:white;font-weight:bold; font-size:20px; top:-95px;max-width: 100px; margin:0 auto;">
+				<i style="color: #FFD819; font-size: 11em;" class="fa fa-circle" aria-hidden="true"></i>		
+				<div style="position:relative;color:white;font-weight:bold; font-size:20px; top:-105px;max-width: 140px; margin:0 auto;">
 					{{ kpis.nbreClientsAnimesM0|number_format(0, '.', ' ') }}<br />clients
 				</div>
 			</figure>
-			<figure class="col-xs-12 col-md-3 text-center" style="padding:0;">
+			<figure class="col-xs-12 col-md-4 text-center" style="padding:0;">
 				<h5 class="height text-center bg-white black" style="position:relative;">Clients contactés par email ayant acheté sur le mois</h5>
-				<i style="color: #16a085; font-size: 10em;" class="fa fa-circle" aria-hidden="true"></i>
-				<div style="position:relative;color:white;font-weight:bold; font-size:20px; top:-95px;max-width: 100px; margin:0 auto;">
+				<i style="color: #16a085; font-size: 11em;" class="fa fa-circle" aria-hidden="true"></i>
+				<div style="position:relative;color:white;font-weight:bold; font-size:20px; top:-105px;max-width: 140px; margin:0 auto;">
 					{{ kpis.nbreClientsTransformesM0|number_format(0, '.', ' ') }}<br />clients
 				</div>
 			</figure>
-			<figure class="col-xs-12 col-md-3 text-center" style="padding:0;">
+			<figure class="col-xs-12 col-md-4 text-center" style="padding:0;">
 				<h5 class="height text-center bg-white black" style="position:relative;">CA des clients contactés par email ayant acheté sur le mois</h5>
-				<i style="color: #E80C7A; font-size: 10em;" class="fa fa-circle" aria-hidden="true"></i>
-				<div style="position:relative;color:white;font-weight:bold; font-size:20px; top:-95px;max-width: 100px; margin:0 auto;">
+				<i style="color: #E80C7A; font-size: 11em;" class="fa fa-circle" aria-hidden="true"></i>
+				<div style="position:relative;color:white;font-weight:bold; font-size:20px; top:-105px;max-width: 140px; margin:0 auto;">
 					{{ kpis.caClientsTransformesM0|number_format(0, '.', ' ') }}<br />€ TTC
 				</div>
 			</figure>
@@ -68,7 +68,7 @@
 
 	<div class="spacer" style="margin-bottom:0px;"></div>
 
-	<!div class="col-xs-12">
+	<div class="col-xs-12">
 		<h3 class="text-uppercase">{{ "Le top Louis Pion du mois - Bravo !"|trans }}</h3>
 	</div>
 
@@ -142,8 +142,8 @@
 				type: "pie",
 				radius: "120%",
 				dataPoints: [
-					{  y: {{ kpis.nbreClientsContactablesEmailH }},  indexLabel: actifs,indexLabelFontWeight: "bold",indexLabelFontSize: 10 },
-					{  y: {{ kpis.nbreClientsInactifsEmailH }},  indexLabel: inactifs,indexLabelFontWeight: "bold",indexLabelFontSize: 10 },
+					{  y: {{ kpis.nbreClientsContactablesEmailH }},  indexLabel: actifs,indexLabelFontWeight: "bold",indexLabelFontSize: 20 },
+					{  y: {{ kpis.nbreClientsInactifsEmailH }},  indexLabel: inactifs,indexLabelFontWeight: "bold",indexLabelFontSize: 20 },
 				]
 			}
 			]

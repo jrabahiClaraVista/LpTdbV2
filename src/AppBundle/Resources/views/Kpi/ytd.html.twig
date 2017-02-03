@@ -169,10 +169,10 @@
 
 				indexLabelPlacement: "inside",
 				type: "doughnut",
-				innerRadius: "60%",
+				innerRadius: "70%",
 				dataPoints: [
 					{  y: {{ kpiCurrentYear.txTransacNpeYtd|number_format(0, ',', ' ') }}, indexLabel: "", indexLabelFontWeight: "bold", toolTipContent: "Qualification email {y}%"},
-					{  y: dataToBeC1, indexLabel: "{y}%", indexLabelFontWeight: "bold", indexLabelFontColor: "white", indexLabelFontSize: 12, toolTipContent: "Données non collectées : {y}%"},
+					{  y: dataToBeC1, indexLabel: "", indexLabelFontWeight: "bold", indexLabelFontColor: "white", indexLabelFontSize: 12, toolTipContent: "Données non collectées : {y}%"},
 					{  y: {{ kpiCurrentYear.txTransacNveYtd|number_format(0, ',', ' ') }}, indexLabel: "", indexLabelFontWeight: "bold", indexLabelFontColor: "black", indexLabelFontSize: 10, toolTipContent: "Données non-valides : {y}%"}
 				]
 			}
@@ -203,10 +203,10 @@
 
 				indexLabelPlacement: "inside",
 				type: "doughnut",
-				innerRadius: "60%",
+				innerRadius: "70%",
 				dataPoints: [
 					{  y: {{ kpiCurrentYear.txTransacNpesYtd|number_format }}, indexLabel: "", indexLabelFontWeight: "bold", toolTipContent: "Qualification email +sms {y}%"},
-					{  y: dataToBeC2, indexLabel: "{y}%", indexLabelFontWeight: "bold",indexLabelFontColor: "white",indexLabelFontSize: 12,toolTipContent: "Données non collectées : {y}%"},
+					{  y: dataToBeC2, indexLabel: "", indexLabelFontWeight: "bold",indexLabelFontColor: "white",indexLabelFontSize: 12,toolTipContent: "Données non collectées : {y}%"},
 					{  y: {{ kpiCurrentYear.txTransacNvesYtd|number_format }}, indexLabel: "", indexLabelFontWeight: "bold", indexLabelFontColor: "black", indexLabelFontSize: 10, toolTipContent: "Données non-valides : {y}%"}
 				]
 			}
@@ -238,10 +238,10 @@
 
 				indexLabelPlacement: "inside",
 				type: "doughnut",
-				innerRadius: "60%",
+				innerRadius: "70%",
 				dataPoints: [
 					{  y: {{ kpiCurrentYear.txTransacNpesaYtd|number_format }}, indexLabel: "",indexLabelFontSize: 12, indexLabelFontWeight: "bold", toolTipContent: "Qualification email  + sms + adresse {y}%"},
-					{  y: dataToBeC3, indexLabel: "{y}%", indexLabelFontWeight: "bold",indexLabelFontColor: "white",indexLabelFontSize: 12,toolTipContent: "Données non collectées : {y}%"},
+					{  y: dataToBeC3, indexLabel: "", indexLabelFontWeight: "bold",indexLabelFontColor: "white",indexLabelFontSize: 12,toolTipContent: "Données non collectées : {y}%"},
 					{  y: {{ kpiCurrentYear.txTransacNvesaYtd|number_format }}, indexLabel: "", indexLabelFontWeight: "bold", indexLabelFontColor: "black", indexLabelFontSize: 10, toolTipContent: "Données non-valides : {y}%"}
 				]
 			}
