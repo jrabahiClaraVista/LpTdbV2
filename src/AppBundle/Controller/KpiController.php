@@ -52,10 +52,11 @@ class KpiController extends Controller
 		$date1->modify('-12 months')->modify('first day of this month');
 		$date1 = $date1->format("Y-m-d");
 
+		$date3 = new \DateTime($date2);
+		$date3->modify('first day of this month');
+		$date3 = $date3->format("Y-m-d");
+
 		$lastKpi = null;
-
-
-		$date = new \DateTime();
 
 		$brand = $user->getBrand();
 		if ($brand == null) $brand = '';
@@ -91,9 +92,9 @@ class KpiController extends Controller
 
 		
 
-		$topNpe = $em->getRepository('AppBundle:KpiMonth')->getRank1Npe($date1, $date2, $brand);
-		$topNpes = $em->getRepository('AppBundle:KpiMonth')->getRank1Npes($date1, $date2, $brand);
-		$topNpesa = $em->getRepository('AppBundle:KpiMonth')->getRank1Npesa($date1, $date2, $brand);
+		$topNpe = $em->getRepository('AppBundle:KpiMonth')->getRank1Npe($date3, $date2, $brand);
+		$topNpes = $em->getRepository('AppBundle:KpiMonth')->getRank1Npes($date3, $date2, $brand);
+		$topNpesa = $em->getRepository('AppBundle:KpiMonth')->getRank1Npesa($date3, $date2, $brand); 
 
 		
 
@@ -124,23 +125,43 @@ class KpiController extends Controller
 	public function ytdAction(User $user, $year = null) {
 		$em = $this->getDoctrine()->getManager();
 
-		$date = new \DateTime();
+		$date =new \DateTime();
+
+		if($year == null){
+			$lastKpi = $em->getRepository('AppBundle:KpiYearToDate')->getLastKpiOfYear($date->format('Y'), $user->getUsername(), $user->getBrand());
+		}
+		else{
+			$lastKpi = $em->getRepository('AppBundle:KpiYearToDate')->getLastKpiOfYear($year, $user->getUsername(), $user->getBrand());
+		}
+
+		
+		$date = $lastKpi->getDate();
+
+		$year = $date->format('Y');
+		$month = $date->format('m');
+
+		$date2 = new \DateTime($date->format('Y-m-d'));
+		$date2->modify('last day of this month');
+		$date2 = $date2->format("Y-m-d");
+		
+
+
+		$date1 = new \DateTime($date2);
+		$date1->modify('first day of this month');
+		$date1 = $date1->format("Y-m-d");
+		
+
+		$lastKpi = null;
 
 		$brand = $user->getBrand();
 		if ($brand == null) $brand = '';
-		
-		if ($year == null) {
-			if ($date->format('m') == 01)
-				$year = $date->format('Y') - 1;
-			else 
-				$year = $date->format('Y');
-		}
 
 		$kpis = $em->getRepository('AppBundle:KpiYearToDate')->getUserKpiYtd($user->getUsername(), $year, $brand);
 
-		$topNpe = $em->getRepository('AppBundle:KpiYearToDate')->getRank1Npe($year, $brand);
-		$topNpes = $em->getRepository('AppBundle:KpiYearToDate')->getRank1Npes($year, $brand);
-		$topNpesa = $em->getRepository('AppBundle:KpiYearToDate')->getRank1Npesa($year, $brand);
+		$topNpe = $em->getRepository('AppBundle:KpiYearToDate')->getRank1Npe($date1, $date2, $brand);
+		$topNpes = $em->getRepository('AppBundle:KpiYearToDate')->getRank1Npes($date1, $date2, $brand);
+		$topNpesa = $em->getRepository('AppBundle:KpiYearToDate')->getRank1Npesa($date1, $date2, $brand);
+
 
 		if ($kpis == null){
 			throw new NotFoundHttpException("No data Available");			

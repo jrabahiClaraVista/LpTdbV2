@@ -35,7 +35,7 @@ class KpiYeartoDateRepository extends EntityRepository
 			->getOneOrNullResult();
 	}
 
-	public function getRank1Npe($year, $brand){
+	public function getRank1Npe($date1,$date2, $brand){
 		$qb = $this
 			->createQueryBuilder('k')
 			->where('k.rankNpeYtd = :val')
@@ -45,8 +45,8 @@ class KpiYeartoDateRepository extends EntityRepository
 		  	->andWhere('u.brand = :brand')		  	
 		  	->setParameter('brand', $brand)
 		  	->andWhere('k.date BETWEEN :date1 AND :date2')
-		  	->setParameter('date1', $year.'-01-01')
-		  	->setParameter('date2', $year.'-12-13')
+		  	->setParameter('date1', $date1)
+		  	->setParameter('date2', $date2)
 		  	->andWhere('u.role = :role')
 		  	->setParameter('role', "ROLE_BOUTIQUE")
 		  	->orderBy('k.rankNpeYtd', 'DESC')
@@ -58,7 +58,7 @@ class KpiYeartoDateRepository extends EntityRepository
 			->getOneOrNullResult();
 	}
 
-	public function getRank1Npes($year, $brand){
+	public function getRank1Npes($date1,$date2, $brand){
 		$qb = $this
 			->createQueryBuilder('k')
 			->where('k.rankNpesYtd= :val')
@@ -68,8 +68,8 @@ class KpiYeartoDateRepository extends EntityRepository
 		  	->andWhere('u.brand = :brand')		  	
 		  	->setParameter('brand', $brand)
 		  	->andWhere('k.date BETWEEN :date1 AND :date2')
-		  	->setParameter('date1', $year.'-01-01')
-		  	->setParameter('date2', $year.'-12-31')
+		  	->setParameter('date1', $date1)
+		  	->setParameter('date2', $date2)
 		  	->andWhere('u.role = :role')
 		  	->setParameter('role', "ROLE_BOUTIQUE")
 		  	->orderBy('k.rankNpesYtd', 'DESC')
@@ -81,7 +81,7 @@ class KpiYeartoDateRepository extends EntityRepository
 			->getOneOrNullResult();
 	}
 
-	public function getRank1Npesa($year, $brand){
+	public function getRank1Npesa($date1,$date2, $brand){
 		$qb = $this
 			->createQueryBuilder('k')
 			->where('k.rankNpesaYtd = :val')
@@ -91,12 +91,33 @@ class KpiYeartoDateRepository extends EntityRepository
 		  	->andWhere('u.brand = :brand')		  	
 		  	->setParameter('brand', $brand)
 		  	->andWhere('k.date BETWEEN :date1 AND :date2')
-		  	->setParameter('date1', $year.'-01-01')
-		  	->setParameter('date2', $year.'-12-31')
-		  	->andWhere('u.role = :role')
+		  	->setParameter('date1', $date1)
+		  	->setParameter('date2', $date2)		  	->andWhere('u.role = :role')
 		  	->setParameter('role', "ROLE_BOUTIQUE")
 		  	->orderBy('k.rankNpesaYtd', 'DESC')
 		  	->setMaxResults(1);
+		;
+
+		return $qb
+			->getQuery()
+			->getOneOrNullResult();
+	}
+
+	public function getLastKpiOfYear($year, $username,$brand){
+		$qb = $this
+			->createQueryBuilder('k')
+			->leftJoin('k.user', 'u')
+		  	->addSelect('u')
+		  	->where('u.brand = :brand')		
+		  	->andWhere('k.username = :username')		  	
+		  	->setParameter('brand', $brand)
+		  	->setParameter('username', $username)
+		  	->andWhere('k.date <= :date')
+		  	->setParameter('date', $year.'-12-31')
+		  	->andWhere('u.role = :role')
+		  	->setParameter('role', "ROLE_BOUTIQUE")
+		  	->orderBy('k.date', 'DESC')
+		  	->setMaxResults(1)
 		;
 
 		return $qb
