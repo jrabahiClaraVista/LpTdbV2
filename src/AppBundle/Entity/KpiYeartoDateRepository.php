@@ -104,6 +104,7 @@ class KpiYeartoDateRepository extends EntityRepository
 	}
 
 	public function getLastKpiOfYear($year, $username,$brand){
+
 		$qb = $this
 			->createQueryBuilder('k')
 			->leftJoin('k.user', 'u')
@@ -114,8 +115,6 @@ class KpiYeartoDateRepository extends EntityRepository
 		  	->setParameter('username', $username)
 		  	->andWhere('k.date <= :date')
 		  	->setParameter('date', $year.'-12-31')
-		  	->andWhere('u.role = :role')
-		  	->setParameter('role', "ROLE_BOUTIQUE")
 		  	->orderBy('k.date', 'DESC')
 		  	->setMaxResults(1)
 		;

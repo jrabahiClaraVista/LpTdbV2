@@ -67,7 +67,7 @@
 	<div class="spacer" style="margin-bottom:0px;"></div>
 
 	<div class="col-xs-12">
-		<h3 class="text-uppercase">{{ "Le top Louis Pion 2016 - Bravo !"|trans }}</h3>
+		<h3 class="text-uppercase">Le top Louis Pion {{year}} - Bravo !</h3>
 	</div>
 
 	<div class="col-xs-12 kpi-box">
@@ -101,6 +101,7 @@
 
 	<div class="col-xs-12">
 		<a href="{{ path('app_kpi_ytd', { 'user_id' : user.id, 'year' : '2016' } ) }}" class="btn-kpi btn btn-sm {% if year == "2016" %}active{% endif %}">2016</a>
+		<a href="{{ path('app_kpi_ytd', { 'user_id' : user.id, 'year' : '2017' } ) }}" class="btn-kpi btn btn-sm {% if year == "2017" %}active{% endif %}">2017</a>
 	</div>
 
 	<div style="height:30px;" class="spacer"></div>
