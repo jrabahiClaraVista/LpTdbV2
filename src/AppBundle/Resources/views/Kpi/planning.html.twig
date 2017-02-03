@@ -26,7 +26,7 @@
 						<h4 class="text-center bg-white black" style="height:40px;">{{campaign.name}}</h4>
 						<div class="bordered img-container text-center">
 							{% if campaign.image is not null %}
-								<img alt="{{ campaign.image.alt }}" src="{{ asset('web/uploads/img/' ~ campaign.image.url) }}" height="100%" />
+								<img alt="{{ campaign.image.alt }}" src="{{ asset('web/uploads/img/' ~ campaign.image.url) }}" style="max-width:200px;max-height:298px;" />
 							{% endif %}
 						</div>
 						<div class="text-center" class="small">
