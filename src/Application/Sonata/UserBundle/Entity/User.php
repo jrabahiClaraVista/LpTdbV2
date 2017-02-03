@@ -91,6 +91,13 @@ class User extends BaseUser
     protected $brand ;
 
     /**
+     * @var boolean
+     *
+     * @ORM\Column(name="ispremium", type="boolean")
+     */
+    private $ispremium = 0;
+
+    /**
      * @var string $role
      *
      * @ORM\Column(name="role", type="string", length=100, nullable=true)
@@ -131,6 +138,27 @@ class User extends BaseUser
     public function setId($id)
     {
         $this->id = $id;
+        return $this;
+    }
+
+    /**
+     * Get ispremium
+     *
+     * @return int $ispremium
+     */
+    public function getIspremium()
+    {
+        return $this->ispremium;
+    }
+
+    /**
+     * set ispremium
+     *
+     * @return int $ispremium
+     */
+    public function setIspremium($ispremium)
+    {
+        $this->ispremium = $ispremium;
         return $this;
     }
 

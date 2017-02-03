@@ -48,24 +48,26 @@ class HomeController extends Controller
         $em = $this->getDoctrine()->getManager();
 
         $users = $em->getRepository('ApplicationSonataUserBundle:User')->findAll();
+        $user = $em->getRepository('ApplicationSonataUserBundle:User')->findOneBy(array('id' => 101));
 
         return $this->render('AppBundle:Home:list.html.twig', array(
+            'user'  => $user,
             'users' => $users
             )
         );
     }
     public function testAction(Request $request)
     {
-    	$date1 = new \DateTime('2016-04-21');
-    	$date2 = new \DateTime();
+        $date1 = new \DateTime('2016-04-21');
+        $date2 = new \DateTime();
 
-    	$dateDiff =  $date1->diff($date2);
+        $dateDiff =  $date1->diff($date2);
 
 
-    	return $this->render('AppBundle:test.html.twig', array(
-    		'date1' => $date1,
-    		'date2' => $date2,
-    		'dateDiff' => $dateDiff->days,
-    	));
+        return $this->render('AppBundle:test.html.twig', array(
+            'date1' => $date1,
+            'date2' => $date2,
+            'dateDiff' => $dateDiff->days,
+        ));
     }
 }

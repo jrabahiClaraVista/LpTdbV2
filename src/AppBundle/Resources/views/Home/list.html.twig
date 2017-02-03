@@ -6,12 +6,16 @@
 		<tr>
 			<th style="padding:5px;">ID</th>
 			<th style="padding:5px;">Nom</th>
+			<th style="padding:5px;">Email</th>
+			<th style="padding:5px;">Crée le</th>
 		</tr>
-		{% for user in users %}	
-			{% if user.id != 1 and user.id != 12 %}
+		{% for boutique in users %}	
+			{% if boutique.id != 1 and boutique.id != 12 %}
 			<tr>
-				<td style="padding:5px;">{{ user.id }}</td>
-				<td style="padding:5px;"><a target="_blank" href="{{ path('app_kpi_month', { 'user_id' : user.id } ) }}">{{user.username }}</a></td>
+				<td style="padding:5px;">{{ boutique.id }}</td>
+				<td style="padding:5px;"><a target="_blank" href="{{ path('app_kpi_month', { 'user_id' : boutique.id } ) }}">{{boutique.username }}</a></td>
+				<td style="padding:5px;">{{ boutique.email }}</td>
+				<td style="padding:5px;">{{ boutique.createdAt|date('d/m/Y') }}</td>
 			</tr>
 		{% endif %}
 		{% endfor %}

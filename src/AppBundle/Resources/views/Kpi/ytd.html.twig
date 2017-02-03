@@ -75,22 +75,22 @@
 			<div class="inside top col-xs-4 text-center">
 				<h3 class="black">#1 Email</h3>
 				<div class="green-box">
-					<h3>{{ deleteFirstCharacters(topNpe.user.username,4) }}</h3>
+					<h3>{{ deleteFirstCharacters(topNpe.user.username,4)|upper }}</h3>
 					<p class="small white">{{ topNpe.txTransacNpeYtd|number_format(0, ',', ' ') }} % {{ "de transactions"|trans }}<br /> {{ "Emails valides"|trans }}</p>
 				</div>
 			</div>		
 			<div class="inside top col-xs-4 text-center">
 				<h3 class="black">#1 Email + SMS</h3>
 				<div class="green-box">
-					<h3>{{ deleteFirstCharacters(topNpes.user.username,4) }}</h3>
-					<p class="small white">{{ topNpes.txTransacNpeYtd|number_format(0, ',', ' ') }} % {{ "de transactions"|trans }}<br /> {{ "Emails + SMS valides"|trans }}</p>
+					<h3>{{ deleteFirstCharacters(topNpes.user.username,4)|upper }}</h3>
+					<p class="small white">{{ topNpes.txTransacNpesYtd|number_format(0, ',', ' ') }} % {{ "de transactions"|trans }}<br /> {{ "Emails + SMS valides"|trans }}</p>
 				</div>
 			</div>
 			<div class="inside top col-xs-4 text-center">
 				<h3 class="black">#1 Email + SMS + Adresse</h3>
 				<div class="green-box">
-					<h3>{{ deleteFirstCharacters(topNpesa.user.username,4) }}</h3>
-					<p class="small white">{{ topNpesa.txTransacNpeYtd|number_format(0, ',', ' ') }} % {{ "de transactions"|trans }}<br /> {{ "Emails + SMS + Adresses valides"|trans }}</p>
+					<h3>{{ deleteFirstCharacters(topNpesa.user.username,4)|upper }}</h3>
+					<p class="small white">{{ topNpesa.txTransacNpesaYtd|number_format(0, ',', ' ') }} % {{ "de transactions"|trans }}<br /> {{ "Emails + SMS + Adresses valides"|trans }}</p>
 				</div>
 			</div>		
 			<div style="height:0px;" class="spacer"></div>

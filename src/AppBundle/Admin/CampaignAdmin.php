@@ -106,9 +106,9 @@ class CampaignAdmin extends Admin
             ->add('description')
             ->add('channelOne')
             //->add('campaignChannels', 'associated_property')
-            ->add('nbClients')
-            ->add('activeCampaign')
-            ->add('activeKpi')
+            ->add('emailsSent')
+            ->add('mailsSent')
+            ->add('smsSent')
             ->add('state')
             ->add('image.url')
         ;

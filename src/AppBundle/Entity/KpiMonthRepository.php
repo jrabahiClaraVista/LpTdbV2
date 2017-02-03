@@ -34,7 +34,7 @@ class KpiMonthRepository extends EntityRepository
 			->getResult();
 	}
 
-	public function getTop3Ca($brand){
+	public function getTop3Ca($brand, $date){
 		$qb = $this
 			->createQueryBuilder('k')
 		  	->orderBy('k.caClientsTransformesM0', 'DESC')
@@ -43,7 +43,9 @@ class KpiMonthRepository extends EntityRepository
 		  	->where('u.brand = :brand')		  	
 		  	->setParameter('brand', $brand)
 		  	->andWhere('u.role = :role')
-		  	->setParameter('role', "ROLE_BOUTIQUE")
+		  	->andWhere('k.date = :date')
+		  	->setParameter('role', "ROLE_BOUTIQUE") 	
+		  	->setParameter('date', $date)
 		  	->setMaxResults(3);
 		;
 

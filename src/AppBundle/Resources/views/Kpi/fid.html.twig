@@ -68,7 +68,7 @@
 
 	<div class="spacer" style="margin-bottom:0px;"></div>
 
-	<div class="col-xs-12">
+	<!div class="col-xs-12">
 		<h3 class="text-uppercase">{{ "Le top Louis Pion du mois - Bravo !"|trans }}</h3>
 	</div>
 
@@ -78,7 +78,7 @@
 			<div class="inside top col-xs-4 text-center">
 				<h3 class="black">#{% if loop.index0 == 0 %}1{% endif %}{% if loop.index0 == 1 %}2{% endif %}{% if loop.index0 == 2 %}3{% endif %} CA</h3>
 				<div class="green-box">
-					<h3>{{ deleteFirstCharacters(top.user.username,4) }}</h3>
+					<h3>{{ deleteFirstCharacters(top.user.username,4)|upper }}</h3>
 					<p class="small white">
 						{{ top.caClientsTransformesM0|number_format(0, '.', ' ') }} &euro; générés sur le mois<br />
 						(Taux de transactions avec email valide sur l'année : {{ topTauxCumul[loop.index0]|number_format(0, '.', ' ') }} %)

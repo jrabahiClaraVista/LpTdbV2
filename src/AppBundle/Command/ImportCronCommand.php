@@ -26,39 +26,48 @@ class ImportCronCommand extends ContainerAwareCommand
 		$text = $this->getDescription();
 		$output->writeln($text);
 
-		$import = $this->getContainer()->get('cron.import');
+        $filename1 = "/srv/data/web/vhosts/louispion-qualification.fr/htdocs/web/imports/TABLEAU_DE_BORD_lp_rq.csv";
 
-		$output->writeln("Configuration du separateur");
-		$import->setSeparator($input->getArgument('separator'));
-		
-		#Lncl
-		# -> Set Import table clean for new update
-		# -> import clients - update campaign
-		# -> Delete users not in import file
-		#$output->writeln("Nettoyage de la table d'import");
-		#$import->deleteImportLncl();		
-		#$output->writeln("Importation des clients et mise a jour des cibles");
-		#$result = $import->importClientCSVFileLncl();
-		#$import->deleteClientsNotInImport();
-		# -> Delete Clients not in Import to do
+		if ( file_exists($filename1) ) {
 
-		#Lp
-		# -> Import/update Marque / Dr / Boutique Users
-		$output->writeln("Mise a jour des utilisateurs");
-		$result = $import->importClientCSVFileLp("User");
-		# -> Import Kpi of the month
-		$output->writeln("Import des Kpis");
-		$result = $import->importClientCSVFileLp("KpiMonth");
-		$result = $import->importClientCSVFileLp("KpiYearToDate");
-		# -> Update User fields for Kpis
-		$import->setUserforKpiLp();
-		$output->writeln("Archivage du fichier");
-		$import->renameLastImport();
+			$import = $this->getContainer()->get('cron.import');
 
-		# -> Get import result and save it
-		$output->writeln("Archivage de l'import");
-		$importFile = $this->getContainer()->get('import.file.log');
-		$importFile->AddImportFile($result);
+			$output->writeln("Configuration du separateur");
+			$import->setSeparator($input->getArgument('separator'));
+			
+			#Lncl
+			# -> Set Import table clean for new update
+			# -> import clients - update campaign
+			# -> Delete users not in import file
+			#$output->writeln("Nettoyage de la table d'import");
+			#$import->deleteImportLncl();		
+			#$output->writeln("Importation des clients et mise a jour des cibles");
+			#$result = $import->importClientCSVFileLncl();
+			#$import->deleteClientsNotInImport();
+			# -> Delete Clients not in Import to do
+
+			#Lp
+			# -> Import/update Marque / Dr / Boutique Users
+			$output->writeln("Mise a jour des utilisateurs");
+			$result = $import->importClientCSVFileLp("User");
+			# -> Import Kpi of the month
+			$output->writeln("Import des Kpis");
+			$result = $import->importClientCSVFileLp("KpiMonth");
+			$result = $import->importClientCSVFileLp("KpiYearToDate");
+			# -> Update User fields for Kpis
+			$import->setUserforKpiLp();
+			
+			$output->writeln("Archivage du fichier");
+			$import->renameLastImport();
+
+			# -> Get import result and save it
+			$output->writeln("Archivage de l'import");
+			$importFile = $this->getContainer()->get('import.file.log');
+			$importFile->AddImportFile($result);
+		}
+		else{
+			$output->writeln("Aucun fichier, annulation de l'import");
+		}
 
 		$output->writeln("Tache terminee");	
 	}

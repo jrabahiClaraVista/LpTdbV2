@@ -85,7 +85,7 @@
 						<h4 class="bg-white black">{{campaign.name}}</h4>
 						<div class="text-leftr">
 							le {{campaign.startDate|date('d/m/Y')}}<br />
-							Nombre de courriers envoyés : <strong>{{ campaign.smsSent|number_format(0, ',', ' ') }}</strong>
+							Nombre de courriers envoyés : <strong>{{ campaign.mailsSent|number_format(0, ',', ' ') }}</strong>
 						</div>
 						<hr />
 					</figure>
@@ -105,14 +105,14 @@
 	<div style="height:30px;" class="spacer"></div>
 
 	<div class="col-xs-12">		
-		<a href="{{ path('app_kpi_planning', { 'user_id' : user.id, 'month' : '05' } ) }}" class="btn-kpi btn btn-sm {% if currentMonth < "05" %}disabled{% endif %} {% if month == "05" %}active {% endif %}">{{ "Mai"|trans }}</a>
-		<a href="{{ path('app_kpi_planning', { 'user_id' : user.id, 'month' : '06' } ) }}" class="btn-kpi btn btn-sm {% if currentMonth < "06" %}disabled{% endif %} {% if month == "06" %}active {% endif %}">{{ "Juin"|trans }}</a>
-		<a href="{{ path('app_kpi_planning', { 'user_id' : user.id, 'month' : '07' } ) }}" class="btn-kpi btn btn-sm {% if currentMonth < "07" %}disabled{% endif %} {% if month == "07" %}active {% endif %}">{{ "Juillet"|trans }}</a>
-		<a href="{{ path('app_kpi_planning', { 'user_id' : user.id, 'month' : '08' } ) }}" class="btn-kpi btn btn-sm {% if currentMonth < "08" %}disabled{% endif %} {% if month == "08" %}active {% endif %}">{{ "Août"|trans }}</a>
-		<a href="{{ path('app_kpi_planning', { 'user_id' : user.id, 'month' : '09' } ) }}" class="btn-kpi btn btn-sm {% if currentMonth < "09" %}disabled{% endif %} {% if month == "09" %}active {% endif %}">{{ "Septembre"|trans }}</a>
-		<a href="{{ path('app_kpi_planning', { 'user_id' : user.id, 'month' : '10' } ) }}" class="btn-kpi btn btn-sm {% if currentMonth < "10" %}disabled{% endif %} {% if month == "10" %}active {% endif %}">{{ "Octobre"|trans }}</a>
-		<a href="{{ path('app_kpi_planning', { 'user_id' : user.id, 'month' : '11' } ) }}" class="btn-kpi btn btn-sm {% if currentMonth < "11" %}disabled{% endif %} {% if month == "11" %}active {% endif %}">{{ "Novembre"|trans }}</a>
-		<a href="{{ path('app_kpi_planning', { 'user_id' : user.id, 'month' : '12' } ) }}" class="btn-kpi btn btn-sm {% if currentMonth < "12" %}disabled{% endif %} {% if month == "12" %}active {% endif %}">{{ "Décembre"|trans }}</a>
+		<a href="{{ path('app_kpi_planning', { 'user_id' : user.id, 'month' : '05' } ) }}" class="btn-kpi btn btn-sm {% if currentMonth|number_format < "05"|number_format > "01" %}disabled{% endif %} {% if month == "05" %}active {% endif %}">{{ "Mai"|trans }}</a>
+		<a href="{{ path('app_kpi_planning', { 'user_id' : user.id, 'month' : '06' } ) }}" class="btn-kpi btn btn-sm {% if currentMonth|number_format < "06"|number_format > "01" %}disabled{% endif %} {% if month == "06" %}active {% endif %}">{{ "Juin"|trans }}</a>
+		<a href="{{ path('app_kpi_planning', { 'user_id' : user.id, 'month' : '07' } ) }}" class="btn-kpi btn btn-sm {% if currentMonth|number_format < "07"|number_format > "01" %}disabled{% endif %} {% if month == "07" %}active {% endif %}">{{ "Juillet"|trans }}</a>
+		<a href="{{ path('app_kpi_planning', { 'user_id' : user.id, 'month' : '08' } ) }}" class="btn-kpi btn btn-sm {% if currentMonth|number_format < "08"|number_format > "01" %}disabled{% endif %} {% if month == "08" %}active {% endif %}">{{ "Août"|trans }}</a>
+		<a href="{{ path('app_kpi_planning', { 'user_id' : user.id, 'month' : '09' } ) }}" class="btn-kpi btn btn-sm {% if currentMonth|number_format < "09"|number_format > "01" %}disabled{% endif %} {% if month == "09" %}active {% endif %}">{{ "Septembre"|trans }}</a>
+		<a href="{{ path('app_kpi_planning', { 'user_id' : user.id, 'month' : '10' } ) }}" class="btn-kpi btn btn-sm {% if currentMonth|number_format < "10"|number_format > "01" %}disabled{% endif %} {% if month == "10" %}active {% endif %}">{{ "Octobre"|trans }}</a>
+		<a href="{{ path('app_kpi_planning', { 'user_id' : user.id, 'month' : '11' } ) }}" class="btn-kpi btn btn-sm {% if currentMonth|number_format < "11"|number_format > "01" %}disabled{% endif %} {% if month == "11" %}active {% endif %}">{{ "Novembre"|trans }}</a>
+		<a href="{{ path('app_kpi_planning', { 'user_id' : user.id, 'month' : '12' } ) }}" class="btn-kpi btn btn-sm {% if currentMonth|number_format < "12"|number_format > "01" %}disabled{% endif %} {% if month == "12" %}active {% endif %}">{{ "Décembre"|trans }}</a>
 	</div>
 
 	<div style="height:30px;" class="spacer"></div>

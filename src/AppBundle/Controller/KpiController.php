@@ -186,7 +186,7 @@ class KpiController extends Controller
 		);
 
 		//orderBy('k.caClientsTransformesM0', 'DESC')
-		$kpisTopCa = $em->getRepository('AppBundle:KpiMonth')->getTop3Ca($brand);
+		$kpisTopCa = $em->getRepository('AppBundle:KpiMonth')->getTop3Ca($brand, $date);
 		$tauxCumul = array();
 
 		foreach ($kpisTopCa as $key => $top) {
@@ -223,14 +223,16 @@ class KpiController extends Controller
 		$dateMonth 	= $date->format('m');
 		$dateYear 	= $date->format('Y');
 
-		$currentMonth = $date->format('m') - 1;
+		if($dateMonth == "01" ){
+			$currentMonth = "12";
+			$currentYear = $date->format('Y')-1;
+		}else{
+			$currentMonth = $date->format('m') - 1;
+			$currentYear = $date->format('Y');
+		}		
 
 		$brand = $user->getBrand();
 		if ($brand == null) $brand = '';
-
-		if ($month >= $dateMonth){
-			throw new NotFoundHttpException("No data Available");			
-		}
 
 		//get date range for data month -1 for the year // Get campaign by month
 		if($month == null)
@@ -239,41 +241,21 @@ class KpiController extends Controller
 			switch ($dateMonth) {
 				case "01" :
 					$date1 = ($dateYear-1)."-12-01";
-					$date2 = ($dateYear)."-".($dateMonth)."-01";
-				break;
-				default :
-					$date1 = $dateYear."-".($currentMonth)."-01";
-					$date2 = $dateYear."-".($dateMonth)."-01";
-				break;
-			}
-		}else{
-			switch ($month) {
-				case "01" :
-					$date1 = ($dateYear-1)."-12-01";
-					$date2 = ($dateYear)."-".($month)."-01";
-				break;
-				default :
-					$date1 = $dateYear."-".($month)."-01";
-					$date2 = $dateYear."-".($month+1)."-01";
-				break;
-			}
-		}
-
-		//get date range for data month -1 for the year // Get campaign by year
-		/*if($month == null)
-		{
-			$month = $currentMonth;
-			switch ($dateMonth) {
-				case "01" :
-					$date1 = ($dateYear-1)."-01-01";
-					$date2 = ($dateYear-1)."-12-01";
+					$date2 = $dateYear."-01-01";
 				break;
 				default :
 					$date1 = $dateYear."-01-01";
 					$date2 = $dateYear."-12-01";
 				break;
 			}
-		}*/
+		}else{
+			switch ($month) {
+				default :
+					$date1 = $currentYear."-".($month)."-01";
+					$date2 = $currentYear."-".($month+1)."-01";
+				break;
+			}
+		}
 
 		$campaigns = $em->getRepository('AppBundle:Campaign')->getCampaignsOfMonth($date1, $date2, $user->getBrand());
 

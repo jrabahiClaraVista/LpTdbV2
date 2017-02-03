@@ -67,9 +67,18 @@ security:
         # URL of FOSUserBundle which need to be available to anonymous users
         #- { path: ^/.*, requires_channel: https }
         - { path: ^/login$, role: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: ^/register, role: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: ^/resetting, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/register, role: ROLE_ADMIN , requires_channel: http }
+        - { path: ^/resetting, role: ROLE_ADMIN, requires_channel: http }
+        - { path: ^/web/config.php, role: ROLE_ADMIN , requires_channel: http }
+        - { path: ^/profile/edit-profile, role: ROLE_ADMIN , requires_channel: http }
+        - { path: ^/profile, role: ROLE_ADMIN , requires_channel: http }
         - { path: ^/kpi/, role: IS_AUTHENTICATED_ANONYMOUSLY }
+
+        # Admin login page needs to be accessed without credential
+        - { path: ^/admin/login$, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/admin/logout$, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/admin/login_check$, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/admin/resetting, role: IS_AUTHENTICATED_ANONYMOUSLY }
 
         # App URLs
         - { path: ^/home$, role: ROLE_USER }
@@ -77,12 +86,6 @@ security:
         - { path: ^/campaign$, role: ROLE_USER }
         - { path: ^/campaign/, role: ROLE_USER }
         - { path: ^/campaign_send_email/, role: ROLE_USER }
-
-        # Admin login page needs to be accessed without credential
-        - { path: ^/admin/login$, role: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: ^/admin/logout$, role: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: ^/admin/login_check$, role: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: ^/admin/resetting, role: IS_AUTHENTICATED_ANONYMOUSLY }
 
         # Secured part of the site
         # This config requires being logged for the whole site and having the admin role for the admin part.

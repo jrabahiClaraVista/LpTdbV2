@@ -34,16 +34,15 @@ class ImportCronService
     public function renameLastImport() 
     {   
         $date = new \DateTime();
-        $date = $date->format("mY");
-        rename ("D:\wamp\www\LpTdbV2\web\imports\TABLEAU_DE_BORD_lp_rq.csv" , "D:\wamp\www\LpTdbV2\web\imports\TABLEAU_DE_BORD_lp_rq_".$date.".csv" );
+        $date = $date->format("Ym");
+        rename ("/srv/data/web/vhosts/louispion-qualification.fr/htdocs/web/imports/TABLEAU_DE_BORD_lp_rq.csv" , "/srv/data/web/vhosts/louispion-qualification.fr/htdocs/web/imports/archives/TABLEAU_DE_BORD_lp_rq_".$date.".csv" );
     }
 
     //////////////////////////////////////////
     #client Lp
 	public function importClientCSVFileLp($curEntityClass)
     {        
-
-        $filename = 'D:\wamp\www\LpTdbV2\web\imports\TABLEAU_DE_BORD_lp_rq.csv';
+        $filename = '/srv/data/web/vhosts/louispion-qualification.fr/htdocs/web/imports/TABLEAU_DE_BORD_lp_rq.csv';
         $file = new \SplFileObject($filename);
         if ($file === false) die("Can't open filestream $filename");
 
@@ -246,6 +245,7 @@ class ImportCronService
             }
         }
         $this->em->flush();
+        $this->em->clear();
 
         return $result;
     }

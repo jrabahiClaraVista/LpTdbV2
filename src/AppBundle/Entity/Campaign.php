@@ -413,13 +413,13 @@ class Campaign
     }
 
     /**
-     * Get mailsSent
+     * Get emailsSent
      *
      * @return integer
      */
-    public function getMailsSent()
+    public function getEmailsSent()
     {
-        return $this->mailsSent;
+        return $this->emailsSent;
     }
 
     /**
@@ -429,11 +429,22 @@ class Campaign
      *
      * @return Campaign
      */
-    public function setEMilsSent($mailsSent)
+    public function setMailsSent($mailsSent)
     {
         $this->mailsSent = $mailsSent;
 
         return $this;
+    }
+
+
+    /**
+     * Get mailsSent
+     *
+     * @return integer
+     */
+    public function getMailsSent()
+    {
+        return $this->mailsSent;
     }
 
     /**
@@ -530,16 +541,6 @@ class Campaign
     public function getTxC()
     {
         return $this->txC;
-    }
-
-    /**
-     * Get emailsSent
-     *
-     * @return integer
-     */
-    public function getEmailsSent()
-    {
-        return $this->emailsSent;
     }
 
     public function addRecipient(Recipient $recipient)

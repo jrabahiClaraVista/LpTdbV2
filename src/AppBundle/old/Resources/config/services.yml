@@ -1,8 +1,0 @@
-#parameters:
-#    mon_parametre: ma_valeur
-# $container->getParameter('nomParametre');
-
-services:
-#    oc_platform.example:
-#        class: OC\PlatformBundle\Example
-#        arguments: [@service_name, "plain_value", %parameter%]
