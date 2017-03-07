@@ -43,6 +43,7 @@ class ImportCronService
 	public function importClientCSVFileLp($curEntityClass)
     {        
         $filename = '/srv/data/web/vhosts/louispion-qualification.fr/htdocs/web/imports/TABLEAU_DE_BORD_lp_rq.csv';
+        $filename = "D:\wamp\www\LpTdbV2\web\imports\TABLEAU_DE_BORD_lp_rq.csv";
         $file = new \SplFileObject($filename);
         if ($file === false) die("Can't open filestream $filename");
 

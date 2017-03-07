@@ -37,25 +37,46 @@ class KpiController extends Controller
 
 		$lastKpi = $em->getRepository('AppBundle:KpiMonth')->findOneBy(array('user' => $user), array('date' => "DESC"));
 
+
 		$date = $lastKpi->getDate();
 
-		$month = $date->format('m');
-		$year = $date->format('Y');
+		if($month == null){
 
-		$date2 = new \DateTime($date->format('Y-m-d'));
-		$date2->modify('last day of this month');
-		$date2 = $date2->format("Y-m-d");
-		
+			$month = $date->format('m');
+			$year = $date->format('Y');
+
+			$date2 = new \DateTime($date->format('Y-m-d'));
+			$date2->modify('last day of this month');
+			$date2 = $date2->format("Y-m-d");
+			
 
 
-		$date1 = new \DateTime($date2);
-		$date1->modify('-12 months')->modify('first day of this month');
-		$date1 = $date1->format("Y-m-d");
+			$date1 = new \DateTime($date2);
+			$date1->modify('-12 months')->modify('first day of this month');
+			$date1 = $date1->format("Y-m-d");
 
-		$date3 = new \DateTime($date2);
-		$date3->modify('first day of this month');
-		$date3 = $date3->format("Y-m-d");
+			$date3 = new \DateTime($date2);
+			$date3->modify('first day of this month');
+			$date3 = $date3->format("Y-m-d");
+		}
+		else{
+			$month = $month;
+			$year = $date->format('Y');
 
+			$date2 = new \DateTime($date->format($year."-".$month."-01"));
+			$date2->modify('last day of this month');
+			$date2 = $date2->format("Y-m-d");
+			
+			$date1 = new \DateTime($date2);
+			$date1->modify('-12 months')->modify('first day of this month');
+			$date1 = $date1->format("Y-m-d");
+
+			$date3 = new \DateTime($date2);
+			$date3->modify('first day of this month');
+			$date3 = $date3->format("Y-m-d");
+		}
+
+		$currentMonth = $lastKpi->getDate()->format("m");
 		$lastKpi = null;
 
 		$brand = $user->getBrand();
@@ -101,8 +122,6 @@ class KpiController extends Controller
 		if ($kpis == null or $kpiCurrentMonth == null){
 			throw new NotFoundHttpException("No data Available");
 		}
-		
-		$currentMonth = $kpis[0]->getDate()->format("m");
 
         return $this->render('AppBundle:Kpi:month.html.twig', array(
         	'kpis' 				=> $kpis,
@@ -114,7 +133,7 @@ class KpiController extends Controller
         	'currentMonth'		=> $currentMonth,
         	'user'				=> $user,
         	'getBoutiquesDr'	=> $getBoutiquesDr,
-        	'getDrsMarque'		=> $getDrsMarque
+        	'getDrsMarque'		=> $getDrsMarque,
         	)
         );
 	}

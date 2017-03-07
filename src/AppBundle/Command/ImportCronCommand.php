@@ -26,7 +26,8 @@ class ImportCronCommand extends ContainerAwareCommand
 		$text = $this->getDescription();
 		$output->writeln($text);
 
-        $filename1 = "/srv/data/web/vhosts/louispion-qualification.fr/htdocs/web/imports/TABLEAU_DE_BORD_lp_rq.csv";
+        //$filename1 = "/srv/data/web/vhosts/louispion-qualification.fr/htdocs/web/imports/TABLEAU_DE_BORD_lp_rq.csv";
+        $filename1 = "D:\wamp\www\LpTdbV2\web\imports\TABLEAU_DE_BORD_lp_rq.csv";
 
 		if ( file_exists($filename1) ) {
 
