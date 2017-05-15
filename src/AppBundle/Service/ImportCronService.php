@@ -19,12 +19,12 @@ use Application\Sonata\UserBundle\Entity\User;
 class ImportCronService
 {
 
-	private $separator;
+    private $separator;
 
-	public function __construct(EntityManager $entityManager)
-	{
-		$this->em = $entityManager;
-	}
+    public function __construct(EntityManager $entityManager)
+    {
+        $this->em = $entityManager;
+    }
 
     public function setSeparator($separator) 
     {
@@ -38,82 +38,80 @@ class ImportCronService
         rename ("/srv/data/web/vhosts/louispion-qualification.fr/htdocs/web/imports/TABLEAU_DE_BORD_lp_rq.csv" , "/srv/data/web/vhosts/louispion-qualification.fr/htdocs/web/imports/archives/TABLEAU_DE_BORD_lp_rq_".$date.".csv" );
     }
 
-    //////////////////////////////////////////
-    #client Lp
-	public function importClientCSVFileLp($curEntityClass)
+    public function importKpiCaptureCSVFile( InputInterface $input, OutputInterface $output, $csv = null)
     {        
-        $filename = '/srv/data/web/vhosts/louispion-qualification.fr/htdocs/web/imports/TABLEAU_DE_BORD_lp_rq.csv';
-        $filename = "D:\wamp\www\LpTdbV2\web\imports\TABLEAU_DE_BORD_lp_rq.csv";
-        $file = new \SplFileObject($filename);
-        if ($file === false) die("Can't open filestream $filename");
-
-        // Create and configure the reader
-        $csvReader = new CsvReader($file, $this->separator);
-        if ($csvReader===false) die("Can't create csvReader $filename");
-        $csvReader->setHeaderRowNumber(0);
-
-        // this must be done to import CSVs where one of the data-field has CRs within!
-        $file->setFlags(\SplFileObject::READ_CSV |
-            \SplFileObject::SKIP_EMPTY |
-            \SplFileObject::READ_AHEAD);
-
-        // Set Database into "nonchecking Foreign Keys"
-        //$this->em=$this->getDoctrine()->getManager();
-        $this->em->getConnection()->exec("SET FOREIGN_KEY_CHECKS=0;");
-
         $date = new \DateTime();
-        $date = $date->format('mdYHms');
-        // Create the workflow
-        $workflow = new Workflow($csvReader, null, "cron_import_".$date );
-        if ($workflow===false) die("Can't create workflow $filename");
+        $date = $date->format("Ymd");
+
+        if($csv == null)
+        {
+            if($this->ip == "127.0.0.1")
+            {
+                $file = fopen("D:\\wamp\\www\\StoreApp\\web\\imports\\kpis\\TABLEAU_DE_BORD_lp_rq.csv", "r");
+            }
+            else{
+                $file = fopen("/data/ftp/imports/kpis/TABLEAU_DE_BORD_lp_rq.csv", "r");
+            }
+        }
+        else
+        {
+            if($this->ip == "127.0.0.1")
+            {
+                $file = fopen("D:\\wamp\\www\\StoreApp\\web\\imports\\kpis\\".$csv."", "r");
+            }
+            else{
+                $file = fopen("/data/ftp/imports/kpis/".$csv."", "r");
+            }  
+        }
+
+               
+        $header = "user_id,code_boutique_vendeur,point_vente_desc,niveau,date,nb_cli_m_l,pct_cli_coord_valid_m_l,pct_cli_coord_nonvalid_m_l,pct_cli_coord_nonrens_m_l,pct_cli_email_valid_m_l,pct_cli_email_nonvalid_m_l,pct_cli_email_nonrens_m_l,pct_cli_tel_valid_m_l,pct_cli_tel_nonvalid_m_l,pct_cli_tel_nonrens_m_l,pct_cli_add_valid_m_l,pct_cli_add_nonvalid_m_l,pct_cli_add_nonrens_m_l,nb_cli_actifs_m_l,nb_cli_actifs_new_m_l,nb_cli_actifs_exist_m_l,nb_prosp_m_l,pct_prosp_coord_valid_m_l,pct_prosp_coord_nonvalid_m_l,pct_prosp_coord_nonrens_m_l,pct_prosp_email_valid_m_l,pct_prosp_email_nonvalid_m_l,pct_prosp_email_nonrens_m_l,pct_prosp_tel_valid_m_l,pct_prosp_tel_nonvalid_m_l,pct_prosp_tel_nonrens_m_l,pct_prosp_add_valid_m_l,pct_prosp_add_nonvalid_m_l,pct_prosp_add_nonrens_m_l,nb_cli_m_nl,pct_cli_coord_valid_m_nl,pct_cli_coord_nonvalid_m_nl,pct_cli_coord_nonrens_m_nl,pct_cli_email_valid_m_nl,pct_cli_email_nonvalid_m_nl,pct_cli_email_nonrens_m_nl,pct_cli_tel_valid_m_nl,pct_cli_tel_nonvalid_m_nl,pct_cli_tel_nonrens_m_nl,pct_cli_add_valid_m_nl,pct_cli_add_nonvalid_m_nl,pct_cli_add_nonrens_m_nl,nb_cli_actifs_m_nl,nb_cli_actifs_new_m_nl,nb_cli_actifs_exist_m_nl,nb_prosp_m_nl,pct_prosp_coord_valid_m_nl,pct_prosp_coord_nonvalid_m_nl,pct_prosp_coord_nonrens_m_nl,pct_prosp_email_valid_m_nl,pct_prosp_email_nonvalid_m_nl,pct_prosp_email_nonrens_m_nl,pct_prosp_tel_valid_m_nl,pct_prosp_tel_nonvalid_m_nl,pct_prosp_tel_nonrens_m_nl,pct_prosp_add_valid_m_nl,pct_prosp_add_nonvalid_m_nl,pct_prosp_add_nonrens_m_nl,nb_cli_y_l,pct_cli_coord_valid_y_l,pct_cli_coord_nonvalid_y_l,pct_cli_coord_nonrens_y_l,pct_cli_email_valid_y_l,pct_cli_email_nonvalid_y_l,pct_cli_email_nonrens_y_l,pct_cli_tel_valid_y_l,pct_cli_tel_nonvalid_y_l,pct_cli_tel_nonrens_y_l,pct_cli_add_valid_y_l,pct_cli_add_nonvalid_y_l,pct_cli_add_nonrens_y_l,nb_email_y_l,nb_tel_y_l,nb_adr_y_l,nb_cli_actifs_y_l,nb_cli_actifs_new_y_l,nb_cli_actifs_exist_y_l,pct_cli_donnees_nonvalid_y_l,nb_email_nonvalid_y_l,nb_tel_nonvalid_y_l,nb_adr_nonvalid_y_l,nb_prosp_y_l,pct_prosp_coord_valid_y_l,pct_prosp_coord_nonvalid_y_l,pct_prosp_coord_nonrens_y_l,pct_prosp_email_valid_y_l,pct_prosp_email_nonvalid_y_l,pct_prosp_email_nonrens_y_l,pct_prosp_tel_valid_y_l,pct_prosp_tel_nonvalid_y_l,pct_prosp_tel_nonrens_y_l,pct_prosp_add_valid_y_l,pct_prosp_add_nonvalid_y_l,pct_prosp_add_nonrens_y_l,nb_cli_y_nl,pct_cli_coord_valid_y_nl,pct_cli_coord_nonvalid_y_nl,pct_cli_coord_nonrens_y_nl,pct_cli_email_valid_y_nl,pct_cli_email_nonvalid_y_nl,pct_cli_email_nonrens_y_nl,pct_cli_tel_valid_y_nl,pct_cli_tel_nonvalid_y_nl,pct_cli_tel_nonrens_y_nl,pct_cli_add_valid_y_nl,pct_cli_add_nonvalid_y_nl,pct_cli_add_nonrens_y_nl,nb_email_y_nl,nb_tel_y_nl,nb_adr_y_nl,nb_cli_actifs_y_nl,nb_cli_actifs_new_y_nl,nb_cli_actifs_exist_y_nl,pct_cli_donnees_nonvalid_y_nl,nb_email_nonvalid_y_nl,nb_tel_nonvalid_y_nl,nb_adr_nonvalid_y_nl,nb_prosp_y_nl,pct_prosp_coord_valid_y_nl,pct_prosp_coord_nonvalid_y_nl,pct_prosp_coord_nonrens_y_nl,pct_prosp_email_valid_y_nl,pct_prosp_email_nonvalid_y_nl,pct_prosp_email_nonrens_y_nl,pct_prosp_tel_valid_y_nl,pct_prosp_tel_nonvalid_y_nl,pct_prosp_tel_nonrens_y_nl,pct_prosp_add_valid_y_nl,pct_prosp_add_nonvalid_y_nl,pct_prosp_add_nonrens_y_nl,nb_trans_linked_y,nb_trans_local_y,pct_trans_local_y,nb_trans_nlocal_y,pct_trans_nlocal_y,nb_trans_not_linked_y,pct_trans_not_linked_y,nb_trans_tot_y,nb_trans_linked_m,nb_trans_local_m,pct_trans_local_m,nb_trans_nlocal_m,pct_trans_nlocal_m,nb_trans_not_linked_m,pct_trans_not_linked_m,nb_trans_tot_m,nb_optin_y_l,nb_optout_y_l,pct_optin_y_l,pct_optout_y_l,nb_cli_coord_valid_y_l,nb_cli_coord_nonvalid_y_l,nb_cli_coord_nonrens_y_l,nb_cli_email_valid_y_l,nb_cli_email_nonvalid_y_l,nb_cli_email_nonrens_y_l,nb_cli_tel_valid_y_l,nb_cli_tel_nonvalid_y_l,nb_cli_tel_nonrens_y_l,nb_cli_add_valid_y_l,nb_cli_add_nonvalid_y_l,nb_cli_add_nonrens_y_l,nb_prosp_coord_valid_y_l,nb_prosp_coord_nonvalid_y_l,nb_prosp_coord_nonrens_y_l,nb_prosp_email_valid_y_l,nb_prosp_email_nonvalid_y_l,nb_prosp_email_nonrens_y_l,nb_prosp_tel_valid_y_l,nb_prosp_tel_nonvalid_y_l,nb_prosp_tel_nonrens_y_l,nb_prosp_add_valid_y_l,nb_prosp_add_nonvalid_y_l,nb_prosp_add_nonrens_y_l,nb_optin_y_nl,nb_optout_y_nl,pct_optin_y_nl,pct_optout_y_nl,nb_cli_coord_valid_y_nl,nb_cli_coord_nonvalid_y_nl,nb_cli_coord_nonrens_y_nl,nb_cli_email_valid_y_nl,nb_cli_email_nonvalid_y_nl,nb_cli_email_nonrens_y_nl,nb_cli_tel_valid_y_nl,nb_cli_tel_nonvalid_y_nl,nb_cli_tel_nonrens_y_nl,nb_cli_add_valid_y_nl,nb_cli_add_nonvalid_y_nl,nb_cli_add_nonrens_y_nl,nb_prosp_coord_valid_y_nl,nb_prosp_coord_nonvalid_y_nl,nb_prosp_coord_nonrens_y_nl,nb_prosp_email_valid_y_nl,nb_prosp_email_nonvalid_y_nl,nb_prosp_email_nonrens_y_nl,nb_prosp_tel_valid_y_nl,nb_prosp_tel_nonvalid_y_nl,nb_prosp_tel_nonrens_y_nl,nb_prosp_add_valid_y_nl,nb_prosp_add_nonvalid_y_nl,nb_prosp_add_nonrens_y_nl,nb_optin_m_l,nb_optout_m_l,pct_optin_m_l,pct_optout_m_l,nb_cli_coord_valid_m_l,nb_cli_coord_nonvalid_m_l,nb_cli_coord_nonrens_m_l,nb_cli_email_valid_m_l,nb_cli_email_nonvalid_m_l,nb_cli_email_nonrens_m_l,nb_cli_tel_valid_m_l,nb_cli_tel_nonvalid_m_l,nb_cli_tel_nonrens_m_l,nb_cli_add_valid_m_l,nb_cli_add_nonvalid_m_l,nb_cli_add_nonrens_m_l,nb_prosp_coord_valid_m_l,nb_prosp_coord_nonvalid_m_l,nb_prosp_coord_nonrens_m_l,nb_prosp_email_valid_m_l,nb_prosp_email_nonvalid_m_l,nb_prosp_email_nonrens_m_l,nb_prosp_tel_valid_m_l,nb_prosp_tel_nonvalid_m_l,nb_prosp_tel_nonrens_m_l,nb_prosp_add_valid_m_l,nb_prosp_add_nonvalid_m_l,nb_prosp_add_nonrens_m_l,nb_optin_m_nl,nb_optout_m_nl,pct_optin_m_nl,pct_optout_m_nl,nb_cli_coord_valid_m_nl,nb_cli_coord_nonvalid_m_nl,nb_cli_coord_nonrens_m_nl,nb_cli_email_valid_m_nl,nb_cli_email_nonvalid_m_nl,nb_cli_email_nonrens_m_nl,nb_cli_tel_valid_m_nl,nb_cli_tel_nonvalid_m_nl,nb_cli_tel_nonrens_m_nl,nb_cli_add_valid_m_nl,nb_cli_add_nonvalid_m_nl,nb_cli_add_nonrens_m_nl,nb_prosp_coord_valid_m_nl,nb_prosp_coord_nonvalid_m_nl,nb_prosp_coord_nonrens_m_nl,nb_prosp_email_valid_m_nl,nb_prosp_email_nonvalid_m_nl,nb_prosp_email_nonrens_m_nl,nb_prosp_tel_valid_m_nl,nb_prosp_tel_nonvalid_m_nl,nb_prosp_tel_nonrens_m_nl,nb_prosp_add_valid_m_nl,nb_prosp_add_nonvalid_m_nl,nb_prosp_add_nonrens_m_nl,nb_prosp_optout_y_l,nb_prosp_optout_y_nl,nb_prosp_optout_m_l,nb_prosp_optout_m_nl,pct_prosp_optout_y_l,pct_prosp_optout_y_nl,pct_prosp_optout_m_l,pct_prosp_optout_m_nl";
         
+        //valeurs de la requête (correspond au header du fichier)
+        $values = ":".str_replace(",", ",:", $header);
+        $values = str_replace(":user_id,", "", $values);
+        //tableau des headers à mettre à jours pour la boucle
+        $headers = explode(",", str_replace("user_id,", "", $header));
+        $update = "";
+        $i = 0;
+        $len = count($headers);
+
+        foreach ($headers as $key => $value) {
+            if ($i == $len - 1) $update .= $value." = :".$value;
+            else $update .= $value." = :".$value.",";
+            $i++;
+        }
+
+        $sql = "INSERT INTO app_kpi_capture ( ".$header." ) VALUES (  (SELECT id from fos_user_user u WHERE u.libelle = :libelle) , ".$values.")
+                ON DUPLICATE KEY UPDATE ".$update."
+        "; 
+
+        $i = 0;
+        $flag = true;
+
+        while( ($csvfilelines = fgetcsv($file, 0, $this->separator)) != FALSE )
+        {
+            if($flag) { $flag = false; continue; } //ignore first line of csv             
+            
+            $stmt = $this->pdo->prepare($sql);
+
+            foreach ($headers as $key => $col) {
+                $stmt->bindValue(':'.$col, $csvfilelines[$key], \PDO::PARAM_STR);
+            }
+
+
+            $stmt->bindValue(':libelle', $csvfilelines[1], \PDO::PARAM_STR);
+            $stmt->execute();
+
+            if($i % 20 == 0){
+                $output->writeln($i." lignes importees");
+                gc_collect_cycles();
+            }
+            $i++;
+            //die();
+        }
+        $output->writeln($i." lignes importees");
         
-        switch ($curEntityClass) {
-            case 'KpiMonth':
-                $curEntityClass = CSVTypes::getEntityClass(CSVTypes::KpiMonth);
-                break;
-            case 'KpiYearToDate':
-                $curEntityClass = CSVTypes::getEntityClass(CSVTypes::KpiYearToDate);
-                break;
-            default:
-                $curEntityClass = CSVTypes::getEntityClass(CSVTypes::User);
-                break;
-        }        
-        
-        // parameters in array to find existing lines in BDD and update id found depending on $index
-
-        $headers = $csvReader->getColumnHeaders();
-        $csvReader->setColumnHeaders(['username','email','role','dr','brand','date','nbTransacM0','nbTransacYtd','txTransacNpeM0','txTransacNveM0','txTransacNpeYtd','txTransacNveYtd','txTransacNpesM0','txTransacNvesM0','txTransacNpesYtd','txTransacNvesYtd','txTransacNpesaM0','txTransacNvesaM0','txTransacNpesaYtd','txTransacNvesaYtd','rankNpeM0','rankNpeYtd','rankNpesM0','rankNpesYtd','rankNpesaM0','rankNpesaYtd','nbreClientsContactablesEmailH','nbreClientsInactifsEmailH','nbreClientsAnimesM0','nbreClientsTransformesM0','caClientsTransformesM0','caCrmYtd']);
-
-        #Lp writers
-        switch ($curEntityClass) {
-            case CSVTypes::getEntityClass(CSVTypes::KpiMonth):
-                    $writer = new DoctrineWriter($this->em, $curEntityClass);                     
-                break;
-            case CSVTypes::getEntityClass(CSVTypes::KpiYearToDate):
-                    $writer = new DoctrineWriter($this->em, $curEntityClass);  
-                break;
-            default:
-                    $writer = new DoctrineWriter($this->em, $curEntityClass, array('username'));  
-                break;
-        }        
-
-        $writer->setTruncate(false);
-
-        $entityMetadata=$this->em->getClassMetadata($curEntityClass);
-        $entityMetadata->setIdGeneratorType(\Doctrine\ORM\Mapping\ClassMetadata::GENERATOR_TYPE_NONE);
-
-        $workflow->addWriter($writer);
-
-        /////////////////////////////////////
-        $result = $workflow->process();
-
-        // RESetting Database Check Status        
-        $this->em->getConnection()->exec("SET FOREIGN_KEY_CHECKS=1;");
-
-
-
-        return $result;
     }
 
     #Update User's Kpis field
@@ -159,131 +157,5 @@ class ImportCronService
 
     }
 
-    //////////////////////////////////////////
-    #client Lncl
-    public function importClientCSVFileLncl()
-    {        
-
-        $filename = 'D:\wamp\www\StoreApp\web\imports\lancel_fichier_test_outil_clienteling_TAA.csv';
-        $file = new \SplFileObject($filename);
-        if ($file === false) die("Can't open filestream $filename");
-
-        // Create and configure the reader
-        $csvReader = new CsvReader($file, $this->separator);
-        if ($csvReader===false) die("Can't create csvReader $filename");
-        $csvReader->setHeaderRowNumber(0);
-
-        // this must be done to import CSVs where one of the data-field has CRs within!
-        $file->setFlags(\SplFileObject::READ_CSV |
-            \SplFileObject::SKIP_EMPTY |
-            \SplFileObject::READ_AHEAD);
-
-        // Set Database into "nonchecking Foreign Keys"
-        //$this->em=$this->getDoctrine()->getManager();
-        $this->em->getConnection()->exec("SET FOREIGN_KEY_CHECKS=0;");
-
-        $date = new \DateTime();
-        $date = $date->format('mdYHms');
-        // Create the workflow
-        $workflow = new Workflow($csvReader, null, "cron_import_".$date );
-        if ($workflow===false) die("Can't create workflow $filename");
-        
-        $curEntityClass = CSVTypes::getEntityClass(CSVTypes::Client);
-        
-        // parameters in array to find existing lines in BDD and update id found depending on $index
-
-        $headers = $csvReader->getColumnHeaders();
-        $csvReader->setColumnHeaders(['idClient','idcampagne','campaignEntryAt','channel','lastname','firstname','store','email','phone1','phone2','country','city','postalCode','adress1','adress2','adress3','nationality','ca3Years','ca12Months','frequence3Years','frequence12Months','maxPrice3Years','maxPrice12Months','segment','codeUvc','skuDesc','genreDesc','ligneDesc','pricePaid','empty1','empty2','empty3','empty4','empty5','empty6','empty7','empty8','empty9','empty10']);
-
-        #le champ id_client devra être créer plus tard et sera utilisé pour faire le lien avec le datamart
-        #Gestion pour les dirrentes entités ici : args = $entityManager, $entityName, $index = null
-        
-        #Lncl $writer
-        $writer = new DoctrineWriter($this->em, $curEntityClass, array('idClient'));
-        $writerTwo = new DoctrineWriter($this->em, CSVTypes::getEntityClass(CSVTypes::Import), array('idClient'));
-
-        $writer->setTruncate(false);
-
-        $entityMetadata=$this->em->getClassMetadata($curEntityClass);
-        $entityMetadata->setIdGeneratorType(\Doctrine\ORM\Mapping\ClassMetadata::GENERATOR_TYPE_NONE);
-
-        $workflow->addWriter($writer);
-        $workflow->addWriter($writerTwo);
-
-        $result = $workflow->process();
-
-        // RESetting Database Check Status        
-        $this->em->getConnection()->exec("SET FOREIGN_KEY_CHECKS=1;");
-
-        // After successfully import, some files need special treatment --> Reset some DB fields
-        $recipients = array();
-
-        //If client imported
-        
-        //Get all Clients
-        $clients = $this->em->getRepository('AppBundle:Client')->getClientsWithCampaignId();
-
-        //For each Client
-        foreach ($clients as $key => $client) { 
-            //Get Campaign that match with campaignId
-            $campaign = $this->em->getRepository('AppBundle:Campaign')->findOneBy(array( 'idCampaignName' =>  $client->getIdCampaignName() ));          
-
-            //If Campaign IS NOT NULL
-            if($campaign) {
-                //Get Recipient
-                $recipient = $this->em->getRepository('AppBundle:Recipient')->findOneBy(array('campaign' => $campaign, 'client' => $client));
-                
-                //If Recipient DO NOT EXIST
-                if ($recipient == null){
-                    //CREATE Recipient
-                    $recipients[$key] = new Recipient();
-
-                    $recipients[$key]->setCampaign($campaign);
-                    $recipients[$key]->setClient($client);
-
-                    $this->em->persist( $recipients[$key] );
-                }
-            }
-        }
-        $this->em->flush();
-        $this->em->clear();
-
-        return $result;
-    }
-
-
-    public function deleteClientsNotInImportLncl()
-    {
-
-        $imports = $this->em->getRepository('AppBundle:Import')->findAll();
-        $clients = $this->em->getRepository('AppBundle:Client')->findAll();
-
-        $newImports = array();
-
-        foreach ($imports as $key => $import) {
-            $newImports[$key] = $import->getIdClient();
-        }
-        foreach ($clients as $key => $client) {
-            if (! in_array($client->getIdClient(), $newImports)) {
-                $this->em->remove($client);
-            }
-        }
-
-        $this->em->flush();
-    }
-
-
-    public function deleteImportLncl()
-    {
-
-        $imports = $this->em->getRepository('AppBundle:Import')->findAll();
-
-        foreach ($imports as $key => $import) {
-            $deletes[$key] = $import;
-            $this->em->remove( $deletes[$key] );
-        }
-        $this->em->flush();
-
-    }
 
 }

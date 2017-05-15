@@ -9,12 +9,12 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class ImportCronCommand extends ContainerAwareCommand 
-{ 
+{ 	
 	protected function configure() 
 	{ 
 		$this 
-			->setName('cron:import') 
-			->setDescription('Lancement de la tache cron:import')
+			->setName('cron:importKpi') 
+			->setDescription('Lancement de l\'import des kpi')
 			->addArgument('separator', InputArgument::REQUIRED, 'CSV separator?')
 			//->addOption('yell', null, InputOption::VALUE_NONE, 'Si définie, la tâche criera en majuscules')
 		;
@@ -22,54 +22,66 @@ class ImportCronCommand extends ContainerAwareCommand
 
 	protected function execute(InputInterface $input, OutputInterface $output)
 	{ 
-		
-		$text = $this->getDescription();
-		$output->writeln($text);
+		$ip = $this->getContainer()->getParameter('local_ip');
 
-        //$filename1 = "/srv/data/web/vhosts/louispion-qualification.fr/htdocs/web/imports/TABLEAU_DE_BORD_lp_rq.csv";
-        $filename1 = "D:\wamp\www\LpTdbV2\web\imports\TABLEAU_DE_BORD_lp_rq.csv";
+		
+		$date1 = new \DateTime();
+		$date1 = $date1->format('H:i:s');
+
+		$date = new \DateTime();
+        $date = $date->format("Ymd");
+
+        if($ip == "127.0.0.1")
+        {
+            $filename1 = "/srv/data/web/vhosts/louispion-qualification.fr/htdocs/web/imports/TABLEAU_DE_BORD_lp_rq.csv";
+        }
+        else{
+            $filename1 = "D:\wamp\www\LpTdbV2\web\imports\TABLEAU_DE_BORD_lp_rq.csv";
+        }
 
 		if ( file_exists($filename1) ) {
+		    $text = $this->getDescription();
+			$output->writeln($text);
 
 			$import = $this->getContainer()->get('cron.import');
 
 			$output->writeln("Configuration du separateur");
 			$import->setSeparator($input->getArgument('separator'));
-			
-			#Lncl
-			# -> Set Import table clean for new update
-			# -> import clients - update campaign
-			# -> Delete users not in import file
-			#$output->writeln("Nettoyage de la table d'import");
-			#$import->deleteImportLncl();		
-			#$output->writeln("Importation des clients et mise a jour des cibles");
-			#$result = $import->importClientCSVFileLncl();
-			#$import->deleteClientsNotInImport();
-			# -> Delete Clients not in Import to do
 
-			#Lp
-			# -> Import/update Marque / Dr / Boutique Users
-			$output->writeln("Mise a jour des utilisateurs");
-			$result = $import->importClientCSVFileLp("User");
-			# -> Import Kpi of the month
-			$output->writeln("Import des Kpis");
-			$result = $import->importClientCSVFileLp("KpiMonth");
-			$result = $import->importClientCSVFileLp("KpiYearToDate");
-			# -> Update User fields for Kpis
+			$output->writeln("Import des Kpi Capture");
+			$import->importKpiCaptureCSVFile($input, $output);
+
+
 			$import->setUserforKpiLp();
 			
-			$output->writeln("Archivage du fichier");
+			$output->writeln("Archivage du fichier");		
 			$import->renameLastImport();
-
-			# -> Get import result and save it
-			$output->writeln("Archivage de l'import");
-			$importFile = $this->getContainer()->get('import.file.log');
-			$importFile->AddImportFile($result);
-		}
-		else{
-			$output->writeln("Aucun fichier, annulation de l'import");
+		} else {
+		    $output->writeln("Aucun fichier, annulation de l'import");
 		}
 
-		$output->writeln("Tache terminee");	
+		
+	    /*$text = $this->getDescription();
+		$output->writeln($text);
+
+		$import = $this->getContainer()->get('cron.import');
+
+		$output->writeln("Configuration du separateur");
+		$import->setSeparator($input->getArgument('separator'));
+
+		$output->writeln("Import des Kpi Capture");
+		$files = $import->scanDir();
+		$i = 1;
+		foreach ($files as $csv) {
+			if(substr($csv, -4) == ".csv" ){
+				$output->writeln('Ouverture du fichier '.$i.' : '.$csv);
+				$import->importKpiCaptureCSVFile($input, $output, $csv);
+				$i++;
+			}
+		}*/
+
+		$date2 = new \DateTime();
+		$date2 = $date2->format('H:i:s');
+		$output->writeln("debut : ".$date1." | fin : ".$date2);
 	}
 }
