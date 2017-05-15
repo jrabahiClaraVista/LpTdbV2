@@ -329,6 +329,7 @@
 			toolTip:{  
 				enabled: true,
 				shared: true,
+				content: "<span style='\"'color: {color}'\"'>{name}</span> : {y}%"
 			},axisY: {
 				suffix: " %",
 				labelFontSize: 14  
@@ -344,12 +345,11 @@
 		    },
 			data: [
 				{
-					toolTipContent: "{x}<br /><span style='\"'color: {color};'\"'>Qualification email</span> : {y}%",
 					xValueType: "dateTime",
 					indexLabelFontColor: "black",
 					indexLabelLineColor: "#4c4c4c",
 					markerSize: 10,
-					name: "Email",
+					name: "Qualification Email",
 					indexLabelPlacement: "inside",
 					type: "line",
 					dataPoints: [
@@ -359,11 +359,10 @@
 					]
 				},
 				{
-					toolTipContent: "<span style='\"'color: {color};'\"'>Qualification email + sms</span> : {y}%",
 					indexLabelFontColor: "black",
 					indexLabelLineColor: "#4c4c4c",
 					markerSize: 10,
-					name: "Email + SMS",
+					name: "Qualification Email + SMS",
 					indexLabelPlacement: "inside",
 					type: "line",
 					dataPoints: [
@@ -373,11 +372,10 @@
 					]
 				},
 				{
-					toolTipContent: "<span style='\"'color: {color};'\"'>Qualification email + sms + adresse</span> : {y}%",
 					indexLabelFontColor: "black",
 					indexLabelLineColor: "#4c4c4c",
 					markerSize: 10,
-					name: "Email + SMS + Adresse",
+					name: "Qualification Email + SMS + Adresse",
 					indexLabelPlacement: "inside",
 					type: "line",
 					dataPoints: [

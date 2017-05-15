@@ -278,8 +278,48 @@ class KpiController extends Controller
 					$date1 = ($dateYear-1)."-12-01";
 					$date2 = $dateYear."-01-01";
 				break;
-				default :
-					$date1 = $dateYear."-01-01";
+				case "02" :
+					$date1 = ($dateYear)."-01-01";
+					$date2 = $dateYear."-02-01";
+				break;
+				case "03" :
+					$date1 = ($dateYear)."-02-01";
+					$date2 = $dateYear."-03-01";
+				break;
+				case "04" :
+					$date1 = ($dateYear)."-03-01";
+					$date2 = $dateYear."-04-01";
+				break;
+				case "05" :
+					$date1 = ($dateYear)."-04-01";
+					$date2 = $dateYear."-05-01";
+				break;
+				case "06" :
+					$date1 = ($dateYear)."-05-01";
+					$date2 = $dateYear."-06-01";
+				break;
+				case "07" :
+					$date1 = ($dateYear)."-06-01";
+					$date2 = $dateYear."-07-01";
+				break;
+				case "08" :
+					$date1 = ($dateYear)."-07-01";
+					$date2 = $dateYear."-08-01";
+				break;
+				case "09" :
+					$date1 = ($dateYear)."-08-01";
+					$date2 = $dateYear."-09-01";
+				break;
+				case "10" :
+					$date1 = ($dateYear)."-09-01";
+					$date2 = $dateYear."-10-01";
+				break;
+				case "11" :
+					$date1 = ($dateYear)."-10-01";
+					$date2 = $dateYear."-11-01";
+				break;
+				case "12" :
+					$date1 = ($dateYear)."-11-01";
 					$date2 = $dateYear."-12-01";
 				break;
 			}
