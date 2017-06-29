@@ -5,22 +5,17 @@ namespace AppBundle\Service;
 use Doctrine\ORM\EntityManager;
 
 use Application\Sonata\UserBundle\Entity\User;
+use AppBundle\Entity\KpiMonth;
 
 class TwigExtensionService extends \Twig_Extension
 {	
 
 
-	public function __construct(EntityManager $entityManager, GetUserModulesService $getUserModules)
+	public function __construct(EntityManager $entityManager)
 	{
 		$this->em 		= $entityManager;
-		$this->service 	= $getUserModules;
 	}
 
-	//Get modules Campaigns/Kpis/TopClients for Menu
-	public function GetModules(User $user)
-	{
-        return $this->service->GetUserModules($user);
-	}
 
     public function roundLetter($value){
         if ($value > 999 && $value <= 999999) {
@@ -32,14 +27,6 @@ class TwigExtensionService extends \Twig_Extension
         }
 
         return $result;
-    }
-
-    public function getTransacM0(User $user, $date){
-        $kpiM0 = $this->em->getRepository('AppBundle:KpiMonth')->findOneBy(array( 'user' =>  $user, 'date' => $date ));
-
-        $nbTransac = $kpiM0->getnbTransacM0();
-
-        return $nbTransac;
     }
 
 	//Get month Wording for Kpis
@@ -60,7 +47,7 @@ class TwigExtensionService extends \Twig_Extension
             break;
             case '04':
                 if($perso == "de ") $perso = "d'";
-                $monthWording = $perso." Avril";
+                $monthWording = $perso."Avril";
             break;
             case '05':
                 $monthWording = $perso." Mai";
@@ -73,14 +60,14 @@ class TwigExtensionService extends \Twig_Extension
             break;
             case '08':
                 if($perso == "de ") $perso = "d'";
-                $monthWording = $perso." Août";
+                $monthWording = $perso."Août";
             break;
             case '09':
                 $monthWording = $perso." Septembre";
             break;
             case '10':
                 if($perso == "de ") $perso = "d'";
-                $monthWording = $perso." Octobre";
+                $monthWording = $perso."Octobre";
             break;
             case '11':
                 $monthWording = $perso." Novembre";
@@ -101,7 +88,6 @@ class TwigExtensionService extends \Twig_Extension
 	public function getFunctions()
 	{	
 		return array(
-		  'getModules' 		=> new \Twig_Function_Method($this, 'GetModules'),
           'getMonthWording' => new \Twig_Function_Method($this, 'getMonthWording'),
           'roundLetter'     => new \Twig_Function_Method($this, 'roundLetter'),
           'deleteFirstCharacters' => new \Twig_Function_Method($this, 'deleteFirstCharacters'),

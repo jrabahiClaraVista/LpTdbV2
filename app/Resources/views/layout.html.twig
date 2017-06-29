@@ -7,7 +7,6 @@
     {% set modules = "" %}
 {% elseif is_granted("ROLE_USER") %}
     {# If connected (LNCL) #}
-    {% set modules = getModules(app.user) %}
     {% if user is not defined %}{% set user = app.user %}{% endif %}
 {% endif %}
 {% set previous_page = app.request.headers.get('referer') %}
@@ -27,9 +26,19 @@
         {# sur server prod ajourter /web aux ressources retirrer /web #}
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
         <link rel="icon" href="http://www.louispion.fr/media/favicon/websites/2/favicon.ico" type="image/x-icon">
+        
 
-        <link rel="stylesheet" href="{{ asset('/web/css/font-awesome.min.css') }}">
-        <link rel="stylesheet" href="{{ asset('/web/css/all.css') }}">
+        {% stylesheets
+            filter="cssrewrite,compass"
+            output="css/all.css"
+            "sass/main.scss"
+        %}
+            <link rel="stylesheet" href="{{ asset_url }}">
+            <link rel="stylesheet" href="{{ asset('web/css/font-awesome.min.css') }}">
+            <!--link rel="stylesheet" href="{{ asset('web/css/all.css') }}"-->
+            <link rel="stylesheet" href="{{ asset('web/css/jquery.multiselect.css') }}">
+        {% endstylesheets %}
+
 
         <script src="{{ asset('/web/js/ckeditor/ckeditor.js') }}"></script>
         <script type="text/javascript">
@@ -54,9 +63,6 @@
                     {% block LpTopTitle %}{% endblock %}
                     {% if is_granted("ROLE_ADMIN") %}
                         <ul class="nav navbar-nav navbar-right">
-                            {% if "kpi" in modules %}
-                                <li class="{% if app.request.attributes.get('_route') == 'app_kpi_month' %}active{% endif %}"><a href="{{ path('app_kpi_month', { 'user_id' : app.user.id } ) }}">{{"My KPIs"|trans}}</a></li>
-                            {% endif %}
                             {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
                                 <li class="dropdown">
                                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
@@ -109,6 +115,7 @@
         {# Ajoutez ces lignes JavaScript si vous comptez vous servir des fonctionnalités du bootstrap Twitter #}
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+        <script src="{{ asset('web/js/jquery.multiselect.js') }}"></script>
         <script src="{{ asset('web/js/canvasJs/canvasjs.min.js') }}"></script>
     {% endblock %}
 

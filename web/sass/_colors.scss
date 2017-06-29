@@ -4,6 +4,8 @@
 $text-color-box: white;
 $text-color: #525151;			//Dark gray
 $text-color-light: #767272;		//Light gray
+$text-color-orange: #d35400;
+$text-color-gris: #2c3e50;
 $text-color-small: #767272;
 $text-color-footer: #6c6c6c;	//Gray
 $text-color-link: #16a085;		//Dark Turquoise
@@ -33,15 +35,21 @@ $content-bg-color : white;
 $title-kpi-box-color: #faf9f9;	//Very light Gray-White
 $body-bg-color: #faf9f9;		//Very light Gray-White
 $login-body-bg-color: #16a085;	//Dark Turquoise
-$kpi-body-bg-color: #1abc9c;	//Turquoise
+$kpi-body-bg-color: #6acfbb;	//Vert D'oie
 $nav-active-bg-color: #16a085;	//Dark Turquoise
 $sub-nav-bg-color: #16a085;		//Dark Turquoise
+$nav-active-bg-color-2: #d35400;//Dark Orange
+$nav-hover-bg-color-2: #f36d35;		//Light Orange
+$nav-active-bg-color-3: #2c3e50;//Dark Blue Gray
+$nav-hover-bg-color-3: #596273;		//Light Blue Gray
+
 $nav-hover-bg-color: #1abc9c;	// Turquoise
-$home-layout-bg-color: #16a085;	//Dark Turquoise
-$footer-bg-color: #313233;		//Very Dark Gray
+$home-layout-bg-color: #16a085;	//Dark Turquioise
+$footer-bg-color: #313233;		//Dark Gray
 
 /**** Nav colors ****/
-$nav-active-bg : #16a085; 		//Dark Turquoise
+$nav-active-bg : #16a085; 			//Dark Turquoise
+$nav-active-orange-bg : #d35400;
 $nav-kpi-active-bg : #1abc9c; 		//Turquoise
 
 $nav-active-text-color: white;
@@ -67,3 +75,5 @@ $btn-bg-color-4: #d35400;		//Dark Orange
 $btn-bg-color-5: #f36d35;		//Light Orange
 $btn-bg-color-6: #767272;
 $btn-bg-color-7: #525151;
+$btn-bg-color-9: #2c3e50;
+$btn-bg-color-8: #596273;

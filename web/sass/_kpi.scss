@@ -1,21 +1,59 @@
 .kpi-box{
+	margin-top : -10px;
+	background: $content-bg-color;
+	border-left: 1px solid #ccc;
+	border-right: 1px solid #ccc;
+	border-bottom: 1px solid #ccc;
+	padding: 0;
+
 	.inside{
-		background: $content-bg-color;
-		min-height: 150px;
-		padding-bottom: 20px;
+		
+		--min-height: 385px;
+
+		&.bordered-left{
+			border-left: 1px solid #ccc;
+			
+			@media screen and (max-width: 994px) {
+				border-left: 0px solid #ccc;
+				border-top: 1px solid #ccc;
+			}
+		}
+
+		&.bordered-bottom{
+			border-bottom: 1px solid #ccc;
+		}
+
+		&.bordered-top{
+			border-top: 1px solid #ccc;
+		}
+
 		&.top{
 			height: auto;
 			padding-bottom: 15px;
-			min-height: 150px !important;
+			--min-height: 370px !important;
+			border:0;
 
-			div.green-box{
-				background: $kpi-green-box;
+			div.dark-box{
+				background: #1e1e1e;
 				color:white;
 				padding: 15px 0 10px 0;
 				height:100px;
 
 				h3{
 					margin-top: 0px !important;
+					color: white;
+				}
+			}
+
+			div.gray-box{
+				background: #faf9f9;
+				color:white;
+
+				h3{
+					margin-top: 0px !important;
+					color: black;
+					height:50px;
+					line-height: 50px;
 				}
 			}
 		}
@@ -23,14 +61,33 @@
 		&.rappel{
 			min-height: 150px !important;
 		}
-	}
 
-	h4{
-		background: $title-kpi-box-color;
+
+		h3{
+			margin: 15px 0px !important;
+		}
 	}
 
 	.img-container{
 		height: 300px;
 		margin: 15px 0;
+	}
+}
+
+.circle{
+	height: 200px;
+	width:200px;
+	margin:15px auto;
+	border-radius:100px;
+	color:white;
+	padding-top:60px;
+	font-size:18px;
+	line-height:20px;
+
+	&.greenCircle {
+		background-color:#16a085;
+	}
+	&.yellowCircle {
+		background-color:#f2ce18;
 	}
 }

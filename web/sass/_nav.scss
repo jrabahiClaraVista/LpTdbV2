@@ -35,7 +35,7 @@ nav.main-menu{
 	}
 }
 nav.sub-menu{
-	background-color: $nav-active-bg !important;
+	background-color: #1e1e1e !important;
 	height: 65px;
 	line-height: 65px;
 	color: $sub-nav-text-color;
@@ -63,13 +63,14 @@ nav.sub-menu{
 				font-weight: bold;
 				text-transform: uppercase;
 				a{
+					text-decoration: none;
 					display:block;
 					height: 65px;
 					line-height: 16px !important;
 					color: $sub-nav-text-color;
 					&:hover, &:focus, &:active {
-						background-color: $nav-hover-bg-color !important;
-						color: white !important;
+						background-color: #faf9f9 !important;
+						color: #1e1e1e !important;
 					}
 					&.one-line{
 						padding-top: 22px !important;
@@ -77,9 +78,9 @@ nav.sub-menu{
 				}
 			}
 			li.active{
-				background-color:$nav-kpi-active-bg;
+				background-color: white;
 				a{
-					color: $nav-active-text-color;
+					color: #1e1e1e;
 				}
 			}
 		}

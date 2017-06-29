@@ -1,0 +1,75 @@
+<div class="col-xs-12 hidden-print">
+	<h3 class="gris">Sélectionner les données à afficher (Boutique / Date) :</h3>
+		
+		{% form_theme form 'AppBundle:Form:radio_btn.html.twig' %}
+
+		{{ form_start(form, { 'attr': {'id' : 'clients-filter', 'target': '_blank', 'novalidate' : 'true'} }) }}
+
+		<div id="ajax_filter" class="form-group">
+
+			<div class="col-xs-6">
+				<div class="form-group">
+					<label for="month" class="col-xs-6 control-label">Date</label>
+					<div class="col-xs-6">
+						{% if app.request.attributes.get('_route') in ['app_kpi_month','app_kpi_ytd','app_kpi_fid','app_kpi_planning'] %}
+							{{ form_widget(form.month, { 'attr': {'class' : 'form-control ajax', 'isSubmit': 'no'} }) }}
+						{% else %}
+							{{ form_widget(form.week, { 'attr': {'class' : 'form-control ajax', 'isSubmit': 'no'} }) }}
+						{% endif %}
+					</div>
+				</div>				
+				<div class="form-group {% if user.role not in ['ROLE_MARQUE','ROLE_DR'] %}hidden{% endif %}">
+					<label for="month" class="col-xs-6 control-label">Réseau</label>
+					<div class="col-xs-6">
+						{{ form_widget(form.reseau, { 'attr': {'class' : 'form-control ajax', 'isSubmit': 'no'} }) }}
+					</div>
+				</div>
+				<div class="form-group {% if user.role not in ['ROLE_MARQUE','ROLE_DR'] %}hidden{% endif %}">
+					<label for="month" class="col-xs-6 control-label">Liste des DR</label>
+					<div class="col-xs-6">
+						{{ form_widget(form.dr, { 'attr': {'class' : 'form-control ajax', 'isSubmit': 'no'} }) }}
+					</div>
+				</div>
+				<div class="form-group">
+					<label for="month" class="col-xs-6 control-label">Liste des boutiques</label>
+					<div class="col-xs-6">
+						{{ form_widget(form.boutique, { 'attr': {'class' : 'form-control ajax', 'isSubmit': 'no'} }) }}
+					</div>
+				</div>				
+				<div class="form-group {% if app.request.attributes.get('_route') in ['app_kpi_fid'] %}hidden{% endif %}">
+					<label for="month" class="col-xs-6 control-label">Liste des vendeurs</label>
+					<div class="col-xs-6">
+						{{ form_widget(form.vendeur, { 'attr': {'class' : 'form-control ajax', 'isSubmit': 'no'} }) }}
+					</div>
+				</div>
+			</div>
+			<div class="col-xs-3">
+				{{ form_widget(form.year, { 'attr': {'class' : 'form-control ajax', 'isSubmit': 'no'} }) }}
+			</div>
+
+			<div class="col-xs-3">
+				{{ form_widget(form.submit, {'attr': {'class': 'btn big-action-gray-btn'}, 'label' : 'Ouvrir dans une autre page' }) }}
+			</div>
+			
+			{#% if app.request.attributes.get('_route') in ['app_kpi_ytd'] %}
+				<div class="col-xs-3 hidden">
+					<a class="" role="button" data-toggle="collapse" href="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+					 <i class="fa fa-filter" aria-hidden="true"></i> Affiner la recherche
+					</a>
+				</div>
+				<div class="collapse-in" id="collapseExample">
+					<div class="col-xs-12 col-md-9 radio-button small">
+						{{ form_widget(form.month2, { 'attr': {'class' : 'form-control ajax', 'isSubmit': 'no'} }) }}
+					</div>
+				</div>
+			{% else %}
+
+			
+			<div class="col-xs-6 text-right">
+				{% if app.request.attributes.get('_route') in ['app_kpi_ytd_nlocaux','app_kpi_ytd_locaux'] %}<h4>De Janvier à :</h4>{% endif %}
+			</div>
+			{% endif %#}
+		</div>
+			
+		{{ form_end(form) }}
+</div>

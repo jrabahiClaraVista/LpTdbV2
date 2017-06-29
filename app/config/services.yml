@@ -12,76 +12,55 @@ services:
         arguments: [~, AppBundle\Entity\Campaign, ~]
         tags:
             - { name: sonata.admin, group: "Campaigns", manager_type: orm, label: Campaign }
-    admin.recipient:
-        class: AppBundle\Admin\RecipientAdmin
-        arguments: [~, AppBundle\Entity\Recipient, ~]
+    admin.campaignFile:
+        class: AppBundle\Admin\CampaignFileAdmin
+        arguments: [~, AppBundle\Entity\CampaignFile, ~]
         tags:
-            - { name: sonata.admin, group: "Campaigns", manager_type: orm, label: Recipient }
+            - { name: sonata.admin, group: "Campaigns", manager_type: orm, label: Campaign File }
+    #admin.recipient:
+    #    class: AppBundle\Admin\RecipientAdmin
+    #    arguments: [~, AppBundle\Entity\Recipient, ~]
+    #    tags:
+    #        - { name: sonata.admin, group: "Campaigns", manager_type: orm, label: Recipient }
     admin.client:
         class: AppBundle\Admin\ClientAdmin
         arguments: [~, AppBundle\Entity\Client, ~]
         tags:
             - { name: sonata.admin, group: "Clients", manager_type: orm, label: Client }
-    admin.channel:
-        class: AppBundle\Admin\ChannelAdmin
-        arguments: [~, AppBundle\Entity\Channel, ~]
-        tags:
-            - { name: sonata.admin, group: "Channels", manager_type: orm, label: Channel }
-    admin.campaignchannel:
-        class: AppBundle\Admin\CampaignChannelAdmin
-        arguments: [~, AppBundle\Entity\CampaignChannel, ~]
-        tags:
-            - { name: sonata.admin, group: "Channels", manager_type: orm, label: CampaignChannel }
-    admin.field:
-        class: AppBundle\Admin\FieldAdmin
-        arguments: [~, AppBundle\Entity\Field, ~]
-        tags:
-            - { name: sonata.admin, group: "Fields", manager_type: orm, label: Field }
-    admin.campaignfield:
-        class: AppBundle\Admin\CampaignFieldAdmin
-        arguments: [~, AppBundle\Entity\CampaignField, ~]
-        tags:
-            - { name: sonata.admin, group: "Fields", manager_type: orm, label: CampaignField }
-    admin.kpimonth:
-        class: AppBundle\Admin\KpiMonthAdmin
-        arguments: [~, AppBundle\Entity\KpiMonth, ~]
-        tags:
-            - { name: sonata.admin, group: "KPIs", manager_type: orm, label: KpiMonth }
-    admin.kpiyeartodate:
-        class: AppBundle\Admin\KpiYearToDateAdmin
-        arguments: [~, AppBundle\Entity\KpiYearToDate, ~]
-        tags:
-            - { name: sonata.admin, group: "KPIs", manager_type: orm, label: KpiYearToDate }
-    admin.module:
-        class: AppBundle\Admin\ModuleAdmin
-        arguments: [~, AppBundle\Entity\Module, ~]
-        tags:
-            - { name: sonata.admin, group: "Modules", manager_type: orm, label: Module }
-    admin.usermodule:
-        class: AppBundle\Admin\UserModuleAdmin
-        arguments: [~, AppBundle\Entity\UserModule, ~]
-        tags:
-            - { name: sonata.admin, group: "Modules", manager_type: orm, label: UserModule }
+    #admin.kpimonth:
+    #    class: AppBundle\Admin\KpiMonthAdmin
+    #    arguments: [~, AppBundle\Entity\KpiMonth, ~]
+    #    tags:
+    #        - { name: sonata.admin, group: "KPIs", manager_type: orm, label: KpiMonth }
+
+    app.init_Kpi_dates:
+        class: AppBundle\Service\initKpiFilterDatesService
 
     cron.import:
         class: AppBundle\Service\ImportCronService
-        arguments: [ @doctrine.orm.entity_manager ]
+        arguments:
+            - %local_ip%
+            - @service_container
+            - @doctrine.orm.entity_manager
     cron.export:
         class: AppBundle\Service\ExportCronService
         arguments: [ @doctrine.orm.entity_manager ]
-    cron.delete.daily:
-        class: AppBundle\Service\DeleteClientDailyCronService
-        arguments: [ @doctrine.orm.entity_manager ]
+
     import.file.log:
         class: AppBundle\Service\ImportFileLogService
-        arguments: [ @doctrine.orm.entity_manager ]
-
-    app.get_user_modules:
-        class: AppBundle\Service\GetUserModulesService
         arguments: [ @doctrine.orm.entity_manager ]
     app.twig_extension:
         class: AppBundle\Service\TwigExtensionService
         public: false
-        arguments: [ @doctrine.orm.entity_manager, @app.get_user_modules ]
+        arguments: [ @doctrine.orm.entity_manager ]
         tags:
             - { name: twig.extension }
+
+    app.kpi_filter_session:
+        class: AppBundle\Service\KpiFilterSessionService
+        arguments:
+            - @service_container
+            - @doctrine.orm.default_entity_manager
+    app.pdo_connect:
+        class: AppBundle\Service\PdoService
+        arguments: [ @service_container ]

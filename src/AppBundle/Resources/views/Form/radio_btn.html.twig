@@ -1,0 +1,5 @@
+
+{% block radio_widget %}
+    <input type="radio" {{ block('widget_attributes') }}{% if value is defined %} value="{{ value }}"{% endif %}{% if checked %} checked="checked"{% endif %} />
+    <div class="kpi_month"></div><br />
+{% endblock radio_widget %}

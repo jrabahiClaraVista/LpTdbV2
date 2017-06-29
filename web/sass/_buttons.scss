@@ -1,29 +1,49 @@
 /**** Extra buttons ****/
 .btn{
-	font-size: $btn-text-size-1;
+    font-size: $btn-text-size-1;
+    border-radius: 0;
+    -webkit-border-radius: 0;
+    -o-border-radius: 0;
+    -moz-border-radius: 0;
 }
 
-.btn-home-box-1, .btn-kpi {
+.btn-home-box-1 {
     color: $btn-text-color-1;
     background-color: $btn-bg-color-1 !important;
     border: 0;
-	display: inline-block;
-	margin-top: 20px;
-	margin-bottom: 10px;
+    display: inline-block;
+    margin-top: 20px;
+    margin-bottom: 10px;
 
     &:hover, &:focus, &:active{
-    	color: $btn-text-color-1;
-    	//margin-top:21px;
+        color: $btn-text-color-1;
+        //margin-top:21px;
     }
 }
 
 .btn.btn-sm{
     font-size: 15px;
 }
+.btn.btn-xs{
+    font-size: 12px;
+}
+
 .btn-kpi{
+    color: white;
+    background-color: #1e1e1e !important;
     margin-bottom: 15px;
+    border-radius: 0;
+    -webkit-border-radius: 0;
+    -moz-border-radius: 0;
+    -o-border-radius: 0;
+
+    &:hover{
+        color: white !important;
+        background-color: #1e1e1e !important;
+    }
 
     &.active, &:focus, &:active{
+        background-color: #1e1e1e !important;
         font-weight:bold;
     }
 }
@@ -33,17 +53,26 @@
     margin: 0 auto;
 }
 
+span.page a, span.last a, span.next a, span.first a, span.previous a, span.current{
+    display: inline-block;
+    padding: 3px;
+    border: solid 1px #cccccc;
+    text-align: center;
+    background: white;
+    border-radius: 3px;
+}
+
 .btn-home-box-2 {
     color: $btn-text-color-2;
     background-color: $btn-bg-color-1 !important;
     border: 0;
-	display: inline-block;
-	margin-top: 20px;
-	margin-bottom: 10px;
+    display: inline-block;
+    margin-top: 20px;
+    margin-bottom: 10px;
 
     &:hover, &:focus, &:active{
-    	color: $btn-text-color-2;
-    	margin-top:21px;
+        color: $btn-text-color-2;
+        margin-top:21px;
     }
 }
 
@@ -74,6 +103,40 @@
     }
 }
 
+.btn-action-orange {
+    color: $btn-text-color-4;
+    background-color: $btn-bg-color-4 !important;
+    border: 0;
+    display: inline-block;
+    margin-bottom: 20px;
+
+    &:hover, &:focus, &:active{
+        color: $btn-text-color-4;
+        background-color: $btn-bg-color-5 !important;
+    }
+
+    &.margin{
+        margin-top:20px;
+    }
+}
+
+.btn-action-gris {
+    color: $btn-text-color-4;
+    background-color: #1e1e1e !important;
+    border: 0;
+    display: inline-block;
+    margin-bottom: 20px;
+
+    &:hover, &:focus, &:active{
+        color: $btn-text-color-4;
+        background-color: $btn-bg-color-7 !important;
+    }
+
+    &.margin{
+        margin-top:20px;
+    }
+}
+
 .big-action-btn{
     background-color: $btn-bg-color-2 !important;
     color: $btn-text-color-4;
@@ -87,6 +150,37 @@
     &:hover, &:focus, &:active{
         color: $btn-text-color-4;
         background-color: $btn-bg-color-3 !important;
+    }
+}
+
+.big-action-orange-btn{
+    background-color: $btn-bg-color-4 !important;
+    color: $btn-text-color-4;
+    width: 100%;
+    height: 40px;
+    font-size: 18px;
+    line-height:40px;
+    margin-bottom:15px;
+    padding:0;
+
+    &:hover, &:focus, &:active{
+        color: $btn-text-color-4;
+        background-color: $btn-bg-color-5 !important;
+    }
+}
+.big-action-gray-btn{
+    background-color: #1e1e1e !important;
+    color: $btn-text-color-4;
+    width: 100%;
+    height: 40px;
+    font-size: 18px;
+    line-height:40px;
+    margin-bottom:15px;
+    padding:0;
+
+    &:hover, &:focus, &:active{
+        color: $btn-text-color-4;
+        background-color: #1e1e1e !important;
     }
 }
 
@@ -105,8 +199,6 @@
     @extend .big-action-btn;
 
     background-color: $btn-bg-color-4 !important;
-    width:170px;
-    margin-top:30px;
 
     &:hover, &:focus, &:active{
         color: $btn-text-color-4;
@@ -124,4 +216,48 @@
         color: $btn-text-color-4;
         background-color: $btn-bg-color-3 !important;
     }
+}
+
+/* Bouton radio jauge style */
+
+
+.radio-button .radio{
+    width: 8.33%;
+    float: left;
+    label {
+        text-align:center;
+        display:block;
+        padding-left:0;
+    }
+}
+.radio-button input[type="radio"],
+.radio-button input[type="checkbox"]{
+  display: none;
+}
+
+.radio-button div::before,
+.radio-button div::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  margin: auto;
+}
+.radio-button div.kpi_month:hover {
+  cursor: pointer;
+}
+.radio-button div.kpi_month::before {
+  width: 100%;
+  height: 15px;
+  margin-bottom:25px;
+  background-color: #aaaaaa;
+  display:block;
+  border-left: 1px solid #faf9f9;
+  border-right: 1px solid #faf9f9;
+}
+.radio-button .radio.active div.kpi_month::before{
+  background-color: #2D64AB;
+} 
+input[checked="checked"] + div.kpi_month::before, .radio-button .radio:hover div.kpi_month::before{
+   background-color: #2c3e50 !important; 
 }

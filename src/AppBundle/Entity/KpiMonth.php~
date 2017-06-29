@@ -31,6 +31,13 @@ class KpiMonth
     private $id;
 
     /**
+     * @var string
+     * @ORM\Column(name="username", type="string", nullable=true)
+     *
+     */
+    private $username;
+
+    /**
      * @ORM\ManyToOne(targetEntity="Application\Sonata\UserBundle\Entity\User", inversedBy="kpiMonths")
      */
     private $user;
@@ -42,19 +49,6 @@ class KpiMonth
      */
     private $date;
 
-    /**
-     * @var decimal
-     *
-     * @ORM\Column(name="tx_transac_linked_m0", type="decimal", precision=9, scale=2)
-     */
-    private $txTransacLinkedM0;
-
-    /**
-     * @var decimal
-     *
-     * @ORM\Column(name="tx_transac_linked_ytd", type="decimal", precision=9, scale=2)
-     */
-    private $txTransacLinkedYtd;
 
     /*
      *
@@ -303,6 +297,30 @@ class KpiMonth
     public function getDate()
     {
         return $this->date;
+    }
+
+    /**
+     * Set username
+     *
+     * @param string $username
+     *
+     * @return kpiMonth
+     */
+    public function setUsername($username)
+    {
+        $this->username = $username;
+
+        return $this;
+    }
+
+    /**
+     * Get username
+     *
+     * @return string
+     */
+    public function getUsername()
+    {
+        return $this->username;
     }
 
     /**
@@ -660,304 +678,5 @@ class KpiMonth
      */
     public function __toString() {
         return $this->getId();
-    }
-
-    /**
-     * Set nbTransacYtd
-     *
-     * @param integer $nbTransacYtd
-     * @return KpiMonth
-     */
-    public function setNbTransacYtd($nbTransacYtd)
-    {
-        $this->nbTransacYtd = $nbTransacYtd;
-
-        return $this;
-    }
-
-    /**
-     * Get nbTransacYtd
-     *
-     * @return integer 
-     */
-    public function getNbTransacYtd()
-    {
-        return $this->nbTransacYtd;
-    }
-
-    /**
-     * Set txTransacNpeYtd
-     *
-     * @param string $txTransacNpeYtd
-     * @return KpiMonth
-     */
-    public function setTxTransacNpeYtd($txTransacNpeYtd)
-    {
-        $this->txTransacNpeYtd = $txTransacNpeYtd;
-
-        return $this;
-    }
-
-    /**
-     * Get txTransacNpeYtd
-     *
-     * @return string 
-     */
-    public function getTxTransacNpeYtd()
-    {
-        return $this->txTransacNpeYtd;
-    }
-
-    /**
-     * Set txTransacNveYtd
-     *
-     * @param string $txTransacNveYtd
-     * @return KpiMonth
-     */
-    public function setTxTransacNveYtd($txTransacNveYtd)
-    {
-        $this->txTransacNveYtd = $txTransacNveYtd;
-
-        return $this;
-    }
-
-    /**
-     * Get txTransacNveYtd
-     *
-     * @return string 
-     */
-    public function getTxTransacNveYtd()
-    {
-        return $this->txTransacNveYtd;
-    }
-
-    /**
-     * Set txTransacNpesYtd
-     *
-     * @param string $txTransacNpesYtd
-     * @return KpiMonth
-     */
-    public function setTxTransacNpesYtd($txTransacNpesYtd)
-    {
-        $this->txTransacNpesYtd = $txTransacNpesYtd;
-
-        return $this;
-    }
-
-    /**
-     * Get txTransacNpesYtd
-     *
-     * @return string 
-     */
-    public function getTxTransacNpesYtd()
-    {
-        return $this->txTransacNpesYtd;
-    }
-
-    /**
-     * Set txTransacNvesYtd
-     *
-     * @param string $txTransacNvesYtd
-     * @return KpiMonth
-     */
-    public function setTxTransacNvesYtd($txTransacNvesYtd)
-    {
-        $this->txTransacNvesYtd = $txTransacNvesYtd;
-
-        return $this;
-    }
-
-    /**
-     * Get txTransacNvesYtd
-     *
-     * @return string 
-     */
-    public function getTxTransacNvesYtd()
-    {
-        return $this->txTransacNvesYtd;
-    }
-
-    /**
-     * Set txTransacNpesaYtd
-     *
-     * @param string $txTransacNpesaYtd
-     * @return KpiMonth
-     */
-    public function setTxTransacNpesaYtd($txTransacNpesaYtd)
-    {
-        $this->txTransacNpesaYtd = $txTransacNpesaYtd;
-
-        return $this;
-    }
-
-    /**
-     * Get txTransacNpesaYtd
-     *
-     * @return string 
-     */
-    public function getTxTransacNpesaYtd()
-    {
-        return $this->txTransacNpesaYtd;
-    }
-
-    /**
-     * Set txTransacNvesaYtd
-     *
-     * @param string $txTransacNvesaYtd
-     * @return KpiMonth
-     */
-    public function setTxTransacNvesaYtd($txTransacNvesaYtd)
-    {
-        $this->txTransacNvesaYtd = $txTransacNvesaYtd;
-
-        return $this;
-    }
-
-    /**
-     * Get txTransacNvesaYtd
-     *
-     * @return string 
-     */
-    public function getTxTransacNvesaYtd()
-    {
-        return $this->txTransacNvesaYtd;
-    }
-
-    /**
-     * Set rankNpeYtd
-     *
-     * @param integer $rankNpeYtd
-     * @return KpiMonth
-     */
-    public function setRankNpeYtd($rankNpeYtd)
-    {
-        $this->rankNpeYtd = $rankNpeYtd;
-
-        return $this;
-    }
-
-    /**
-     * Get rankNpeYtd
-     *
-     * @return integer 
-     */
-    public function getRankNpeYtd()
-    {
-        return $this->rankNpeYtd;
-    }
-
-    /**
-     * Set rankNpesYtd
-     *
-     * @param integer $rankNpesYtd
-     * @return KpiMonth
-     */
-    public function setRankNpesYtd($rankNpesYtd)
-    {
-        $this->rankNpesYtd = $rankNpesYtd;
-
-        return $this;
-    }
-
-    /**
-     * Get rankNpesYtd
-     *
-     * @return integer 
-     */
-    public function getRankNpesYtd()
-    {
-        return $this->rankNpesYtd;
-    }
-
-    /**
-     * Set rankNpesaYtd
-     *
-     * @param integer $rankNpesaYtd
-     * @return KpiMonth
-     */
-    public function setRankNpesaYtd($rankNpesaYtd)
-    {
-        $this->rankNpesaYtd = $rankNpesaYtd;
-
-        return $this;
-    }
-
-    /**
-     * Get rankNpesaYtd
-     *
-     * @return integer 
-     */
-    public function getRankNpesaYtd()
-    {
-        return $this->rankNpesaYtd;
-    }
-
-    /**
-     * Set caCrmYtd
-     *
-     * @param integer $caCrmYtd
-     * @return KpiMonth
-     */
-    public function setCaCrmYtd($caCrmYtd)
-    {
-        $this->caCrmYtd = $caCrmYtd;
-
-        return $this;
-    }
-
-    /**
-     * Get caCrmYtd
-     *
-     * @return integer 
-     */
-    public function getCaCrmYtd()
-    {
-        return $this->caCrmYtd;
-    }
-
-    /**
-     * Set txTransacLinkedM0
-     *
-     * @param integer $txTransacLinkedM0
-     * @return KpiMonth
-     */
-    public function setTxTransacLinkedM0($txTransacLinkedM0)
-    {
-        $this->txTransacLinkedM0 = $txTransacLinkedM0;
-
-        return $this;
-    }
-
-    /**
-     * Get txTransacLinkedM0
-     *
-     * @return integer 
-     */
-    public function getTxTransacLinkedM0()
-    {
-        return $this->txTransacLinkedM0;
-    }
-
-    /**
-     * Set txTransacLinkedYtd
-     *
-     * @param integer $txTransacLinkedYtd
-     * @return KpiMonth
-     */
-    public function setTxTransacLinkedYtd($txTransacLinkedYtd)
-    {
-        $this->txTransacLinkedYtd = $txTransacLinkedYtd;
-
-        return $this;
-    }
-
-    /**
-     * Get txTransacLinkedYtd
-     *
-     * @return integer 
-     */
-    public function getTxTransacLinkedYtd()
-    {
-        return $this->txTransacLinkedYtd;
     }
 }

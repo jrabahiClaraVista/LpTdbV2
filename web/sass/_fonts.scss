@@ -3,13 +3,22 @@ $font-familly-basic: 'Arial', Helvetica, Sans-Serif;
 
 /**** Font sizes ****/
 
-$text-size-h1: 		32px;
-$text-size-h2: 		26px;
-$text-size-h3: 		18px;
+$text-size-h1: 		26px;
+$text-size-h2: 		18px;
+$text-size-h3: 		16px;
 $text-size-h4: 		14px;
 $text-size-h5: 		12px;
 $text-size:			14px;
 $btn-text-size-1: 	16px;
+
+/**** Font sizes < 994 px *****/
+
+$text-size-994-h1: 		22px;
+$text-size-994-h2: 		16px;
+$text-size-994-h3: 		15px;
+$text-size-994-h4: 		13px;
+$text-size-994-h5: 		12px;
+$text-size-994:			12px;
 
 /**** Font weight ****/
 
@@ -18,91 +27,170 @@ $text-weight-h2: 	bold;
 $text-weight-h3: 	bold;
 $text-weight-h4: 	bold;
 $text-weight-h5: 	bold;
-$text-weight-bold:	bold;
+$text-weight:		normal;
 
-.uppercase{
-	text-transform:uppercase;
+/**** Font weight ****/
+
+$text-line-height-h1: 	30px;
+$text-line-height-h2: 	22px;
+$text-line-height-h3: 	20px;
+$text-line-height-h4: 	18px;
+$text-line-height-h5: 	12px;
+$text-line-height:		20px;
+
+body{
+	font-size: $text-size;
+	font-weight: $text-weight;
+	line-height: $text-line-height;
+	font-weight: $text-weight;
+
+	@media screen and (max-width: 994px) {
+		font-size: $text-size-994;
+	}
 }
 
 
 h1{
 	font-size: $text-size-h1;
+	//font-weight: $text-weight-h1;
+	line-height: $text-line-height-h1;
 	font-weight: $text-weight-h1;
-	.uppercase{
-		text-transform: uppercase;
-	}
-	&.white {
-		color: white;
-	}
-	&.black {
-		color: black;
-	}
-	&.bg-white {
-		background: white !important;
-		margin:0;
+
+	@media screen and (max-width: 994px) {
+		font-size: $text-size-994-h1;
 	}
 }
+
 h2{
 	font-size: $text-size-h2;
+	//font-weight: $text-weight-h2;
+	line-height: $text-line-height-h2;
 	font-weight: $text-weight-h2;
-	&.white {
-		color: white;
-	}
-	&.black {
-		color: black;
-	}
-	&.bg-white {
-		background: white !important;
-		margin:0;
+
+	@media screen and (max-width: 994px) {
+		font-size: $text-size-994-h2;
 	}
 }
+
 h3{
 	font-size: $text-size-h3;
 	font-weight: $text-weight-h3;
-	&.white {
-		color: white;
-	}
-	&.black {
-		color: black;
-	}
-	&.bg-white {
-		background: white !important;
-		margin:0;
+	line-height: $text-line-height-h3;
+	font-weight: $text-weight-h3;
+
+	@media screen and (max-width: 994px) {
+		font-size: $text-size-994-h3;
 	}
 }
+
 h4{
 	font-size: $text-size-h4;
 	font-weight: $text-weight-h4;
-	line-height: 20px;
-	font-weight: bold;
-	&.white {
-		color: white;
-	}
-	&.black {
-		color: black;
-	}
-	&.bg-white {
-		background: white !important;
-		margin:0;
+	line-height: $text-line-height-h4;
+	font-weight: $text-weight-h4;
+
+	@media screen and (max-width: 994px) {
+		font-size: $text-size-994-h4;
 	}
 }
 
 h5{
 	font-size: $text-size-h5;
 	font-weight: $text-weight-h5;
-	line-height: 12px;
-	font-weight: bold;
+	line-height: $text-line-height-h5;
+	font-weight: $text-weight-h5;
+
+	@media screen and (max-width: 994px) {
+		font-size: $text-size-994-h5;
+	}
+}
+
+h1, h2, h3, h4, h5,{
 	&.white {
 		color: white;
 	}
 	&.black {
 		color: black;
 	}
+	&.green {
+		color: #16a085;
+	}
 	&.bg-white {
 		background: white !important;
 		margin:0;
 	}
 	&.height{
-		height: 68px;
+		height: 40px;
+	}
+	&.orange{
+		color: #d35400 !important;
+	}
+	&.gris{
+		color: $text-color-gris !important;
+	}
+	&.gris-bg{
+		color: white !important;
+		background-color: #1e1e1e;
+		padding: 10px;
+	}
+}
+p{
+	color: black;
+	&.white {
+		color: white !important;
+	}
+	&.red{
+		color: red !important
+	}
+	&.green{
+		color: green !important
+	}
+	&.gris{
+		color: $text-color-gris !important;
+	}
+	&.big{
+		font-size : $text-size-h3 !important;
+	}
+}
+a.black{
+	color: black;
+	&:hover{
+		color: black;
+	}
+	&:focus{
+		color: black;
+	}
+}
+.collapse {
+	table{
+		color:black;
+	}
+}
+
+.fa{
+	&.gray1:before{
+		color: #f0f0f0 !important;	
+	}
+	&.gray2:before{
+		color: #aaaaaa !important;	
+	}
+	&.orange:before{
+		color: #E8810C !important;
+		//d35400 !important;	
+	}
+	&.blue:before{
+		color: #2D64AB !important;	
+	}
+	&.yellow:before{
+		color: #f2ce18 !important;	
+	}
+}
+.glyphicon{
+	&.green:before{
+		color:#16a085 !important;	
+	}
+	&.orange:before{
+		color: #E8810C !important;
+		//d35400 !important;	
 	}
 }

@@ -48,7 +48,7 @@ class HomeController extends Controller
         $em = $this->getDoctrine()->getManager();
 
         $users = $em->getRepository('ApplicationSonataUserBundle:User')->findAll();
-        $user = $em->getRepository('ApplicationSonataUserBundle:User')->findOneBy(array('id' => 101));
+        $user = $em->getRepository('ApplicationSonataUserBundle:User')->findOneBy(array('username' => "LOUIS PION"));
 
         return $this->render('AppBundle:Home:list.html.twig', array(
             'user'  => $user,

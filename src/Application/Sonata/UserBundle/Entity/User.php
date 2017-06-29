@@ -21,6 +21,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Sonata\UserBundle\Entity\BaseUser as BaseUser;
 
 use AppBundle\Entity\KpiMonth;
+use AppBundle\Entity\KpiWeek;
 use AppBundle\Entity\KpiYearToDate;
 use AppBundle\Entity\Module;
 use AppBundle\Entity\UserModule;
@@ -66,15 +67,9 @@ class User extends BaseUser
     private $kpiMonths;
 
     /**
-     * @ORM\OneToMany(targetEntity="AppBundle\Entity\KpiYearToDate", mappedBy="user")
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\KpiWeek", mappedBy="user")
      */
-    private $kpiYearToDates;
-
-    /**
-     * @ORM\OneToMany(targetEntity="AppBundle\Entity\UserModule", mappedBy="user")
-     * @ORM\JoinTable(name="app_user_module")
-     */
-    private $userModules;
+    private $kpiWeeks;
 
     /**
      * @var string $dr
@@ -89,6 +84,27 @@ class User extends BaseUser
      * @ORM\Column(name="brand", type="string", length=100, nullable=true)
      */
     protected $brand ;
+
+    /**
+     * @var string $boutique
+     *
+     * @ORM\Column(name="boutique", type="string", length=100, nullable=true)
+     */
+    protected $boutique ;
+
+    /**
+     * @var string $nom_vendeur
+     *
+     * @ORM\Column(name="nom_vendeur", type="string", length=100, nullable=true)
+     */
+    protected $nomVendeur ;
+
+    /**
+     * @var string $prenom_vendeur
+     *
+     * @ORM\Column(name="prenom_vendeur", type="string", length=100, nullable=true)
+     */
+    protected $prenomVendeur ;
 
     /**
      * @var boolean
@@ -110,11 +126,12 @@ class User extends BaseUser
         parent::__construct();
 
         $this->kpiMonths = new ArrayCollection();
-        $this->kpiYearToDates = new ArrayCollection();
-        $this->userModules = new ArrayCollection();
+        $this->kpiWeek = new ArrayCollection();
         $dr = "";
         $brand = "";
         $role = "";
+        $nomVendeur = "";
+        $prenomVendeur = "";
 
         $this->password = $this->setPassword("claravista123");
         $this->enabled = true;
@@ -232,6 +249,75 @@ class User extends BaseUser
     }
 
     /**
+     * Get boutique
+     *
+     * @return int $boutique
+     */
+    public function getBoutique()
+    {
+        return $this->boutique;
+    }
+
+    /**
+     * Set boutique
+     *
+     * @param string $boutique
+     *
+     * @return User
+     */
+    public function setBoutique($boutique)
+    {
+        $this->boutique = $boutique;
+        return $this;
+    }
+
+    /**
+     * Get nomVendeur
+     *
+     * @return int $nomVendeur
+     */
+    public function getNomVendeur()
+    {
+        return $this->nomVendeur;
+    }
+
+    /**
+     * Set nomVendeur
+     *
+     * @param string $nomVendeur
+     *
+     * @return User
+     */
+    public function setNomVendeur($nomVendeur)
+    {
+        $this->nomVendeur = $nomVendeur;
+        return $this;
+    }
+
+    /**
+     * Get prenomVendeur
+     *
+     * @return int $prenomVendeur
+     */
+    public function getPrenomVendeur()
+    {
+        return $this->prenomVendeur;
+    }
+
+    /**
+     * Set prenomVendeur
+     *
+     * @param string $prenomVendeur
+     *
+     * @return User
+     */
+    public function setPrenomVendeur($prenomVendeur)
+    {
+        $this->prenomVendeur = $prenomVendeur;
+        return $this;
+    }
+
+    /**
      * Get role
      *
      * @return int $role
@@ -304,54 +390,28 @@ class User extends BaseUser
     }
 
     /**
-     * add kpiYearToDate
-     * remove kpiYearToDate
+     * add kpiWeek
+     * remove kpiWeek
      * get kpiYearToDates
      *
-     * @param KpiYearToDate $kpiYearToDate
+     * @param KpiWeek $kpiWeek
      *
      * @return User
      */
-    public function addKpiYearToDate(KpiYearToDate $kpiYearToDate)
+    public function addWeek(KpiWeek $kpiWeek)
     {
-        $this->kpiYearToDates[] = $kpiYearToDate;
+        $this->kpiWeeks[] = $kpiWeek;
 
         return $this;
     }
 
-    public function removeKpiYearToDate(KpiYearToDate $kpiYearToDate)
+    public function removeWeek(KpiWeek $kpiWeek)
     {
-        $this->kpiYearToDates->removeElement($kpiYearToDate);
+        $this->kpiWeeks->removeElement($kpiWeek);
     }
 
-    public function getKpiYearToDates()
+    public function getWeeks()
     {
-        return $this->kpiYearToDates;
-    }
-
-    /**
-     * add userModule
-     * remove userModule
-     * get userModules
-     *
-     * @param UserModule $userModule
-     *
-     * @return User
-     */
-    public function addUserModule(UserModule $userModule)
-    {
-        $this->userModules[] = $userModule;
-
-        return $this;
-    }
-
-    public function removeUserModule(UserModule $userModule)
-    {
-        $this->userModules->removeElement($userModule);
-    }
-
-    public function getUserModules()
-    {
-        return $this->userModules;
+        return $this->kpiWeeks;
     }
 }

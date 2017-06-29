@@ -10,6 +10,9 @@ imports:
 parameters:
     locale: fr
     sonata.user.admin.user.class: Application\Sonata\UserBundle\Admin\UserAdmin
+    local_ip: 127.0.0.1
+    maintenance: false #turn it to true to enable maintenance
+    underMaintenanceUntil: 01/09 - 12H00 environ
 
 framework:
     #esi:             ~
@@ -66,10 +69,10 @@ assetic:
         #Add path of bin
         #php app/console assetic:watch
         #php app/console assetic:dump --env=prod --no-debug
-        #sass:
-        #    bin: C:\Ruby22-x64\bin\sass
-        #compass:
-        #    bin: C:\Ruby22-x64\bin\compass
+        sass:
+            bin: C:\Ruby22-x64\bin\sass
+        compass:
+            bin: C:\Ruby22-x64\bin\compass
 
 # Doctrine Configuration
 doctrine:

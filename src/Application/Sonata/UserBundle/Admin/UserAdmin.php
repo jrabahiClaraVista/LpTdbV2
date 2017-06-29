@@ -38,6 +38,16 @@ class UserAdmin extends SonataUserAdmin
                        'label' => 'Brand',
                        'required' => false,
                     )
+                ) 
+                ->add('nomVendeur', 'text', array(
+                       'label' => 'nom Vendeur',
+                       'required' => false,
+                    )
+                )
+                ->add('prenomVendeur', 'text', array(
+                       'label' => 'Prenom Vendeur',
+                       'required' => false,
+                    )
                 )                
             ->end()
         ;

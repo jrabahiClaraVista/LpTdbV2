@@ -28,21 +28,25 @@ app_list:
 #    path:      /campaign_send_email/{recipient_id}
 #    defaults:  { _controller: AppBundle:Campaign:CampaignSendEmail}
 
+app_kpi_week:
+    path:      /kpi/w/{user_id}
+    defaults:  { _controller: AppBundle:Kpi:kpiWeek}
+
 app_kpi_month:
-    path:      /kpi/m/{user_id}/{month}
-    defaults:  { _controller: AppBundle:Kpi:month, month: null}
+    path:      /kpi/m/{user_id}
+    defaults:  { _controller: AppBundle:Kpi:kpi}
 
 app_kpi_ytd:
-    path:      /kpi/ytd/{user_id}/{year}
-    defaults:  { _controller: AppBundle:Kpi:ytd, year: null}
+    path:      /kpi/ytd/{user_id}
+    defaults:  { _controller: AppBundle:Kpi:kpi}
 
 app_kpi_fid:
     path:      /kpi/fid/{user_id}
-    defaults:  { _controller: AppBundle:Kpi:fid}
+    defaults:  { _controller: AppBundle:Kpi:kpi}
 
 app_kpi_planning:
-    path:      /kpi/planning/{user_id}/{month}
-    defaults:  { _controller: AppBundle:Kpi:planning, month: null}
+    path:      /kpi/planning/{user_id}
+    defaults:  { _controller: AppBundle:Kpi:kpi}
 
 app_kpi_faq:
     path:      /kpi/faq/{user_id}
@@ -55,3 +59,9 @@ root:
         _controller: FrameworkBundle:Redirect:urlRedirect
         path: /admin/login
         permanent: true
+
+
+#test AJAX
+ajax_filter:
+    path:    /ajax_filter/{user_actuel}/{user_id}/{scope}/{week}/{month}/{year}
+    defaults:  { _controller: AppBundle:Kpi:ajaxfilter}

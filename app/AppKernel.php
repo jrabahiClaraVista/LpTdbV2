@@ -34,14 +34,10 @@ class AppKernel extends Kernel
             new FOS\UserBundle\FOSUserBundle(),
             new Sonata\UserBundle\SonataUserBundle('FOSUserBundle'),
 
-            new Ddeboer\DataImportBundle\DdeboerDataImportBundle(),
-
             new Application\Sonata\UserBundle\ApplicationSonataUserBundle(),
             new Application\Sonata\HelperBundle\ApplicationSonataHelperBundle(),
 
             new AppBundle\AppBundle(),
-
-            //new Ijanki\Bundle\FtpBundle\IjankiFtpBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'), true)) {
