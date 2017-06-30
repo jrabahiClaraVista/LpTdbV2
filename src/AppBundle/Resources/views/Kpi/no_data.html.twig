@@ -1,0 +1,10 @@
+{% extends "AppBundle::layout.html.twig" %}
+
+{% block subheader %}
+	{% include 'AppBundle:Commons:kpiNav.html.twig' %}
+{% endblock %}
+
+{% block content %}	
+	<h3 class="text-center">Aucunes données pour la recherche demandée.</h3>
+	<h4 class="text-center"><a href="javascript:window.close();">Fermer la fenêtre</a></h4>
+{% endblock %}

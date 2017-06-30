@@ -128,8 +128,30 @@ class KpiFilterSessionService
                 $form->get('reseau')->setData($reseau);
             }
         }
+
         if($this->session->get('filtre_vendeur') != null && $request->getMethod() == 'GET'){
-            $form->get('vendeur')->setData($userEm->findOneBy(array('username' => $this->session->get('filtre_vendeur')->getUsername())));
+            $vendeur    = $userEm->findOneBy(array('username' => $this->session->get('filtre_vendeur')->getUsername()));
+            $boutique   = $userEm->findOneBy(array('username' => $this->session->get('filtre_boutique')->getUsername()));
+            $dr         = $userEm->findOneBy(array('username' => $boutique->getDr()));
+            $reseau     = $userEm->findOneBy(array('username' => $boutique->getBrand()));
+
+            $form->get('boutique')->setData($boutique);
+            $form->get('vendeur')->setData($vendeur);
+            $form->get('dr')->setData($dr);
+            $form->get('reseau')->setData($reseau);
+        }
+        else{
+            if($user->getRole() == 'ROLE_VENDEUR'){
+                $vendeur    = $userEm->findOneBy(array('username' => $user->getUsername()));
+                $boutique   = $userEm->findOneBy(array('username' => $user->getBoutique()));
+                $dr         = $userEm->findOneBy(array('username' => $boutique->getDr()));
+                $reseau     = $userEm->findOneBy(array('username' => $boutique->getBrand()));
+
+                $form->get('boutique')->setData($boutique);
+                $form->get('vendeur')->setData($vendeur);
+                $form->get('dr')->setData($dr);
+                $form->get('reseau')->setData($reseau);
+            }
         }
 
         return $form;

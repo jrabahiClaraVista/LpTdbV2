@@ -312,21 +312,44 @@ class KpiFilterType extends AbstractType
                 )
               );
             }
-            $form->add('vendeur', 'entity', array(
-              'class' => 'ApplicationSonataUserBundle:User',
-              'property' => 'username',
-              'query_builder' => function(EntityRepository $er) {
-                  return $er->createQueryBuilder('u')
-                            ->where('u.role = :vendeur')
-                            ->setParameter('vendeur', 'ROLE_VENDEUR')
-                            ->add('orderBy','u.role DESC ,u.username ASC')
-                            ;
-                },
-                'empty_value' => 'Tous',
-                'required' => false
-              //,'data' => $this->em->getReference("ApplicationSonataUserBundle:User", null)
-              )
-            );
+            if($this->user->getRole() != "ROLE_VENDEUR"){
+              $form->add('vendeur', 'entity', array(
+                'class' => 'ApplicationSonataUserBundle:User',
+                'property' => 'nameAndSurname',
+                'query_builder' => function(EntityRepository $er) {
+                    return $er->createQueryBuilder('u')
+                              ->where('u.role = :vendeur')
+                              ->setParameter('vendeur', 'ROLE_VENDEUR')
+                              ->add('orderBy','u.role DESC ,u.nomVendeur ASC')
+                              ->andWhere('u.boutique = :boutique')
+                              ->setParameter('boutique', $this->user->getUsername())
+                              ;
+                  },
+                  'empty_value' => 'Tous',
+                  'required' => false
+                //,'data' => $this->em->getReference("ApplicationSonataUserBundle:User", null)
+                )
+              );
+            }
+            else{
+              $form->add('vendeur', 'entity', array(
+                'class' => 'ApplicationSonataUserBundle:User',
+                'property' => 'nameAndSurname',
+                'query_builder' => function(EntityRepository $er) {
+                    return $er->createQueryBuilder('u')
+                              ->where('u.role = :vendeur')
+                              ->setParameter('vendeur', 'ROLE_VENDEUR')
+                              ->add('orderBy','u.role DESC ,u.nomVendeur ASC')
+                              ->andWhere('u.boutique = :boutique')
+                              ->setParameter('boutique', $this->user->getBoutique())
+                              ;
+                  },
+                  'empty_value' => 'Tous',
+                  'required' => false
+                //,'data' => $this->em->getReference("ApplicationSonataUserBundle:User", null)
+                )
+              );
+            }
           }
           else{
             $form->add('dr', 'entity', array(
@@ -363,21 +386,46 @@ class KpiFilterType extends AbstractType
               ,'data' => $this->user
             )
           );
-          $form->add('vendeur', 'entity', array(
-            'class' => 'ApplicationSonataUserBundle:User',
-            'property' => 'username',
-            'query_builder' => function(EntityRepository $er) {
-                return $er->createQueryBuilder('u')
-                          ->where('u.role = :vendeur')
-                          ->setParameter('vendeur', 'ROLE_VENDEUR')
-                          ->add('orderBy','u.role DESC ,u.username ASC')
-                          ;
-              },
-              'empty_value' => 'Tous',
-              'required' => false
-            //,'data' => $this->em->getReference("ApplicationSonataUserBundle:User", null)
-            )
-          );
+          
+            if($this->user->getRole() != "ROLE_VENDEUR"){
+              $form->add('vendeur', 'entity', array(
+                'class' => 'ApplicationSonataUserBundle:User',
+                'property' => 'nameAndSurname',
+                'query_builder' => function(EntityRepository $er) {
+                    return $er->createQueryBuilder('u')
+                              ->where('u.role = :vendeur')
+                              ->setParameter('vendeur', 'ROLE_VENDEUR')
+                              ->add('orderBy','u.role DESC ,u.nomVendeur ASC')
+                              ->andWhere('u.boutique = :boutique')
+                              ->setParameter('boutique', $this->user->getUsername())
+                              ;
+                  },
+                  'empty_value' => 'Tous',
+                  'required' => false
+                //,'data' => $this->em->getReference("ApplicationSonataUserBundle:User", null)
+                )
+              );
+            }
+            else{
+              $form->add('vendeur', 'entity', array(
+                'class' => 'ApplicationSonataUserBundle:User',
+                'property' => 'nameAndSurname',
+                'query_builder' => function(EntityRepository $er) {
+                    return $er->createQueryBuilder('u')
+                              ->where('u.role = :vendeur')
+                              ->setParameter('vendeur', 'ROLE_VENDEUR')
+                              ->add('orderBy','u.role DESC ,u.nomVendeur ASC')
+                              ->andWhere('u.boutique = :boutique')
+                              ->setParameter('boutique', $this->user->getBoutique())
+                              ;
+                  },
+                  'empty_value' => 'Tous',
+                  'required' => false
+                //,'data' => $this->em->getReference("ApplicationSonataUserBundle:User", null)
+                )
+              );
+            }
+          
         }
 
         });

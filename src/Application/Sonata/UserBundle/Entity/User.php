@@ -414,4 +414,11 @@ class User extends BaseUser
     {
         return $this->kpiWeeks;
     }
+
+    public function nameAndSurname()
+    {   
+        $name = $this->username.' '.$this->prenomVendeur.' '.$this->nomVendeur;
+
+        return $name;
+    }
 }

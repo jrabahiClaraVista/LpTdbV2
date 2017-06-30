@@ -534,71 +534,93 @@ div.home-layout {
 .kpi-box .inside {
   --min-height: 385px;
 }
-/* line 13, ../../../web/sass/_kpi.scss */
+/* line 10, ../../../web/sass/_kpi.scss */
+.kpi-box .inside.marge_top_75 {
+  position: relative;
+  top: 75px;
+}
+@media screen and (max-width: 994px) {
+  /* line 10, ../../../web/sass/_kpi.scss */
+  .kpi-box .inside.marge_top_75 {
+    top: 0px;
+  }
+}
+/* line 20, ../../../web/sass/_kpi.scss */
 .kpi-box .inside.bordered-left {
   border-left: 1px solid #ccc;
 }
 @media screen and (max-width: 994px) {
-  /* line 13, ../../../web/sass/_kpi.scss */
+  /* line 20, ../../../web/sass/_kpi.scss */
   .kpi-box .inside.bordered-left {
     border-left: 0px solid #ccc;
     border-top: 1px solid #ccc;
   }
 }
-/* line 22, ../../../web/sass/_kpi.scss */
+/* line 29, ../../../web/sass/_kpi.scss */
+.kpi-box .inside.bordered-right {
+  border-right: 1px solid #ccc;
+}
+@media screen and (max-width: 994px) {
+  /* line 29, ../../../web/sass/_kpi.scss */
+  .kpi-box .inside.bordered-right {
+    border-right: 0px solid #ccc;
+    border-bottom: 1px solid #ccc;
+  }
+}
+/* line 38, ../../../web/sass/_kpi.scss */
 .kpi-box .inside.bordered-bottom {
   border-bottom: 1px solid #ccc;
 }
-/* line 26, ../../../web/sass/_kpi.scss */
+/* line 42, ../../../web/sass/_kpi.scss */
 .kpi-box .inside.bordered-top {
   border-top: 1px solid #ccc;
 }
-/* line 30, ../../../web/sass/_kpi.scss */
+/* line 46, ../../../web/sass/_kpi.scss */
 .kpi-box .inside.top {
   height: auto;
   padding-bottom: 15px;
   --min-height: 370px !important;
   border: 0;
 }
-/* line 36, ../../../web/sass/_kpi.scss */
+/* line 52, ../../../web/sass/_kpi.scss */
 .kpi-box .inside.top div.dark-box {
   background: #1e1e1e;
   color: white;
   padding: 15px 0 10px 0;
   height: 100px;
 }
-/* line 42, ../../../web/sass/_kpi.scss */
+/* line 58, ../../../web/sass/_kpi.scss */
 .kpi-box .inside.top div.dark-box h3 {
   margin-top: 0px !important;
   color: white;
 }
-/* line 48, ../../../web/sass/_kpi.scss */
+/* line 64, ../../../web/sass/_kpi.scss */
 .kpi-box .inside.top div.gray-box {
   background: #faf9f9;
   color: white;
 }
-/* line 52, ../../../web/sass/_kpi.scss */
+/* line 68, ../../../web/sass/_kpi.scss */
 .kpi-box .inside.top div.gray-box h3 {
   margin-top: 0px !important;
   color: black;
   height: 50px;
   line-height: 50px;
 }
-/* line 61, ../../../web/sass/_kpi.scss */
+/* line 77, ../../../web/sass/_kpi.scss */
 .kpi-box .inside.rappel {
   min-height: 150px !important;
 }
-/* line 66, ../../../web/sass/_kpi.scss */
+/* line 82, ../../../web/sass/_kpi.scss */
 .kpi-box .inside h3 {
   margin: 15px 0px !important;
 }
-/* line 71, ../../../web/sass/_kpi.scss */
+/* line 87, ../../../web/sass/_kpi.scss */
 .kpi-box .img-container {
   height: 300px;
   margin: 15px 0;
 }
 
-/* line 77, ../../../web/sass/_kpi.scss */
+/* line 93, ../../../web/sass/_kpi.scss */
 .circle {
   height: 200px;
   width: 200px;
@@ -609,11 +631,11 @@ div.home-layout {
   font-size: 18px;
   line-height: 20px;
 }
-/* line 87, ../../../web/sass/_kpi.scss */
+/* line 103, ../../../web/sass/_kpi.scss */
 .circle.greenCircle {
   background-color: #16a085;
 }
-/* line 90, ../../../web/sass/_kpi.scss */
+/* line 106, ../../../web/sass/_kpi.scss */
 .circle.yellowCircle {
   background-color: #f2ce18;
 }

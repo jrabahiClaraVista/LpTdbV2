@@ -44,7 +44,44 @@ class KpiController extends Controller
 		$session->remove('filtre_boutique');
 		$session->remove('filtre_vendeur');
 
+		if($routeName == "app_kpi_fid"){
+			if( $user->getRole() == 'ROLE_VENDEUR' ) {
+				$boutique = $em->getRepository('ApplicationSonataUserBundle:User')->findOneBy(array("username" => $user->getBoutique()));
+				return $this->redirectToRoute('app_kpi_fid', array('user_id' => $boutique->getId()));
+			}
+		}
+
 		$lastKpi = $em->getRepository('AppBundle:KpiMonth')->findOneBy(array('user' => $user), array('date' => "DESC"));
+
+		if($lastKpi == null){
+			$session->remove('kpi_month_filtre');
+			$session->remove('kpi_year_filtre');
+
+			if($routeName == "app_kpi_month"){
+				if($routeName == "app_kpi_month"){
+			        return $this->render('AppBundle:Kpi:no_data.html.twig', array(
+			        	'user'				=> $user,
+			        	)
+			        );
+				}
+			}
+			elseif($routeName == "app_kpi_ytd"){
+				if($routeName == "app_kpi_ytd"){
+			        return $this->render('AppBundle:Kpi:no_data.html.twig', array(
+			        	'user'				=> $user,
+			        	)
+			        );
+				}
+			}
+			else{
+				if($routeName == "app_kpi_fid"){
+			        return $this->render('AppBundle:Kpi:no_data.html.twig', array(
+			        	'user'				=> $user,
+			        	)
+			        );
+				}
+			}
+		}
 
 		$date = $lastKpi->getDate();
 
@@ -100,6 +137,11 @@ class KpiController extends Controller
 			$getBoutiquesDr = null;
 			$$getDrsMarque = null;
 		}
+		if( $user->getRole() == 'ROLE_VENDEUR' ) {
+			$getVendeursBoutique = $em->getRepository('AppBundle:KpiMonth')->getKpiVendeurBoutique($user->getBoutique(), $date3, $date2, $brand);
+			$getBoutiquesDr = null;
+			$$getDrsMarque = null;
+		}
 
 		if( $user->getRole() == 'ROLE_MARQUE' ) {
 			$marque = $em->getRepository('AppBundle:KpiMonth')->getKpiMarque($date3, $date2, $user->getUsername());
@@ -123,8 +165,10 @@ class KpiController extends Controller
 			$date2 = $dates['date2'];
 			$date3 = $dates['date3'];
 
-			if($session->get('filtre_boutique') != null){
-				//var_dump( $data);
+			if($session->get('filtre_vendeur') != null){
+				$id = $session->get('filtre_vendeur')->getId();
+	        }
+	        elseif($session->get('filtre_boutique') != null){
 				$id = $session->get('filtre_boutique')->getId();
 	        }
 	        elseif($session->get('filtre_dr') != null){
@@ -135,7 +179,7 @@ class KpiController extends Controller
 	        }
 	        else{
 	        	$id = $user->getId();
-	        }			
+	        }
 
 			if($routeName == "app_kpi_month"){
 				return $this->redirectToRoute('app_kpi_month', array('user_id' =>$id));
@@ -153,7 +197,10 @@ class KpiController extends Controller
 
         //Gestion des requêtes selon la page appelée
         
-        if($session->get('filtre_boutique') != null){
+        if($session->get('filtre_vendeur') != null){
+        	$kpis = $em->getRepository('AppBundle:KpiMonth')->getUserKpisBetweenDates($session->get('filtre_vendeur'), $date1, $date2, $brand);
+        }
+        elseif($session->get('filtre_boutique') != null){
         	$kpis = $em->getRepository('AppBundle:KpiMonth')->getUserKpisBetweenDates($session->get('filtre_boutique'), $date1, $date2, $brand);
         }
         elseif($session->get('filtre_dr') != null){
@@ -306,6 +353,19 @@ class KpiController extends Controller
 
 		$lastKpiWeek = $em->getRepository('AppBundle:KpiWeek')->findOneBy(array('user' => $user), array('date' => "DESC"));
 
+		if($lastKpiWeek == null){
+			$session->remove('kpi_week_filtre');
+			$session->remove('kpi_year_filtre');
+
+			if($routeName == "app_kpi_week"){
+		        return $this->render('AppBundle:Kpi:no_data.html.twig', array(
+		        	'user'				=> $user,
+		        	)
+		        );
+			}
+		}
+
+		// ATTENTION FAIRE UNE PAGE NO DATA POUR DES RESULTATS NULL
 		$dateWeek = $lastKpiWeek->getDate();
 
 		//initialisation des variable de session
@@ -361,6 +421,11 @@ class KpiController extends Controller
 			$getBoutiquesDr = null;
 			$$getDrsMarque = null;
 		}
+		if( $user->getRole() == 'ROLE_VENDEUR' ) {
+			$getVendeursBoutique = $em->getRepository('AppBundle:KpiWeek')->getKpiVendeurBoutique($user->getBoutique(), $dateWeek3, $dateWeek2, $brand);
+			$getBoutiquesDr = null;
+			$$getDrsMarque = null;
+		}
 
 		if( $user->getRole() == 'ROLE_MARQUE' ) {
 			$marque = $em->getRepository('AppBundle:KpiWeek')->getKpiMarque($dateWeek3, $dateWeek2, $user->getUsername());
@@ -385,8 +450,11 @@ class KpiController extends Controller
 			$dateWeek2 	= $datesWeek['dateWeek2'];
 			$dateWeek3 	= $datesWeek['dateWeek3'];
 
-			if($session->get('filtre_boutique') != null){
+			if($session->get('filtre_vendeur') != null){
 				//var_dump( $data);
+				$id = $session->get('filtre_vendeur')->getId();
+	        }
+	        elseif($session->get('filtre_boutique') != null){
 				$id = $session->get('filtre_boutique')->getId();
 	        }
 	        elseif($session->get('filtre_dr') != null){

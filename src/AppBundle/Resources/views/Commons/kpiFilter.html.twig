@@ -43,7 +43,12 @@
 					</div>
 				</div>
 			</div>
-			<div class="col-xs-3">
+			{% if app.request.attributes.get('_route') in ['app_kpi_week'] %}
+				<div class="col-xs-3">
+				</div>
+			{% endif %}
+				
+			<div class="col-xs-3 {% if app.request.attributes.get('_route') in ['app_kpi_week'] %}hidden{% endif %}">
 				{{ form_widget(form.year, { 'attr': {'class' : 'form-control ajax', 'isSubmit': 'no'} }) }}
 			</div>
 
