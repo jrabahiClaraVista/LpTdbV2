@@ -21,10 +21,10 @@
 {% block dorisS %}
     <li>
 		{% if user.username == "Doris SEITZ Royal Quartz" %}
-			<a target="_blank" class="small" href="{{ path('app_kpi_month', {'user_id' : 10 } ) }}">voir la boutique Louis Pion</a>
+			<a target="_blank" class="small" href="{{ path('app_kpi_month', {'user_actuel' : userId, 'user_id' : 10 } ) }}">voir la boutique Louis Pion</a>
 		{% endif %}
 		{% if user.username == "Doris SEITZ Louis Pion" %}
-			<a target="_blank" class="small" href="{{ path('app_kpi_month', {'user_id' : 21 } ) }}">voir la boutique Royal Quartz</a>
+			<a target="_blank" class="small" href="{{ path('app_kpi_month', {'user_actuel' : userId, 'user_id' : 21 } ) }}">voir la boutique Royal Quartz</a>
 		{% endif %}
     </li>
 {% endblock %}

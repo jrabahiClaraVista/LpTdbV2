@@ -38,7 +38,7 @@
 				
 				<div class="spacer"></div>
 				<div class="col-xs-12 text-center">
-					<a href="{{ path('app_kpi_faq', { 'user_id' : userId } ) }}" class="small" style="color:#666; text-decoration:underline;">
+					<a href="{{ path('app_kpi_faq', { 'user_actuel' : userId, 'user_id' : user.id } ) }}" class="small" style="color:#666; text-decoration:underline;">
 			    		{{"Définitions et règles de calcul dans l'onglet FAQ"|trans}}
 			    	</a>
 				</div>
@@ -106,7 +106,7 @@
 							{% for boutique in getDrsMarque %}
 								{% if getDrsMarque is not null %}
 									<tr>
-										<th class="text-right text-uppercase">{{boutique.user.username}}</th>
+										<th class="text-right text-uppercase"><a href="{{ path('app_kpi_fid', { 'user_actuel' : userId, 'user_id' : boutique.user.id } ) }}">{{boutique.user.username}}</a></th>
 										<td class="text-center">{{ boutique.nbreClientsContactablesEmailH|number_format(0, ',', ' ') }}</td>
 										<td class="text-center">{{ boutique.nbreClientsAnimesM0|number_format(0, ',', ' ')}}</td>
 										<td class="text-center">{{ boutique.nbreClientsTransformesM0|number_format(0, ',', ' ')}}</td>
@@ -119,7 +119,7 @@
 							{% for boutique in getBoutiquesDr %}
 								{% if getBoutiquesDr is not null %}
 									<tr>
-										<th class="text-right text-uppercase">{{boutique.user.username}}</th>
+										<th class="text-right text-uppercase"><a href="{{ path('app_kpi_fid', { 'user_actuel' : userId, 'user_id' : boutique.user.id } ) }}">{{boutique.user.username}}</a></th>
 										<td class="text-center">{{ boutique.nbreClientsContactablesEmailH|number_format(0, ',', ' ') }}</td>
 										<td class="text-center">{{ boutique.nbreClientsAnimesM0|number_format(0, ',', ' ')}}</td>
 										<td class="text-center">{{ boutique.nbreClientsTransformesM0|number_format(0, ',', ' ')}}</td>
@@ -175,54 +175,76 @@
     		//pour éviter le bug d'envoie de formulaire vide si on sélectionne autre chose après
 
     		$('#appbundle_kpi_filter_submit').attr('disabled','disabled');
-    		$('#appbundle_kpi_filter_boutique').val(null);
-    		$('#appbundle_kpi_filter_dr').val(null);
-    		$('#appbundle_kpi_filter_vendeur').val(null);
+    		$('#appbundle_kpi_filter_boutique').val(null).prop('disabled',true);
+    		$('#appbundle_kpi_filter_dr').val(null).prop('disabled',true);
+    		$('#appbundle_kpi_filter_vendeur').val(null).prop('disabled',true);
 
     		$('#clients-filter').submit();
+    		$('#spinner').show();
     	});
     	$(document).on('change', '#appbundle_kpi_filter_dr', function() {
     		$('#appbundle_kpi_filter_submit').attr('disabled','disabled');
+    		$('#appbundle_kpi_filter_boutique').val(null).prop('disabled',true);
+    		$('#appbundle_kpi_filter_vendeur').val(null).prop('disabled',true);
 
-    		if( $(this).val() == "" && $('#appbundle_kpi_filter_boutique').val() == "" ){
+    		/*if( $(this).val() == "" && $('#appbundle_kpi_filter_boutique').val() == "" ){
     			var user_id = $('#appbundle_kpi_filter_reseau').val();
-    			console.log('dr reseau value');
     		}
     		else if( $(this).val() == "" && $('#appbundle_kpi_filter_boutique').val() != "" ){
     			var user_id = $('#appbundle_kpi_filter_boutique').val();
-    			console.log('dr boutique value');
     		}
     		else{
-    			console.log('dr value');
     			var user_id = $(this).val();
-    		}
+    		}*/
     		
-
-    		$.get("/ajax_filter/{{user.id}}/"+user_id+"/mensuel/null/"+$('#appbundle_kpi_filter_month').val()+"/"+$('#appbundle_kpi_filter_year').val(), function( data ) {
+    		// Ajax pour changer le formulaire
+    		/*$.get("/ajax_filter/{{user.id}}/"+user_id+"/mensuel/null/"+$('#appbundle_kpi_filter_month').val()+"/"+$('#appbundle_kpi_filter_year').val(), function( data ) {
 			    $('#ajax_filter').html( data );
-			});
-			console.log(user_id);
+			});*/
+
+			$('#clients-filter').submit();
+			$('#spinner').show();
     	});
     	$(document).on('change', '#appbundle_kpi_filter_boutique',function() {  
     		$('#appbundle_kpi_filter_submit').attr('disabled','disabled');
+    		$('#appbundle_kpi_filter_dr').prop('disabled',true);
+    		$('#appbundle_kpi_filter_vendeur').val(null).prop('disabled',true);
 
-    		if( $(this).val() == "" && $('#appbundle_kpi_filter_dr').val() == "" ){
+    		/*if( $(this).val() == "" && $('#appbundle_kpi_filter_dr').val() == "" ){
     			var user_id = $('#appbundle_kpi_filter_reseau').val();
-    			console.log('boutique reseau value');
     		}
     		else if( $(this).val() == "" && $('#appbundle_kpi_filter_dr').val() != "" ){
     			var user_id = $('#appbundle_kpi_filter_dr').val();
-    			console.log('boutique dr value');
     		}
     		else{
-    			console.log('boutique value');
     			var user_id = $(this).val();
-    		}
+    		}*/
 
-    		$.get("/ajax_filter/{{user.id}}/"+user_id+"/mensuel/null/"+$('#appbundle_kpi_filter_month').val()+"/"+$('#appbundle_kpi_filter_year').val(), function( data ) {
+    		/*$.get("/ajax_filter/{{user.id}}/"+user_id+"/mensuel/null/"+$('#appbundle_kpi_filter_month').val()+"/"+$('#appbundle_kpi_filter_year').val(), function( data ) {
 			    $('#ajax_filter').html( data );
-			});
-			console.log(user_id);
+			});*/
+
+			$('#clients-filter').submit();
+			$('#spinner').show();
+    	});
+
+    	$(document).on('change', '#appbundle_kpi_filter_vendeur',function() {  
+    		$('#appbundle_kpi_filter_submit').attr('disabled','disabled');
+    		$('#appbundle_kpi_filter_boutique').prop('disabled',true);
+    		$('#appbundle_kpi_filter_dr').prop('disabled',true);
+
+    		/*if( $(this).val() == "" && $('#appbundle_kpi_filter_dr').val() == "" ){
+    			var user_id = $('#appbundle_kpi_filter_reseau').val();
+    		}
+    		else if( $(this).val() == "" && $('#appbundle_kpi_filter_dr').val() != "" ){
+    			var user_id = $('#appbundle_kpi_filter_dr').val();
+    		}
+    		else{
+    			var user_id = $(this).val();
+    		}*/
+
+			$('#clients-filter').submit();
+			$('#spinner').show();
     	});
 	});
 

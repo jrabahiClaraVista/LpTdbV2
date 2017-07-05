@@ -4,7 +4,7 @@
 				<div class="form-group">
 					<label for="month" class="col-xs-6 control-label">Date</label>
 					<div class="col-xs-6">
-						{% if app.request.attributes.get('_route') in ['app_kpi_month','app_kpi_ytd','app_kpi_fid','app_kpi_planning'] %}
+						{% if scope == 'mensuel' %}
 							{{ form_widget(form.month, { 'attr': {'class' : 'form-control ajax', 'isSubmit': 'no'} }) }}
 						{% else %}
 							{{ form_widget(form.week, { 'attr': {'class' : 'form-control ajax', 'isSubmit': 'no'} }) }}

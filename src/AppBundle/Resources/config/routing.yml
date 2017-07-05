@@ -29,28 +29,28 @@ app_list:
 #    defaults:  { _controller: AppBundle:Campaign:CampaignSendEmail}
 
 app_kpi_week:
-    path:      /kpi/w/{user_id}
-    defaults:  { _controller: AppBundle:Kpi:kpiWeek}
+    path:      /kpi/w/{user_actuel}/{user_id}
+    defaults:  { _controller: AppBundle:Kpi:kpiWeek, user_id: 0}
 
 app_kpi_month:
-    path:      /kpi/m/{user_id}
-    defaults:  { _controller: AppBundle:Kpi:kpi}
+    path:      /kpi/m/{user_actuel}/{user_id}
+    defaults:  { _controller: AppBundle:Kpi:kpi, user_id: 0}
 
 app_kpi_ytd:
-    path:      /kpi/ytd/{user_id}
-    defaults:  { _controller: AppBundle:Kpi:kpi}
+    path:      /kpi/ytd/{user_actuel}/{user_id}
+    defaults:  { _controller: AppBundle:Kpi:kpi, user_id: 0}
 
 app_kpi_fid:
-    path:      /kpi/fid/{user_id}
-    defaults:  { _controller: AppBundle:Kpi:kpi}
+    path:      /kpi/fid/{user_actuel}/{user_id}
+    defaults:  { _controller: AppBundle:Kpi:kpi, user_id: 0}
 
 app_kpi_planning:
-    path:      /kpi/planning/{user_id}
-    defaults:  { _controller: AppBundle:Kpi:kpi}
+    path:      /kpi/planning/{user_actuel}/{user_id}
+    defaults:  { _controller: AppBundle:Kpi:kpi, user_id: 0}
 
 app_kpi_faq:
-    path:      /kpi/faq/{user_id}
-    defaults:  { _controller: AppBundle:Kpi:faq}
+    path:      /kpi/faq/{user_actuel}/{user_id}
+    defaults:  { _controller: AppBundle:Kpi:faq, user_id: 0}
 
 # redirecting the root
 root:

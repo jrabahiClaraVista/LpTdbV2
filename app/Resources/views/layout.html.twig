@@ -2,15 +2,18 @@
 
 {# Global variables #}
 
-{% if not is_granted("ROLE_USER") %}
-    {# If not connected (LP) #}
-    {% set modules = "" %}
-{% elseif is_granted("ROLE_USER") %}
+
     {# If connected (LNCL) #}
-    {% if user is not defined %}{% set user = app.user %}{% endif %}
-{% endif %}
+{% if user is not defined %}{% set user = app.user %}{% endif %}
+{% if user_actuel is not defined %}{% set user_actuel = app.user %}{% endif %}
+
 {% set previous_page = app.request.headers.get('referer') %}
-{% set userId = app.request.get('user_id') %}
+{% if user_actuel != null %}
+    {% set userId  = user_actuel.id %}
+{% endif %}
+{% if user_actuel != null %}
+    {% set user_id = user.id %}
+{% endif %}
 
 <!DOCTYPE html>
 <html>

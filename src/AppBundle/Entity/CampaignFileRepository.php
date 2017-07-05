@@ -16,8 +16,7 @@ class CampaignFileRepository extends \Doctrine\ORM\EntityRepository
 	public function getCampaignOfMonth($date1, $date2, $brand)
 	{
 		$qb = $this->createQueryBuilder('c')
-			->where('c.date >= :date1')
-			->andWhere('c.date < :date2')
+			->where('c.date BETWEEN :date1 and :date2')
 		  	->setParameter('date1', $date1)
 		  	->setParameter('date2', $date2)
 		  	->andWhere('c.brand = :brand')

@@ -9,15 +9,17 @@ namespace AppBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
-use Application\Sonata\UserBundle\Entity\User;
+use Application\Sonata\UserBundle\Entity\User as User;
 use AppBundle\Entity\KpiWeek;
 use AppBundle\Entity\KpiMonth;
 
 use AppBundle\Form\CampaignKpiType;
 use AppBundle\Form\KpiFilterType;
+use AppBundle\Form\ExportDataType;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\StreamedResponse;
 
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
@@ -32,12 +34,15 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 class KpiController extends Controller
 {
 	/**
-     * @ParamConverter("user", options={"mapping": {"user_id": "id"}})
+	 * @ParamConverter("user_actuel", options={"mapping": {"user_actuel": "id"}})
      */
-	public function kpiAction(User $user, Request $request) {
+	public function kpiAction(User $user_actuel, $user_id, Request $request) {
 		$em = $this->getDoctrine()->getManager();
 		$session = $request->getSession();
 		$routeName = $request->get('_route');
+
+		if($user_id == 0) {$user = $user_actuel;}
+		else {$user = $em->getRepository('ApplicationSonataUserBundle:User')->findOneById($user_id);}
 
 		$session->remove('filtre_reseau');
 		$session->remove('filtre_dr');
@@ -47,7 +52,7 @@ class KpiController extends Controller
 		if($routeName == "app_kpi_fid"){
 			if( $user->getRole() == 'ROLE_VENDEUR' ) {
 				$boutique = $em->getRepository('ApplicationSonataUserBundle:User')->findOneBy(array("username" => $user->getBoutique()));
-				return $this->redirectToRoute('app_kpi_fid', array('user_id' => $boutique->getId()));
+				return $this->redirectToRoute('app_kpi_fid', array('user_actuel' =>  $user_actuel->getId(),'user_id' => $boutique->getId()));
 			}
 		}
 
@@ -116,6 +121,7 @@ class KpiController extends Controller
         $currentMonth = $lastKpi->getDate()->format("m");
 		//$lastKpi 	  = null;
 
+
 		$brand = $user->getBrand();
 		if ($brand == null) $brand = '';
 
@@ -150,7 +156,7 @@ class KpiController extends Controller
 			$marque = $em->getRepository('AppBundle:KpiMonth')->getKpiMarque($date3, $date2, $user->getBrand());	
 		}
 
-        if ( $request->getMethod() == 'POST' ) {
+        if ( $request->getMethod() == 'POST' && $form->isSubmitted() ) {
             //Mise à jour des variable de session
             $kpiFilterService->updateSessionVars($data);
             $reseau    = $session->get('filtre_reseau');
@@ -166,32 +172,32 @@ class KpiController extends Controller
 			$date3 = $dates['date3'];
 
 			if($session->get('filtre_vendeur') != null){
-				$id = $session->get('filtre_vendeur')->getId();
+				$id = $vendeur->getId();
 	        }
 	        elseif($session->get('filtre_boutique') != null){
-				$id = $session->get('filtre_boutique')->getId();
+				$id = $boutique->getId();
 	        }
 	        elseif($session->get('filtre_dr') != null){
-	        	$id = $session->get('filtre_dr')->getId();
+	        	$id = $dr->getId();
 	        }
 	        elseif($session->get('filtre_reseau') != null){
-	        	$id = $session->get('filtre_reseau')->getId();
+	        	$id = $reseau->getId();
 	        }
 	        else{
 	        	$id = $user->getId();
 	        }
 
 			if($routeName == "app_kpi_month"){
-				return $this->redirectToRoute('app_kpi_month', array('user_id' =>$id));
+				return $this->redirectToRoute('app_kpi_month', array('user_actuel' => $user_actuel->getId(), 'user_id' =>$id));
 			}
 			if($routeName == "app_kpi_ytd"){
-				return $this->redirectToRoute('app_kpi_ytd', array('user_id' =>$id));
+				return $this->redirectToRoute('app_kpi_ytd', array('user_actuel' => $user_actuel->getId(), 'user_id' =>$id));
 			}
 			if($routeName == "app_kpi_fid"){
-				return $this->redirectToRoute('app_kpi_fid', array('user_id' =>$id));
+				return $this->redirectToRoute('app_kpi_fid', array('user_actuel' => $user_actuel->getId(), 'user_id' =>$id));
 			}
 			if($routeName == "app_kpi_planning"){
-				return $this->redirectToRoute('app_kpi_planning', array('user_id' =>$id));
+				return $this->redirectToRoute('app_kpi_planning', array('user_actuel' => $user_actuel->getId(), 'user_id' =>$id));
 			}
         }
 
@@ -213,16 +219,17 @@ class KpiController extends Controller
         	$kpis = $em->getRepository('AppBundle:KpiMonth')->getUserKpisBetweenDates($user, $date1, $date2, $brand);
         }
 		
+
 		//get current month depending on url parameter
 		foreach ($kpis as $key => $kpi) {
-			
+
 			if ( $month == null ) {
 				if ( $key == 0 )
 					$kpiCurrentMonth = $kpi;
-					$month = $kpiCurrentMonth->getDate()->format("m");
+				$month = $kpiCurrentMonth->getDate()->format("m");
 			}
 			else {
-				if ( $kpi->getDate()->format("m") == $month ) {
+				if ( $kpi->getDate()->format("m") == $month && $kpi->getDate()->format("Y") == $year ) {
 					$kpiCurrentMonth = $kpi;
 				}
 			}
@@ -235,16 +242,16 @@ class KpiController extends Controller
             $session->remove('kpi_year_filtre');
 
             if($routeName == "app_kpi_month"){
-				return $this->redirectToRoute('app_kpi_month', array('user_id' =>$user->getId()));
+				return $this->redirectToRoute('app_kpi_month', array('user_actuel' => $user_actuel->getId()));
 			}
 			if($routeName == "app_kpi_ytd"){
-				return $this->redirectToRoute('app_kpi_ytd', array('user_id' =>$user->getId()));
+				return $this->redirectToRoute('app_kpi_ytd', array('user_actuel' => $user_actuel->getId()));
 			}
 			if($routeName == "app_kpi_fid"){
-				return $this->redirectToRoute('app_kpi_fid', array('user_id' =>$user->getId()));
+				return $this->redirectToRoute('app_kpi_fid', array('user_actuel' => $user_actuel->getId()));
 			}
 			if($routeName == "app_kpi_planning"){
-				return $this->redirectToRoute('app_kpi_planning', array('user_id' =>$user->getId()));
+				return $this->redirectToRoute('app_kpi_planning', array('user_actuel' => $user_actuel->getId()));
 			}
 		}
 
@@ -252,7 +259,11 @@ class KpiController extends Controller
 		if($routeName == "app_kpi_month"){
 			$topNpe = $em->getRepository('AppBundle:KpiMonth')->getRank1Npe($date3, $date2, $brand);
 			$topNpes = $em->getRepository('AppBundle:KpiMonth')->getRank1Npes($date3, $date2, $brand);
-			$topNpesa = $em->getRepository('AppBundle:KpiMonth')->getRank1Npesa($date3, $date2, $brand); 
+			$topNpesa = $em->getRepository('AppBundle:KpiMonth')->getRank1Npesa($date3, $date2, $brand);
+
+			$topNpeVendeur = $em->getRepository('AppBundle:KpiMonth')->getRank1NpeVendeur($date3, $date2, $brand);
+			$topNpesVendeur = $em->getRepository('AppBundle:KpiMonth')->getRank1NpesVendeur($date3, $date2, $brand);
+			$topNpesaVendeur = $em->getRepository('AppBundle:KpiMonth')->getRank1NpesaVendeur($date3, $date2, $brand);
 		}
 		if($routeName == "app_kpi_ytd"){
 			$topNpe = $em->getRepository('AppBundle:KpiMonth')->getRank1NpeYtd($date3, $date2, $brand);
@@ -270,6 +281,118 @@ class KpiController extends Controller
 		//Mise à jour du filtre
 		$kpiFilterService->updateForm($user, $request, $form);
 
+		$form2 = $this->createForm(new ExportDataType());
+        $form2->handleRequest($request);  
+
+		//Export CSV
+		if ($form2->isSubmitted()) {
+			//$id_data = $user->getId();
+			$idDataMarque 	= $marque->getId();
+			$idDataFiche 	= $kpiCurrentMonth->getId();
+			$idDataAutres	= array();
+			if( $user->getRole() == 'ROLE_MARQUE' ) {
+				foreach ($getDrsMarque as $key => $DrMarque) {
+					array_push($idDataAutres, $DrMarque->getId());
+				}
+			}
+			elseif( $user->getRole() == 'ROLE_DR' ) {
+				foreach ($getBoutiquesDr as $key => $BoutiqueDr) {
+					array_push($idDataAutres, $BoutiqueDr->getId());
+				}
+			}
+			else {
+				foreach ($getVendeursBoutique as $key => $VendeurBoutique) {
+					array_push($idDataAutres, $VendeurBoutique->getId());
+				}
+			}
+
+			$ids = "(".$idDataMarque.",".$idDataFiche;
+
+			foreach ($idDataAutres as $key => $id) {
+				$ids .= ",".$id;
+			}
+			$ids .= ")";
+
+			if($routeName == "app_kpi_month"){
+				$sql = "SELECT u.username,u.role,u.brand,u.dr,u.boutique,u.nom_vendeur,u.prenom_vendeur,d.date,d.nb_transac_m0,d.tx_transac_linked_m0,d.tx_transac_npe_m0,d.tx_transac_npes_m0,d.tx_transac_npesa_m0
+						FROM app_kpi_month d
+						LEFT JOIN fos_user_user u on d.user_id = u.id
+						WHERE d.id in $ids";
+				$header     = array('Libelle','Role','Reseau','DR','Boutique','Nom Vendeur','Prenom Vendeur','Date','NOMBRE DE TRANSACTIONS Mensuel',
+	            					'TAUX DE TRANSACTIONS LIÉES Mensuel','CAPTURE EMAIL VALIDE Mensuel','CAPTURE EMAIL + SMS VALIDE Mensuel','CAPTURE EMAIL + SMS + ADRESSE VALIDE Mensuel');
+			}
+			if($routeName == "app_kpi_ytd"){
+				$sql = "SELECT u.username,u.role,u.brand,u.dr,u.boutique,u.nom_vendeur,u.prenom_vendeur,d.date,d.nb_transac_ytd,d.tx_transac_linked_ytd,d.tx_transac_npe_ytd,d.tx_transac_npes_ytd,d.tx_transac_npesa_ytd
+						FROM app_kpi_month d
+						LEFT JOIN fos_user_user u on d.user_id = u.id
+						WHERE d.id in $ids";
+				$header     = array('Libelle','Role','Reseau','DR','Boutique','Nom Vendeur','Prenom Vendeur','Date','NOMBRE DE TRANSACTIONS YtD',
+	            					'TAUX DE TRANSACTIONS LIÉES YtD','CAPTURE EMAIL VALIDE YtD','CAPTURE EMAIL + SMS VALIDE YtD','CAPTURE EMAIL + SMS + ADRESSE VALIDE YtD');
+			}
+			if($routeName == "app_kpi_fid"){
+				$sql = "SELECT u.username,u.role,u.brand,u.dr,u.boutique,u.nom_vendeur,u.prenom_vendeur,d.date,d.nbre_clients_contactables_email_h,d.nbre_clients_animes_m0,
+								d.nbre_clients_transformes_m0,d.ca_clients_transformes_m0,d.ca_Crm_ytd
+						FROM app_kpi_month d
+						LEFT JOIN fos_user_user u on d.user_id = u.id
+						WHERE d.id in $ids";
+				$header     = array('Libelle','Role','Reseau','DR','Boutique','Nom Vendeur','Prenom Vendeur','Date','NOMBRE DE CLIENTS CONTACTABLES PAR EMAIL',
+	            					'CLIENTS CONTACTÉS PAR EMAIL SUR LE MOIS','CLIENTS CONTACTÉS PAR EMAIL AYANT ACHETÉ SUR LE MOIS','CA DES CLIENTS CONTACTÉS PAR EMAIL AYANT ACHETÉ SUR LE MOIS',
+	            					'CA GÉNÉRÉ PAR LES CLIENTS CONTACTÉS PAR EMAIL DEPUIS JANVIER');
+			}
+
+
+            //Creation du fichier CSV et du header
+            $handle     = fopen('php://memory', 'r+');
+            
+
+            //Creation de l'entête du fichier pour être lisible dans Exel
+            fputs($handle, $bom =( chr(0xEF) . chr(0xBB) . chr(0xBF) ));
+            fputcsv($handle, $header, ';');
+
+            //Initialisation de la connection à la BDD            
+            $pdo = $this->container->get('app.pdo_connect');
+            $pdo = $pdo->initPdoClienteling();
+
+            //Préparation et execution de la requête
+            //var_dump($sql);
+            $stmt = $pdo->prepare($sql);
+            $stmt->execute();
+
+            //Remplissage du fichier csv.
+            while ($row = $stmt->fetch(\PDO::FETCH_ASSOC)) {
+            	if($routeName == "app_kpi_month"){
+                $row["nb_transac_m0"] = '="'.str_replace('.',',',$row["nb_transac_m0"]).'"';
+                $row["tx_transac_linked_m0"] = '="'.str_replace('.',',',$row["tx_transac_linked_m0"]).'"';
+                $row["tx_transac_npe_m0"] = '="'.str_replace('.',',',$row["tx_transac_npe_m0"]).'"';
+                $row["tx_transac_npes_m0"]  = '="'.str_replace('.',',',$row["tx_transac_npes_m0"]).'"';
+                $row["tx_transac_npesa_m0"]  = '="'.str_replace('.',',',$row["tx_transac_npesa_m0"]).'"';
+            	}
+            	if($routeName == "app_kpi_ytd"){
+                $row["nb_transac_ytd"] = '="'.str_replace('.',',',$row["nb_transac_ytd"]).'"';
+                $row["tx_transac_linked_ytd"] = '="'.str_replace('.',',',$row["tx_transac_linked_ytd"]).'"';
+                $row["tx_transac_npe_ytd"] = '="'.str_replace('.',',',$row["tx_transac_npe_ytd"]).'"';
+                $row["tx_transac_npes_ytd"]  = '="'.str_replace('.',',',$row["tx_transac_npes_ytd"]).'"';
+                $row["tx_transac_npesa_ytd"]  = '="'.str_replace('.',',',$row["tx_transac_npesa_ytd"]).'"';
+            	}
+                fputcsv($handle, $row, ';');
+            }
+
+            //Fermeture du fichier
+            rewind($handle);
+            $content = stream_get_contents($handle);
+            fclose($handle);
+            
+            $date_csv = new \Datetime('now');
+            $date_csv = $date_csv->format('Ymd');
+
+            //Reponse : Téléchargement du fichier
+            return new Response($content, 200, array(
+                'Content-Type' => 'application/force-download; text/csv; charset=UTF-8',
+                'Content-Disposition' => 'attachment; filename="export_donnees_'.$date_csv.'.csv"'
+            ));
+
+        }
+
 		//Retourne la bonne page
 		if($routeName == "app_kpi_month"){
 	        return $this->render('AppBundle:Kpi:month.html.twig', array(
@@ -278,6 +401,9 @@ class KpiController extends Controller
 	        	'topNpe'			=> $topNpe,
 	        	'topNpes'			=> $topNpes,
 	        	'topNpesa'			=> $topNpesa,
+	        	'topNpeVendeur'		=> $topNpeVendeur,
+	        	'topNpesVendeur'	=> $topNpesVendeur,
+	        	'topNpesaVendeur'	=> $topNpesaVendeur,
 	        	'currentMonth'		=> $currentMonth,
 	        	'user'				=> $user,
 	        	'getBoutiquesDr'	=> $getBoutiquesDr,
@@ -285,6 +411,9 @@ class KpiController extends Controller
 	        	'getVendeursBoutique' => $getVendeursBoutique,
 	        	'marque'			=> $marque,
 	        	'form'          	=> $form->createView(),
+	        	'form2'          	=> $form2->createView(),
+	        	'scope'				=> 'mensuel',
+	        	'user_actuel'		=> $user_actuel
 	        	)
 	        );
 		}
@@ -302,6 +431,9 @@ class KpiController extends Controller
 	        	'getDrsMarque'		=> $getDrsMarque,
 	        	'getVendeursBoutique' => $getVendeursBoutique,
 	        	'form'          	=> $form->createView(),
+	        	'form2'          	=> $form2->createView(),
+	        	'scope'				=> 'mensuel',
+	        	'user_actuel'		=> $user_actuel
 	        	)
 	        );
 	    }
@@ -315,10 +447,13 @@ class KpiController extends Controller
 	        	'user'			=> $user,
 	        	'month'			=> $month,
 	        	'form'          => $form->createView(),
+	        	'form2'          	=> $form2->createView(),
 	        	'marque'		=> $marque,
 		        'getBoutiquesDr'	=> $getBoutiquesDr,
 		        'getDrsMarque'		=> $getDrsMarque,
 		        'getVendeursBoutique' => $getVendeursBoutique,
+		        'scope'				=> 'mensuel',
+		        'user_actuel'		=> $user_actuel
 	        	)
 	        );
 		}
@@ -331,7 +466,8 @@ class KpiController extends Controller
 	        	'month'				=> $month,
 	        	'currentMonth'		=> $currentMonth,
 	        	'form'          	=> $form->createView(),
-	        	'user'				=> $user
+	        	'user'				=> $user,
+	        	'user_actuel'		=> $user_actuel
 	        	)
 	        );
 		}
@@ -339,12 +475,15 @@ class KpiController extends Controller
 
 
 	/**
-     * @ParamConverter("user", options={"mapping": {"user_id": "id"}})
+	 * @ParamConverter("user_actuel", options={"mapping": {"user_actuel": "id"}})
      */
-	public function kpiWeekAction(User $user, Request $request) {
+	public function kpiWeekAction(User $user_actuel, $user_id, Request $request) {
 		$em = $this->getDoctrine()->getManager();
 		$session = $request->getSession();
 		$routeName = $request->get('_route');
+
+		if($user_id == 0) {$user = $user_actuel;}
+		else {$user = $em->getRepository('ApplicationSonataUserBundle:User')->findOneById($user_id);}
 
 		$session->remove('filtre_reseau');
 		$session->remove('filtre_dr');
@@ -434,7 +573,7 @@ class KpiController extends Controller
 			$marque = $em->getRepository('AppBundle:KpiWeek')->getKpiMarque($dateWeek3, $dateWeek2, $user->getBrand());	
 		}
 
-        if ( $request->getMethod() == 'POST' ) {
+        if ( $request->getMethod() == 'POST' && $form->isSubmitted() ) {
             //Mise à jour des variable de session
             $kpiFilterService->updateSessionVars($data);
             $reseau    = $session->get('filtre_reseau');
@@ -469,7 +608,7 @@ class KpiController extends Controller
 
 	        
 			if($routeName == "app_kpi_week"){
-				return $this->redirectToRoute('app_kpi_week', array('user_id' =>$id));
+				return $this->redirectToRoute('app_kpi_week', array('user_actuel' => $user_actuel->getId(),'user_id' =>$id));
 			}
         }
 
@@ -488,20 +627,8 @@ class KpiController extends Controller
         	$kpis = $em->getRepository('AppBundle:KpiWeek')->getUserKpisBetweenDates($user, $dateWeek1, $dateWeek2, $brand);
         }
 		
-		//get current month depending on url parameter
-		foreach ($kpis as $key => $kpi) {
-			
-			if ( $week == null ) {
-				if ( $key == 0 )
-					$kpiCurrentWeek = $kpi;
-					$month = $kpiCurrentWeek->getDate()->format("W");
-			}
-			else {
-				if ( $kpi->getDate()->format("W") == $week ) {
-					$kpiCurrentWeek = $kpi;
-				}
-			}
-		}
+		
+		$kpiCurrentWeek = $kpis[0];
 
 		if ($kpis == null or $kpiCurrentWeek == null){
 			//throw new NotFoundHttpException("No data Available");
@@ -511,16 +638,16 @@ class KpiController extends Controller
             $session->remove('kpi_week_filtre');
 
             if($routeName == "app_kpi_month"){
-				return $this->redirectToRoute('app_kpi_month', array('user_id' =>$user->getId()));
+				return $this->redirectToRoute('app_kpi_month', array('user_actuel' => $user_actuel->getId(), 'user_id' =>$user->getId()));
 			}
 			if($routeName == "app_kpi_ytd"){
-				return $this->redirectToRoute('app_kpi_ytd', array('user_id' =>$user->getId()));
+				return $this->redirectToRoute('app_kpi_ytd', array('user_actuel' => $user_actuel->getId(), 'user_id' =>$user->getId()));
 			}
 			if($routeName == "app_kpi_fid"){
-				return $this->redirectToRoute('app_kpi_fid', array('user_id' =>$user->getId()));
+				return $this->redirectToRoute('app_kpi_fid', array('user_actuel' => $user_actuel->getId(), 'user_id' =>$user->getId()));
 			}
 			if($routeName == "app_kpi_planning"){
-				return $this->redirectToRoute('app_kpi_planning', array('user_id' =>$user->getId()));
+				return $this->redirectToRoute('app_kpi_planning', array('user_actuel' => $user_actuel->getId(), 'user_id' =>$user->getId()));
 			}
 		}
 
@@ -529,11 +656,96 @@ class KpiController extends Controller
 			$topNpe = $em->getRepository('AppBundle:KpiWeek')->getRank1Npe($dateWeek3, $dateWeek2, $brand);
 			$topNpes = $em->getRepository('AppBundle:KpiWeek')->getRank1Npes($dateWeek3, $dateWeek2, $brand);
 			$topNpesa = $em->getRepository('AppBundle:KpiWeek')->getRank1Npesa($dateWeek3, $dateWeek2, $brand); 
+
+			$topNpeVendeur = $em->getRepository('AppBundle:KpiWeek')->getRank1NpeVendeur($dateWeek3, $dateWeek2, $brand);
+			$topNpesVendeur = $em->getRepository('AppBundle:KpiWeek')->getRank1NpesVendeur($dateWeek3, $dateWeek2, $brand);
+			$topNpesaVendeur = $em->getRepository('AppBundle:KpiWeek')->getRank1NpesaVendeur($dateWeek3, $dateWeek2, $brand); 
 		}
 
 		//Mise à jour du filtre
 		$kpiFilterService->updateForm($user, $request, $form);
 
+
+		$form2 = $this->createForm(new ExportDataType());
+        $form2->handleRequest($request);  
+
+		//Export CSV
+		if ($form2->isSubmitted()) {
+			//$id_data = $user->getId();
+			$idDataMarque 	= $marque->getId();
+			$idDataFiche 	= $kpiCurrentWeek->getId();
+			$idDataAutres	= array();
+			if( $user->getRole() == 'ROLE_MARQUE' ) {
+				foreach ($getDrsMarque as $key => $DrMarque) {
+					array_push($idDataAutres, $DrMarque->getId());
+				}
+			}
+			elseif( $user->getRole() == 'ROLE_DR' ) {
+				foreach ($getBoutiquesDr as $key => $BoutiqueDr) {
+					array_push($idDataAutres, $BoutiqueDr->getId());
+				}
+			}
+			else {
+				foreach ($getVendeursBoutique as $key => $VendeurBoutique) {
+					array_push($idDataAutres, $VendeurBoutique->getId());
+				}
+			}
+
+			$ids = "(".$idDataMarque.",".$idDataFiche;
+
+			foreach ($idDataAutres as $key => $id) {
+				$ids .= ",".$id;
+			}
+			$ids .= ")";
+
+			$sql = "SELECT u.username,u.role,u.brand,u.dr,u.boutique,u.nom_vendeur,u.prenom_vendeur,d.date,d.nb_transac_S0,d.tx_transac_linked_S0,d.tx_transac_npe_S0,d.tx_transac_npes_S0,d.tx_transac_npesa_S0
+					FROM app_kpi_week d
+					LEFT JOIN fos_user_user u on d.user_id = u.id
+					WHERE d.id in $ids";
+			$header     = array('Libelle','Role','Reseau','DR','Boutique','Nom Vendeur','Prenom Vendeur','Date','NOMBRE DE TRANSACTIONS Hebdomadaire',
+	            				'TAUX DE TRANSACTIONS LIÉES Hebdomadaire','CAPTURE EMAIL VALIDE Hebdomadaire','CAPTURE EMAIL + SMS VALIDE Hebdomadaire','CAPTURE EMAIL + SMS + ADRESSE VALIDE Hebdomadaire');
+
+			//Creation du fichier CSV et du header
+            $handle     = fopen('php://memory', 'r+');
+
+            //Creation de l'entête du fichier pour être lisible dans Exel
+            fputs($handle, $bom =( chr(0xEF) . chr(0xBB) . chr(0xBF) ));
+            fputcsv($handle, $header, ';');
+
+            //Initialisation de la connection à la BDD            
+            $pdo = $this->container->get('app.pdo_connect');
+            $pdo = $pdo->initPdoClienteling();
+
+            //Préparation et execution de la requête
+            //var_dump($sql);
+            $stmt = $pdo->prepare($sql);
+            $stmt->execute();
+
+            //Remplissage du fichier csv.
+            while ($row = $stmt->fetch(\PDO::FETCH_ASSOC)) {
+                $row["nb_transac_S0"] = '="'.str_replace('.',',',$row["nb_transac_S0"]).'"';
+                $row["tx_transac_linked_S0"] = '="'.str_replace('.',',',$row["tx_transac_linked_S0"]).'"';
+                $row["tx_transac_npe_S0"] = '="'.str_replace('.',',',$row["tx_transac_npe_S0"]).'"';
+                $row["tx_transac_npes_S0"]  = '="'.str_replace('.',',',$row["tx_transac_npes_S0"]).'"';
+                $row["tx_transac_npesa_S0"]  = '="'.str_replace('.',',',$row["tx_transac_npesa_S0"]).'"';
+                fputcsv($handle, $row, ';');
+            }
+
+            //Fermeture du fichier
+            rewind($handle);
+            $content = stream_get_contents($handle);
+            fclose($handle);
+            
+            $date_csv = new \Datetime('now');
+            $date_csv = $date_csv->format('Ymd');
+
+            //Reponse : Téléchargement du fichier
+            return new Response($content, 200, array(
+                'Content-Type' => 'application/force-download; text/csv; charset=UTF-8',
+                'Content-Disposition' => 'attachment; filename="export_donnees_'.$date_csv.'.csv"'
+            ));
+
+        }
 
 		//Retourne la bonne page
 		if($routeName == "app_kpi_week"){
@@ -543,21 +755,32 @@ class KpiController extends Controller
 	        	'topNpe'			=> $topNpe,
 	        	'topNpes'			=> $topNpes,
 	        	'topNpesa'			=> $topNpesa,
+	        	'topNpeVendeur'		=> $topNpeVendeur,
+	        	'topNpesVendeur'	=> $topNpesVendeur,
+	        	'topNpesaVendeur'	=> $topNpesaVendeur,
 	        	'user'				=> $user,
 	        	'getBoutiquesDr'	=> $getBoutiquesDr,
 	        	'getDrsMarque'		=> $getDrsMarque,
 	        	'getVendeursBoutique' => $getVendeursBoutique,
 	        	'marque'			=> $marque,
 	        	'form'          	=> $form->createView(),
+	        	'form2'          	=> $form2->createView(),
+	        	'user_actuel'		=> $user_actuel
 	        	)
 	        );
 		}
 	}
 
 	/**
-     * @ParamConverter("user", options={"mapping": {"user_id": "id"}})
+	 * @ParamConverter("user_actuel", options={"mapping": {"user_actuel": "id"}})
      */
-	public function faqAction(User $user) {
+
+	public function faqAction(User $user_actuel, $user_id, Request $request){
+		$em = $this->getDoctrine()->getManager();
+		$session = $request->getSession();
+
+		if($user_id == 0) {$user = $user_actuel;}
+		else {$user = $em->getRepository('ApplicationSonataUserBundle:User')->findOneById($user_id);}
 
 		return $this->render('AppBundle:Kpi:faq.html.twig', array(
         	'user'				=> $user,
@@ -601,7 +824,8 @@ class KpiController extends Controller
 
 	    return $this->render('AppBundle:Ajax:ajaxFilter.html.twig', array(
 	    	'user'		=> $user_actuel,
-        	'form'     	=> $form->createView()
+        	'form'     	=> $form->createView(),
+        	'scope'		=> $scope
 	    	)
 	    );
 	}

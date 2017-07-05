@@ -13,7 +13,7 @@
 			{% if boutique.id != 1 and boutique.id != 12 %}
 			<tr>
 				<td style="padding:5px;">{{ boutique.id }}</td>
-				<td style="padding:5px;"><a target="_blank" href="{{ path('app_kpi_week', { 'user_id' : boutique.id } ) }}">{{boutique.username }}</a></td>
+				<td style="padding:5px;"><a target="_blank" href="{{ path('app_kpi_week', { 'user_actuel' : boutique.id } ) }}">{{boutique.username }}</a></td>
 				<td style="padding:5px;">{{ boutique.email }}</td>
 				<td style="padding:5px;">{{ boutique.createdAt|date('d/m/Y') }}</td>
 			</tr>

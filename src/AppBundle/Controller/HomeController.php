@@ -52,6 +52,7 @@ class HomeController extends Controller
 
         return $this->render('AppBundle:Home:list.html.twig', array(
             'user'  => $user,
+            'user_actuel'  => $user,
             'users' => $users
             )
         );
