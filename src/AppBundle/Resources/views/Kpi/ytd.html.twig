@@ -148,7 +148,7 @@
 							{% for boutique in getVendeursBoutique %}
 								{% if getVendeursBoutique is not null %}
 									<tr>
-										<th class="text-right text-uppercase"><a href="{{ path('app_kpi_ytd', { 'user_actuel' : userId, 'user_id' : boutique.user.id } ) }}">{{boutique.user.username}}</a></th>
+										<th class="text-right text-uppercase"><a href="{{ path('app_kpi_ytd', { 'user_actuel' : userId, 'user_id' : boutique.user.id } ) }}">{{boutique.user.nameAndSurname}}</a></th>
 										<td class="text-center">{{ boutique.nbTransacYtd|number_format(0, ',', ' ') }}</td>
 										<td class="text-center">{{ boutique.txTransacLinkedYtd|number_format}} %</td>
 										<td class="text-center">{{ boutique.txTransacNpeYtd|number_format}} %</td>

@@ -133,7 +133,7 @@
 						<tr class="info">
 							<th class="text-right text-uppercase" style="color: #3399FF">Résultats du réseau</th>
 							<td class="text-center">{{marque.nbTransacS0|number_format(0, ',', ' ') }}</td>
-							<td class="text-center">{{ marque.txTransacNpeS0|number_format}} %</td>
+							<td class="text-center">{{ marque.txTransacLinkedS0|number_format}} %</td>
 							<td class="text-center">{{ marque.txTransacNpeS0|number_format}} %</td>
 							<td class="text-center">{{ marque.txTransacNpesS0|number_format}} %</td>
 							<td class="text-center">{{ marque.txTransacNpesaS0|number_format}} %</td>
@@ -144,7 +144,7 @@
 									<tr>
 										<th class="text-right text-uppercase"><a href="{{ path('app_kpi_week', { 'user_actuel' : userId, 'user_id' : boutique.user.id } ) }}">{{boutique.user.nameAndSurname}}</a></th>
 										<td class="text-center">{{ boutique.nbTransacS0|number_format(0, ',', ' ') }}</td>
-										<td class="text-center">{{ boutique.txTransacNpeS0|number_format}} %</td>
+										<td class="text-center">{{ boutique.txTransacLinkedS0|number_format}} %</td>
 										<td class="text-center">{{ boutique.txTransacNpeS0|number_format}} %</td>
 										<td class="text-center">{{ boutique.txTransacNpesS0|number_format}} %</td>
 										<td class="text-center">{{ boutique.txTransacNpesaS0|number_format}} %</td>
@@ -157,7 +157,7 @@
 									<tr>
 										<th class="text-right text-uppercase"><a href="{{ path('app_kpi_week', { 'user_actuel' : userId, 'user_id' : boutique.user.id } ) }}">{{boutique.user.nameAndSurname}}</a></th>
 										<td class="text-center">{{ boutique.nbTransacS0|number_format(0, ',', ' ') }}</td>
-										<td class="text-center">{{ boutique.txTransacNpeS0|number_format}} %</td>
+										<td class="text-center">{{ boutique.txTransacLinkedS0|number_format}} %</td>
 										<td class="text-center">{{ boutique.txTransacNpeS0|number_format}} %</td>
 										<td class="text-center">{{ boutique.txTransacNpesS0|number_format}} %</td>
 										<td class="text-center">{{ boutique.txTransacNpesaS0|number_format}} %</td>
@@ -170,7 +170,7 @@
 									<tr>
 										<th class="text-right text-uppercase"><a href="{{ path('app_kpi_week', { 'user_actuel' : userId, 'user_id' : boutique.user.id } ) }}">{{boutique.user.nameAndSurname}}</a></th>
 										<td class="text-center">{{ boutique.nbTransacS0|number_format(0, ',', ' ') }}</td>
-										<td class="text-center">{{ boutique.txTransacNpeS0|number_format}} %</td>
+										<td class="text-center">{{ boutique.txTransacLinkedS0|number_format}} %</td>
 										<td class="text-center">{{ boutique.txTransacNpeS0|number_format}} %</td>
 										<td class="text-center">{{ boutique.txTransacNpesS0|number_format}} %</td>
 										<td class="text-center">{{ boutique.txTransacNpesaS0|number_format}} %</td>

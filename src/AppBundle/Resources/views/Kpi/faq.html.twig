@@ -107,7 +107,9 @@
 
 	<div class="col-xs-12 kpi-box">
 		<div class="inside col-xs-12">
-			<h4 class="black pointer" data-toggle="collapse" href="#page1" aria-expanded="false" aria-controls="page1">Page 1 : Résultats du mois <i class="fa fa-plus pull-right" aria-hidden="true"></i></h4>
+
+
+			<h4 class="black pointer" data-toggle="collapse" href="#page1" aria-expanded="false" aria-controls="page1">Page 1 : Resultats de la semaine <i class="fa fa-plus pull-right" aria-hidden="true"></i></h4>
 			<div  class="collapse" id="page1">
 				<table class="table table-striped">
 					<thead>
@@ -117,9 +119,104 @@
 					</thead>
 					<tbody>
 						<tr>
+							<th scope="row">% Transactions sans nom &amp; prénom :</th>
+							<td>
+								% de tickets édités avec un CA supérieur à 0 non identifiés avec un nom &amp; prénom.
+							</td>
+						</tr>
+						<tr>
+							<th scope="row">% transactions identifiées avec un nom et un prénom</th>
+							<td>
+								% de tickets édités avec un CA supérieur à 0 identifiés avec un nom &amp; prénom.
+							</td>
+						</tr>
+						<tr>
+							<th scope="row">Nombre de transactions enregistrées</th>
+							<td>								
+								Nombre de transactions enregistrées pendant la semaine écoulée.
+							</td>
+						</tr>
+						<tr>
+							<th scope="row">Données collectées email + sms</th>
+							<td>								
+								Nombre de transactions liées à un client dont au moins l'email est renseigné et valide, enregistrées dans la semaine (le sms et l'adresse peuvent être renseignés et valides).
+							</td>
+						</tr>
+						<tr>
+							<th scope="row">Données collectées email + sms + adresse</th>
+							<td>								
+								Nombre de transactions liées à un client dont l'email, l'adresse et le sms sont renseignés et valides, enregistrées dans la semaine.
+							</td>
+						</tr>
+
+						<tr>
+							<th scope="row">Données collectées email non-valides</th>
+							<td>								
+								Nombre de transactions liées à un client dont l'email est renseigné mais non valide, enregistrées dans la semaine.<br />
+								Raisons email non valide: hardbounce, adresse email avec syntaxe erronnée (manque arobase, ...), email fictif ex: client@gmail.com.
+							</td>
+						</tr>
+						<tr>
+							<th scope="row">Données collectées email + sms non-valides</th>
+							<td>								
+								Nombre de transactions liées à un client dont l'email est renseigné mais non valide et/ou le sms est renseigné mais non valide, enregistrées la semaine (un des deux canaux est non valide) soit email soit sms soit les deux sont non valides.<br />
+								Raisons sms non-valides : hardbounce (lié aux campagnes sms), format numéro de téléphone incorrect, numéro inventé (ex: 0610101010).
+							</td>
+						</tr>
+						<tr>
+							<th scope="row">Données collectées email+sms+adresse non-valides</th>
+							<td>								
+								Nombre de transactions liées à un client dont soit l'email soit le sms, soit l'adresse, soit une combinaison des 3 ne sont pas valides.<br />
+								Raisons de l'adresse non-valide: adresse fausse, NPAI suite à l'envoi de campagnes print.
+							</td>
+						</tr>
+						<tr>
+							<th scope="row">Taux d'emails collectés</th>
+							<td>								
+								Nombre de transactions liées à un client dont l'email au moins est renseigné et valide / nombre total de transactions enregistrées.
+							</td>
+						</tr>
+						<tr>
+							<th scope="row">Taux d'emails + SMS collectés</th>
+							<td>								
+								Nombre de transactions liées à un client dont l'email et le sms au moins sont renseignés et valides / nombre total de transactions enregistrées.
+							</td>
+						</tr>
+						<tr>
+							<th scope="row">Taux d'emails + SMS + Téléphone collectés</th>
+							<td>								
+								Nombre de transactions liées à un client dont l'email, le sms et l'adresse sont renseignés et valides / nombre total de transactions enregistrées.
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+
+			<h4 class="black pointer" data-toggle="collapse" href="#page2" aria-expanded="false" aria-controls="page2">Page 2 : Résultats du mois <i class="fa fa-plus pull-right" aria-hidden="true"></i></h4>
+			<div  class="collapse" id="page2">
+				<table class="table table-striped">
+					<thead>
+						<tr>
+							<th>Qualification des clients</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<th scope="row">% Transactions sans nom &amp; prénom :</th>
+							<td>
+								% de tickets édités avec un CA supérieur à 0 non identifiés avec un nom &amp; prénom.
+							</td>
+						</tr>
+						<tr>
 							<th scope="row">Nombre de transactions enregistrées</th>
 							<td>
 								Nombre de transactions enregistrées pendant le mois écoulé.
+							</td>
+						</tr>
+						<tr>
+							<th scope="row">% transactions identifiées avec un nom et un prénom</th>
+							<td>
+								% de tickets édités avec un CA supérieur à 0 identifiés avec un nom &amp; prénom.
 							</td>
 						</tr>
 						<tr>
@@ -206,8 +303,8 @@
 				</table>
 			</div>
 
-			<h4 class="black pointer" data-toggle="collapse" href="#page2" aria-expanded="false" aria-controls="page2">Page 2 : Cumul annuel <i class="fa fa-plus pull-right" aria-hidden="true"></i></h4>
-			<div  class="collapse" id="page2">
+			<h4 class="black pointer" data-toggle="collapse" href="#page3" aria-expanded="false" aria-controls="page3">Page 3 : Cumul annuel <i class="fa fa-plus pull-right" aria-hidden="true"></i></h4>
+			<div  class="collapse" id="page3">
 				<table class="table table-striped">
 					<tbody>
 						<tr>
@@ -217,8 +314,8 @@
 				</table>
 			</div>
 
-			<h4 class="black pointer" data-toggle="collapse" href="#page3" aria-expanded="false" aria-controls="page3">Page 3 : Planning des campagnes <i class="fa fa-plus pull-right" aria-hidden="true"></i></h4>
-			<div  class="collapse" id="page3">
+			<h4 class="black pointer" data-toggle="collapse" href="#page4" aria-expanded="false" aria-controls="page4">Page 4 : Planning des campagnes <i class="fa fa-plus pull-right" aria-hidden="true"></i></h4>
+			<div  class="collapse" id="page4">
 				<table class="table table-striped">
 					<tbody>
 						<tr>
@@ -256,8 +353,8 @@
 			</div>
 
 			{% if user.brand != "ROYAL QUARTZ" %}
-			<h4 class="black pointer" data-toggle="collapse" href="#page4" aria-expanded="false" aria-controls="page4">Page 4 : Fidélité de mes clients <i class="fa fa-plus pull-right" aria-hidden="true"></i></h4>
-			<div  class="collapse" id="page4">
+			<h4 class="black pointer" data-toggle="collapse" href="#page5" aria-expanded="false" aria-controls="page5">Page 5 : Fidélité de mes clients <i class="fa fa-plus pull-right" aria-hidden="true"></i></h4>
+			<div  class="collapse" id="page5">
 				<table class="table table-striped">
 					<thead>
 						<tr>

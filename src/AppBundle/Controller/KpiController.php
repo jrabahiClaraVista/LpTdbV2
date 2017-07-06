@@ -784,6 +784,7 @@ class KpiController extends Controller
 
 		return $this->render('AppBundle:Kpi:faq.html.twig', array(
         	'user'				=> $user,
+        	'user_actuel'		=> $user_actuel,
         	)
         );
 	}
