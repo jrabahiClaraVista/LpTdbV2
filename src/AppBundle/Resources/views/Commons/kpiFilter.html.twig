@@ -54,11 +54,7 @@
 			</div>
 
 			<div class="col-xs-3">
-				{{ form_widget(form.submit, {'attr': {'class': 'btn big-action-gray-btn'}, 'label' : 'Valider' }) }}
-			</div>
-
-			<div id="spinner" style="display:none;" class="col-xs-3">
-				<i class="fa fa-spinner fa-pulse fa-2x fa-fw"></i> Chargement...
+				{{ form_widget(form.submit, {'attr': {'class': 'btn big-action-gray-btn hidden'}, 'label' : 'Valider' }) }}
 			</div>
 			
 		{{ form_end(form) }}
@@ -70,6 +66,11 @@
 				{{ form_widget(form2.submit, {'attr': {'class': 'btn big-action-gray-btn'}, 'label' : 'Exporter en CSV (Excel)'|trans}) }}
 			</div>
 			{{ form_end(form2) }}
-	{% endif %}
+		{% endif %}
+
+
+		<div id="spinner" style="display:none; margin:17px 0;" class="col-xs-3">
+			<i class="fa fa-spinner fa-pulse fa-2x fa-fw"></i> Chargement...
+		</div>
 	</div>
 </div>

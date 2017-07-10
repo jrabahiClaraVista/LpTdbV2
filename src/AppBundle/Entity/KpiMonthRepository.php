@@ -263,6 +263,78 @@ class KpiMonthRepository extends EntityRepository
 	}
 
 
+
+	public function getRank1NpeYtdVendeur($date1,$date2, $brand){
+		$qb = $this
+			->createQueryBuilder('k')
+			->where('k.rankNpesaM0 = :val')
+			->setParameter(':val', 1)
+		  	->leftJoin('k.user', 'u')
+		  	->addSelect('u')
+		  	->andWhere('u.brand = :brand')
+		  	->setParameter('brand', $brand)
+		  	->andWhere('k.date BETWEEN :date1 AND :date2')
+		  	->setParameter('date1', $date1)
+		  	->setParameter('date2', $date2)
+		  	->andWhere('u.role = :role')
+		  	->setParameter('role', "ROLE_VENDEUR")
+		  	->orderBy('k.txTransacNpeYtd', 'DESC')
+		  	->setMaxResults(1);
+		;
+
+		return $qb
+			->getQuery()
+			->getOneOrNullResult();
+	}
+
+
+	public function getRank1NpesYtdVendeur($date1,$date2, $brand){
+		$qb = $this
+			->createQueryBuilder('k')
+			->where('k.rankNpesaM0 = :val')
+			->setParameter(':val', 1)
+		  	->leftJoin('k.user', 'u')
+		  	->addSelect('u')
+		  	->andWhere('u.brand = :brand')
+		  	->setParameter('brand', $brand)
+		  	->andWhere('k.date BETWEEN :date1 AND :date2')
+		  	->setParameter('date1', $date1)
+		  	->setParameter('date2', $date2)
+		  	->andWhere('u.role = :role')
+		  	->setParameter('role', "ROLE_VENDEUR")
+		  	->orderBy('k.txTransacNpesYtd', 'DESC')
+		  	->setMaxResults(1);
+		;
+
+		return $qb
+			->getQuery()
+			->getOneOrNullResult();
+	}
+
+	public function getRank1NpesaYtdVendeur($date1,$date2, $brand){
+		$qb = $this
+			->createQueryBuilder('k')
+			->where('k.rankNpesaM0 = :val')
+			->setParameter(':val', 1)
+		  	->leftJoin('k.user', 'u')
+		  	->addSelect('u')
+		  	->andWhere('u.brand = :brand')
+		  	->setParameter('brand', $brand)
+		  	->andWhere('k.date BETWEEN :date1 AND :date2')
+		  	->setParameter('date1', $date1)
+		  	->setParameter('date2', $date2)
+		  	->andWhere('u.role = :role')
+		  	->setParameter('role', "ROLE_VENDEUR")
+		  	->orderBy('k.txTransacNpesaYtd', 'DESC')
+		  	->setMaxResults(1);
+		;
+
+		return $qb
+			->getQuery()
+			->getOneOrNullResult();
+	}
+
+
 	public function getKpiVendeurBoutique($boutique, $date1, $date2, $brand){
 		$qb = $this
 			->createQueryBuilder('k')

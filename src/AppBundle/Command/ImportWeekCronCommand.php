@@ -55,7 +55,7 @@ class ImportWeekCronCommand extends ContainerAwareCommand
 			//$import->setUserforKpiLp();
 			
 			$output->writeln("Archivage du fichier");		
-			$import->renameLastImport("hebdo");
+			$import->renameLastImportWeek();
 		} else {
 		    $output->writeln("Aucun fichier, annulation de l'import");
 		}

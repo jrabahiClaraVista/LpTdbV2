@@ -195,7 +195,7 @@
 	<div class="col-xs-12">
 
 		{% if user.role != "ROLE_VENDEUR" %}
-			<h2 class="text-uppercase gris-bg">Le top boutique du mois</h2>
+			<h2 class="text-uppercase gris-bg">Le top boutique {{ user.brand }}</h2>
 			<div class="col-xs-12 kpi-box">
 				<div class="inside">
 					<div class="inside top col-xs-4 text-center">
@@ -223,7 +223,7 @@
 				</div>
 			</div>
 		{% else %}
-			<h2 class="text-uppercase gris-bg">Le top Vendeur au global</h2>
+			<h2 class="text-uppercase gris-bg">Le top Vendeur {{ user.brand }}</h2>
 			<div class="col-xs-12 kpi-box">
 				<div class="inside">
 					<div class="inside top col-xs-4 text-center">
@@ -263,6 +263,15 @@
 	<script type="text/javascript">
 
 	$(function(){
+
+		$(document).on('change', '#appbundle_kpi_filter_month', function() {
+    		$('#clients-filter').submit();
+    		$('#spinner').show();
+    	});
+    	$(document).on('change', '#appbundle_kpi_filter_year', function() {
+    		$('#clients-filter').submit();
+    		$('#spinner').show();
+    	});
 
     	$(document).on('change', '#appbundle_kpi_filter_reseau', function() {
     		// Ici on réinitialise la page au niveau Marque au changement
@@ -427,14 +436,14 @@
 							indexLabel: 	"{y}%",
 							toolTipContent: "{y}%",
 							exploded: false,
-							legendText:"{y}% Transaction identifiées avec un nom & un prénom",
-							label: "{y}% Transaction identifiées avec un nom & un prénom"},
+							legendText:"{y}% Transactions identifiées avec un nom & un prénom",
+							label: "{y}% Transactions identifiées avec un nom & un prénom"},
 						{  y: {{ ((100 - currentKpi.txTransacLinkedM0))|number_format('0','.','') }}, 
 							indexLabel: 	"{y}%",
 							toolTipContent: "{y}%",
 							exploded: false,
-							legendText:"{y}% Transaction sans nom & prénom",
-							label: "{y}% Transaction sans nom & prénom"},
+							legendText:"{y}% Transactions sans nom & prénom",
+							label: "{y}% Transactions sans nom & prénom"},
 					]
 				}
 				]

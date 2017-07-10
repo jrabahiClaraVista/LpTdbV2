@@ -40,10 +40,8 @@ class KpiFilterType extends AbstractType
         $builder
         ->add('year', 'Symfony\Component\Form\Extension\Core\Type\ChoiceType', array(
             'choices' => array(
-              '2015'   => '2015',
               '2016'   => '2016',
               '2017'   => '2017',
-              '2018'   => '2018',
               ),
             'choices_as_values' => true,
             'required' => false,
@@ -79,10 +77,8 @@ class KpiFilterType extends AbstractType
             // Configuration des mois à afficher
             $form->add('year', 'Symfony\Component\Form\Extension\Core\Type\ChoiceType', array(
                 'choices' => array(
-                    '2015'   => '2015',
                     '2016'   => '2016',
                     '2017'   => '2017',
-                    '2018'   => '2018',
                     ),
                 'choices_as_values' => true,
                 'required' => false,
@@ -162,14 +158,28 @@ class KpiFilterType extends AbstractType
                 );
             }
             elseif($this->scope == 'hebdomadaire'){
-                $date_start = new \DateTime();
+                $date_start = new \DateTime('now');
                 $form->add('month', 'hidden', array(
                   'required' => false,
                   )
 
                 );
+
+                $date = new \DateTime('now');
+
+                for($i = 1; $i <= 53; $i++) {
+                    $date =  $date->setISODate(intval($this->year), $i);
+
+                    if($date <= $date_start and $i > 26 ) {
+                        $dates_week[$date->format("d/m/Y")."  - Semaine ".$i] = $i;
+                    }
+                }
+
+
                 $form->add('week', 'Symfony\Component\Form\Extension\Core\Type\ChoiceType', array(
-                    'choices' => array(
+                    'choices' => 
+                        $dates_week
+                        /*array(
                         $date_start->setISODate(intval($this->year), 1)->format("d/m/Y")."  - Semaine 1"  => 1,
                         $date_start->setISODate(intval($this->year), 2)->format("d/m/Y")."  - Semaine 2"  => 2,
                         $date_start->setISODate(intval($this->year), 3)->format("d/m/Y")."  - Semaine 3"  => 3,
@@ -223,7 +233,7 @@ class KpiFilterType extends AbstractType
                         $date_start->setISODate(intval($this->year), 51)->format("d/m/Y")." - Semaine 51"  => 51,
                         $date_start->setISODate(intval($this->year), 52)->format("d/m/Y")." - Semaine 52"  => 52,
                         $date_start->setISODate(intval($this->year), 53)->format("d/m/Y")." - Semaine 53"  => 53,
-                        ),
+                        )*/,
             'choices_as_values' => true,
             'required' => false,
             'data' => $this->week,

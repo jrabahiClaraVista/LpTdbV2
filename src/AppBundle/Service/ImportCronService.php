@@ -72,6 +72,17 @@ class ImportCronService
             rename ("/srv/data/web/vhosts/louispion-qualification.fr/htdocs/web/imports/TABLEAU_DE_BORD_lp_rq.csv" , "/srv/data/web/vhosts/louispion-qualification.fr/htdocs/web/imports/archives/TABLEAU_DE_BORD_lp_rq_".$date.".csv" );
     }
 
+    public function renameLastImportWeek($name = null) 
+    {   
+        $date = new \DateTime();
+        $date = $date->format("Ym");
+        
+        if($name != null)
+            rename ("/srv/data/web/vhosts/louispion-qualification.fr/htdocs/web/imports/TABLEAU_DE_BORD_hebdo_lp_".$name."_rq.csv" , "/srv/data/web/vhosts/louispion-qualification.fr/htdocs/web/imports/archives/TABLEAU_DE_BORD_hebdo_lp_".$name."_rq_".$date.".csv" );
+        else
+            rename ("/srv/data/web/vhosts/louispion-qualification.fr/htdocs/web/imports/TABLEAU_DE_BORD_hebdo_lp_rq.csv" , "/srv/data/web/vhosts/louispion-qualification.fr/htdocs/web/imports/archives/TABLEAU_DE_BORD_hebdo_lp_rq_".$date.".csv" );
+    }
+
     public function importKpiCaptureCSVFile( InputInterface $input, OutputInterface $output, $csv = null)
     {        
         $date = new \DateTime();

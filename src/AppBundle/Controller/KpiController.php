@@ -269,6 +269,10 @@ class KpiController extends Controller
 			$topNpe = $em->getRepository('AppBundle:KpiMonth')->getRank1NpeYtd($date3, $date2, $brand);
 			$topNpes = $em->getRepository('AppBundle:KpiMonth')->getRank1NpesYtd($date3, $date2, $brand);
 			$topNpesa = $em->getRepository('AppBundle:KpiMonth')->getRank1NpesaYtd($date3, $date2, $brand);
+
+			$topNpeVendeur = $em->getRepository('AppBundle:KpiMonth')->getRank1NpeYtdVendeur($date3, $date2, $brand);
+			$topNpesVendeur = $em->getRepository('AppBundle:KpiMonth')->getRank1NpesYtdVendeur($date3, $date2, $brand);
+			$topNpesaVendeur = $em->getRepository('AppBundle:KpiMonth')->getRank1NpesaYtdVendeur($date3, $date2, $brand);
 		}
 		if($routeName == "app_kpi_fid"){
 			$kpisTopCa = $em->getRepository('AppBundle:KpiMonth')->getTop3Ca($brand, $date);
@@ -424,6 +428,9 @@ class KpiController extends Controller
 	        	'topNpe'			=> $topNpe,
 	        	'topNpes'			=> $topNpes,
 	        	'topNpesa'			=> $topNpesa,
+	        	'topNpeVendeur'		=> $topNpeVendeur,
+	        	'topNpesVendeur'	=> $topNpesVendeur,
+	        	'topNpesaVendeur'	=> $topNpesaVendeur,
 	        	'user'				=> $user,
 	        	'month'				=> $month,
 	        	'marque'			=> $marque,
@@ -628,7 +635,20 @@ class KpiController extends Controller
         }
 		
 		
-		$kpiCurrentWeek = $kpis[0];
+		//get current month depending on url parameter
+		foreach ($kpis as $key => $kpi) {
+
+			if ( $week == null ) {
+				if ( $key == 0 )
+					$kpiCurrentWeek = $kpi;
+					$week = $kpiCurrentWeek->getDate()->format("W");
+			}
+			else {
+				if ( $kpi->getDate()->format("W") == $week && $kpi->getDate()->format("Y") == $year ) {
+					$kpiCurrentWeek = $kpi;
+				}
+			}
+		}
 
 		if ($kpis == null or $kpiCurrentWeek == null){
 			//throw new NotFoundHttpException("No data Available");
@@ -637,18 +657,7 @@ class KpiController extends Controller
             $session->remove('kpi_year_filtre');
             $session->remove('kpi_week_filtre');
 
-            if($routeName == "app_kpi_month"){
-				return $this->redirectToRoute('app_kpi_month', array('user_actuel' => $user_actuel->getId(), 'user_id' =>$user->getId()));
-			}
-			if($routeName == "app_kpi_ytd"){
-				return $this->redirectToRoute('app_kpi_ytd', array('user_actuel' => $user_actuel->getId(), 'user_id' =>$user->getId()));
-			}
-			if($routeName == "app_kpi_fid"){
-				return $this->redirectToRoute('app_kpi_fid', array('user_actuel' => $user_actuel->getId(), 'user_id' =>$user->getId()));
-			}
-			if($routeName == "app_kpi_planning"){
-				return $this->redirectToRoute('app_kpi_planning', array('user_actuel' => $user_actuel->getId(), 'user_id' =>$user->getId()));
-			}
+				return $this->redirectToRoute('app_kpi_week', array('user_actuel' => $user_actuel->getId(), 'user_id' =>$user->getId()));
 		}
 
 		//Récupération des top

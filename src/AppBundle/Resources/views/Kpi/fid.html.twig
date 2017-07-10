@@ -170,6 +170,15 @@
 
 	$(function(){
 
+		$(document).on('change', '#appbundle_kpi_filter_month', function() {
+    		$('#clients-filter').submit();
+    		$('#spinner').show();
+    	});
+    	$(document).on('change', '#appbundle_kpi_filter_year', function() {
+    		$('#clients-filter').submit();
+    		$('#spinner').show();
+    	});
+
     	$(document).on('change', '#appbundle_kpi_filter_reseau', function() {
     		// Ici on réinitialise la page au niveau Marque au changement
     		//pour éviter le bug d'envoie de formulaire vide si on sélectionne autre chose après
