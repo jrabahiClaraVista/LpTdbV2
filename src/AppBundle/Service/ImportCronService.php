@@ -52,7 +52,7 @@ class ImportCronService
 
         if($this->ip == "127.0.0.1")
         {
-            $this->filesList = scandir("D:\wamp\www\LpTdbV3\web\imports");
+            $this->filesList = scandir("D:\wamp64\www\LpTdbV3\web\imports");
         }
         else{
             $this->filesList = scandir("/srv/data/web/vhosts/louispion-qualification.fr/htdocs/web/imports");
@@ -64,7 +64,9 @@ class ImportCronService
     public function renameLastImport($name = null) 
     {   
         $date = new \DateTime();
+        $dateWeek = new \DateTime();
         $date = $date->format("Ym");
+        $dateWeek = $dateWeek->format("YmdW");
         
         if($name != null)
             rename ("/srv/data/web/vhosts/louispion-qualification.fr/htdocs/web/imports/TABLEAU_DE_BORD_lp_".$name."_rq.csv" , "/srv/data/web/vhosts/louispion-qualification.fr/htdocs/web/imports/archives/TABLEAU_DE_BORD_lp_".$name."_rq_".$date.".csv" );
@@ -75,12 +77,14 @@ class ImportCronService
     public function renameLastImportWeek($name = null) 
     {   
         $date = new \DateTime();
+        $dateWeek = new \DateTime();
         $date = $date->format("Ym");
+        $dateWeek = $dateWeek->format("YmdW");
         
         if($name != null)
-            rename ("/srv/data/web/vhosts/louispion-qualification.fr/htdocs/web/imports/TABLEAU_DE_BORD_hebdo_lp_".$name."_rq.csv" , "/srv/data/web/vhosts/louispion-qualification.fr/htdocs/web/imports/archives/TABLEAU_DE_BORD_hebdo_lp_".$name."_rq_".$date.".csv" );
+            rename ("/srv/data/web/vhosts/louispion-qualification.fr/htdocs/web/imports/TABLEAU_DE_BORD_hebdo_lp_".$name."_rq.csv" , "/srv/data/web/vhosts/louispion-qualification.fr/htdocs/web/imports/archives/TABLEAU_DE_BORD_hebdo_lp_".$name."_rq_".$dateWeek.".csv" );
         else
-            rename ("/srv/data/web/vhosts/louispion-qualification.fr/htdocs/web/imports/TABLEAU_DE_BORD_hebdo_lp_rq.csv" , "/srv/data/web/vhosts/louispion-qualification.fr/htdocs/web/imports/archives/TABLEAU_DE_BORD_hebdo_lp_rq_".$date.".csv" );
+            rename ("/srv/data/web/vhosts/louispion-qualification.fr/htdocs/web/imports/TABLEAU_DE_BORD_hebdo_lp_rq.csv" , "/srv/data/web/vhosts/louispion-qualification.fr/htdocs/web/imports/archives/TABLEAU_DE_BORD_hebdo_lp_rq_".$dateWeek.".csv" );
     }
 
     public function importKpiCaptureCSVFile( InputInterface $input, OutputInterface $output, $csv = null)
@@ -125,7 +129,7 @@ class ImportCronService
         } 
 
 
-        $sql1 = "INSERT INTO fos_user_user ( ".$header1.", created_at, salt, password, roles ) VALUES ( ".$values1.", :created_at, :salt, :password, :roles )
+        $sql1 = "INSERT INTO fos_user_user ( ".$header1.", created_at, salt, password, roles,locked,expired,credentials_expired,ispremium ) VALUES ( ".$values1.", :created_at, :salt, :password, :roles,0,0,0,0 )
                 ON DUPLICATE KEY UPDATE ".$update1."
         "; 
         $sql2 = "INSERT INTO app_kpi_month ( user_id, ".$header2." ) VALUES (  (SELECT id from fos_user_user u WHERE u.username = :username) , ".$values2.")
@@ -273,7 +277,7 @@ class ImportCronService
         } 
 
 
-        $sql1 = "INSERT INTO fos_user_user ( ".$header1.", created_at, salt, password, roles ) VALUES ( ".$values1.", :created_at, :salt, :password, :roles )
+        $sql1 = "INSERT INTO fos_user_user ( ".$header1.", created_at, salt, password, roles,locked,expired,credentials_expired,ispremium ) VALUES ( ".$values1.", :created_at, :salt, :password, :roles, 0, 0,0,0 )
                 ON DUPLICATE KEY UPDATE ".$update1."
         "; 
         $sql2 = "INSERT INTO app_kpi_week ( user_id, ".$header2." ) VALUES (  (SELECT id from fos_user_user u WHERE u.username = :username) , ".$values2.")

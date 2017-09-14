@@ -39,7 +39,7 @@
 	                    {% if app.request.get('_route') in ['app_kpi_month','app_kpi_ytd','app_kpi_fid','app_kpi_planning']%}
 	                    	<span class="small">Rapport du mois {{ getMonthWording(currentKpi.date|date('m'), "de ") }} {{currentKpi.date|date('Y')}}</span>
 		                {% else %}
-		                	<span class="small">Rapport de la semaine du {{ currentKpi.date|date('d') }} {{ getMonthWording(currentKpi.date|date('m'), "") }} {{currentKpi.date|date('Y')}}</span>
+		                	<span class="small">Rapport de la semaine du {{ currentKpi.date|date_modify("+1 day")|date('d') }} {{ getMonthWording(currentKpi.date|date('m'), "") }} {{currentKpi.date|date('Y')}}</span>
 		                {% endif %}
 		             {% endif %}
                 </li>

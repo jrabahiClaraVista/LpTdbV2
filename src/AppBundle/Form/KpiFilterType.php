@@ -171,7 +171,7 @@ class KpiFilterType extends AbstractType
                     $date =  $date->setISODate(intval($this->year), $i);
 
                     if($date <= $date_start and $i > 26 ) {
-                        $dates_week[$date->format("d/m/Y")."  - Semaine ".$i] = $i;
+                        $dates_week[$date->modify('-7 days')->format("d/m/Y")."  - Semaine ".($i-1)] = $i;
                     }
                 }
 

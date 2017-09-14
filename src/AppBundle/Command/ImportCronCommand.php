@@ -33,7 +33,7 @@ class ImportCronCommand extends ContainerAwareCommand
 
         if($ip == "127.0.0.1")
         {
-            $filename1 = "D:\wamp\www\LpTdbV3\web\imports\TABLEAU_DE_BORD_lp_rq.csv";
+            $filename1 = "D:\wamp64\www\LpTdbV3\web\imports\TABLEAU_DE_BORD_lp_rq.csv";
         }
         else{
 			$filename1 = "/srv/data/web/vhosts/louispion-qualification.fr/htdocs/web/imports/TABLEAU_DE_BORD_lp_rq.csv";            

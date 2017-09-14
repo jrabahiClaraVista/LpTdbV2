@@ -14,7 +14,9 @@ use Application\Sonata\UserBundle\Entity\User;
 /**
  * KpiMonth
  *
- * @ORM\Table(name="app_kpi_week")
+ * @ORM\Table(name="app_kpi_week", uniqueConstraints={
+ *      @ORM\UniqueConstraint(name="UNIQUE_USER_DATE", columns={"user_id", "date"})
+ * })
  * @ORM\Entity(repositoryClass="AppBundle\Entity\KpiWeekRepository")
  * @UniqueEntity(fields={"user_id", "date"})
  * @ORM\HasLifecycleCallbacks()

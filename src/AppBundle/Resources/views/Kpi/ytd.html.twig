@@ -14,6 +14,9 @@
 	<div class="text-center col-xs-12">
 		<p>Les résultats ci-dessous sont mis à jour tous les mois</p>
 	</div>
+
+	{% if currentKpi.nbTransacYtd > 0 %}
+
 	<div class="col-xs-12">
 		<h2 class="text-uppercase gris-bg">{{ "La qualification des mes clients"|trans }}</h2>
 
@@ -84,6 +87,12 @@
 
 	</div>
 
+
+	{% else %}
+		<div class="col-xs-12">
+			<h2 class="text-uppercase gris-bg text-center">Aucune transactions pour la date demandée</h2>
+		</div>
+	{% endif %}
 	
 
 	<div class="spacer" style="margin-bottom:0px;"></div>
