@@ -171,7 +171,8 @@ class KpiFilterType extends AbstractType
                     $date =  $date->setISODate(intval($this->year), $i);
 
                     if($date <= $date_start and $i > 26 ) {
-                        $dates_week[$date->modify('-7 days')->format("d/m/Y")."  - Semaine ".($i-1)] = $i;
+                        #$dates_week[$date->modify('-7 days')->format("d/m/Y")."  - Semaine ".($i-1)] = $i;
+                        $dates_week[$date->format("d/m/Y")."  - Semaine ".($i-1)] = $i;
                     }
                 }
 
@@ -274,6 +275,7 @@ class KpiFilterType extends AbstractType
                             ->where('u.role = :role')
                             ->andWhere('u.brand = :brand')
                             ->andWhere('u.dr = :dr')
+                            ->andWhere('u.nbTransacYtd > 0')
                             ->setParameter('role', 'ROLE_BOUTIQUE')
                             ->setParameter('brand', $this->user->getBrand())
                             ->setParameter('dr', $this->user->getUsername())
@@ -296,6 +298,7 @@ class KpiFilterType extends AbstractType
                             ->setParameter('vendeur', 'ROLE_VENDEUR')
                             ->setParameter('dr', $this->user->getUsername())
                             ->andWhere('u.brand = :brand')
+                            ->andWhere('u.nbTransacYtd > 0')
                             ->setParameter('brand', $this->user->getBrand())
                             ->add('orderBy','u.role DESC ,u.nomVendeur ASC')
                             ;
@@ -313,6 +316,7 @@ class KpiFilterType extends AbstractType
                             return $er->createQueryBuilder('u')
                             ->where('u.role = :role')
                             ->andWhere('u.brand = :brand')
+                            ->andWhere('u.nbTransacYtd > 0')
                             ->setParameter('role', 'ROLE_BOUTIQUE')
                             ->setParameter('brand', $this->user->getBrand())
                             ->add('orderBy','u.role DESC ,u.username ASC')
@@ -331,6 +335,7 @@ class KpiFilterType extends AbstractType
                             ->where('u.role = :vendeur')
                             ->setParameter('vendeur', 'ROLE_VENDEUR')
                             ->andWhere('u.brand = :brand')
+                            ->andWhere('u.nbTransacYtd > 0')
                             ->setParameter('brand', $this->user->getBrand())
                             ;
                         },
@@ -367,6 +372,7 @@ class KpiFilterType extends AbstractType
                         return $er->createQueryBuilder('u')
                         ->where('u.role = :role')
                         ->andWhere('u.dr = :dr')
+                        ->andWhere('u.nbTransacYtd > 0')
                         ->setParameter('role', 'ROLE_BOUTIQUE')
                         ->setParameter('dr', $this->user->getDr())
                         ->add('orderBy','u.role DESC ,u.username ASC')
@@ -385,6 +391,7 @@ class KpiFilterType extends AbstractType
                     'query_builder' => function(EntityRepository $er) {
                         return $er->createQueryBuilder('u')
                         ->where('u.role = :vendeur')
+                        ->andWhere('u.nbTransacYtd > 0')
                         ->setParameter('vendeur', 'ROLE_VENDEUR')
                         ->add('orderBy','u.role DESC ,u.nomVendeur ASC')
                         ->andWhere('u.boutique = :boutique')
@@ -406,6 +413,7 @@ class KpiFilterType extends AbstractType
                         ->setParameter('vendeur', 'ROLE_VENDEUR')
                         ->add('orderBy','u.role DESC ,u.nomVendeur ASC')
                         ->andWhere('u.boutique = :boutique')
+                        ->andWhere('u.nbTransacYtd > 0')
                         ->setParameter('boutique', $this->user->getBoutique())
                         ;
                     },

@@ -165,7 +165,7 @@
 							{% endfor %}
 						{% elseif user.role == "ROLE_DR" %}
 							{% for boutique in getBoutiquesDr %}
-								{% if getBoutiquesDr is not null %}
+								{% if getBoutiquesDr is not null and boutique.nbTransacYtd > 0 %}
 									<tr>
 										<th class="text-right text-uppercase"><a href="{{ path('app_kpi_month', { 'user_actuel' : userId, 'user_id' : boutique.user.id } ) }}">{{boutique.user.username}}</a></th>
 										<td class="text-center">{{ boutique.nbTransacM0|number_format(0, ',', ' ') }}</td>
@@ -178,7 +178,7 @@
 							{% endfor %}
 						{% elseif user.role == "ROLE_BOUTIQUE" %}
 							{% for boutique in getVendeursBoutique %}
-								{% if getVendeursBoutique is not null %}
+								{% if getVendeursBoutique is not null and boutique.nbTransacYtd > 0 %}
 									<tr>
 										<th class="text-right text-uppercase"><a href="{{ path('app_kpi_month', { 'user_actuel' : userId, 'user_id' : boutique.user.id } ) }}">{{boutique.user.nameAndSurname}}</a></th>
 										<td class="text-center">{{ boutique.nbTransacM0|number_format(0, ',', ' ') }}</td>

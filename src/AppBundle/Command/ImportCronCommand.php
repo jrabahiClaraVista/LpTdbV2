@@ -51,6 +51,9 @@ class ImportCronCommand extends ContainerAwareCommand
 			$output->writeln("Import des Kpi Capture");
 			$import->importKpiCaptureCSVFile($input, $output, $filename1);
 
+			$output->writeln("Update nb Transac User");
+			$import->updateUserTransac($input, $output);
+
 			//$import->setUserforKpiLp();
 			
 			$output->writeln("Archivage du fichier");		

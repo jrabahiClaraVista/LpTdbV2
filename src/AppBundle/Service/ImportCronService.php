@@ -48,6 +48,71 @@ class ImportCronService
         $this->separator = $separator;
     }
 
+    public function updateUserTransac( InputInterface $input, OutputInterface $output){
+
+        gc_enable();
+        $batchSize = 50;
+        $i = 0;
+
+        $date = new \DateTime();
+        $date = $date->modify('-1 month');
+        $year1 = $date->format("Y"); 
+        $year2 = $year1 + 1; 
+
+        
+
+        $sql1 = " SELECT  a.id, username,email, max(b.nb_transac_ytd) as nb_transac_ytd
+                FROM fos_user_user a 
+                LEFT JOIN app_kpi_month as b on a.id = b.user_id
+                WHERE b.date >= '".$year1."-01-01' and b.date < '".$year2."-01-01'
+                GROUP BY `id`, `username`, `email`
+        ";
+
+        $sql2 = "UPDATE fos_user_user SET nb_transac_ytd = :nb_transac_ytd
+                WHERE id = :id ";
+
+        $stmt = $this->pdo->prepare($sql1);
+        $stmt2 = $this->pdo->prepare($sql2);
+
+        $i = 0;
+        
+        try
+        {
+            $stmt->execute();
+        }
+        catch(Exception $e)
+        {       
+            $output->writeln($e->getMessage());
+            die('Erreur 1 : '.$e->getMessage());
+        }
+
+        while( $result = $stmt->fetch(\PDO::FETCH_ASSOC) )
+        {
+            $stmt2->bindValue(':id', $result["id"], \PDO::PARAM_INT);
+            $stmt2->bindValue(':nb_transac_ytd', $result["nb_transac_ytd"], \PDO::PARAM_INT);
+
+            try
+            {
+                $stmt2->execute();
+            }
+            catch(Exception $e)
+            {       
+                $output->writeln($e->getMessage());
+                die('Erreur 2 : '.$e->getMessage());
+            }
+
+            if (($i % $batchSize) === 0) {
+                gc_collect_cycles();
+                $output->writeln($i." user mis a jour");
+            }
+            $i++;
+        }
+
+        gc_collect_cycles();
+        $output->writeln($i." user mis a jour");
+
+    }
+
     public function scanDir(){
 
         if($this->ip == "127.0.0.1")

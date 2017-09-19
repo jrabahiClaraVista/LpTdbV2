@@ -114,6 +114,13 @@ class User extends BaseUser
     private $ispremium = 0;
 
     /**
+     * @var integer
+     *
+     * @ORM\Column(name="nb_transac_ytd", type="integer", nullable=true)
+     */
+    private $nbTransacYtd = 0;
+
+    /**
      * @var string $role
      *
      * @ORM\Column(name="role", type="string", length=100, nullable=true)
@@ -176,6 +183,27 @@ class User extends BaseUser
     public function setIspremium($ispremium)
     {
         $this->ispremium = $ispremium;
+        return $this;
+    }
+
+    /**
+     * Get nbTransacYtd
+     *
+     * @return int $nbTransacYtd
+     */
+    public function getNbTransacYtd()
+    {
+        return $this->nbTransacYtd;
+    }
+
+    /**
+     * set nbTransacYtd
+     *
+     * @return int $nbTransacYtd
+     */
+    public function setNbTransacYtd($nbTransacYtd)
+    {
+        $this->nbTransacYtd = $nbTransacYtd;
         return $this;
     }
 
