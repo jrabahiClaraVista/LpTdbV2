@@ -262,6 +262,27 @@ class KpiMonthRepository extends EntityRepository
 			->getOneOrNullResult();
 	}
 
+	public function getRank1_3NPS($date1,$date2, $brand){
+		$qb = $this
+			->createQueryBuilder('k')
+			->leftJoin('k.user', 'u')
+		  	->addSelect('u')
+		  	->where('u.brand = :brand')		  	
+		  	->setParameter('brand', $brand)
+		  	->andWhere('k.date BETWEEN :date1 AND :date2')
+		  	->setParameter('date1', $date1)
+		  	->setParameter('date2', $date2)
+		  	->andWhere('u.role = :role')
+		  	->setParameter('role', "ROLE_BOUTIQUE")
+		  	->orderBy('k.questsatisfranknpsm0', 'ASC')
+		  	->setMaxResults(3);
+		;
+
+		return $qb
+			->getQuery()
+			->getResult();
+	}
+
 
 
 	public function getRank1NpeYtdVendeur($date1,$date2, $brand){

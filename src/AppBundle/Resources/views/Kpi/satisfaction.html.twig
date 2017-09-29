@@ -1,0 +1,814 @@
+{% extends "AppBundle::layout.html.twig" %}
+
+{% block subheader %}
+	{% include 'AppBundle:Commons:kpiNav.html.twig' %}
+{% endblock %}
+
+{% block content %}	
+		
+	{% block clientsFilter %}
+		{% include 'AppBundle:Commons:kpiFilter.html.twig' %}
+	{% endblock %}
+
+	
+	<div class="text-center col-xs-12">
+		<p>Les résultats ci-dessous ne sont pas calculés au niveau vendeur et sont mis à jour tous les mois</p>
+	</div>
+
+	<div id="ajax-content">
+					<!-- Nav tabs -->
+		<ul class="nav" role="tablist">
+			<li role="presentation" class="pull-left active"><a href="#global" aria-controls="global" role="tab" data-toggle="tab">Au global</a></li>
+			<li role="presentation" class="pull-left"><a href="#montres" aria-controls="montres" role="tab" data-toggle="tab">Clients montres</a></li>
+			<li role="presentation" class="pull-left"><a href="#piles" aria-controls="piles" role="tab" data-toggle="tab">Clients piles et bracelets</a></li>
+		</ul>
+
+		<div class="tab-content">
+			<div role="tabpanel" class="tab-pane active" style="padding:0; border:0" id="global">
+				<!-- DEBUT BLOC -->
+				{% if currentKpi.nbrequestsatisfm0 > 0 %}
+
+				<div class="col-xs-12">
+					<h2 class="text-uppercase gris-bg">RESULTATS DU NPS</h2>
+
+					<div class="col-xs-12 kpi-box">
+						<div class="inside col-xs-12 col-md-6">
+							<h4 class="text-uppercase black text-center">Mon NPS</h4>
+
+							<!-- Tab panes -->
+							<table class="table table-bordered table-hover" style="margin-bottom:0;">
+								<thead>
+									<tr>
+										<!--th class="col-xs-2"></th-->
+										<th colspan="2" class="col-xs-2 text-center text-uppercase">Sur le mois</th>
+										<th colspan="2" class="col-xs-2 text-center text-uppercase">Depuis {% if currentKpi.date|date('Y') == "2017" %}Août{% else %}Janvier{% endif %}</th>
+									</tr>
+								</thead>
+								<thead>
+									<tr>
+										<!--th class="col-xs-2"></th-->
+										<th class="text-center text-uppercase small" style="color:black;">Nombre de répondants</th>
+										<th class="text-center text-uppercase small" style="color:black;">NPS</th>
+										<th class="text-center text-uppercase small" style="color:black;">Nombre de répondants</th>
+										<th class="text-center text-uppercase small" style="color:black;">NPS</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr class="info">
+										<!--th class="text-right text-uppercase" style="color: #3399FF">{{ currentKpi.user.username }}</th-->
+										<td class="text-center">{{currentKpi.nbrequestsatisfm0|number_format(0, ',', ' ') }}</td>
+										<td class="text-center">{{currentKpi.questsatisfnpsm0|number_format(0, ',', ' ')}}</td>
+										<td class="text-center">{{currentKpi.nbrequestsatisfytd|number_format(0, ',', ' ')}}</td>
+										<td class="text-center">{{currentKpi.questsatisfnpsytd|number_format(0, ',', ' ')}}</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+
+
+						<div class="inside col-xs-12 col-md-6">
+							<h4 class="text-uppercase black text-center">Évolution de mon NPS</h4>
+
+							<figure class="col-xs-12">
+								<div id="chartContainer4" class="col-xs-12" style="height: 194px;"></div>
+							</figure>
+							<div class="spacer"></div>
+						</div>
+
+						<div class="inside col-xs-12 text-center">
+							<p class="small"><br />Calcul du NPS : (Nombre de promoteurs - Nombre de detracteurs) / (Nombre de personnes iterrogées) x 100<br />
+							Note pouvant aller de -100 à 100</p>
+						</div>
+					</div>
+
+				</div>
+				<div class="col-xs-12">
+					<h2 class="text-uppercase gris-bg">RESULTATS DU NPS</h2>
+
+					<div class="col-xs-12 kpi-box">
+
+						<h4 class="text-uppercase black text-center">Détails de mon NPS</h4>
+
+						<div class="spacer"></div>
+						<table class="table table-bordered table-hover" style="margin-bottom:0;">
+							<thead>
+								<tr>
+									<th colspan="3" class="col-xs-2 text-center text-uppercase">Sur le mois</th>
+									<th colspan="3" class="col-xs-2 text-center text-uppercase">Depuis {% if currentKpi.date|date('Y') == "2017" %}Août{% else %}Janvier{% endif %}</th>
+								</tr>
+							</thead>
+							<thead>
+								<tr>
+									<th class="col-xs-2 text-center text-uppercase" style="color:green"><i class="fa fa-2x fa-child" aria-hidden="true"></i></th>
+									<th class="col-xs-2 text-center text-uppercase" style="color:orange"><i class="fa fa-2x fa-male" aria-hidden="true"></i></th>
+									<th class="col-xs-2 text-center text-uppercase" style="color:red"><i class="fa fa-2x fa-male" aria-hidden="true"></i></th>
+									<th class="col-xs-2 text-center text-uppercase" style="color:green"><i class="fa fa-2x fa-child" aria-hidden="true"></i></th>
+									<th class="col-xs-2 text-center text-uppercase" style="color:orange"><i class="fa fa-2x fa-male" aria-hidden="true"></i></th>
+									<th class="col-xs-2 text-center text-uppercase" style="color:red"><i class="fa fa-2x fa-male" aria-hidden="true"></i></th>
+								</tr>
+								<tr>
+									<th class="col-xs-2 text-center text-uppercase small" style="color:black;">Nombre de prospecteurs</th>
+									<th class="col-xs-2 text-center text-uppercase small" style="color:black;">Nombre de passif</th>
+									<th class="col-xs-2 text-center text-uppercase small" style="color:black;">Nombre de détracteurs</th>
+									<th class="col-xs-2 text-center text-uppercase small" style="color:black;">Nombre de prospecteurs</th>
+									<th class="col-xs-2 text-center text-uppercase small" style="color:black;">Nombre de passif</th>
+									<th class="col-xs-2 text-center text-uppercase small" style="color:black;">Nombre de détracteurs</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr class="info">								
+									<td class="text-center">{{currentKpi.txquestsatisfpromoteurdm0|number_format(0, ',', ' ') }} %</td>
+									<td class="text-center">{{currentKpi.txquestsatisfpassifm0|number_format(0, ',', ' ') }} %</td>
+									<td class="text-center">{{currentKpi.txquestsatisfdetracteurm0|number_format(0, ',', ' ') }} %</td>
+									<td class="text-center">{{currentKpi.txquestsatisfpromoteurytd|number_format(0, ',', ' ')}} %</td>
+									<td class="text-center">{{currentKpi.txquestsatisfpassifytd|number_format(0, ',', ' ')}} %</td>
+									<td class="text-center">{{currentKpi.txquestsatisfdetracteurytd|number_format(0, ',', ' ')}} %</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+
+				</div>
+
+				{% else %}
+					<div class="col-xs-12">
+						<h2 class="text-uppercase gris-bg text-center">Aucune donnée NPS pour la date demandée</h2>
+					</div>
+				{% endif %}
+
+				<div class="spacer" style="margin-bottom:0px;"></div>
+
+				<div class="col-xs-12">
+					{% if user.role == "ROLE_MARQUE" %}
+						<h2 class="text-uppercase gris-bg">Performance des DR du réseau {{user.username}}</h2>
+					{% elseif user.role == "ROLE_DR" %}
+						<h2 class="text-uppercase gris-bg">Performance des Boutiques du DR {{user.username}}</h2>
+					{% elseif user.role == "ROLE_BOUTIQUE" %}
+						<h2 class="text-uppercase gris-bg">Performance des Vendeurs de la Boutique {{user.username}}</h2>
+					{% endif %}
+					<div class="col-xs-12 kpi-box">
+						<table class="table table-bordered table-hover" style="margin-bottom:0;">
+							<thead>
+								<tr>
+									<th class="col-xs-2"></th>
+									<th colspan="2" class="col-xs-2 text-center text-uppercase">Sur le mois</th>
+									<th colspan="2" class="col-xs-2 text-center text-uppercase">Depuis {% if currentKpi.date|date('Y') == "2017" %}Août{% else %}Janvier{% endif %}</th>
+								</tr>
+							</thead>
+							<thead>
+								<tr>
+									<th class="col-xs-2"></th>
+									<th class="col-xs-2 text-center text-uppercase">Nombre de répondants</th>
+									<th class="col-xs-2 text-center text-uppercase">NPS</th>
+									<th class="col-xs-2 text-center text-uppercase">Nombre de répondants</th>
+									<th class="col-xs-2 text-center text-uppercase">NPS</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr class="info">
+									<th class="text-right text-uppercase" style="color: #3399FF">Résultats du réseau</th>
+									<td class="text-center">{{marque.nbrequestsatisfm0|number_format(0, ',', ' ') }}</td>
+									<td class="text-center">{{ marque.questsatisfnpsm0|number_format(0, ',', ' ')}}</td>
+									<td class="text-center">{{ marque.nbrequestsatisfytd|number_format(0, ',', ' ')}}</td>
+									<td class="text-center">{{ marque.questsatisfnpsytd|number_format(0, ',', ' ')}}</td>
+								</tr>
+								{% if user.role == "ROLE_MARQUE" %}
+									{% for boutique in getDrsMarque %}
+										{% if getDrsMarque is not null %}
+											<tr>
+												<th class="text-right text-uppercase"><a href="{{ path('app_kpi_month', { 'user_actuel' : userId, 'user_id' : boutique.user.id } ) }}">{{boutique.user.username}}</a></th>
+												<td class="text-center">{{ boutique.nbrequestsatisfm0|number_format(0, ',', ' ') }}</td>
+												<td class="text-center">{{ boutique.questsatisfnpsm0|number_format(0, ',', ' ')}}</td>
+												<td class="text-center">{{ boutique.nbrequestsatisfytd|number_format(0, ',', ' ')}}</td>
+												<td class="text-center">{{ boutique.questsatisfnpsytd|number_format(0, ',', ' ')}}</td>
+											</tr>
+										{% endif %}
+									{% endfor %}
+								{% elseif user.role == "ROLE_DR" %}
+									{% for boutique in getBoutiquesDr %}
+										{% if getBoutiquesDr is not null and boutique.nbTransacYtd > 0 %}
+											<tr>
+												<th class="text-right text-uppercase"><a href="{{ path('app_kpi_month', { 'user_actuel' : userId, 'user_id' : boutique.user.id } ) }}">{{boutique.user.username}}</a></th>
+												<td class="text-center">{{ boutique.nbrequestsatisfm0|number_format(0, ',', ' ') }}</td>
+												<td class="text-center">{{ boutique.questsatisfnpsm0|number_format(0, ',', ' ')}}</td>
+												<td class="text-center">{{ boutique.nbrequestsatisfytd|number_format(0, ',', ' ')}}</td>
+												<td class="text-center">{{ boutique.questsatisfnpsytd|number_format(0, ',', ' ')}}</td>
+											</tr>
+										{% endif %}
+									{% endfor %}
+								{% endif %}
+							</tbody>
+						</table>
+					</div>
+				</div>
+
+
+
+				<!-- FIN BLOC -->
+			</div>
+			<div role="tabpanel" class="tab-pane" style="padding:0;border:0;" id="montres">
+				<!-- DEBUT BLOC -->
+				{% if currentKpi.nbrequestsatisfm0 > 0 %}
+
+				<div class="col-xs-12">
+					<h2 class="text-uppercase gris-bg">RESULTATS DU NPS</h2>
+
+					<div class="col-xs-12 kpi-box">
+						<h4 class="text-uppercase black text-center">Mon NPS</h4>
+						<table class="table table-bordered table-hover" style="margin-bottom:0;">
+							<thead>
+								<tr>
+									<th class="col-xs-2"></th>
+									<th colspan="2" class="col-xs-2 text-center text-uppercase">Sur le mois</th>
+									<th colspan="2" class="col-xs-2 text-center text-uppercase">Depuis {% if currentKpi.date|date('Y') == "2017" %}Août{% else %}Janvier{% endif %}</th>
+								</tr>
+							</thead>
+							<thead>
+								<tr>
+									<th class="col-xs-2" style="border:0;"></th>
+									<th class="text-center text-uppercase small" style="color:black;">Réseau</th>
+									<th class="text-center text-uppercase small" style="color:black;">{{ currentKpi.user.username }}</th>
+									<th class="text-center text-uppercase small" style="color:black;">Réseau</th>
+									<th class="text-center text-uppercase small" style="color:black;">{{ currentKpi.user.username }}</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr class="info">
+									<th class="text-right text-uppercase small" style="color: #3399FF">Nombre de répondant</th>
+									<td class="text-center">{{marque.nbrequestsatisfmontredm0|number_format(0, ',', ' ') }}</td>
+									<td class="text-center">{{currentKpi.nbrequestsatisfmontredm0|number_format(0, ',', ' ')}}</td>
+									<td class="text-center">{{marque.nbrequestsatisfmontreytd|number_format(0, ',', ' ')}}</td>
+									<td class="text-center">{{currentKpi.nbrequestsatisfmontreytd|number_format(0, ',', ' ')}}</td>
+								</tr>
+								<tr class="">
+									<th class="text-right text-uppercase small" style="color: #000000;">Question n°2</th>
+									<td class="text-center">{{marque.moyquestsatisfmontreq2m0|number_format(2, ',', ' ') }}</td>
+									<td class="text-center">{{currentKpi.moyquestsatisfmontreq2m0|number_format(2, ',', ' ')}}</td>
+									<td class="text-center">{{marque.moyquestsatisfmontreq2ytd|number_format(2, ',', ' ')}}</td>
+									<td class="text-center">{{currentKpi.moyquestsatisfmontreq2ytd|number_format(2, ',', ' ')}}</td>
+								</tr>
+								<tr class="">
+									<th class="text-right text-uppercase small" style="color: #000000;">Question n°3</th>
+									<td class="text-center">{{marque.moyquestsatisfmontreq3m0|number_format(2, ',', ' ') }}</td>
+									<td class="text-center">{{currentKpi.moyquestsatisfmontreq3m0|number_format(2, ',', ' ')}}</td>
+									<td class="text-center">{{marque.moyquestsatisfmontreq3ytd|number_format(2, ',', ' ')}}</td>
+									<td class="text-center">{{currentKpi.moyquestsatisfmontreq3ytd|number_format(2, ',', ' ')}}</td>
+								</tr>
+								<tr class="">
+									<th class="text-right text-uppercase small" style="color: #000000;">Question n°4</th>
+									<td class="text-center">{{marque.moyquestsatisfmontreq4m0|number_format(2, ',', ' ') }}</td>
+									<td class="text-center">{{currentKpi.moyquestsatisfmontreq4m0|number_format(2, ',', ' ')}}</td>
+									<td class="text-center">{{marque.moyquestsatisfmontreq4ytd|number_format(2, ',', ' ')}}</td>
+									<td class="text-center">{{currentKpi.moyquestsatisfmontreq4ytd|number_format(2, ',', ' ')}}</td>
+								</tr>
+								<tr class="">
+									<th class="text-right text-uppercase small" style="color: #000000;">Question n°5</th>
+									<td class="text-center">{{marque.moyquestsatisfmontreq5m0|number_format(2, ',', ' ') }}</td>
+									<td class="text-center">{{currentKpi.moyquestsatisfmontreq5m0|number_format(2, ',', ' ')}}</td>
+									<td class="text-center">{{marque.moyquestsatisfmontreq5ytd|number_format(2, ',', ' ')}}</td>
+									<td class="text-center">{{currentKpi.moyquestsatisfmontreq5ytd|number_format(2, ',', ' ')}}</td>
+								</tr>
+								<tr class="">
+									<th class="text-right text-uppercase small" style="color: #000000;">Question n°6</th>
+									<td class="text-center">{{marque.moyquestsatisfmontreq6m0|number_format(2, ',', ' ') }}</td>
+									<td class="text-center">{{currentKpi.moyquestsatisfmontreq6m0|number_format(2, ',', ' ')}}</td>
+									<td class="text-center">{{marque.moyquestsatisfmontreq6ytd|number_format(2, ',', ' ')}}</td>
+									<td class="text-center">{{currentKpi.moyquestsatisfmontreq6ytd|number_format(2, ',', ' ')}}</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+
+				</div>
+				<div class="col-xs-12">
+					<h2 class="text-uppercase gris-bg">RESULTATS DU NPS</h2>
+
+					<div class="col-xs-12 kpi-box">
+
+						<h4 class="text-uppercase black text-center">Détails de mon NPS</h4>
+
+						<div class="spacer"></div>
+						<table class="table table-bordered table-hover" style="margin-bottom:0;">
+							<thead>
+								<tr>
+									<th colspan="3" class="col-xs-2 text-center text-uppercase">Sur le mois</th>
+									<th colspan="3" class="col-xs-2 text-center text-uppercase">Depuis {% if currentKpi.date|date('Y') == "2017" %}Août{% else %}Janvier{% endif %}</th>
+								</tr>
+							</thead>
+							<thead>
+								<tr>
+									<th class="col-xs-2 text-center text-uppercase" style="color:green"><i class="fa fa-2x fa-child" aria-hidden="true"></i></th>
+									<th class="col-xs-2 text-center text-uppercase" style="color:orange"><i class="fa fa-2x fa-male" aria-hidden="true"></i></th>
+									<th class="col-xs-2 text-center text-uppercase" style="color:red"><i class="fa fa-2x fa-male" aria-hidden="true"></i></th>
+									<th class="col-xs-2 text-center text-uppercase" style="color:green"><i class="fa fa-2x fa-child" aria-hidden="true"></i></th>
+									<th class="col-xs-2 text-center text-uppercase" style="color:orange"><i class="fa fa-2x fa-male" aria-hidden="true"></i></th>
+									<th class="col-xs-2 text-center text-uppercase" style="color:red"><i class="fa fa-2x fa-male" aria-hidden="true"></i></th>
+								</tr>
+								<tr>
+									<th class="col-xs-2 text-center text-uppercase small" style="color:black;">Nombre de prospecteurs</th>
+									<th class="col-xs-2 text-center text-uppercase small" style="color:black;">Nombre de passif</th>
+									<th class="col-xs-2 text-center text-uppercase small" style="color:black;">Nombre de détracteurs</th>
+									<th class="col-xs-2 text-center text-uppercase small" style="color:black;">Nombre de prospecteurs</th>
+									<th class="col-xs-2 text-center text-uppercase small" style="color:black;">Nombre de passif</th>
+									<th class="col-xs-2 text-center text-uppercase small" style="color:black;">Nombre de détracteurs</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr class="info">								
+									<td class="text-center">{{currentKpi.txquestsatisfpromoteurdm0|number_format(0, ',', ' ') }} %</td>
+									<td class="text-center">{{currentKpi.txquestsatisfpassifm0|number_format(0, ',', ' ') }} %</td>
+									<td class="text-center">{{currentKpi.txquestsatisfdetracteurm0|number_format(0, ',', ' ') }} %</td>
+									<td class="text-center">{{currentKpi.txquestsatisfpromoteurytd|number_format(0, ',', ' ')}} %</td>
+									<td class="text-center">{{currentKpi.txquestsatisfpassifytd|number_format(0, ',', ' ')}} %</td>
+									<td class="text-center">{{currentKpi.txquestsatisfdetracteurytd|number_format(0, ',', ' ')}} %</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+
+				</div>
+
+				{% else %}
+					<div class="col-xs-12">
+						<h2 class="text-uppercase gris-bg text-center">Aucune donnée NPS pour la date demandée</h2>
+					</div>
+				{% endif %}
+
+				<div class="spacer" style="margin-bottom:0px;"></div>
+
+				<div class="col-xs-12">
+					{% if user.role == "ROLE_MARQUE" %}
+						<h2 class="text-uppercase gris-bg">Performance des DR du réseau {{user.username}}</h2>
+					{% elseif user.role == "ROLE_DR" %}
+						<h2 class="text-uppercase gris-bg">Performance des Boutiques du DR {{user.username}}</h2>
+					{% elseif user.role == "ROLE_BOUTIQUE" %}
+						<h2 class="text-uppercase gris-bg">Performance des Vendeurs de la Boutique {{user.username}}</h2>
+					{% endif %}
+					<div class="col-xs-12 kpi-box">
+						<table class="table table-bordered table-hover" style="margin-bottom:0;">
+							<thead>
+								<tr>
+									<th class="col-xs-2"></th>
+									<th colspan="2" class="col-xs-2 text-center text-uppercase">Sur le mois</th>
+									<th colspan="2" class="col-xs-2 text-center text-uppercase">Depuis {% if currentKpi.date|date('Y') == "2017" %}Août{% else %}Janvier{% endif %}</th>
+								</tr>
+							</thead>
+							<thead>
+								<tr>
+									<th class="col-xs-2"></th>
+									<th class="col-xs-2 text-center text-uppercase">Nombre de répondants</th>
+									<th class="col-xs-2 text-center text-uppercase">NPS</th>
+									<th class="col-xs-2 text-center text-uppercase">Nombre de répondants</th>
+									<th class="col-xs-2 text-center text-uppercase">NPS</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr class="info">
+									<th class="text-right text-uppercase" style="color: #3399FF">Résultats du réseau</th>
+									<td class="text-center">{{marque.nbrequestsatisfm0|number_format(0, ',', ' ') }}</td>
+									<td class="text-center">{{ marque.questsatisfnpsm0|number_format(0, ',', ' ')}}</td>
+									<td class="text-center">{{ marque.nbrequestsatisfytd|number_format(0, ',', ' ')}}</td>
+									<td class="text-center">{{ marque.questsatisfnpsytd|number_format(0, ',', ' ')}}</td>
+								</tr>
+								{% if user.role == "ROLE_MARQUE" %}
+									{% for boutique in getDrsMarque %}
+										{% if getDrsMarque is not null %}
+											<tr>
+												<th class="text-right text-uppercase"><a href="{{ path('app_kpi_month', { 'user_actuel' : userId, 'user_id' : boutique.user.id } ) }}">{{boutique.user.username}}</a></th>
+												<td class="text-center">{{ boutique.nbrequestsatisfm0|number_format(0, ',', ' ') }}</td>
+												<td class="text-center">{{ boutique.questsatisfnpsm0|number_format(0, ',', ' ')}}</td>
+												<td class="text-center">{{ boutique.nbrequestsatisfytd|number_format(0, ',', ' ')}}</td>
+												<td class="text-center">{{ boutique.questsatisfnpsytd|number_format(0, ',', ' ')}}</td>
+											</tr>
+										{% endif %}
+									{% endfor %}
+								{% elseif user.role == "ROLE_DR" %}
+									{% for boutique in getBoutiquesDr %}
+										{% if getBoutiquesDr is not null and boutique.nbTransacYtd > 0 %}
+											<tr>
+												<th class="text-right text-uppercase"><a href="{{ path('app_kpi_month', { 'user_actuel' : userId, 'user_id' : boutique.user.id } ) }}">{{boutique.user.username}}</a></th>
+												<td class="text-center">{{ boutique.nbrequestsatisfm0|number_format(0, ',', ' ') }}</td>
+												<td class="text-center">{{ boutique.questsatisfnpsm0|number_format(0, ',', ' ')}}</td>
+												<td class="text-center">{{ boutique.nbrequestsatisfytd|number_format(0, ',', ' ')}}</td>
+												<td class="text-center">{{ boutique.questsatisfnpsytd|number_format(0, ',', ' ')}}</td>
+											</tr>
+										{% endif %}
+									{% endfor %}
+								{% endif %}
+							</tbody>
+						</table>
+					</div>
+				</div>
+
+
+
+				<!-- FIN BLOC -->
+
+			</div>
+			<div role="tabpanel" class="tab-pane" style="padding:0;border:0;" id="piles">
+				<!-- DEBUT BLOC -->
+				{% if currentKpi.nbrequestsatisfm0 > 0 %}
+
+				<div class="col-xs-12">
+					<h2 class="text-uppercase gris-bg">RESULTATS DU NPS</h2>
+
+					<div class="col-xs-12 kpi-box">
+						<h4 class="text-uppercase black text-center">Mon NPS</h4>
+						<table class="table table-bordered table-hover" style="margin-bottom:0;">
+							<thead>
+								<tr>
+									<th class="col-xs-2"></th>
+									<th colspan="2" class="col-xs-2 text-center text-uppercase">Sur le mois</th>
+									<th colspan="2" class="col-xs-2 text-center text-uppercase">Depuis {% if currentKpi.date|date('Y') == "2017" %}Août{% else %}Janvier{% endif %}</th>
+								</tr>
+							</thead>
+							<thead>
+								<tr>
+									<th class="col-xs-2" style="border:0;"></th>
+									<th class="text-center text-uppercase small" style="color:black;">Réseau</th>
+									<th class="text-center text-uppercase small" style="color:black;">{{ currentKpi.user.username }}</th>
+									<th class="text-center text-uppercase small" style="color:black;">Réseau</th>
+									<th class="text-center text-uppercase small" style="color:black;">{{ currentKpi.user.username }}</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr class="info">
+									<th class="text-right text-uppercase small" style="color: #3399FF">Nombre de répondant</th>
+									<td class="text-center">{{marque.nbrequestsatisfmontredm0|number_format(0, ',', ' ') }}</td>
+									<td class="text-center">{{currentKpi.nbrequestsatisfmontredm0|number_format(0, ',', ' ')}}</td>
+									<td class="text-center">{{marque.nbrequestsatisfmontreytd|number_format(0, ',', ' ')}}</td>
+									<td class="text-center">{{currentKpi.nbrequestsatisfmontreytd|number_format(0, ',', ' ')}}</td>
+								</tr>
+								<tr class="">
+									<th class="text-right text-uppercase small" style="color: #000000;">Question n°2</th>
+									<td class="text-center">{{marque.moyquestsatisfpileq2m0|number_format(2, ',', ' ') }}</td>
+									<td class="text-center">{{currentKpi.moyquestsatisfpileq2m0|number_format(2, ',', ' ')}}</td>
+									<td class="text-center">{{marque.moyquestsatisfpileq2ytd|number_format(2, ',', ' ')}}</td>
+									<td class="text-center">{{currentKpi.moyquestsatisfpileq2ytd|number_format(2, ',', ' ')}}</td>
+								</tr>
+								<tr class="">
+									<th class="text-right text-uppercase small" style="color: #000000;">Question n°3</th>
+									<td class="text-center">{{marque.moyquestsatisfpileq3m0|number_format(2, ',', ' ') }}</td>
+									<td class="text-center">{{currentKpi.moyquestsatisfpileq3m0|number_format(2, ',', ' ')}}</td>
+									<td class="text-center">{{marque.moyquestsatisfpileq3ytd|number_format(2, ',', ' ')}}</td>
+									<td class="text-center">{{currentKpi.moyquestsatisfpileq3ytd|number_format(2, ',', ' ')}}</td>
+								</tr>
+								<tr class="">
+									<th class="text-right text-uppercase small" style="color: #000000;">Question n°4</th>
+									<td class="text-center">{{marque.moyquestsatisfpileq4m0|number_format(2, ',', ' ') }}</td>
+									<td class="text-center">{{currentKpi.moyquestsatisfpileq4m0|number_format(2, ',', ' ')}}</td>
+									<td class="text-center">{{marque.moyquestsatisfpileq4ytd|number_format(2, ',', ' ')}}</td>
+									<td class="text-center">{{currentKpi.moyquestsatisfpileq4ytd|number_format(2, ',', ' ')}}</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+
+				</div>
+				<div class="col-xs-12">
+					<h2 class="text-uppercase gris-bg">RESULTATS DU NPS</h2>
+
+					<div class="col-xs-12 kpi-box">
+
+						<h4 class="text-uppercase black text-center">Détails de mon NPS</h4>
+
+						<div class="spacer"></div>
+						<table class="table table-bordered table-hover" style="margin-bottom:0;">
+							<thead>
+								<tr>
+									<th colspan="3" class="col-xs-2 text-center text-uppercase">Sur le mois</th>
+									<th colspan="3" class="col-xs-2 text-center text-uppercase">Depuis {% if currentKpi.date|date('Y') == "2017" %}Août{% else %}Janvier{% endif %}</th>
+								</tr>
+							</thead>
+							<thead>
+								<tr>
+									<th class="col-xs-2 text-center text-uppercase" style="color:green"><i class="fa fa-2x fa-child" aria-hidden="true"></i></th>
+									<th class="col-xs-2 text-center text-uppercase" style="color:orange"><i class="fa fa-2x fa-male" aria-hidden="true"></i></th>
+									<th class="col-xs-2 text-center text-uppercase" style="color:red"><i class="fa fa-2x fa-male" aria-hidden="true"></i></th>
+									<th class="col-xs-2 text-center text-uppercase" style="color:green"><i class="fa fa-2x fa-child" aria-hidden="true"></i></th>
+									<th class="col-xs-2 text-center text-uppercase" style="color:orange"><i class="fa fa-2x fa-male" aria-hidden="true"></i></th>
+									<th class="col-xs-2 text-center text-uppercase" style="color:red"><i class="fa fa-2x fa-male" aria-hidden="true"></i></th>
+								</tr>
+								<tr>
+									<th class="col-xs-2 text-center text-uppercase small" style="color:black;">Nombre de prospecteurs</th>
+									<th class="col-xs-2 text-center text-uppercase small" style="color:black;">Nombre de passif</th>
+									<th class="col-xs-2 text-center text-uppercase small" style="color:black;">Nombre de détracteurs</th>
+									<th class="col-xs-2 text-center text-uppercase small" style="color:black;">Nombre de prospecteurs</th>
+									<th class="col-xs-2 text-center text-uppercase small" style="color:black;">Nombre de passif</th>
+									<th class="col-xs-2 text-center text-uppercase small" style="color:black;">Nombre de détracteurs</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr class="info">								
+									<td class="text-center">{{currentKpi.txquestsatisfpromoteurdm0|number_format(0, ',', ' ') }} %</td>
+									<td class="text-center">{{currentKpi.txquestsatisfpassifm0|number_format(0, ',', ' ') }} %</td>
+									<td class="text-center">{{currentKpi.txquestsatisfdetracteurm0|number_format(0, ',', ' ') }} %</td>
+									<td class="text-center">{{currentKpi.txquestsatisfpromoteurytd|number_format(0, ',', ' ')}} %</td>
+									<td class="text-center">{{currentKpi.txquestsatisfpassifytd|number_format(0, ',', ' ')}} %</td>
+									<td class="text-center">{{currentKpi.txquestsatisfdetracteurytd|number_format(0, ',', ' ')}} %</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+
+				</div>
+
+				{% else %}
+					<div class="col-xs-12">
+						<h2 class="text-uppercase gris-bg text-center">Aucune donnée NPS pour la date demandée</h2>
+					</div>
+				{% endif %}
+
+				<div class="spacer" style="margin-bottom:0px;"></div>
+
+				<div class="col-xs-12">
+					{% if user.role == "ROLE_MARQUE" %}
+						<h2 class="text-uppercase gris-bg">Performance des DR du réseau {{user.username}}</h2>
+					{% elseif user.role == "ROLE_DR" %}
+						<h2 class="text-uppercase gris-bg">Performance des Boutiques du DR {{user.username}}</h2>
+					{% elseif user.role == "ROLE_BOUTIQUE" %}
+						<h2 class="text-uppercase gris-bg">Performance des Vendeurs de la Boutique {{user.username}}</h2>
+					{% endif %}
+					<div class="col-xs-12 kpi-box">
+						<table class="table table-bordered table-hover" style="margin-bottom:0;">
+							<thead>
+								<tr>
+									<th class="col-xs-2"></th>
+									<th colspan="2" class="col-xs-2 text-center text-uppercase">Sur le mois</th>
+									<th colspan="2" class="col-xs-2 text-center text-uppercase">Depuis {% if currentKpi.date|date('Y') == "2017" %}Août{% else %}Janvier{% endif %}</th>
+								</tr>
+							</thead>
+							<thead>
+								<tr>
+									<th class="col-xs-2"></th>
+									<th class="col-xs-2 text-center text-uppercase">Nombre de répondants</th>
+									<th class="col-xs-2 text-center text-uppercase">NPS</th>
+									<th class="col-xs-2 text-center text-uppercase">Nombre de répondants</th>
+									<th class="col-xs-2 text-center text-uppercase">NPS</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr class="info">
+									<th class="text-right text-uppercase" style="color: #3399FF">Résultats du réseau</th>
+									<td class="text-center">{{marque.nbrequestsatisfm0|number_format(0, ',', ' ') }}</td>
+									<td class="text-center">{{ marque.questsatisfnpsm0|number_format(0, ',', ' ')}}</td>
+									<td class="text-center">{{ marque.nbrequestsatisfytd|number_format(0, ',', ' ')}}</td>
+									<td class="text-center">{{ marque.questsatisfnpsytd|number_format(0, ',', ' ')}}</td>
+								</tr>
+								{% if user.role == "ROLE_MARQUE" %}
+									{% for boutique in getDrsMarque %}
+										{% if getDrsMarque is not null %}
+											<tr>
+												<th class="text-right text-uppercase"><a href="{{ path('app_kpi_month', { 'user_actuel' : userId, 'user_id' : boutique.user.id } ) }}">{{boutique.user.username}}</a></th>
+												<td class="text-center">{{ boutique.nbrequestsatisfm0|number_format(0, ',', ' ') }}</td>
+												<td class="text-center">{{ boutique.questsatisfnpsm0|number_format(0, ',', ' ')}}</td>
+												<td class="text-center">{{ boutique.nbrequestsatisfytd|number_format(0, ',', ' ')}}</td>
+												<td class="text-center">{{ boutique.questsatisfnpsytd|number_format(0, ',', ' ')}}</td>
+											</tr>
+										{% endif %}
+									{% endfor %}
+								{% elseif user.role == "ROLE_DR" %}
+									{% for boutique in getBoutiquesDr %}
+										{% if getBoutiquesDr is not null and boutique.nbTransacYtd > 0 %}
+											<tr>
+												<th class="text-right text-uppercase"><a href="{{ path('app_kpi_month', { 'user_actuel' : userId, 'user_id' : boutique.user.id } ) }}">{{boutique.user.username}}</a></th>
+												<td class="text-center">{{ boutique.nbrequestsatisfm0|number_format(0, ',', ' ') }}</td>
+												<td class="text-center">{{ boutique.questsatisfnpsm0|number_format(0, ',', ' ')}}</td>
+												<td class="text-center">{{ boutique.nbrequestsatisfytd|number_format(0, ',', ' ')}}</td>
+												<td class="text-center">{{ boutique.questsatisfnpsytd|number_format(0, ',', ' ')}}</td>
+											</tr>
+										{% endif %}
+									{% endfor %}
+								{% endif %}
+							</tbody>
+						</table>
+					</div>
+				</div>
+
+
+
+				<!-- FIN BLOC -->
+
+			</div>
+		</div>
+
+
+
+		<div class="spacer" style="margin-bottom:0px;"></div>
+
+		<div class="col-xs-12">
+
+			<h2 class="text-uppercase gris-bg">Le top boutique {{ user.brand }}</h2>
+			<div class="col-xs-12 kpi-box">
+				<div class="inside">
+					{% for nps in topNPS %}
+						<div class="inside top col-xs-4 text-center">
+							<h3 class="black">#{{loop.index}} NPS</h3>
+							<div class="dark-box">
+								<h3>{{ deleteFirstCharacters(nps.user.username,4)|upper }}<br />{{ nps.questsatisfnpsm0|number_format(0, ',', ' ') }}</h3>
+								<p class="small white">(nombre de répondants : {{ nps.nbrequestsatisfm0|number_format(0, ',', ' ') }})</p>
+							</div>
+						</div>
+					{% endfor %}
+					<div style="height:0px;" class="spacer"></div>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<div style="height:30px;" class="spacer"></div>
+
+{% endblock %}
+
+{% block canvasJs %}
+
+	<script type="text/javascript">
+
+	$(function(){
+
+		$(document).on('change', '#appbundle_kpi_filter_month', function() {
+    		$('#clients-filter').submit();
+    		$('#spinner').show();
+    	});
+    	$(document).on('change', '#appbundle_kpi_filter_year', function() {
+    		$('#clients-filter').submit();
+    		$('#spinner').show();
+    	});
+
+    	$(document).on('change', '#appbundle_kpi_filter_reseau', function() {
+    		// Ici on réinitialise la page au niveau Marque au changement
+    		//pour éviter le bug d'envoie de formulaire vide si on sélectionne autre chose après
+
+    		$('#appbundle_kpi_filter_submit').attr('disabled','disabled');
+    		$('#appbundle_kpi_filter_boutique').val(null).prop('disabled',true);
+    		$('#appbundle_kpi_filter_dr').val(null).prop('disabled',true);
+    		$('#appbundle_kpi_filter_vendeur').val(null).prop('disabled',true);
+
+    		$('#clients-filter').submit();
+    		$('#spinner').show();
+    	});
+    	$(document).on('change', '#appbundle_kpi_filter_dr', function() {
+    		$('#appbundle_kpi_filter_submit').attr('disabled','disabled');
+    		$('#appbundle_kpi_filter_boutique').val(null).prop('disabled',true);
+    		$('#appbundle_kpi_filter_vendeur').val(null).prop('disabled',true);
+
+    		/*if( $(this).val() == "" && $('#appbundle_kpi_filter_boutique').val() == "" ){
+    			var user_id = $('#appbundle_kpi_filter_reseau').val();
+    		}
+    		else if( $(this).val() == "" && $('#appbundle_kpi_filter_boutique').val() != "" ){
+    			var user_id = $('#appbundle_kpi_filter_boutique').val();
+    		}
+    		else{
+    			var user_id = $(this).val();
+    		}*/
+    		
+    		// Ajax pour changer le formulaire
+    		/*$.get("/ajax_filter/{{user.id}}/"+user_id+"/mensuel/null/"+$('#appbundle_kpi_filter_month').val()+"/"+$('#appbundle_kpi_filter_year').val(), function( data ) {
+			    $('#ajax_filter').html( data );
+			});*/
+
+			$('#clients-filter').submit();
+			$('#spinner').show();
+    	});
+    	$(document).on('change', '#appbundle_kpi_filter_boutique',function() {  
+    		$('#appbundle_kpi_filter_submit').attr('disabled','disabled');
+    		$('#appbundle_kpi_filter_dr').prop('disabled',true);
+    		$('#appbundle_kpi_filter_vendeur').val(null).prop('disabled',true);
+
+    		/*if( $(this).val() == "" && $('#appbundle_kpi_filter_dr').val() == "" ){
+    			var user_id = $('#appbundle_kpi_filter_reseau').val();
+    		}
+    		else if( $(this).val() == "" && $('#appbundle_kpi_filter_dr').val() != "" ){
+    			var user_id = $('#appbundle_kpi_filter_dr').val();
+    		}
+    		else{
+    			var user_id = $(this).val();
+    		}*/
+
+    		/*$.get("/ajax_filter/{{user.id}}/"+user_id+"/mensuel/null/"+$('#appbundle_kpi_filter_month').val()+"/"+$('#appbundle_kpi_filter_year').val(), function( data ) {
+			    $('#ajax_filter').html( data );
+			});*/
+
+			$('#clients-filter').submit();
+			$('#spinner').show();
+    	});
+
+    	$(document).on('change', '#appbundle_kpi_filter_vendeur',function() {  
+    		$('#appbundle_kpi_filter_submit').attr('disabled','disabled');
+    		$('#appbundle_kpi_filter_boutique').prop('disabled',true);
+    		$('#appbundle_kpi_filter_dr').prop('disabled',true);
+
+    		/*if( $(this).val() == "" && $('#appbundle_kpi_filter_dr').val() == "" ){
+    			var user_id = $('#appbundle_kpi_filter_reseau').val();
+    		}
+    		else if( $(this).val() == "" && $('#appbundle_kpi_filter_dr').val() != "" ){
+    			var user_id = $('#appbundle_kpi_filter_dr').val();
+    		}
+    		else{
+    			var user_id = $(this).val();
+    		}*/
+
+			$('#clients-filter').submit();
+			$('#spinner').show();
+    	});
+	});
+
+
+	var date = new Date({{ currentKpi.date|date("Y") }}, {{ currentKpi.date|date("m") - 1 }});
+	var month = date.getMonth();
+	var year  = date.getFullYear();
+	
+	var startDate = new Date( year , month - 12)
+	var endDate = new Date( year, month +1 );
+
+	var dataToBeC1 = {{ 100 - currentKpi.txTransacNpeM0|number_format - currentKpi.txTransacNveM0|number_format }};
+	var dataToBeC2 = {{ 100 - currentKpi.txTransacNpesM0|number_format - currentKpi.txTransacNvesM0|number_format }};
+	var dataToBeC3 = {{ 100 - currentKpi.txTransacNpesaM0|number_format - currentKpi.txTransacNvesaM0|number_format }};
+
+	if (dataToBeC1 < 0) dataToBeC1 = 0;
+	if (dataToBeC2 < 0) dataToBeC2 = 0;
+	if (dataToBeC3 < 0) dataToBeC3 = 0;
+
+    CanvasJS.addColorSet("set1",
+		[
+		"#E80C7A",
+		"#aaaaaa",
+		"#f0f0f0",
+		]);
+		CanvasJS.addColorSet("set2",
+		[
+		"#f2ce18",
+		"#aaaaaa",
+		"#f0f0f0",
+		]);
+		CanvasJS.addColorSet("set3",
+		[
+		"#2D89FF",
+		"#bbbbbb",
+		"#f0f0f0",
+		]);
+		CanvasJS.addColorSet("set4",
+		[
+		"#E80C7A",
+		"#f2ce18",
+		"#2D89FF",
+		]);
+		CanvasJS.addColorSet("set5",
+		[
+		"#aaaaaa",
+		"#dddddd",
+		]);
+    CanvasJS.addCultureInfo("fr",{
+        shortMonths: ["Jan", "Fev", "Mars", "Avril", "Mai", "Juin", "Juil", "Août","Sept", "Oct", "Nov", "Déc"],
+    });
+
+	window.onload = function () {
+
+
+		
+		var chart = new CanvasJS.Chart("chartContainer4",
+		{
+			culture:  "fr",
+			colorSet: "set4",
+			animationEnabled: true,
+			toolTip:{  
+				enabled: true,
+				shared: true,
+				content: "<span style='\"'color: {color}'\"'>{name}</span> : {y}"
+			},axisY: {
+				suffix: " %",
+				labelFontSize: 14  
+			},
+			axisX:{
+		        interval: 1,
+		        intervalType: "month",
+		        minimum : startDate,
+		        maximum : endDate,
+		        valueFormatString: "MMM", 
+		        labelFontSize: 13,
+		        labelAngle: -45
+		    },
+			data: [
+				{
+					xValueType: "dateTime",
+					indexLabelFontColor: "black",
+					indexLabelLineColor: "#4c4c4c",
+					markerSize: 10,
+					name: "NPS",
+					indexLabelPlacement: "inside",
+					type: "line",
+					dataPoints: [
+						{% for kpi in kpis %}
+							{ y: {{ kpi.questsatisfnpsm0|number_format }}, x: new Date( {{ kpi.date|date("Y") }}, {{ kpi.date|date("m") - 1 }} ) },
+						{% endfor %}
+					]
+				},
+
+			]
+
+		});
+
+		chart.render();
+	}
+	</script>
+{% endblock %}

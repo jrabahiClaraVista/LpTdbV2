@@ -161,7 +161,7 @@ class ImportCronService
         $file = fopen($csv, "r");
 
         $header1 = "username_canonical,username,prenom_vendeur,nom_vendeur,email,email_canonical,role,boutique,dr,brand,enabled,updated_at";
-        $header2 = "date,nb_transac_m0,nb_transac_ytd,tx_transac_linked_m0,tx_transac_linked_ytd,tx_transac_npe_m0,tx_transac_nve_m0,tx_transac_npe_ytd,tx_transac_nve_ytd,tx_transac_npes_m0,tx_transac_nves_m0,tx_transac_npes_ytd,tx_transac_nves_ytd,tx_transac_npesa_m0,tx_transac_nvesa_m0,tx_transac_npesa_ytd,tx_transac_nvesa_ytd,rank_npe_m0,rank_npes_m0,rank_npesa_m0,rank_npe_ytd,rank_npes_ytd,rank_npesa_ytd,nbre_clients_contactables_email_h,nbre_clients_inactifs_email_h,nbre_clients_animes_m0,nbre_clients_transformes_m0,CA_clients_transformes_m0,ca_crm_ytd";
+        $header2 = "date,nb_transac_m0,nb_transac_ytd,tx_transac_linked_m0,tx_transac_linked_ytd,tx_transac_npe_m0,tx_transac_nve_m0,tx_transac_npe_ytd,tx_transac_nve_ytd,tx_transac_npes_m0,tx_transac_nves_m0,tx_transac_npes_ytd,tx_transac_nves_ytd,tx_transac_npesa_m0,tx_transac_nvesa_m0,tx_transac_npesa_ytd,tx_transac_nvesa_ytd,rank_npe_m0,rank_npes_m0,rank_npesa_m0,rank_npe_ytd,rank_npes_ytd,rank_npesa_ytd,nbre_clients_contactables_email_h,nbre_clients_inactifs_email_h,nbre_clients_animes_m0,nbre_clients_transformes_m0,CA_clients_transformes_m0,ca_crm_ytd,nbre_questsatisf_m0,nbre_questsatisf_ytd,nbre_questsatisf_montred_m0,nbre_questsatisf_montre_ytd,nbre_questsatisf_piled_m0,nbre_questsatisf_pile_ytd,tx_quest_satisf_promoteur_m0,tx_quest_satisf_promoteur_ytd,tx_quest_satisf_passif_m0,tx_quest_satisf_passif_ytd,tx_quest_satisf_detracteur_m0,tx_quest_satisf_detracteur_ytd,quest_satisf_nps_m0,quest_satisf_nps_ytd,quest_satisf_rank_nps_m0,quest_satisf_rank_nps_ytd,moy_quest_satisf_montre_q2_m0,moy_quest_satisf_montre_q3_m0,moy_quest_satisf_montre_q4_m0,moy_quest_satisf_montre_q5_m0,moy_quest_satisf_montre_q6_m0,moy_quest_satisf_montre_q2_ytd,moy_quest_satisf_montre_q3_ytd,moy_quest_satisf_montre_q4_ytd,moy_quest_satisf_montre_q5_ytd,moy_quest_satisf_montre_q6_ytd,moy_quest_satisf_pile_q2_m0,moy_quest_satisf_pile_q3_m0,moy_quest_satisf_pile_q4_m0,moy_quest_satisf_pile_q2_ytd,moy_quest_satisf_pile_q3_ytd,moy_quest_satisf_pile_q4_ytd";
 
         //valeurs de la requête (correspond au header du fichier)
         $values1 = ":".str_replace(",", ",:", $header1);
@@ -178,12 +178,19 @@ class ImportCronService
             $i++;
         } 
 
+        // Pour update des données sans écrasés les anciennes
+        $header3 = "nbre_questsatisf_m0,nbre_questsatisf_ytd,nbre_questsatisf_montred_m0,nbre_questsatisf_montre_ytd,nbre_questsatisf_piled_m0,nbre_questsatisf_pile_ytd,tx_quest_satisf_promoteur_m0,tx_quest_satisf_promoteur_ytd,tx_quest_satisf_passif_m0,tx_quest_satisf_passif_ytd,tx_quest_satisf_detracteur_m0,tx_quest_satisf_detracteur_ytd,quest_satisf_nps_m0,quest_satisf_nps_ytd,quest_satisf_rank_nps_m0,quest_satisf_rank_nps_ytd,moy_quest_satisf_montre_q2_m0,moy_quest_satisf_montre_q3_m0,moy_quest_satisf_montre_q4_m0,moy_quest_satisf_montre_q5_m0,moy_quest_satisf_montre_q6_m0,moy_quest_satisf_montre_q2_ytd,moy_quest_satisf_montre_q3_ytd,moy_quest_satisf_montre_q4_ytd,moy_quest_satisf_montre_q5_ytd,moy_quest_satisf_montre_q6_ytd,moy_quest_satisf_pile_q2_m0,moy_quest_satisf_pile_q3_m0,moy_quest_satisf_pile_q4_m0,moy_quest_satisf_pile_q2_ytd,moy_quest_satisf_pile_q3_ytd,moy_quest_satisf_pile_q4_ytd";
+
         //valeurs de la requête (correspond au header du fichier)
         $values2 = ":".str_replace(",", ",:", $header2);
         $values2 = str_replace(":user_id,", "", $values2);
+        $values3 = ":".str_replace(",", ",:", $header3);
+        $values3 = str_replace(":user_id,", "", $values3);
         //tableau des headers à mettre à jours pour la boucle
         $headers = explode(",", str_replace("user_id,", "", $header2));
+        $headers3 = explode(",", str_replace("user_id,", "", $header3));
         $update2 = "";
+        $update3 = "";
         $i = 0;
         $len = count($headers);
 
@@ -194,11 +201,21 @@ class ImportCronService
         } 
 
 
+        $i = 0;
+        $len = count($headers3);
+
+        foreach ($headers3 as $key => $value) {
+            if ($i == $len - 1) $update3 .= $value." = :".$value;
+            else $update3 .= $value." = :".$value.",";
+            $i++;
+        } 
+
+
         $sql1 = "INSERT INTO fos_user_user ( ".$header1.", created_at, salt, password, roles,locked,expired,credentials_expired,ispremium ) VALUES ( ".$values1.", :created_at, :salt, :password, :roles,0,0,0,0 )
                 ON DUPLICATE KEY UPDATE ".$update1."
         "; 
         $sql2 = "INSERT INTO app_kpi_month ( user_id, ".$header2." ) VALUES (  (SELECT id from fos_user_user u WHERE u.username = :username) , ".$values2.")
-                ON DUPLICATE KEY UPDATE ".$update2."
+                ON DUPLICATE KEY UPDATE ".$update3."
         ";
 
         $i = 0;
@@ -267,7 +284,41 @@ class ImportCronService
             $stmt2->bindValue(':nbre_clients_transformes_m0', $csvfilelines[34], \PDO::PARAM_STR);
             $stmt2->bindValue(':CA_clients_transformes_m0', $csvfilelines[35], \PDO::PARAM_STR);
             $stmt2->bindValue(':ca_crm_ytd', $csvfilelines[36], \PDO::PARAM_STR);
-            
+
+            $stmt2->bindValue(':nbre_questsatisf_m0',$csvfilelines[37], \PDO::PARAM_STR);
+            $stmt2->bindValue(':nbre_questsatisf_ytd',$csvfilelines[38], \PDO::PARAM_STR);
+            $stmt2->bindValue(':nbre_questsatisf_montred_m0',$csvfilelines[39], \PDO::PARAM_STR);
+            $stmt2->bindValue(':nbre_questsatisf_montre_ytd',$csvfilelines[40], \PDO::PARAM_STR);
+            $stmt2->bindValue(':nbre_questsatisf_piled_m0',$csvfilelines[41], \PDO::PARAM_STR);
+            $stmt2->bindValue(':nbre_questsatisf_pile_ytd',$csvfilelines[42], \PDO::PARAM_STR);
+            $stmt2->bindValue(':tx_quest_satisf_promoteur_m0',$csvfilelines[43], \PDO::PARAM_STR);
+            $stmt2->bindValue(':tx_quest_satisf_promoteur_ytd',$csvfilelines[44], \PDO::PARAM_STR);
+            $stmt2->bindValue(':tx_quest_satisf_passif_m0',$csvfilelines[45], \PDO::PARAM_STR);
+            $stmt2->bindValue(':tx_quest_satisf_passif_ytd',$csvfilelines[46], \PDO::PARAM_STR);
+            $stmt2->bindValue(':tx_quest_satisf_detracteur_m0',$csvfilelines[47], \PDO::PARAM_STR);
+            $stmt2->bindValue(':tx_quest_satisf_detracteur_ytd',$csvfilelines[48], \PDO::PARAM_STR);
+            $stmt2->bindValue(':quest_satisf_nps_m0',$csvfilelines[49], \PDO::PARAM_STR);
+            $stmt2->bindValue(':quest_satisf_nps_ytd',$csvfilelines[50], \PDO::PARAM_STR);
+            $stmt2->bindValue(':quest_satisf_rank_nps_m0',$csvfilelines[51], \PDO::PARAM_STR);
+            $stmt2->bindValue(':quest_satisf_rank_nps_ytd',$csvfilelines[52], \PDO::PARAM_STR);
+            $stmt2->bindValue(':moy_quest_satisf_montre_q2_m0',$csvfilelines[53], \PDO::PARAM_STR);
+            $stmt2->bindValue(':moy_quest_satisf_montre_q3_m0',$csvfilelines[54], \PDO::PARAM_STR);
+            $stmt2->bindValue(':moy_quest_satisf_montre_q4_m0',$csvfilelines[55], \PDO::PARAM_STR);
+            $stmt2->bindValue(':moy_quest_satisf_montre_q5_m0',$csvfilelines[56], \PDO::PARAM_STR);
+            $stmt2->bindValue(':moy_quest_satisf_montre_q6_m0',$csvfilelines[57], \PDO::PARAM_STR);
+            $stmt2->bindValue(':moy_quest_satisf_montre_q2_ytd',$csvfilelines[58], \PDO::PARAM_STR);
+            $stmt2->bindValue(':moy_quest_satisf_montre_q3_ytd',$csvfilelines[59], \PDO::PARAM_STR);
+            $stmt2->bindValue(':moy_quest_satisf_montre_q4_ytd',$csvfilelines[60], \PDO::PARAM_STR);
+            $stmt2->bindValue(':moy_quest_satisf_montre_q5_ytd',$csvfilelines[61], \PDO::PARAM_STR);
+            $stmt2->bindValue(':moy_quest_satisf_montre_q6_ytd',$csvfilelines[62], \PDO::PARAM_STR);
+            $stmt2->bindValue(':moy_quest_satisf_pile_q2_m0',$csvfilelines[63], \PDO::PARAM_STR);
+            $stmt2->bindValue(':moy_quest_satisf_pile_q3_m0',$csvfilelines[64], \PDO::PARAM_STR);
+            $stmt2->bindValue(':moy_quest_satisf_pile_q4_m0',$csvfilelines[65], \PDO::PARAM_STR);
+            $stmt2->bindValue(':moy_quest_satisf_pile_q2_ytd',$csvfilelines[66], \PDO::PARAM_STR);
+            $stmt2->bindValue(':moy_quest_satisf_pile_q3_ytd',$csvfilelines[67], \PDO::PARAM_STR);
+            $stmt2->bindValue(':moy_quest_satisf_pile_q4_ytd',$csvfilelines[68], \PDO::PARAM_STR);
+
+            //$output->writeln($sql2);die();
 
             try
             {

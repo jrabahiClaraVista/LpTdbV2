@@ -281,6 +281,9 @@ class KpiController extends Controller
 			$campaigns = $em->getRepository('AppBundle:Campaign')->getCampaignsOfMonth($date3, $date2, $user->getBrand());
 			$campaignFile = $em->getRepository('AppBundle:CampaignFile')->getCampaignOfMonth($date3, $date2, $user->getBrand());
 		}
+		if($routeName == "app_kpi_satisfaction"){
+			$topNPS = $em->getRepository('AppBundle:KpiMonth')->getRank1_3NPS($date3, $date2, $brand);
+		}
 
 		//Mise à jour du filtre
 		$kpiFilterService->updateForm($user, $request, $form);
@@ -444,6 +447,24 @@ class KpiController extends Controller
 	        	)
 	        );
 	    }
+	    if($routeName == "app_kpi_satisfaction"){
+	        return $this->render('AppBundle:Kpi:satisfaction.html.twig', array(
+	        	'kpis' 				=> $kpis,
+	        	'currentKpi'	 	=> $kpiCurrentMonth,
+	        	'currentMonth'		=> $currentMonth,
+	        	'topNPS'			=> $topNPS,
+	        	'user'				=> $user,
+	        	'getBoutiquesDr'	=> $getBoutiquesDr,
+	        	'getDrsMarque'		=> $getDrsMarque,
+	        	'getVendeursBoutique' => $getVendeursBoutique,
+	        	'marque'			=> $marque,
+	        	'form'          	=> $form->createView(),
+	        	'form2'          	=> $form2->createView(),
+	        	'scope'				=> 'mensuel',
+	        	'user_actuel'		=> $user_actuel
+	        	)
+	        );
+		}
 		if($routeName == "app_kpi_fid"){
 	        return $this->render('AppBundle:Kpi:fid.html.twig', array(
 	        	//'kpis' 		=> $kpis,
