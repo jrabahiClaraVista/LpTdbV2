@@ -152,6 +152,17 @@ class ImportCronService
             rename ("/srv/data/web/vhosts/louispion-qualification.fr/htdocs/web/imports/TABLEAU_DE_BORD_hebdo_lp_rq.csv" , "/srv/data/web/vhosts/louispion-qualification.fr/htdocs/web/imports/archives/TABLEAU_DE_BORD_hebdo_lp_rq_".$dateWeek.".csv" );
     }
 
+    public function renameLastImportVerbatim() 
+    {   
+        $date = new \DateTime();
+        $dateWeek = new \DateTime();
+        $date = $date->format("Ym");
+        $dateWeek = $dateWeek->format("YmdW");
+        
+        rename ("/srv/data/web/vhosts/louispion-qualification.fr/htdocs/web/imports/Verbatim_Mois.csv" , "/srv/data/web/vhosts/louispion-qualification.fr/htdocs/web/imports/archives/Verbatim_Mois_".$date.".csv" );
+    }
+
+
     public function importKpiCaptureCSVFile( InputInterface $input, OutputInterface $output, $csv = null)
     {        
         $date = new \DateTime();
@@ -478,6 +489,80 @@ class ImportCronService
         }
         $output->writeln($i." lignes importees");
         
+    }
+
+    public function importVerbatim(InputInterface $input, OutputInterface $output, $csv = null){
+
+        $date = new \DateTime();
+        $date = $date->format("Ymd");
+
+        
+        $file = fopen($csv, "r");
+
+        $header1 = "type,marque,dr,boutique,question,note,verbatim,date";
+
+        //tableau des headers à mettre à jours pour la boucle
+        $headers = explode(",", str_replace("user_id,", "", $header1));
+        $values1 = ":".str_replace(",", ",:", $header1);
+        $update1 = "";
+        $i = 0;
+        $len = count($headers);
+
+        foreach ($headers as $key => $value) {
+            if ($i == $len - 1) $update1 .= $value." = :".$value;
+            else $update1 .= $value." = :".$value.",";
+            $i++;
+        } 
+
+
+
+        $sql1 = "INSERT INTO app_verbatim ( ".$header1." ) VALUES ( ".$values1." )
+                ON DUPLICATE KEY UPDATE ".$update1."
+        "; 
+
+        $i = 0;
+        $flag = true;
+
+        $date = new \Datetime('now');
+        $date= $date->format('Y-m-d H:i:s');
+
+        //$user = new User;
+        //$this->encoder->encodePassword('Claravista123!', $salt)
+
+        while( ($csvfilelines = fgetcsv($file, 0, $this->separator)) != FALSE )
+        {
+            if($flag) { $flag = false; continue; } //ignore first line of csv             
+            
+            $stmt1 = $this->pdo->prepare($sql1);
+
+            $stmt1->bindValue(':type', $csvfilelines[0], \PDO::PARAM_STR);
+            $stmt1->bindValue(':marque', $csvfilelines[1], \PDO::PARAM_STR);
+            $stmt1->bindValue(':dr', $csvfilelines[2], \PDO::PARAM_STR);
+            $stmt1->bindValue(':boutique', $csvfilelines[3], \PDO::PARAM_STR);
+            $stmt1->bindValue(':question', $csvfilelines[4], \PDO::PARAM_STR);
+            $stmt1->bindValue(':note', $csvfilelines[5], \PDO::PARAM_STR);
+            $stmt1->bindValue(':verbatim', $csvfilelines[6], \PDO::PARAM_STR);
+            $stmt1->bindValue(':date', $csvfilelines[7], \PDO::PARAM_STR);
+
+            //$output->writeln($sql1);
+
+            try
+            {
+                $stmt1->execute();
+            }
+            catch(Exception $e)
+            {       
+                $output->writeln($e->getMessage());
+                die('Erreur 1 : '.$e->getMessage());
+            }
+
+            if($i % 300 == 0){
+                $output->writeln($i." lignes importees");
+                gc_collect_cycles();
+            }
+            $i++;
+        }
+        $output->writeln($i." lignes importees");
     }
 
 }

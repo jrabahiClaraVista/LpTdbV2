@@ -59,7 +59,7 @@
 			
 		{{ form_end(form) }}
 
-		{% if app.request.attributes.get('_route') not in ['app_kpi_planning','app_kpi_faq'] %}
+		{% if app.request.attributes.get('_route') not in ['app_kpi_planning','app_kpi_faq','app_kpi_satisfaction'] %}
 		{{ form_start(form2, {'id' : 'data-export'}) }}
 			<div class="col-xs-3 pull-right">
 				{{ form_widget(form2.data) }}

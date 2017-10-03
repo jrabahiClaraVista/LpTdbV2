@@ -16,6 +16,7 @@ use AppBundle\Entity\KpiMonth;
 use AppBundle\Form\CampaignKpiType;
 use AppBundle\Form\KpiFilterType;
 use AppBundle\Form\ExportDataType;
+use AppBundle\Form\ExportVerbatimType;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -187,6 +188,8 @@ class KpiController extends Controller
 	        	$id = $user->getId();
 	        }
 
+	        /* ICI MISE A JOUR DU RECHARGEMENT DE PAGE POUR LE FILTRE */
+
 			if($routeName == "app_kpi_month"){
 				return $this->redirectToRoute('app_kpi_month', array('user_actuel' => $user_actuel->getId(), 'user_id' =>$id));
 			}
@@ -198,6 +201,9 @@ class KpiController extends Controller
 			}
 			if($routeName == "app_kpi_planning"){
 				return $this->redirectToRoute('app_kpi_planning', array('user_actuel' => $user_actuel->getId(), 'user_id' =>$id));
+			}
+			if($routeName == "app_kpi_satisfaction"){
+				return $this->redirectToRoute('app_kpi_satisfaction', array('user_actuel' => $user_actuel->getId(), 'user_id' =>$id));
 			}
         }
 
@@ -347,11 +353,9 @@ class KpiController extends Controller
 	            					'CA GÉNÉRÉ PAR LES CLIENTS CONTACTÉS PAR EMAIL DEPUIS JANVIER');
 			}
 
-
             //Creation du fichier CSV et du header
             $handle     = fopen('php://memory', 'r+');
             
-
             //Creation de l'entête du fichier pour être lisible dans Exel
             fputs($handle, $bom =( chr(0xEF) . chr(0xBB) . chr(0xBF) ));
             fputcsv($handle, $header, ';');
@@ -399,6 +403,176 @@ class KpiController extends Controller
             ));
 
         }
+
+        if($routeName == "app_kpi_satisfaction"){
+	        //Mise à jour du filtre
+			//$kpiFilterService->updateFormVerbatime($user, $request);
+
+			$formMontre = $this->createForm(new ExportVerbatimType(1));
+	        $formMontre->handleRequest($request); 
+
+			$formMontreAll = $this->createForm(new ExportVerbatimType(2));
+	        $formMontreAll->handleRequest($request); 
+
+			$formPile = $this->createForm(new ExportVerbatimType(3));
+	        $formPile->handleRequest($request); 
+
+			$formPileAll = $this->createForm(new ExportVerbatimType(4));
+	        $formPileAll->handleRequest($request);  
+
+			//Export Verbatim CSV
+
+			if ($formMontre->isSubmitted()) {
+				
+				$username = $user->getUsername();
+
+				if( $user->getRole() == 'ROLE_MARQUE' ) {
+					$sql2 = "SELECT v.marque,v.dr,v.boutique,v.type,v.question,v.note,v.verbatim,v.date
+						FROM app_verbatim v
+						WHERE v.marque = '$username' and v.type = 'Montre' and v.date BETWEEN '$date1' and '$date2'";
+				}
+				elseif( $user->getRole() == 'ROLE_DR' ) {
+					$sql2 = "SELECT v.marque,v.dr,v.boutique,v.type,v.question,v.note,v.verbatim,v.date
+						FROM app_verbatim v
+						WHERE v.dr = '$username' and v.type = 'Montre' and v.date BETWEEN '$date1' and '$date2'";
+				}
+				elseif( $user->getRole() == 'ROLE_BOUTIQUE' ) {
+					$sql2 = "SELECT v.marque,v.dr,v.boutique,v.type,v.question,v.note,v.verbatim,v.date
+						FROM app_verbatim v
+						WHERE v.boutique = '$username' and v.type = 'Montre' and v.date BETWEEN '$date1' and '$date2'";
+				}
+			}
+
+			if ($formMontreAll->isSubmitted()) {
+				
+				$username = $user->getUsername();
+
+				if( $user->getRole() == 'ROLE_MARQUE' ) {
+					$sql2 = "SELECT v.marque,v.dr,v.boutique,v.type,v.question,v.note,v.verbatim,v.date
+						FROM app_verbatim v
+						WHERE v.marque = '$username' and v.type = 'Montre'";
+				}
+				elseif( $user->getRole() == 'ROLE_DR' ) {
+					$sql2 = "SELECT v.marque,v.dr,v.boutique,v.type,v.question,v.note,v.verbatim,v.date
+						FROM app_verbatim v
+						WHERE v.dr = '$username' and v.type = 'Montre'";
+				}
+				elseif( $user->getRole() == 'ROLE_BOUTIQUE' ) {
+					$sql2 = "SELECT v.marque,v.dr,v.boutique,v.type,v.question,v.note,v.verbatim,v.date
+						FROM app_verbatim v
+						WHERE v.boutique = '$username' and v.type = 'Montre'";
+				}
+			}
+
+			if ($formPile->isSubmitted()) {
+				
+				$username = $user->getUsername();
+
+				if( $user->getRole() == 'ROLE_MARQUE' ) {
+					$sql2 = "SELECT v.marque,v.dr,v.boutique,v.type,v.question,v.note,v.verbatim,v.date
+						FROM app_verbatim v
+						WHERE v.marque = '$username' and v.type = 'Pile/Bracelet' and v.date BETWEEN '$date1' and '$date2'";
+				}
+				elseif( $user->getRole() == 'ROLE_DR' ) {
+					$sql2 = "SELECT v.marque,v.dr,v.boutique,v.type,v.question,v.note,v.verbatim,v.date
+						FROM app_verbatim v
+						WHERE v.dr = '$username' and v.type = 'Pile/Bracelet' and v.date BETWEEN '$date1' and '$date2'";
+				}
+				elseif( $user->getRole() == 'ROLE_BOUTIQUE' ) {
+					$sql2 = "SELECT v.marque,v.dr,v.boutique,v.type,v.question,v.note,v.verbatim,v.date
+						FROM app_verbatim v
+						WHERE v.boutique = '$username' and v.type = 'Pile/Bracelet' and v.date BETWEEN '$date1' and '$date2'";
+				}
+			}
+
+			if ($formPileAll->isSubmitted()) {
+				
+				$username = $user->getUsername();
+
+				if( $user->getRole() == 'ROLE_MARQUE' ) {
+					$sql2 = "SELECT v.marque,v.dr,v.boutique,v.type,v.question,v.note,v.verbatim,v.date
+						FROM app_verbatim v
+						WHERE v.marque = '$username' and v.type = 'Pile/Bracelet'";
+				}
+				elseif( $user->getRole() == 'ROLE_DR' ) {
+					$sql2 = "SELECT v.marque,v.dr,v.boutique,v.type,v.question,v.note,v.verbatim,v.date
+						FROM app_verbatim v
+						WHERE v.dr = '$username' and v.type = 'Pile/Bracelet'";
+				}
+				elseif( $user->getRole() == 'ROLE_BOUTIQUE' ) {
+					$sql2 = "SELECT v.marque,v.dr,v.boutique,v.type,v.question,v.note,v.verbatim,v.date
+						FROM app_verbatim v
+						WHERE v.boutique = '$username' and v.type = 'Pile/Bracelet'";
+				}
+			}
+
+
+			$header2     = array('Reseau','DR','Boutique','Type','Question','Note','Verbatime','Date');
+
+			if($formMontre->isSubmitted() OR $formMontreAll->isSubmitted() OR $formPile->isSubmitted() OR $formPileAll->isSubmitted()){
+	            //Creation du fichier CSV et du header2
+	            $handle2     = fopen('php://memory', 'r+');
+	            
+	            //Creation de l'entête du fichier pour être lisible dans Exel
+	            fputs($handle2, $bom =( chr(0xEF) . chr(0xBB) . chr(0xBF) ));
+	            fputcsv($handle2, $header2, ';');
+
+	            //Initialisation de la connection à la BDD            
+	            $pdo = $this->container->get('app.pdo_connect');
+	            $pdo = $pdo->initPdoClienteling();
+
+	            //Préparation et execution de la requête
+	            //var_dump($sql2);
+	            $stmt2 = $pdo->prepare($sql2);
+	            $stmt2->execute();
+
+	            //Remplissage du fichier csv.
+	            while ($row = $stmt2->fetch(\PDO::FETCH_ASSOC)) {
+	                $row["note"] = '="'.str_replace('.',',',$row["note"]).'"';
+	            	
+	                fputcsv($handle2, $row, ';');
+	            }
+
+	            //Fermeture du fichier
+	            rewind($handle2);
+	            $content = stream_get_contents($handle2);
+	            fclose($handle2);
+	        }
+
+	        var_dump($sql2); die();
+            
+            $date_csv = new \Datetime('now');
+            $date_csv = $date_csv->format('Ymd');
+
+            if ($formPileAll->isSubmitted()) {
+	            //Reponse : Téléchargement du fichier
+	            return new Response($content, 200, array(
+	                'Content-Type' => 'application/force-download; text/csv; charset=UTF-8',
+	                'Content-Disposition' => 'attachment; filename="export_verbatims_pile_bracelet_histo_'.str_replace(' ','_',$username).'_'.$date_csv.'.csv"'
+	            ));
+	        }
+	        if ($formMontreAll->isSubmitted()) {
+	            //Reponse : Téléchargement du fichier
+	            return new Response($content, 200, array(
+	                'Content-Type' => 'application/force-download; text/csv; charset=UTF-8',
+	                'Content-Disposition' => 'attachment; filename="export_verbatims_montre_histo_'.str_replace(' ','_',$username).'_'.$date_csv.'.csv"'
+	            ));
+	        }
+	        if ($formPile->isSubmitted()) {
+	            //Reponse : Téléchargement du fichier
+	            return new Response($content, 200, array(
+	                'Content-Type' => 'application/force-download; text/csv; charset=UTF-8',
+	                'Content-Disposition' => 'attachment; filename="export_verbatims_pile_bracelet_'.str_replace(' ','_',$username).'_mois_'.$date_csv.'.csv"'
+	            ));
+	        }
+	        if ($formMontre->isSubmitted()) {
+	            //Reponse : Téléchargement du fichier
+	            return new Response($content, 200, array(
+	                'Content-Type' => 'application/force-download; text/csv; charset=UTF-8',
+	                'Content-Disposition' => 'attachment; filename="export_verbatims_montre_mois_'.str_replace(' ','_',$username).'_'.$date_csv.'.csv"'
+	            ));
+	        }
+		}
 
 		//Retourne la bonne page
 		if($routeName == "app_kpi_month"){
@@ -459,7 +633,10 @@ class KpiController extends Controller
 	        	'getVendeursBoutique' => $getVendeursBoutique,
 	        	'marque'			=> $marque,
 	        	'form'          	=> $form->createView(),
-	        	'form2'          	=> $form2->createView(),
+	        	'formMontre'       	=> $formMontre->createView(),
+	        	'formPile'        	=> $formPile->createView(),
+	        	'formMontreAll'    	=> $formMontreAll->createView(),
+	        	'formPileAll'       => $formPileAll->createView(),
 	        	'scope'				=> 'mensuel',
 	        	'user_actuel'		=> $user_actuel
 	        	)
