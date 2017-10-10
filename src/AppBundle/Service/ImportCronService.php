@@ -211,7 +211,6 @@ class ImportCronService
             $i++;
         } 
 
-
         $i = 0;
         $len = count($headers3);
 
@@ -226,8 +225,8 @@ class ImportCronService
                 ON DUPLICATE KEY UPDATE ".$update1."
         "; 
         $sql2 = "INSERT INTO app_kpi_month ( user_id, ".$header2." ) VALUES (  (SELECT id from fos_user_user u WHERE u.username = :username) , ".$values2.")
-                ON DUPLICATE KEY UPDATE ".$update3."
-        ";
+                ON DUPLICATE KEY UPDATE ".$update2." 
+        "; // Mettre $update3 pour updater uniquement des données sur le nps et le verbateam
 
         $i = 0;
         $flag = true;

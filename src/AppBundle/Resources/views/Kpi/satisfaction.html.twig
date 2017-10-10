@@ -18,9 +18,9 @@
 	<div id="ajax-content">
 					<!-- Nav tabs -->
 		<ul class="nav nav-tabs" role="tablist" style="font-weight:bold">
-			<li role="presentation" class="pull-left active"><a href="#global" aria-controls="global" role="tab" data-toggle="tab">Au global</a></li>
-			<li role="presentation" class="pull-left"><a href="#montres" aria-controls="montres" role="tab" data-toggle="tab">Clients montres</a></li>
-			<li role="presentation" class="pull-left"><a href="#piles" aria-controls="piles" role="tab" data-toggle="tab">Clients piles et bracelets</a></li>
+			<li role="presentation" class="pull-left active"><a target="_blank" href="#global" aria-controls="global" role="tab" data-toggle="tab">NPS au global</a></li>
+			<li role="presentation" class="pull-left"><a target="_blank" href="#montres" aria-controls="montres" role="tab" data-toggle="tab">Clients montres</a></li>
+			<li role="presentation" class="pull-left"><a target="_blank" href="#piles" aria-controls="piles" role="tab" data-toggle="tab">Clients piles et bracelets</a></li>
 		</ul>
 
 		<div class="tab-content">
@@ -41,7 +41,7 @@
 									<tr>
 										<th class="col-xs-2"></th>
 										<th colspan="2" class="col-xs-2 text-center text-uppercase">Sur le mois</th>
-										<th colspan="2" class="col-xs-2 text-center text-uppercase">Depuis {% if currentKpi.date|date('Y') == "2017" %}Août{% else %}Janvier{% endif %}</th>
+										<th colspan="2" class="col-xs-2 text-center text-uppercase">Depuis {% if currentKpi.date|date('Y') == "2017" %}Août{% else %}Janvier{% endif %} {{ currentKpi.date|date('Y') }}</th>
 									</tr>
 								</thead>
 								<thead>
@@ -54,21 +54,21 @@
 									</tr>
 								</thead>
 								<tbody>
-								{% if user.role != "ROLE_MARQUE" %}
+								{% if user_role != "ROLE_MARQUE" %}
 									<tr class="info">
 										<th class="text-right text-uppercase" style="color: #3399FF">Réseau</th>
 										<td class="text-center">{{marque.nbrequestsatisfm0|number_format(0, ',', ' ') }}</td>
-										<td class="text-center">{{marque.questsatisfnpsm0|number_format(0, ',', ' ')}}</td>
+										<td class="text-center">{{marque.questsatisfnpsm0|number_format(2, ',', ' ')}}</td>
 										<td class="text-center">{{marque.nbrequestsatisfytd|number_format(0, ',', ' ')}}</td>
-										<td class="text-center">{{marque.questsatisfnpsytd|number_format(0, ',', ' ')}}</td>
+										<td class="text-center">{{marque.questsatisfnpsytd|number_format(2, ',', ' ')}}</td>
 									</tr>
 								{% endif %}
 									<tr class="">
-										<th class="text-right text-uppercase" style="color: #000000">{{ currentKpi.user.username }}</th>
+										<th class="text-right text-uppercase" style="color: #000000">{{ currentKpi.user.username|replace({'LOUIS PION': 'RÉSEAU'}) }}</th>
 										<td class="text-center">{{currentKpi.nbrequestsatisfm0|number_format(0, ',', ' ') }}</td>
-										<td class="text-center">{{currentKpi.questsatisfnpsm0|number_format(0, ',', ' ')}}</td>
+										<td class="text-center">{{currentKpi.questsatisfnpsm0|number_format(2, ',', ' ')}}</td>
 										<td class="text-center">{{currentKpi.nbrequestsatisfytd|number_format(0, ',', ' ')}}</td>
-										<td class="text-center">{{currentKpi.questsatisfnpsytd|number_format(0, ',', ' ')}}</td>
+										<td class="text-center">{{currentKpi.questsatisfnpsytd|number_format(2, ',', ' ')}}</td>
 									</tr>
 								</tbody>
 							</table>
@@ -85,7 +85,7 @@
 						</div>
 
 						<div class="inside col-xs-12 text-center">
-							<p class="small"><br />Calcul du NPS : (Nombre de promoteurs - Nombre de detracteurs) / (Nombre de personnes iterrogées) x 100<br />
+							<p class="small"><br />Calcul du NPS : (Nombre de promoteurs - Nombre de detracteurs) / (Nombre de personnes interrogées) x 100<br />
 							Note pouvant aller de -100 à 100</p>
 						</div>
 					</div>
@@ -102,42 +102,57 @@
 						<table class="table table-bordered table-hover" style="margin-bottom:0;">
 							<thead>
 								<tr>
+									<th class="col-xs-2"></th>
 									<th colspan="3" class="col-xs-2 text-center text-uppercase">Sur le mois</th>
-									<th colspan="3" class="col-xs-2 text-center text-uppercase">Depuis {% if currentKpi.date|date('Y') == "2017" %}Août{% else %}Janvier{% endif %}</th>
+									<th colspan="3" class="col-xs-2 text-center text-uppercase">Depuis {% if currentKpi.date|date('Y') == "2017" %}Août{% else %}Janvier{% endif %} {{ currentKpi.date|date('Y') }}</th>
 								</tr>
 							</thead>
 							<thead>
 								<tr>
-									<th class="col-xs-2 text-center text-uppercase" style="color:green"><i class="fa fa-2x fa-child" aria-hidden="true"></i></th>
-									<th class="col-xs-2 text-center text-uppercase" style="color:orange"><i class="fa fa-2x fa-male" aria-hidden="true"></i></th>
-									<th class="col-xs-2 text-center text-uppercase" style="color:red"><i class="fa fa-2x fa-male" aria-hidden="true"></i></th>
-									<th class="col-xs-2 text-center text-uppercase" style="color:green"><i class="fa fa-2x fa-child" aria-hidden="true"></i></th>
-									<th class="col-xs-2 text-center text-uppercase" style="color:orange"><i class="fa fa-2x fa-male" aria-hidden="true"></i></th>
-									<th class="col-xs-2 text-center text-uppercase" style="color:red"><i class="fa fa-2x fa-male" aria-hidden="true"></i></th>
+									<th class=""></th>
+									<th class="text-center text-uppercase" style="color:green"><i class="fa fa-2x fa-child" aria-hidden="true"></i></th>
+									<th class="text-center text-uppercase" style="color:orange"><i class="fa fa-2x fa-male" aria-hidden="true"></i></th>
+									<th class="text-center text-uppercase" style="color:red"><i class="fa fa-2x fa-male" aria-hidden="true"></i></th>
+									<th class="text-center text-uppercase" style="color:green"><i class="fa fa-2x fa-child" aria-hidden="true"></i></th>
+									<th class="text-center text-uppercase" style="color:orange"><i class="fa fa-2x fa-male" aria-hidden="true"></i></th>
+									<th class="text-center text-uppercase" style="color:red"><i class="fa fa-2x fa-male" aria-hidden="true"></i></th>
 								</tr>
 								<tr>
-									<th class="col-xs-2 text-center text-uppercase small" style="color:black;">Nombre de prospecteurs</th>
-									<th class="col-xs-2 text-center text-uppercase small" style="color:black;">Nombre de passif</th>
-									<th class="col-xs-2 text-center text-uppercase small" style="color:black;">Nombre de détracteurs</th>
-									<th class="col-xs-2 text-center text-uppercase small" style="color:black;">Nombre de prospecteurs</th>
-									<th class="col-xs-2 text-center text-uppercase small" style="color:black;">Nombre de passif</th>
-									<th class="col-xs-2 text-center text-uppercase small" style="color:black;">Nombre de détracteurs</th>
+									<th class=""></th>
+									<th class="text-center text-uppercase small" style="color:black;">Nombre de promoteurs</th>
+									<th class="text-center text-uppercase small" style="color:black;">Nombre de passifs</th>
+									<th class="text-center text-uppercase small" style="color:black;">Nombre de détracteurs</th>
+									<th class="text-center text-uppercase small" style="color:black;">Nombre de promoteurs</th>
+									<th class="text-center text-uppercase small" style="color:black;">Nombre de passifs</th>
+									<th class="text-center text-uppercase small" style="color:black;">Nombre de détracteurs</th>
 								</tr>
 							</thead>
 							<tbody>
+								{% if user_role != "ROLE_MARQUE" %}
 								<tr class="info">								
-									<td class="text-center">{{currentKpi.txquestsatisfpromoteurdm0|number_format(0, ',', ' ') }} %</td>
-									<td class="text-center">{{currentKpi.txquestsatisfpassifm0|number_format(0, ',', ' ') }} %</td>
-									<td class="text-center">{{currentKpi.txquestsatisfdetracteurm0|number_format(0, ',', ' ') }} %</td>
-									<td class="text-center">{{currentKpi.txquestsatisfpromoteurytd|number_format(0, ',', ' ')}} %</td>
-									<td class="text-center">{{currentKpi.txquestsatisfpassifytd|number_format(0, ',', ' ')}} %</td>
-									<td class="text-center">{{currentKpi.txquestsatisfdetracteurytd|number_format(0, ',', ' ')}} %</td>
+									<th class="text-right text-uppercase" style="color: #3399FF">Réseau</th>
+									<td class="text-center">{{marque.txquestsatisfpromoteurdm0|number_format(1, ',', ' ') }} %</td>
+									<td class="text-center">{{marque.txquestsatisfpassifm0|number_format(1, ',', ' ') }} %</td>
+									<td class="text-center">{{marque.txquestsatisfdetracteurm0|number_format(1, ',', ' ') }} %</td>
+									<td class="text-center">{{marque.txquestsatisfpromoteurytd|number_format(1, ',', ' ')}} %</td>
+									<td class="text-center">{{marque.txquestsatisfpassifytd|number_format(1, ',', ' ')}} %</td>
+									<td class="text-center">{{marque.txquestsatisfdetracteurytd|number_format(1, ',', ' ')}} %</td>
+								</tr>
+								{% endif %}
+								<tr class="">								
+									<th class="text-right text-uppercase" style="color: #000000">{{ currentKpi.user.username|replace({'LOUIS PION': 'RÉSEAU'}) }}</th>
+									<td class="text-center">{{currentKpi.txquestsatisfpromoteurdm0|number_format(1, ',', ' ') }} %</td>
+									<td class="text-center">{{currentKpi.txquestsatisfpassifm0|number_format(1, ',', ' ') }} %</td>
+									<td class="text-center">{{currentKpi.txquestsatisfdetracteurm0|number_format(1, ',', ' ') }} %</td>
+									<td class="text-center">{{currentKpi.txquestsatisfpromoteurytd|number_format(1, ',', ' ')}} %</td>
+									<td class="text-center">{{currentKpi.txquestsatisfpassifytd|number_format(1, ',', ' ')}} %</td>
+									<td class="text-center">{{currentKpi.txquestsatisfdetracteurytd|number_format(1, ',', ' ')}} %</td>
 								</tr>
 							</tbody>
 						</table>
 
 						<div class="inside col-xs-12 text-center">
-							<p class="small"><br /><strong>Promoteurs</strong> : note 9 et 10 | <strong>Passifs</strong> : note 7 et 8 | <strong>Détracteurs</strong> : note 0 à 6</p>
+							<p class="small"><br /><strong>Promoteurs</strong> : notes 9 et 10 | <strong>Passifs</strong> : notes 7 et 8 | <strong>Détracteurs</strong> : notes 0 à 6</p>
 						</div>
 					</div>
 
@@ -151,13 +166,14 @@
 
 				<div class="spacer" style="margin-bottom:0px;"></div>
 
+				{% if user_role not in ['ROLE_BOUTIQUE', 'ROLE_VENDEUR']  %}
 				<div class="col-xs-12">
-					{% if user.role == "ROLE_MARQUE" %}
-						<h2 class="text-uppercase gris-bg">Performance des DR du réseau {{user.username}}</h2>
-					{% elseif user.role == "ROLE_DR" %}
-						<h2 class="text-uppercase gris-bg">Performance des Boutiques du DR {{user.username}}</h2>
-					{% elseif user.role == "ROLE_BOUTIQUE" %}
-						<h2 class="text-uppercase gris-bg">Performance du Réseau</h2>
+					{% if user_role == "ROLE_MARQUE" %}
+						<h2 class="text-uppercase gris-bg">Performances des DR du réseau {{user.username}}</h2>
+					{% elseif user_role == "ROLE_DR" %}
+						<h2 class="text-uppercase gris-bg">Performances des Boutiques du DR {{user.username}}</h2>
+					{% elseif user_role == "ROLE_BOUTIQUE" %}
+						<h2 class="text-uppercase gris-bg">Performances du Réseau</h2>
 					{% endif %}
 					<div class="col-xs-12 kpi-box">
 						<table class="table table-bordered table-hover" style="margin-bottom:0;">
@@ -165,7 +181,7 @@
 								<tr>
 									<th class="col-xs-2"></th>
 									<th colspan="2" class="col-xs-2 text-center text-uppercase">Sur le mois</th>
-									<th colspan="2" class="col-xs-2 text-center text-uppercase">Depuis {% if currentKpi.date|date('Y') == "2017" %}Août{% else %}Janvier{% endif %}</th>
+									<th colspan="2" class="col-xs-2 text-center text-uppercase">Depuis {% if currentKpi.date|date('Y') == "2017" %}Août{% else %}Janvier{% endif %} {{ currentKpi.date|date('Y') }}</th>
 								</tr>
 							</thead>
 							<thead>
@@ -181,37 +197,69 @@
 								<tr class="info">
 									<th class="text-right text-uppercase" style="color: #3399FF">Réseau</th>
 									<td class="text-center">{{marque.nbrequestsatisfm0|number_format(0, ',', ' ') }}</td>
-									<td class="text-center">{{ marque.questsatisfnpsm0|number_format(0, ',', ' ')}}</td>
+									<td class="text-center">{{ marque.questsatisfnpsm0|number_format(2, ',', ' ')}}</td>
 									<td class="text-center">{{ marque.nbrequestsatisfytd|number_format(0, ',', ' ')}}</td>
-									<td class="text-center">{{ marque.questsatisfnpsytd|number_format(0, ',', ' ')}}</td>
+									<td class="text-center">{{ marque.questsatisfnpsytd|number_format(2, ',', ' ')}}</td>
 								</tr>
-								{% if user.role == "ROLE_MARQUE" %}
+								{% if user_role == "ROLE_MARQUE" %}
 									{% for boutique in getDrsMarque %}
 										{% if getDrsMarque is not null %}
 											<tr>
-												<th class="text-right text-uppercase"><a href="{{ path('app_kpi_month', { 'user_actuel' : userId, 'user_id' : boutique.user.id } ) }}">{{boutique.user.username}}</a></th>
+												<th class="text-right text-uppercase"><a target="_blank" href="{{ path('app_kpi_satisfaction', { 'user_actuel' : userId, 'user_id' : boutique.user.id } ) }}">{{boutique.user.username|replace({'LOUIS PION': 'RÉSEAU'})}}</a></th>
 												<td class="text-center">{{ boutique.nbrequestsatisfm0|number_format(0, ',', ' ') }}</td>
-												<td class="text-center">{{ boutique.questsatisfnpsm0|number_format(0, ',', ' ')}}</td>
+												<td class="text-center">{{ boutique.questsatisfnpsm0|number_format(2, ',', ' ')}}</td>
 												<td class="text-center">{{ boutique.nbrequestsatisfytd|number_format(0, ',', ' ')}}</td>
-												<td class="text-center">{{ boutique.questsatisfnpsytd|number_format(0, ',', ' ')}}</td>
+												<td class="text-center">{{ boutique.questsatisfnpsytd|number_format(2, ',', ' ')}}</td>
 											</tr>
 										{% endif %}
 									{% endfor %}
-								{% elseif user.role == "ROLE_DR" %}
+								{% elseif user_role == "ROLE_DR" %}
 									{% for boutique in getBoutiquesDr %}
 										{% if getBoutiquesDr is not null and boutique.nbTransacYtd > 0 %}
 											<tr>
-												<th class="text-right text-uppercase"><a href="{{ path('app_kpi_month', { 'user_actuel' : userId, 'user_id' : boutique.user.id } ) }}">{{boutique.user.username}}</a></th>
+												<th class="text-right text-uppercase"><a target="_blank" href="{{ path('app_kpi_satisfaction', { 'user_actuel' : userId, 'user_id' : boutique.user.id } ) }}">{{boutique.user.username|replace({'LOUIS PION': 'RÉSEAU'})}}</a></th>
 												<td class="text-center">{{ boutique.nbrequestsatisfm0|number_format(0, ',', ' ') }}</td>
-												<td class="text-center">{{ boutique.questsatisfnpsm0|number_format(0, ',', ' ')}}</td>
+												<td class="text-center">{{ boutique.questsatisfnpsm0|number_format(2, ',', ' ')}}</td>
 												<td class="text-center">{{ boutique.nbrequestsatisfytd|number_format(0, ',', ' ')}}</td>
-												<td class="text-center">{{ boutique.questsatisfnpsytd|number_format(0, ',', ' ')}}</td>
+												<td class="text-center">{{ boutique.questsatisfnpsytd|number_format(2, ',', ' ')}}</td>
 											</tr>
 										{% endif %}
 									{% endfor %}
 								{% endif %}
 							</tbody>
 						</table>
+					</div>
+				</div>
+
+
+				<div class="spacer" style="margin-bottom:0px;"></div>
+				{% endif %}
+
+				<div class="col-xs-12">
+
+					<h2 class="text-uppercase gris-bg">Le top boutique {{ user.brand }}</h2>
+					<div class="col-xs-12 kpi-box">
+						<div class="inside">
+							{% for nps in topNPS %}
+								<div class="inside top col-xs-4 text-center">
+									<h3 class="black">#{{loop.index}} NPS</h3>
+									<div class="dark-box" rank="{{nps.questsatisfranknpsytd}}">
+										<h3>{{ deleteFirstCharacters(nps.user.username,4)|upper }}<br />{{ nps.questsatisfnpsytd|number_format(0, ',', ' ') }}</h3>
+										<p class="small white">(nombre de répondants : {{ nps.nbrequestsatisfytd|number_format(0, ',', ' ') }})
+										</p>
+									</div>
+								</div>
+							{% endfor %}
+							<div style="height:0px;" class="spacer"></div>
+
+
+							{{ form_start(formRank, {'id' : 'data-export'}) }}
+								<div class="col-xs-12">
+									{{ form_widget(formRank.data) }}
+									{{ form_widget(formRank.submit, {'attr': {'class': 'btn big-action-gray-btn'}, 'label' : 'Exporter le classement NPS'}) }}
+								</div>
+							{{ form_end(formRank) }}
+						</div>
 					</div>
 				</div>
 
@@ -224,72 +272,111 @@
 				{% if currentKpi.nbrequestsatisfm0 > 0 %}
 
 				<div class="col-xs-12">
-					<h2 class="text-uppercase gris-bg">RÉSULTATS DU NPS</h2>
+					<h2 class="text-uppercase gris-bg">RÉSULTATS DU QUESTIONNAIRE</h2>
 
 					<div class="col-xs-12 kpi-box">
 						<div class="inside col-xs-12 col-md-6">
 						
-							<h4 class="text-uppercase black text-center">Mon NPS</h4>
+							<h4 class="text-uppercase black text-center">&nbsp;</h4>
 						
 							<table class="table table-bordered table-hover" style="margin-bottom:0;">
 								<thead>
 									<tr>
 										<th class="col-xs-2"></th>
-										<th colspan="2" class="col-xs-2 text-center text-uppercase">Sur le mois</th>
-										<th colspan="2" class="col-xs-2 text-center text-uppercase">Depuis {% if currentKpi.date|date('Y') == "2017" %}Août{% else %}Janvier{% endif %}</th>
+										<th {% if user_actuel.id != 101 %}colspan="2"{% endif %} class="col-xs-2 text-center text-uppercase">Sur le mois</th>
+										<th {% if user_actuel.id != 101 %}colspan="2"{% endif %} class="col-xs-2 text-center text-uppercase">Depuis {% if currentKpi.date|date('Y') == "2017" %}Août{% else %}Janvier{% endif %} {{ currentKpi.date|date('Y') }}</th>
 									</tr>
 								</thead>
 								<thead>
 									<tr>
 										<th class="col-xs-2" style="border:0;"></th>
-										<th class="text-center text-uppercase small info" style="color:black;">Réseau</th>
-										<th class="text-center text-uppercase small" style="color:black;">{{ currentKpi.user.username }}</th>
-										<th class="text-center text-uppercase small info" style="color:black;">Réseau</th>
-										<th class="text-center text-uppercase small" style="color:black;">{{ currentKpi.user.username }}</th>
+										{% if user_actuel.id != 101 %}<th class="text-center text-uppercase small info" style="color:black;">Réseau</th>{% endif %}
+										<th class="text-center text-uppercase small" style="color:black;">{{ currentKpi.user.username|replace({'LOUIS PION': 'RÉSEAU'}) }}</th>
+										{% if user_actuel.id != 101 %}<th class="text-center text-uppercase small info" style="color:black;">Réseau</th>{% endif %}
+										<th class="text-center text-uppercase small" style="color:black;">{{ currentKpi.user.username|replace({'LOUIS PION': 'RÉSEAU'}) }}</th>
 									</tr>
 								</thead>
 								<tbody>
 									<tr class="">
-										<th class="text-right text-uppercase small" style="color: #000000">Nombre de répondant</th>
-										<td class="text-center info">{{marque.nbrequestsatisfmontredm0|number_format(0, ',', ' ') }}</td>
+										<th class="text-right text-uppercase small" style="color: #000000">Nombre de répondants</th>
+										{% if user_actuel.id != 101 %}
+											<td class="text-center info">{{marque.nbrequestsatisfmontredm0|number_format(0, ',', ' ') }}</td>
+										{% endif %}
 										<td class="text-center">{{currentKpi.nbrequestsatisfmontredm0|number_format(0, ',', ' ')}}</td>
-										<td class="text-center info">{{marque.nbrequestsatisfmontreytd|number_format(0, ',', ' ')}}</td>
+										{% if user_actuel.id != 101 %}
+											<td class="text-center info">{{marque.nbrequestsatisfmontreytd|number_format(0, ',', ' ')}}</td>
+										{% endif %}
 										<td class="text-center">{{currentKpi.nbrequestsatisfmontreytd|number_format(0, ',', ' ')}}</td>
 									</tr>
 									<tr class="">
 										<th class="text-right text-uppercase small" style="color: #000000;">Question n°2</th>
-										<td class="text-center info">{{marque.moyquestsatisfmontreq2m0|number_format(2, ',', ' ') }}</td>
-										<td class="text-center">{{currentKpi.moyquestsatisfmontreq2m0|number_format(2, ',', ' ')}}</td>
-										<td class="text-center info">{{marque.moyquestsatisfmontreq2ytd|number_format(2, ',', ' ')}}</td>
-										<td class="text-center">{{currentKpi.moyquestsatisfmontreq2ytd|number_format(2, ',', ' ')}}</td>
+										{% if user_actuel.id != 101 %}
+											<td class="text-center info">{{marque.moyquestsatisfmontreq2m0|number_format(1, ',', ' ') }}</td>
+										{% endif %}
+										<td class="text-center">{{currentKpi.moyquestsatisfmontreq2m0|number_format(1, ',', ' ')}}</td>
+										{% if user_actuel.id != 101 %}
+											<td class="text-center info">{{marque.moyquestsatisfmontreq2ytd|number_format(1, ',', ' ')}}</td>
+										{% endif %}
+										<td class="text-center">{{currentKpi.moyquestsatisfmontreq2ytd|number_format(1, ',', ' ')}}</td>
 									</tr>
 									<tr class="">
 										<th class="text-right text-uppercase small" style="color: #000000;">Question n°3</th>
-										<td class="text-center info">{{marque.moyquestsatisfmontreq3m0|number_format(2, ',', ' ') }}</td>
-										<td class="text-center">{{currentKpi.moyquestsatisfmontreq3m0|number_format(2, ',', ' ')}}</td>
-										<td class="text-center info">{{marque.moyquestsatisfmontreq3ytd|number_format(2, ',', ' ')}}</td>
-										<td class="text-center">{{currentKpi.moyquestsatisfmontreq3ytd|number_format(2, ',', ' ')}}</td>
+										{% if user_actuel.id != 101 %}
+											<td class="text-center info">{{marque.moyquestsatisfmontreq3m0|number_format(1, ',', ' ') }}</td>
+										{% endif %}
+										<td class="text-center">{{currentKpi.moyquestsatisfmontreq3m0|number_format(1, ',', ' ')}}</td>
+										{% if user_actuel.id != 101 %}
+											<td class="text-center info">{{marque.moyquestsatisfmontreq3ytd|number_format(1, ',', ' ')}}</td>
+										{% endif %}
+										<td class="text-center">{{currentKpi.moyquestsatisfmontreq3ytd|number_format(1, ',', ' ')}}</td>
 									</tr>
 									<tr class="">
 										<th class="text-right text-uppercase small" style="color: #000000;">Question n°4</th>
-										<td class="text-center info">{{marque.moyquestsatisfmontreq4m0|number_format(2, ',', ' ') }}</td>
-										<td class="text-center">{{currentKpi.moyquestsatisfmontreq4m0|number_format(2, ',', ' ')}}</td>
-										<td class="text-center info">{{marque.moyquestsatisfmontreq4ytd|number_format(2, ',', ' ')}}</td>
-										<td class="text-center">{{currentKpi.moyquestsatisfmontreq4ytd|number_format(2, ',', ' ')}}</td>
+										{% if user_actuel.id != 101 %}
+											<td class="text-center info">{{marque.moyquestsatisfmontreq4m0|number_format(1, ',', ' ') }}</td>
+										{% endif %}
+										<td class="text-center">{{currentKpi.moyquestsatisfmontreq4m0|number_format(1, ',', ' ')}}</td>
+										{% if user_actuel.id != 101 %}
+											<td class="text-center info">{{marque.moyquestsatisfmontreq4ytd|number_format(1, ',', ' ')}}</td>
+										{% endif %}
+										<td class="text-center">{{currentKpi.moyquestsatisfmontreq4ytd|number_format(1, ',', ' ')}}</td>
 									</tr>
 									<tr class="">
 										<th class="text-right text-uppercase small" style="color: #000000;">Question n°5</th>
-										<td class="text-center info">{{marque.moyquestsatisfmontreq5m0|number_format(2, ',', ' ') }}</td>
-										<td class="text-center">{{currentKpi.moyquestsatisfmontreq5m0|number_format(2, ',', ' ')}}</td>
-										<td class="text-center info">{{marque.moyquestsatisfmontreq5ytd|number_format(2, ',', ' ')}}</td>
-										<td class="text-center">{{currentKpi.moyquestsatisfmontreq5ytd|number_format(2, ',', ' ')}}</td>
+										{% if user_actuel.id != 101 %}
+											<td class="text-center info">{{marque.moyquestsatisfmontreq5m0|number_format(1, ',', ' ') }}</td>
+										{% endif %}
+										<td class="text-center">{{currentKpi.moyquestsatisfmontreq5m0|number_format(1, ',', ' ')}}</td>
+										{% if user_actuel.id != 101 %}
+											<td class="text-center info">{{marque.moyquestsatisfmontreq5ytd|number_format(1, ',', ' ')}}</td>
+										{% endif %}
+										<td class="text-center">{{currentKpi.moyquestsatisfmontreq5ytd|number_format(1, ',', ' ')}}</td>
 									</tr>
 									<tr class="">
 										<th class="text-right text-uppercase small" style="color: #000000;">Question n°6</th>
-										<td class="text-center info">{{marque.moyquestsatisfmontreq6m0|number_format(2, ',', ' ') }}</td>
-										<td class="text-center">{{currentKpi.moyquestsatisfmontreq6m0|number_format(2, ',', ' ')}}</td>
-										<td class="text-center info">{{marque.moyquestsatisfmontreq6ytd|number_format(2, ',', ' ')}}</td>
-										<td class="text-center">{{currentKpi.moyquestsatisfmontreq6ytd|number_format(2, ',', ' ')}}</td>
+										{% if user_actuel.id != 101 %}
+											<td class="text-center info">{{marque.moyquestsatisfmontreq6m0|number_format(1, ',', ' ') }}</td>
+										{% endif %}
+										<td class="text-center">{{currentKpi.moyquestsatisfmontreq6m0|number_format(1, ',', ' ')}}</td>
+										{% if user_actuel.id != 101 %}
+											<td class="text-center info">{{marque.moyquestsatisfmontreq6ytd|number_format(1, ',', ' ')}}</td>
+										{% endif %}
+										<td class="text-center">{{currentKpi.moyquestsatisfmontreq6ytd|number_format(1, ',', ' ')}}</td>
+									</tr>
+									<tr class="">
+										{% set moyenne_marque_m = (marque.moyquestsatisfmontreq2m0 + marque.moyquestsatisfmontreq3m0 + marque.moyquestsatisfmontreq4m0 + marque.moyquestsatisfmontreq5m0 + marque.moyquestsatisfmontreq6m0) / 5  %}
+										{% set moyenne_marque_ytd = (marque.moyquestsatisfmontreq2ytd + marque.moyquestsatisfmontreq3ytd + marque.moyquestsatisfmontreq4ytd + marque.moyquestsatisfmontreq5ytd + marque.moyquestsatisfmontreq6ytd) / 5  %}
+										{% set moyenne_currentKpi_m = (currentKpi.moyquestsatisfmontreq2m0 + currentKpi.moyquestsatisfmontreq3m0 + currentKpi.moyquestsatisfmontreq4m0 + currentKpi.moyquestsatisfmontreq5m0 + currentKpi.moyquestsatisfmontreq6m0) / 5  %}
+										{% set moyenne_currentKpi_ytd = (currentKpi.moyquestsatisfmontreq2ytd + currentKpi.moyquestsatisfmontreq3ytd + currentKpi.moyquestsatisfmontreq4ytd + currentKpi.moyquestsatisfmontreq5ytd + currentKpi.moyquestsatisfmontreq6ytd) / 5  %}
+										<th class="text-right text-uppercase small" style="color: #000000;">Moyenne</th>
+										{% if user_actuel.id != 101 %}
+											<td class="text-center info">{{moyenne_marque_m|number_format(1, ',', ' ') }}</td>
+										{% endif %}
+										<td class="text-center">{{moyenne_currentKpi_m|number_format(1, ',', ' ')}}</td>
+										{% if user_actuel.id != 101 %}
+											<td class="text-center info">{{marque.moyquestsatisfmontreq6ytd|number_format(1, ',', ' ')}}</td>
+										{% endif %}
+										<td class="text-center">{{moyenne_currentKpi_ytd|number_format(1, ',', ' ')}}</td>
 									</tr>
 								</tbody>
 							</table>
@@ -301,7 +388,7 @@
 							{{ form_start(formMontre, {'id' : 'data-export'}) }}
 								<div class="col-xs-12">
 									{{ form_widget(formMontre.data) }}
-									{{ form_widget(formMontre.submit, {'attr': {'class': 'btn big-action-gray-btn'}, 'label' : 'Exporter les varbatims du mois'}) }}
+									{{ form_widget(formMontre.submit, {'attr': {'class': 'btn big-action-gray-btn'}, 'label' : 'Exporter les verbatims du mois'}) }}
 								</div>
 							{{ form_end(formMontre) }}
 
@@ -310,67 +397,26 @@
 							{{ form_start(formMontreAll, {'id' : 'data-export'}) }}
 								<div class="col-xs-12">
 									{{ form_widget(formMontreAll.data) }}
-									{{ form_widget(formMontreAll.submit, {'attr': {'class': 'btn big-action-gray-btn'}, 'label' : 'Exporter tous les varbatims'}) }}
+									{{ form_widget(formMontreAll.submit, {'attr': {'class': 'btn big-action-gray-btn'}, 'label' : 'Exporter tous les verbatims'}) }}
 								</div>
 							{{ form_end(formMontreAll) }}
+
+							<div class="spacer"></div>
+
+							<p><strong>Rappel des questions : <br /></strong>&nbsp;<br /><span class="small">
+								<strong>N°2 : </strong>Quelle note donneriez-vous à votre accueil en boutique ?<br />
+								<strong>N°3 : </strong>Quelle note donneriez-vous au temps d'attente avant la prise en charge ?<br />
+								<strong>N°4 : </strong>Quelle note donneriez-vous à la présentation des produits (vitrines, merchandising...) ?<br />
+								<strong>N°5 : </strong>Quelle note donneriez-vous au choix des produits (marques, styles...) ?<br />
+								<strong>N°6 : </strong>Quelle note donneriez-vous à votre expérience d'achat (conseils, services proposés...) ?
+								</span>
+							</p>
 
 							<div class="spacer"></div>
 						</div>
 
 						<div class="inside col-xs-12 text-center">
-							<p class="small"><br />Calcul du NPS : (Nombre de promoteurs - Nombre de detracteurs) / (Nombre de personnes iterrogées) x 100<br />
-							Note pouvant aller de -100 à 100</p>
-						</div>
-					</div>
-
-				</div>
-				<div class="col-xs-12">
-					<h2 class="text-uppercase gris-bg">DÉTAILS DU NPS</h2>
-
-					<div class="col-xs-12 kpi-box">
-
-						<h4 class="text-uppercase black text-center">Détails de mon NPS</h4>
-
-						<div class="spacer"></div>
-						<table class="table table-bordered table-hover" style="margin-bottom:0;">
-							<thead>
-								<tr>
-									<th colspan="3" class="col-xs-2 text-center text-uppercase">Sur le mois</th>
-									<th colspan="3" class="col-xs-2 text-center text-uppercase">Depuis {% if currentKpi.date|date('Y') == "2017" %}Août{% else %}Janvier{% endif %}</th>
-								</tr>
-							</thead>
-							<thead>
-								<tr>
-									<th class="col-xs-2 text-center text-uppercase" style="color:green"><i class="fa fa-2x fa-child" aria-hidden="true"></i></th>
-									<th class="col-xs-2 text-center text-uppercase" style="color:orange"><i class="fa fa-2x fa-male" aria-hidden="true"></i></th>
-									<th class="col-xs-2 text-center text-uppercase" style="color:red"><i class="fa fa-2x fa-male" aria-hidden="true"></i></th>
-									<th class="col-xs-2 text-center text-uppercase" style="color:green"><i class="fa fa-2x fa-child" aria-hidden="true"></i></th>
-									<th class="col-xs-2 text-center text-uppercase" style="color:orange"><i class="fa fa-2x fa-male" aria-hidden="true"></i></th>
-									<th class="col-xs-2 text-center text-uppercase" style="color:red"><i class="fa fa-2x fa-male" aria-hidden="true"></i></th>
-								</tr>
-								<tr>
-									<th class="col-xs-2 text-center text-uppercase small" style="color:black;">Nombre de prospecteurs</th>
-									<th class="col-xs-2 text-center text-uppercase small" style="color:black;">Nombre de passif</th>
-									<th class="col-xs-2 text-center text-uppercase small" style="color:black;">Nombre de détracteurs</th>
-									<th class="col-xs-2 text-center text-uppercase small" style="color:black;">Nombre de prospecteurs</th>
-									<th class="col-xs-2 text-center text-uppercase small" style="color:black;">Nombre de passif</th>
-									<th class="col-xs-2 text-center text-uppercase small" style="color:black;">Nombre de détracteurs</th>
-								</tr>
-							</thead>
-							<tbody>
-								<tr class="info">								
-									<td class="text-center">{{currentKpi.txquestsatisfpromoteurdm0|number_format(0, ',', ' ') }} %</td>
-									<td class="text-center">{{currentKpi.txquestsatisfpassifm0|number_format(0, ',', ' ') }} %</td>
-									<td class="text-center">{{currentKpi.txquestsatisfdetracteurm0|number_format(0, ',', ' ') }} %</td>
-									<td class="text-center">{{currentKpi.txquestsatisfpromoteurytd|number_format(0, ',', ' ')}} %</td>
-									<td class="text-center">{{currentKpi.txquestsatisfpassifytd|number_format(0, ',', ' ')}} %</td>
-									<td class="text-center">{{currentKpi.txquestsatisfdetracteurytd|number_format(0, ',', ' ')}} %</td>
-								</tr>
-							</tbody>
-						</table>
-
-						<div class="inside col-xs-12 text-center">
-							<p class="small"><br /><strong>Promoteurs</strong> : note 9 et 10 | <strong>Passifs</strong> : note 7 et 8 | <strong>Détracteurs</strong> : note 0 à 6</p>
+							<p class="small"><br /></p>
 						</div>
 					</div>
 
@@ -384,61 +430,107 @@
 
 				<div class="spacer" style="margin-bottom:0px;"></div>
 
+				{% if user_role not in ['ROLE_BOUTIQUE', 'ROLE_VENDEUR']  %}
+
 				<div class="col-xs-12">
-					{% if user.role == "ROLE_MARQUE" %}
-						<h2 class="text-uppercase gris-bg">Performance des DR du réseau {{user.username}}</h2>
-					{% elseif user.role == "ROLE_DR" %}
-						<h2 class="text-uppercase gris-bg">Performance des Boutiques du DR {{user.username}}</h2>
-					{% elseif user.role == "ROLE_BOUTIQUE" %}
-						<h2 class="text-uppercase gris-bg">Performance du Réseau</h2>
+					{% if user_role == "ROLE_MARQUE" %}
+						<h2 class="text-uppercase gris-bg">Performances des DR du réseau {{user.username}}</h2>
+					{% elseif user_role == "ROLE_DR" %}
+						<h2 class="text-uppercase gris-bg">Performances des Boutiques du DR {{user.username}}</h2>
+					{% elseif user_role == "ROLE_BOUTIQUE" %}
+						<h2 class="text-uppercase gris-bg">Performances du Réseau</h2>
 					{% endif %}
 					<div class="col-xs-12 kpi-box">
 						<table class="table table-bordered table-hover" style="margin-bottom:0;">
 							<thead>
 								<tr>
 									<th class="col-xs-2"></th>
-									<th colspan="2" class="col-xs-2 text-center text-uppercase">Sur le mois</th>
-									<th colspan="2" class="col-xs-2 text-center text-uppercase">Depuis {% if currentKpi.date|date('Y') == "2017" %}Août{% else %}Janvier{% endif %}</th>
+									<th colspan="8" class="col-xs-2 text-center text-uppercase">Sur le mois</th>
+									<th colspan="8" class="col-xs-2 text-center text-uppercase">Depuis {% if currentKpi.date|date('Y') == "2017" %}Août{% else %}Janvier{% endif %} {{ currentKpi.date|date('Y') }}</th>
 								</tr>
 							</thead>
 							<thead>
 								<tr>
-									<th class="col-xs-2"></th>
-									<th class="col-xs-2 text-center text-uppercase">Nombre de répondants</th>
-									<th class="col-xs-2 text-center text-uppercase">NPS</th>
-									<th class="col-xs-2 text-center text-uppercase">Nombre de répondants</th>
-									<th class="col-xs-2 text-center text-uppercase">NPS</th>
+									<th class=""></th>
+									<th class="small text-center" style="color:#000;">Nb. de<br />Répondants</th>
+									<th class="small text-center" style="color:#000;">Moy.<br />Q. 2</th>
+									<th class="small text-center" style="color:#000;">Moy.<br />Q. 3</th>
+									<th class="small text-center" style="color:#000;">Moy.<br />Q. 4</th>
+									<th class="small text-center" style="color:#000;">Moy.<br />Q. 5</th>
+									<th class="small text-center" style="color:#000;">Moy.<br />Q. 6</th>
+									<th class="small text-center" style="color:#000;">Moy.</th>
+									<th class="small text-center" style="color:#000;">Nb. de<br />Répondants</th>
+									<th class="small text-center" style="color:#000;">Moy.<br />Q. 2</th>
+									<th class="small text-center" style="color:#000;">Moy.<br />Q. 3</th>
+									<th class="small text-center" style="color:#000;">Moy.<br />Q. 4</th>
+									<th class="small text-center" style="color:#000;">Moy.<br />Q. 5</th>
+									<th class="small text-center" style="color:#000;">Moy.<br />Q. 6</th>
+									<th class="small text-center" style="color:#000;">Moy.</th>
 								</tr>
 							</thead>
 							<tbody>
 								<tr class="info">
-									<th class="text-right text-uppercase" style="color: #3399FF">Réseau</th>
-									<td class="text-center">{{marque.nbrequestsatisfm0|number_format(0, ',', ' ') }}</td>
-									<td class="text-center">{{ marque.questsatisfnpsm0|number_format(0, ',', ' ')}}</td>
-									<td class="text-center">{{ marque.nbrequestsatisfytd|number_format(0, ',', ' ')}}</td>
-									<td class="text-center">{{ marque.questsatisfnpsytd|number_format(0, ',', ' ')}}</td>
+									<th class="text-right text-uppercase small" style="color: #3399FF">Réseau</th>
+									<td class="text-center">{{ marque.nbrequestsatisfmontredm0|number_format(0, ',', ' ') }}</td>
+									<td class="text-center">{{ marque.moyquestsatisfmontreq2m0|number_format(1, ',', ' ')}}</td>
+									<td class="text-center">{{ marque.moyquestsatisfmontreq3m0|number_format(1, ',', ' ')}}</td>
+									<td class="text-center">{{ marque.moyquestsatisfmontreq4m0|number_format(1, ',', ' ')}}</td>
+									<td class="text-center">{{ marque.moyquestsatisfmontreq5m0|number_format(1, ',', ' ')}}</td>
+									<td class="text-center">{{ marque.moyquestsatisfmontreq6m0|number_format(1, ',', ' ')}}</td>
+									<td class="text-center ">{{moyenne_marque_m|number_format(1, ',', ' ') }}</td>
+									<td class="text-center">{{ marque.nbrequestsatisfmontreytd|number_format(0, ',', ' ') }}</td>
+									<td class="text-center">{{ marque.moyquestsatisfmontreq2ytd|number_format(1, ',', ' ')}}</td>
+									<td class="text-center">{{ marque.moyquestsatisfmontreq3ytd|number_format(1, ',', ' ')}}</td>
+									<td class="text-center">{{ marque.moyquestsatisfmontreq4ytd|number_format(1, ',', ' ')}}</td>
+									<td class="text-center">{{ marque.moyquestsatisfmontreq5ytd|number_format(1, ',', ' ')}}</td>
+									<td class="text-center">{{ marque.moyquestsatisfmontreq6ytd|number_format(1, ',', ' ')}}</td>
+									<td class="text-center ">{{moyenne_marque_ytd|number_format(1, ',', ' ') }}</td>
 								</tr>
-								{% if user.role == "ROLE_MARQUE" %}
+								{% if user_role == "ROLE_MARQUE" %}
 									{% for boutique in getDrsMarque %}
 										{% if getDrsMarque is not null %}
+											{% set moyenne_boutique_m = (boutique.moyquestsatisfmontreq2m0 + boutique.moyquestsatisfmontreq3m0 + boutique.moyquestsatisfmontreq4m0 + boutique.moyquestsatisfmontreq5m0 + boutique.moyquestsatisfmontreq6m0) / 5  %}
+											{% set moyenne_boutique_ytd = (boutique.moyquestsatisfmontreq2ytd + boutique.moyquestsatisfmontreq3ytd + boutique.moyquestsatisfmontreq4ytd + boutique.moyquestsatisfmontreq5ytd + boutique.moyquestsatisfmontreq6ytd) / 5  %}
 											<tr>
-												<th class="text-right text-uppercase"><a href="{{ path('app_kpi_month', { 'user_actuel' : userId, 'user_id' : boutique.user.id } ) }}">{{boutique.user.username}}</a></th>
-												<td class="text-center">{{ boutique.nbrequestsatisfm0|number_format(0, ',', ' ') }}</td>
-												<td class="text-center">{{ boutique.questsatisfnpsm0|number_format(0, ',', ' ')}}</td>
-												<td class="text-center">{{ boutique.nbrequestsatisfytd|number_format(0, ',', ' ')}}</td>
-												<td class="text-center">{{ boutique.questsatisfnpsytd|number_format(0, ',', ' ')}}</td>
+												<th class="text-right text-uppercase small"><a target="_blank" href="{{ path('app_kpi_satisfaction', { 'user_actuel' : userId, 'user_id' : boutique.user.id } ) }}">{{boutique.user.username|replace({'LOUIS PION': 'RÉSEAU'})}}</a></th>
+												<td class="text-center">{{ boutique.nbrequestsatisfmontredm0|number_format(0, ',', ' ') }}</td>
+												<td class="text-center">{{ boutique.moyquestsatisfmontreq2m0|number_format(1, ',', ' ')}}</td>
+												<td class="text-center">{{ boutique.moyquestsatisfmontreq3m0|number_format(1, ',', ' ')}}</td>
+												<td class="text-center">{{ boutique.moyquestsatisfmontreq4m0|number_format(1, ',', ' ')}}</td>
+												<td class="text-center">{{ boutique.moyquestsatisfmontreq5m0|number_format(1, ',', ' ')}}</td>
+												<td class="text-center">{{ boutique.moyquestsatisfmontreq6m0|number_format(1, ',', ' ')}}</td>
+												<td class="text-center ">{{moyenne_boutique_m|number_format(1, ',', ' ') }}</td>
+												<td class="text-center">{{ boutique.nbrequestsatisfmontreytd|number_format(0, ',', ' ') }}</td>
+												<td class="text-center">{{ boutique.moyquestsatisfmontreq2ytd|number_format(1, ',', ' ')}}</td>
+												<td class="text-center">{{ boutique.moyquestsatisfmontreq3ytd|number_format(1, ',', ' ')}}</td>
+												<td class="text-center">{{ boutique.moyquestsatisfmontreq4ytd|number_format(1, ',', ' ')}}</td>
+												<td class="text-center">{{ boutique.moyquestsatisfmontreq5ytd|number_format(1, ',', ' ')}}</td>
+												<td class="text-center">{{ boutique.moyquestsatisfmontreq6ytd|number_format(1, ',', ' ')}}</td>
+												<td class="text-center ">{{moyenne_boutique_ytd|number_format(1, ',', ' ') }}</td>
 											</tr>
 										{% endif %}
 									{% endfor %}
-								{% elseif user.role == "ROLE_DR" %}
+								{% elseif user_role == "ROLE_DR" %}
 									{% for boutique in getBoutiquesDr %}
 										{% if getBoutiquesDr is not null and boutique.nbTransacYtd > 0 %}
+											{% set moyenne_boutique_m = (boutique.moyquestsatisfmontreq2m0 + boutique.moyquestsatisfmontreq3m0 + boutique.moyquestsatisfmontreq4m0 + boutique.moyquestsatisfmontreq5m0 + boutique.moyquestsatisfmontreq6m0) / 5  %}
+											{% set moyenne_boutique_ytd = (boutique.moyquestsatisfmontreq2ytd + boutique.moyquestsatisfmontreq3ytd + boutique.moyquestsatisfmontreq4ytd + boutique.moyquestsatisfmontreq5ytd + boutique.moyquestsatisfmontreq6ytd) / 5  %}
 											<tr>
-												<th class="text-right text-uppercase"><a href="{{ path('app_kpi_month', { 'user_actuel' : userId, 'user_id' : boutique.user.id } ) }}">{{boutique.user.username}}</a></th>
-												<td class="text-center">{{ boutique.nbrequestsatisfm0|number_format(0, ',', ' ') }}</td>
-												<td class="text-center">{{ boutique.questsatisfnpsm0|number_format(0, ',', ' ')}}</td>
-												<td class="text-center">{{ boutique.nbrequestsatisfytd|number_format(0, ',', ' ')}}</td>
-												<td class="text-center">{{ boutique.questsatisfnpsytd|number_format(0, ',', ' ')}}</td>
+												<th class="text-right text-uppercase small"><a target="_blank" href="{{ path('app_kpi_satisfaction', { 'user_actuel' : userId, 'user_id' : boutique.user.id } ) }}">{{boutique.user.username|replace({'LOUIS PION': 'RÉSEAU'})}}</a></th>
+												<td class="text-center">{{ boutique.nbrequestsatisfmontredm0|number_format(0, ',', ' ') }}</td>
+												<td class="text-center">{{ boutique.moyquestsatisfmontreq2m0|number_format(1, ',', ' ')}}</td>
+												<td class="text-center">{{ boutique.moyquestsatisfmontreq3m0|number_format(1, ',', ' ')}}</td>
+												<td class="text-center">{{ boutique.moyquestsatisfmontreq4m0|number_format(1, ',', ' ')}}</td>
+												<td class="text-center">{{ boutique.moyquestsatisfmontreq5m0|number_format(1, ',', ' ')}}</td>
+												<td class="text-center">{{ boutique.moyquestsatisfmontreq6m0|number_format(1, ',', ' ')}}</td>
+												<td class="text-center ">{{moyenne_boutique_m|number_format(1, ',', ' ') }}</td>
+												<td class="text-center">{{ boutique.nbrequestsatisfmontreytd|number_format(0, ',', ' ') }}</td>
+												<td class="text-center">{{ boutique.moyquestsatisfmontreq2ytd|number_format(1, ',', ' ')}}</td>
+												<td class="text-center">{{ boutique.moyquestsatisfmontreq3ytd|number_format(1, ',', ' ')}}</td>
+												<td class="text-center">{{ boutique.moyquestsatisfmontreq4ytd|number_format(1, ',', ' ')}}</td>
+												<td class="text-center">{{ boutique.moyquestsatisfmontreq5ytd|number_format(1, ',', ' ')}}</td>
+												<td class="text-center">{{ boutique.moyquestsatisfmontreq6ytd|number_format(1, ',', ' ')}}</td>
+												<td class="text-center ">{{moyenne_boutique_ytd|number_format(1, ',', ' ') }}</td>
 											</tr>
 										{% endif %}
 									{% endfor %}
@@ -447,6 +539,7 @@
 						</table>
 					</div>
 				</div>
+			{% endif %}
 
 
 
@@ -458,58 +551,93 @@
 				{% if currentKpi.nbrequestsatisfm0 > 0 %}
 
 				<div class="col-xs-12">
-					<h2 class="text-uppercase gris-bg">RÉSULTATS DU NPS</h2>
+					<h2 class="text-uppercase gris-bg">RÉSULTATS DU QUESTIONNAIRE</h2>
 
 					<div class="col-xs-12 kpi-box">
 						<div class="inside col-xs-12 col-md-6">
 
-							<h4 class="text-uppercase black text-center">Mon NPS</h4>
+							<h4 class="text-uppercase black text-center">&nbsp;</h4>
 
 							<table class="table table-bordered table-hover" style="margin-bottom:0;">
 								<thead>
 									<tr>
 										<th class="col-xs-2"></th>
-										<th colspan="2" class="col-xs-2 text-center text-uppercase">Sur le mois</th>
-										<th colspan="2" class="col-xs-2 text-center text-uppercase">Depuis {% if currentKpi.date|date('Y') == "2017" %}Août{% else %}Janvier{% endif %}</th>
+										<th {% if user_actuel.id != 101 %}colspan="2"{% endif %} class="col-xs-2 text-center text-uppercase">Sur le mois</th>
+										<th {% if user_actuel.id != 101 %}colspan="2"{% endif %} class="col-xs-2 text-center text-uppercase">Depuis {% if currentKpi.date|date('Y') == "2017" %}Août{% else %}Janvier{% endif %} {{ currentKpi.date|date('Y') }}</th>
 									</tr>
 								</thead>
 								<thead>
 									<tr>
 										<th class="col-xs-2" style="border:0;"></th>
-										<th class="text-center text-uppercase small info" style="color:black;">Réseau</th>
-										<th class="text-center text-uppercase small" style="color:black;">{{ currentKpi.user.username }}</th>
-										<th class="text-center text-uppercase small info" style="color:black;">Réseau</th>
-										<th class="text-center text-uppercase small" style="color:black;">{{ currentKpi.user.username }}</th>
+										{% if user_actuel.id != 101 %}
+											<th class="text-center text-uppercase small info" style="color:black;">Réseau</th>
+										{% endif %}
+										<th class="text-center text-uppercase small" style="color:black;">{{ currentKpi.user.username|replace({'LOUIS PION': 'RÉSEAU'}) }}</th>
+										{% if user_actuel.id != 101 %}
+											<th class="text-center text-uppercase small info" style="color:black;">Réseau</th>
+										{% endif %}
+										<th class="text-center text-uppercase small" style="color:black;">{{ currentKpi.user.username|replace({'LOUIS PION': 'RÉSEAU'}) }}</th>
 									</tr>
 								</thead>
 								<tbody>
+										{% set moyenne_marque_m = (marque.moyquestsatisfpileq2m0 + marque.moyquestsatisfpileq3m0 + marque.moyquestsatisfpileq4m0) / 3  %}
+										{% set moyenne_marque_ytd = (marque.moyquestsatisfpileq2ytd + marque.moyquestsatisfpileq3ytd + marque.moyquestsatisfpileq4ytd  ) / 3  %}
+										{% set moyenne_currentKpi_m = (currentKpi.moyquestsatisfpileq2m0 + currentKpi.moyquestsatisfpileq3m0 + currentKpi.moyquestsatisfpileq4m0) / 3  %}
+										{% set moyenne_currentKpi_ytd = (currentKpi.moyquestsatisfpileq2ytd + currentKpi.moyquestsatisfpileq3ytd + currentKpi.moyquestsatisfpileq4ytd  ) / 3  %}
 									<tr class="">
-										<th class="text-right text-uppercase small" style="color: #000000">Nombre de répondant</th>
-										<td class="text-center info">{{marque.nbrequestsatisfmontredm0|number_format(0, ',', ' ') }}</td>
-										<td class="text-center">{{currentKpi.nbrequestsatisfmontredm0|number_format(0, ',', ' ')}}</td>
-										<td class="text-center info">{{marque.nbrequestsatisfmontreytd|number_format(0, ',', ' ')}}</td>
-										<td class="text-center">{{currentKpi.nbrequestsatisfmontreytd|number_format(0, ',', ' ')}}</td>
+										<th class="text-right text-uppercase small" style="color: #000000">Nombre de répondants</th>
+										{% if user_actuel.id != 101 %}
+											<td class="text-center info">{{marque.nbrequestsatisfpiledm0|number_format(0, ',', ' ') }}</td>
+										{% endif %}
+										<td class="text-center">{{currentKpi.nbrequestsatisfpiledm0|number_format(0, ',', ' ')}}</td>
+										{% if user_actuel.id != 101 %}
+											<td class="text-center info">{{marque.nbrequestsatisfpileytd|number_format(0, ',', ' ')}}</td>
+										{% endif %}
+										<td class="text-center">{{currentKpi.nbrequestsatisfpileytd|number_format(0, ',', ' ')}}</td>
 									</tr>
 									<tr class="">
 										<th class="text-right text-uppercase small" style="color: #000000;">Question n°2</th>
-										<td class="text-center info">{{marque.moyquestsatisfpileq2m0|number_format(2, ',', ' ') }}</td>
-										<td class="text-center">{{currentKpi.moyquestsatisfpileq2m0|number_format(2, ',', ' ')}}</td>
-										<td class="text-center info">{{marque.moyquestsatisfpileq2ytd|number_format(2, ',', ' ')}}</td>
-										<td class="text-center">{{currentKpi.moyquestsatisfpileq2ytd|number_format(2, ',', ' ')}}</td>
+										{% if user_actuel.id != 101 %}
+											<td class="text-center info">{{marque.moyquestsatisfpileq2m0|number_format(1, ',', ' ') }}</td>
+										{% endif %}
+										<td class="text-center">{{currentKpi.moyquestsatisfpileq2m0|number_format(1, ',', ' ')}}</td>
+										{% if user_actuel.id != 101 %}
+											<td class="text-center info">{{marque.moyquestsatisfpileq2ytd|number_format(1, ',', ' ')}}</td>
+										{% endif %}
+										<td class="text-center">{{currentKpi.moyquestsatisfpileq2ytd|number_format(1, ',', ' ')}}</td>
 									</tr>
 									<tr class="">
 										<th class="text-right text-uppercase small" style="color: #000000;">Question n°3</th>
-										<td class="text-center info">{{marque.moyquestsatisfpileq3m0|number_format(2, ',', ' ') }}</td>
-										<td class="text-center">{{currentKpi.moyquestsatisfpileq3m0|number_format(2, ',', ' ')}}</td>
-										<td class="text-center info">{{marque.moyquestsatisfpileq3ytd|number_format(2, ',', ' ')}}</td>
-										<td class="text-center">{{currentKpi.moyquestsatisfpileq3ytd|number_format(2, ',', ' ')}}</td>
+										{% if user_actuel.id != 101 %}
+											<td class="text-center info">{{marque.moyquestsatisfpileq3m0|number_format(1, ',', ' ') }}</td>
+										{% endif %}
+										<td class="text-center">{{currentKpi.moyquestsatisfpileq3m0|number_format(1, ',', ' ')}}</td>
+										{% if user_actuel.id != 101 %}
+											<td class="text-center info">{{marque.moyquestsatisfpileq3ytd|number_format(1, ',', ' ')}}</td>
+										{% endif %}
+										<td class="text-center">{{currentKpi.moyquestsatisfpileq3ytd|number_format(1, ',', ' ')}}</td>
 									</tr>
 									<tr class="">
 										<th class="text-right text-uppercase small" style="color: #000000;">Question n°4</th>
-										<td class="text-center info">{{marque.moyquestsatisfpileq4m0|number_format(2, ',', ' ') }}</td>
-										<td class="text-center">{{currentKpi.moyquestsatisfpileq4m0|number_format(2, ',', ' ')}}</td>
-										<td class="text-center info">{{marque.moyquestsatisfpileq4ytd|number_format(2, ',', ' ')}}</td>
-										<td class="text-center">{{currentKpi.moyquestsatisfpileq4ytd|number_format(2, ',', ' ')}}</td>
+										{% if user_actuel.id != 101 %}
+											<td class="text-center info">{{marque.moyquestsatisfpileq4m0|number_format(1, ',', ' ') }}</td>
+										{% endif %}
+										<td class="text-center">{{currentKpi.moyquestsatisfpileq4m0|number_format(1, ',', ' ')}}</td>
+										{% if user_actuel.id != 101 %}
+											<td class="text-center info">{{marque.moyquestsatisfpileq4ytd|number_format(1, ',', ' ')}}</td>
+										{% endif %}
+										<td class="text-center">{{currentKpi.moyquestsatisfpileq4ytd|number_format(1, ',', ' ')}}</td>
+									</tr>
+									<tr class="">
+										<th class="text-right text-uppercase small" style="color: #000000;">Question n°4</th>
+										{% if user_actuel.id != 101 %}
+											<td class="text-center info">{{moyenne_marque_m|number_format(1, ',', ' ') }}</td>
+										{% endif %}
+										<td class="text-center">{{moyenne_currentKpi_ytd|number_format(1, ',', ' ')}}</td>
+										{% if user_actuel.id != 101 %}
+											<td class="text-center info">{{moyenne_marque_m|number_format(1, ',', ' ')}}</td>
+										{% endif %}
+										<td class="text-center">{{moyenne_currentKpi_ytd|number_format(1, ',', ' ')}}</td>
 									</tr>
 								</tbody>
 							</table>
@@ -522,7 +650,7 @@
 							{{ form_start(formPile, {'id' : 'data-export'}) }}
 								<div class="col-xs-12">
 									{{ form_widget(formPile.data) }}
-									{{ form_widget(formPile.submit, {'attr': {'class': 'btn big-action-gray-btn'}, 'label' : 'Exporter les varbatims du mois'}) }}
+									{{ form_widget(formPile.submit, {'attr': {'class': 'btn big-action-gray-btn'}, 'label' : 'Exporter les verbatims du mois'}) }}
 								</div>
 							{{ form_end(formPile) }}
 
@@ -531,66 +659,22 @@
 							{{ form_start(formPileAll, {'id' : 'data-export'}) }}
 								<div class="col-xs-12">
 									{{ form_widget(formPileAll.data) }}
-									{{ form_widget(formPileAll.submit, {'attr': {'class': 'btn big-action-gray-btn'}, 'label' : 'Exporter tous les varbatims'}) }}
+									{{ form_widget(formPileAll.submit, {'attr': {'class': 'btn big-action-gray-btn'}, 'label' : 'Exporter tous les verbatims'}) }}
 								</div>
 							{{ form_end(formPileAll) }}
+
 							<div class="spacer"></div>
+
+							<p><strong>Rappel des questions : <br /></strong>&nbsp;<br /><span class="small">
+								<strong>N°2 :</strong> Quelle note donneriez-vous à votre accueil en boutique ?<br />
+								<strong>N°3 :</strong> Quelle note donneriez-vous au temps d'attente avant la prise en charge ?<br />
+								<strong>N°4 :</strong> Quelle note donneriez-vous à votre expérience d'achat (conseils, services proposés...) ?
+									</span>
+							</p>
 						</div>
 
 						<div class="inside col-xs-12 text-center">
-							<p class="small"><br />Calcul du NPS : (Nombre de promoteurs - Nombre de detracteurs) / (Nombre de personnes iterrogées) x 100<br />
-							Note pouvant aller de -100 à 100</p>
-						</div>
-					</div>
-
-				</div>
-				<div class="col-xs-12">
-					<h2 class="text-uppercase gris-bg">DÉTAILS DU NPS</h2>
-
-					<div class="col-xs-12 kpi-box">
-
-						<h4 class="text-uppercase black text-center">Détails de mon NPS</h4>
-
-						<div class="spacer"></div>
-						<table class="table table-bordered table-hover" style="margin-bottom:0;">
-							<thead>
-								<tr>
-									<th colspan="3" class="col-xs-2 text-center text-uppercase">Sur le mois</th>
-									<th colspan="3" class="col-xs-2 text-center text-uppercase">Depuis {% if currentKpi.date|date('Y') == "2017" %}Août{% else %}Janvier{% endif %}</th>
-								</tr>
-							</thead>
-							<thead>
-								<tr>
-									<th class="col-xs-2 text-center text-uppercase" style="color:green"><i class="fa fa-2x fa-child" aria-hidden="true"></i></th>
-									<th class="col-xs-2 text-center text-uppercase" style="color:orange"><i class="fa fa-2x fa-male" aria-hidden="true"></i></th>
-									<th class="col-xs-2 text-center text-uppercase" style="color:red"><i class="fa fa-2x fa-male" aria-hidden="true"></i></th>
-									<th class="col-xs-2 text-center text-uppercase" style="color:green"><i class="fa fa-2x fa-child" aria-hidden="true"></i></th>
-									<th class="col-xs-2 text-center text-uppercase" style="color:orange"><i class="fa fa-2x fa-male" aria-hidden="true"></i></th>
-									<th class="col-xs-2 text-center text-uppercase" style="color:red"><i class="fa fa-2x fa-male" aria-hidden="true"></i></th>
-								</tr>
-								<tr>
-									<th class="col-xs-2 text-center text-uppercase small" style="color:black;">Nombre de prospecteurs</th>
-									<th class="col-xs-2 text-center text-uppercase small" style="color:black;">Nombre de passif</th>
-									<th class="col-xs-2 text-center text-uppercase small" style="color:black;">Nombre de détracteurs</th>
-									<th class="col-xs-2 text-center text-uppercase small" style="color:black;">Nombre de prospecteurs</th>
-									<th class="col-xs-2 text-center text-uppercase small" style="color:black;">Nombre de passif</th>
-									<th class="col-xs-2 text-center text-uppercase small" style="color:black;">Nombre de détracteurs</th>
-								</tr>
-							</thead>
-							<tbody>
-								<tr class="info">
-									<td class="text-center">{{currentKpi.txquestsatisfpromoteurdm0|number_format(0, ',', ' ') }} %</td>
-									<td class="text-center">{{currentKpi.txquestsatisfpassifm0|number_format(0, ',', ' ') }} %</td>
-									<td class="text-center">{{currentKpi.txquestsatisfdetracteurm0|number_format(0, ',', ' ') }} %</td>
-									<td class="text-center">{{currentKpi.txquestsatisfpromoteurytd|number_format(0, ',', ' ')}} %</td>
-									<td class="text-center">{{currentKpi.txquestsatisfpassifytd|number_format(0, ',', ' ')}} %</td>
-									<td class="text-center">{{currentKpi.txquestsatisfdetracteurytd|number_format(0, ',', ' ')}} %</td>
-								</tr>
-							</tbody>
-						</table>
-
-						<div class="inside col-xs-12 text-center">
-							<p class="small"><br /><strong>Promoteurs</strong> : note 9 et 10 | <strong>Passifs</strong> : note 7 et 8 | <strong>Détracteurs</strong> : note 0 à 6</p>
+							<p class="small"><br /></p>
 						</div>
 					</div>
 
@@ -604,61 +688,91 @@
 
 				<div class="spacer" style="margin-bottom:0px;"></div>
 
+				{% if user_role not in ['ROLE_BOUTIQUE', 'ROLE_VENDEUR']  %}
+
 				<div class="col-xs-12">
-					{% if user.role == "ROLE_MARQUE" %}
-						<h2 class="text-uppercase gris-bg">Performance des DR du réseau {{user.username}}</h2>
-					{% elseif user.role == "ROLE_DR" %}
-						<h2 class="text-uppercase gris-bg">Performance des Boutiques du DR {{user.username}}</h2>
-					{% elseif user.role == "ROLE_BOUTIQUE" %}
-						<h2 class="text-uppercase gris-bg">Performance du Réseau</h2>
+					{% if user_role == "ROLE_MARQUE" %}
+						<h2 class="text-uppercase gris-bg">Performances des DR du réseau {{user.username}}</h2>
+					{% elseif user_role == "ROLE_DR" %}
+						<h2 class="text-uppercase gris-bg">Performances des Boutiques du DR {{user.username}}</h2>
+					{% elseif user_role == "ROLE_BOUTIQUE" %}
+						<h2 class="text-uppercase gris-bg">Performances du Réseau</h2>
 					{% endif %}
 					<div class="col-xs-12 kpi-box">
 						<table class="table table-bordered table-hover" style="margin-bottom:0;">
 							<thead>
 								<tr>
 									<th class="col-xs-2"></th>
-									<th colspan="2" class="col-xs-2 text-center text-uppercase">Sur le mois</th>
-									<th colspan="2" class="col-xs-2 text-center text-uppercase">Depuis {% if currentKpi.date|date('Y') == "2017" %}Août{% else %}Janvier{% endif %}</th>
+									<th colspan="5" class="col-xs-2 text-center text-uppercase">Sur le mois</th>
+									<th colspan="5" class="col-xs-2 text-center text-uppercase">Depuis {% if currentKpi.date|date('Y') == "2017" %}Août{% else %}Janvier{% endif %} {{ currentKpi.date|date('Y') }}</th>
 								</tr>
 							</thead>
 							<thead>
 								<tr>
-									<th class="col-xs-2"></th>
-									<th class="col-xs-2 text-center text-uppercase">Nombre de répondants</th>
-									<th class="col-xs-2 text-center text-uppercase">NPS</th>
-									<th class="col-xs-2 text-center text-uppercase">Nombre de répondants</th>
-									<th class="col-xs-2 text-center text-uppercase">NPS</th>
+									<th class=""></th>
+									<th class="small text-center" style="color:#000;">Nb. de<br />Répondants</th>
+									<th class="small text-center" style="color:#000;">Moy.<br />Q. 2</th>
+									<th class="small text-center" style="color:#000;">Moy.<br />Q. 3</th>
+									<th class="small text-center" style="color:#000;">Moy.<br />Q. 4</th>
+									<th class="small text-center" style="color:#000;">Moy.</th>
+									<th class="small text-center" style="color:#000;">Nb. de<br />Répondants</th>
+									<th class="small text-center" style="color:#000;">Moy.<br />Q. 2</th>
+									<th class="small text-center" style="color:#000;">Moy.<br />Q. 3</th>
+									<th class="small text-center" style="color:#000;">Moy.<br />Q. 4</th>
+									<th class="small text-center" style="color:#000;">Moy.</th>
 								</tr>
 							</thead>
 							<tbody>
 								<tr class="info">
-									<th class="text-right text-uppercase" style="color: #3399FF">Résultats du réseau</th>
-									<td class="text-center">{{marque.nbrequestsatisfm0|number_format(0, ',', ' ') }}</td>
-									<td class="text-center">{{ marque.questsatisfnpsm0|number_format(0, ',', ' ')}}</td>
-									<td class="text-center">{{ marque.nbrequestsatisfytd|number_format(0, ',', ' ')}}</td>
-									<td class="text-center">{{ marque.questsatisfnpsytd|number_format(0, ',', ' ')}}</td>
+									<th class="text-right text-uppercase small" style="color: #3399FF">Réseau</th>
+									<td class="text-center">{{ marque.nbrequestsatisfpiledm0|number_format(0, ',', ' ') }}</td>
+									<td class="text-center">{{ marque.moyquestsatisfpileq2m0|number_format(1, ',', ' ')}}</td>
+									<td class="text-center">{{ marque.moyquestsatisfpileq3m0|number_format(1, ',', ' ')}}</td>
+									<td class="text-center">{{ marque.moyquestsatisfpileq4m0|number_format(1, ',', ' ')}}</td>
+										<td class="text-center info">{{moyenne_marque_m|number_format(1, ',', ' ') }}</td>
+									<td class="text-center">{{ marque.nbrequestsatisfpileytd|number_format(0, ',', ' ') }}</td>
+									<td class="text-center">{{ marque.moyquestsatisfpileq2ytd|number_format(1, ',', ' ')}}</td>
+									<td class="text-center">{{ marque.moyquestsatisfpileq3ytd|number_format(1, ',', ' ')}}</td>
+									<td class="text-center">{{ marque.moyquestsatisfpileq4ytd|number_format(1, ',', ' ')}}</td>
+										<td class="text-center info">{{moyenne_marque_ytd|number_format(1, ',', ' ') }}</td>
 								</tr>
-								{% if user.role == "ROLE_MARQUE" %}
+								{% if user_role == "ROLE_MARQUE" %}
 									{% for boutique in getDrsMarque %}
 										{% if getDrsMarque is not null %}
+											{% set moyenne_boutique_m = (boutique.moyquestsatisfpileq2m0 + boutique.moyquestsatisfpileq3m0 + boutique.moyquestsatisfpileq4m0) / 3  %}
+											{% set moyenne_boutique_ytd = (boutique.moyquestsatisfpileq2ytd + boutique.moyquestsatisfpileq3ytd + boutique.moyquestsatisfpileq4ytd  ) / 3  %}
 											<tr>
-												<th class="text-right text-uppercase"><a href="{{ path('app_kpi_month', { 'user_actuel' : userId, 'user_id' : boutique.user.id } ) }}">{{boutique.user.username}}</a></th>
-												<td class="text-center">{{ boutique.nbrequestsatisfm0|number_format(0, ',', ' ') }}</td>
-												<td class="text-center">{{ boutique.questsatisfnpsm0|number_format(0, ',', ' ')}}</td>
-												<td class="text-center">{{ boutique.nbrequestsatisfytd|number_format(0, ',', ' ')}}</td>
-												<td class="text-center">{{ boutique.questsatisfnpsytd|number_format(0, ',', ' ')}}</td>
+												<th class="text-right text-uppercase small"><a target="_blank" href="{{ path('app_kpi_satisfaction', { 'user_actuel' : userId, 'user_id' : boutique.user.id } ) }}">{{boutique.user.username|replace({'LOUIS PION': 'RÉSEAU'})}}</a></th>
+												<td class="text-center">{{ boutique.nbrequestsatisfpiledm0|number_format(0, ',', ' ') }}</td>
+												<td class="text-center">{{ boutique.moyquestsatisfpileq2m0|number_format(1, ',', ' ')}}</td>
+												<td class="text-center">{{ boutique.moyquestsatisfpileq3m0|number_format(1, ',', ' ')}}</td>
+												<td class="text-center">{{ boutique.moyquestsatisfpileq4m0|number_format(1, ',', ' ')}}</td>
+												<td class="text-center">{{ moyenne_boutique_m|number_format(1, ',', ' ')}}</td>
+												<td class="text-center">{{ boutique.nbrequestsatisfpileytd|number_format(0, ',', ' ') }}</td>
+												<td class="text-center">{{ boutique.moyquestsatisfpileq2ytd|number_format(1, ',', ' ')}}</td>
+												<td class="text-center">{{ boutique.moyquestsatisfpileq3ytd|number_format(1, ',', ' ')}}</td>
+												<td class="text-center">{{ boutique.moyquestsatisfpileq4ytd|number_format(1, ',', ' ')}}</td>
+												<td class="text-center">{{ moyenne_boutique_ytd|number_format(1, ',', ' ')}}</td>
 											</tr>
 										{% endif %}
 									{% endfor %}
-								{% elseif user.role == "ROLE_DR" %}
+								{% elseif user_role == "ROLE_DR" %}
 									{% for boutique in getBoutiquesDr %}
 										{% if getBoutiquesDr is not null and boutique.nbTransacYtd > 0 %}
+											{% set moyenne_boutique_m = (boutique.moyquestsatisfpileq2m0 + boutique.moyquestsatisfpileq3m0 + boutique.moyquestsatisfpileq4m0) / 3  %}
+											{% set moyenne_boutique_ytd = (boutique.moyquestsatisfpileq2ytd + boutique.moyquestsatisfpileq3ytd + boutique.moyquestsatisfpileq4ytd  ) / 3  %}
 											<tr>
-												<th class="text-right text-uppercase"><a href="{{ path('app_kpi_month', { 'user_actuel' : userId, 'user_id' : boutique.user.id } ) }}">{{boutique.user.username}}</a></th>
-												<td class="text-center">{{ boutique.nbrequestsatisfm0|number_format(0, ',', ' ') }}</td>
-												<td class="text-center">{{ boutique.questsatisfnpsm0|number_format(0, ',', ' ')}}</td>
-												<td class="text-center">{{ boutique.nbrequestsatisfytd|number_format(0, ',', ' ')}}</td>
-												<td class="text-center">{{ boutique.questsatisfnpsytd|number_format(0, ',', ' ')}}</td>
+												<th class="text-right text-uppercase small"><a target="_blank" href="{{ path('app_kpi_satisfaction', { 'user_actuel' : userId, 'user_id' : boutique.user.id } ) }}">{{boutique.user.username|replace({'LOUIS PION': 'RÉSEAU'})}}</a></th>
+												<td class="text-center">{{ boutique.nbrequestsatisfpiledm0|number_format(0, ',', ' ') }}</td>
+												<td class="text-center">{{ boutique.moyquestsatisfpileq2m0|number_format(1, ',', ' ')}}</td>
+												<td class="text-center">{{ boutique.moyquestsatisfpileq3m0|number_format(1, ',', ' ')}}</td>
+												<td class="text-center">{{ boutique.moyquestsatisfpileq4m0|number_format(1, ',', ' ')}}</td>
+												<td class="text-center">{{ moyenne_boutique_m|number_format(1, ',', ' ')}}</td>
+												<td class="text-center">{{ boutique.nbrequestsatisfpileytd|number_format(0, ',', ' ') }}</td>
+												<td class="text-center">{{ boutique.moyquestsatisfpileq2ytd|number_format(1, ',', ' ')}}</td>
+												<td class="text-center">{{ boutique.moyquestsatisfpileq3ytd|number_format(1, ',', ' ')}}</td>
+												<td class="text-center">{{ boutique.moyquestsatisfpileq4ytd|number_format(1, ',', ' ')}}</td>
+												<td class="text-center">{{ moyenne_boutique_ytd|number_format(1, ',', ' ')}}</td>
 											</tr>
 										{% endif %}
 									{% endfor %}
@@ -668,7 +782,7 @@
 					</div>
 				</div>
 
-
+				{% endif %}
 
 				<!-- FIN BLOC -->
 
@@ -676,27 +790,6 @@
 		</div>
 
 
-
-		<div class="spacer" style="margin-bottom:0px;"></div>
-
-		<div class="col-xs-12">
-
-			<h2 class="text-uppercase gris-bg">Le top boutique {{ user.brand }}</h2>
-			<div class="col-xs-12 kpi-box">
-				<div class="inside">
-					{% for nps in topNPS %}
-						<div class="inside top col-xs-4 text-center">
-							<h3 class="black">#{{loop.index}} NPS</h3>
-							<div class="dark-box">
-								<h3>{{ deleteFirstCharacters(nps.user.username,4)|upper }}<br />{{ nps.questsatisfnpsm0|number_format(0, ',', ' ') }}</h3>
-								<p class="small white">(nombre de répondants : {{ nps.nbrequestsatisfm0|number_format(0, ',', ' ') }})</p>
-							</div>
-						</div>
-					{% endfor %}
-					<div style="height:0px;" class="spacer"></div>
-				</div>
-			</div>
-		</div>
 	</div>
 	
 	<div style="height:30px;" class="spacer"></div>
@@ -860,7 +953,8 @@
 				content: "<span style='\"'color: {color}'\"'>{name}</span> : {y}"
 			},axisY: {
 				suffix: " %",
-				labelFontSize: 14  
+				labelFontSize: 14,
+				maximum: 100
 			},
 			axisX:{
 		        interval: 1,

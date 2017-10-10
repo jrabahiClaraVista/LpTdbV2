@@ -54,7 +54,7 @@ class ImportVerbatimCronCommand extends ContainerAwareCommand
 			//$import->setUserforKpiLp();
 			
 			$output->writeln("Archivage du fichier");		
-			//$import->renameLastImportVerbatim();
+			$import->renameLastImportVerbatim();
 		} else {
 		    $output->writeln("Aucun fichier, annulation de l'import");
 		}

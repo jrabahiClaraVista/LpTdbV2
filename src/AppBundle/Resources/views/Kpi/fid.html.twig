@@ -72,13 +72,13 @@
 	</div>
 	<div class="spacer" style="margin-bottom:0px;"></div>
 
-	{% if user.role != "ROLE_BOUTIQUE" %}
+	{% if user_role != "ROLE_BOUTIQUE" %}
 		<div class="col-xs-12">
-			{% if user.role == "ROLE_MARQUE" %}
+			{% if user_role == "ROLE_MARQUE" %}
 				<h2 class="text-uppercase gris-bg">Performance des DR du réseau {{user.username}}</h2>
-			{% elseif user.role == "ROLE_DR" %}
+			{% elseif user_role == "ROLE_DR" %}
 				<h2 class="text-uppercase gris-bg">Performance des Boutiques du DR {{user.username}}</h2>
-			{% elseif user.role == "ROLE_BOUTIQUE" %}
+			{% elseif user_role == "ROLE_BOUTIQUE" %}
 				<h2 class="text-uppercase gris-bg">Performance des Vendeurs de la Boutique {{user.username}}</h2>
 			{% endif %}
 			<div class="col-xs-12 kpi-box">
@@ -102,7 +102,7 @@
 							<td class="text-center">{{ marque.caClientsTransformesM0|number_format(0, ',', ' ')}} €</td>
 							<td class="text-center">{{ marque.caCrmYtd|number_format(0, ',', ' ')}} €</td>
 						</tr>
-						{% if user.role == "ROLE_MARQUE" %}
+						{% if user_role == "ROLE_MARQUE" %}
 							{% for boutique in getDrsMarque %}
 								{% if getDrsMarque is not null %}
 									<tr>
@@ -115,7 +115,7 @@
 									</tr>
 								{% endif %}
 							{% endfor %}
-						{% elseif user.role == "ROLE_DR" %}
+						{% elseif user_role == "ROLE_DR" %}
 							{% for boutique in getBoutiquesDr %}
 								{% if getBoutiquesDr is not null %}
 									<tr>

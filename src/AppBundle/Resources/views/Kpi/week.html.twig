@@ -21,7 +21,7 @@
 
 		<div class="col-xs-12 kpi-box">
 
-			{% if user.role != "ROLE_VENDEUR" %}
+			{% if user_role != "ROLE_VENDEUR" %}
 				<div class="inside col-xs-12 bordered-bottom">
 					<h3 class="text-uppercase text-center gris">Identification des clients</h3>
 						<p class="col-xs-12 text-center">
@@ -116,13 +116,13 @@
 
 	<div class="spacer" style="margin-bottom:0px;"></div>
 
-	{% if user.role != "ROLE_VENDEUR" %}
+	{% if user_role != "ROLE_VENDEUR" %}
 		<div class="col-xs-12">
-			{% if user.role == "ROLE_MARQUE" %}
+			{% if user_role == "ROLE_MARQUE" %}
 				<h2 class="text-uppercase gris-bg">Performance des DR du réseau {{user.username}}</h2>
-			{% elseif user.role == "ROLE_DR" %}
+			{% elseif user_role == "ROLE_DR" %}
 				<h2 class="text-uppercase gris-bg">Performance des Boutiques du DR {{user.username}}</h2>
-			{% elseif user.role == "ROLE_BOUTIQUE" %}
+			{% elseif user_role == "ROLE_BOUTIQUE" %}
 				<h2 class="text-uppercase gris-bg">Performance des Vendeurs de la Boutique {{user.username}}</h2>
 			{% endif %}
 			<div class="col-xs-12 kpi-box">
@@ -146,7 +146,7 @@
 							<td class="text-center">{{ marque.txTransacNpesS0|number_format}} %</td>
 							<td class="text-center">{{ marque.txTransacNpesaS0|number_format}} %</td>
 						</tr>
-						{% if user.role == "ROLE_MARQUE" %}
+						{% if user_role == "ROLE_MARQUE" %}
 							{% for boutique in getDrsMarque %}
 								{% if getDrsMarque is not null %}
 									<tr>
@@ -159,7 +159,7 @@
 									</tr>
 								{% endif %}
 							{% endfor %}
-						{% elseif user.role == "ROLE_DR" %}
+						{% elseif user_role == "ROLE_DR" %}
 							{% for boutique in getBoutiquesDr %}
 								{% if getBoutiquesDr is not null and boutique.user.nbTransacYtd > 0 %}
 									<tr>
@@ -172,7 +172,7 @@
 									</tr>
 								{% endif %}
 							{% endfor %}
-						{% elseif user.role == "ROLE_BOUTIQUE" %}
+						{% elseif user_role == "ROLE_BOUTIQUE" %}
 							{% for boutique in getVendeursBoutique %}
 								{% if getVendeursBoutique is not null and boutique.user.nbTransacYtd > 0 %}
 									<tr>
@@ -198,7 +198,7 @@
 
 	<div class="col-xs-12">
 
-		{% if user.role != "ROLE_VENDEUR" %}
+		{% if user_role != "ROLE_VENDEUR" %}
 			<h2 class="text-uppercase gris-bg">Le top boutique {{ user.brand }}</h2>
 			<div class="col-xs-12 kpi-box">
 				<div class="inside">
@@ -401,7 +401,7 @@
 
 	window.onload = function () {
 
-		{% if user.role != "ROLE_VENDEUR" %}
+		{% if user_role != "ROLE_VENDEUR" %}
 		var chart = new CanvasJS.Chart("chartContainer0",
 		{
 			colorSet: "set5",

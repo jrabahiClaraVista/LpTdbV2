@@ -274,7 +274,7 @@ class KpiMonthRepository extends EntityRepository
 		  	->setParameter('date2', $date2)
 		  	->andWhere('u.role = :role')
 		  	->setParameter('role', "ROLE_BOUTIQUE")
-		  	->orderBy('k.questsatisfranknpsm0', 'ASC')
+		  	->orderBy('k.questsatisfranknpsytd', 'ASC')
 		  	->setMaxResults(3);
 		;
 

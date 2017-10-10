@@ -420,6 +420,9 @@ class KpiController extends Controller
 			$formPileAll = $this->createForm(new ExportVerbatimType(4));
 	        $formPileAll->handleRequest($request);  
 
+			$formRank = $this->createForm(new ExportVerbatimType(5));
+	        $formRank->handleRequest($request);  
+
 			//Export Verbatim CSV
 
 			if ($formMontre->isSubmitted()) {
@@ -429,17 +432,17 @@ class KpiController extends Controller
 				if( $user->getRole() == 'ROLE_MARQUE' ) {
 					$sql2 = "SELECT v.marque,v.dr,v.boutique,v.type,v.question,v.note,v.verbatim,v.date
 						FROM app_verbatim v
-						WHERE v.marque = '$username' and v.type = 'Montre' and v.date BETWEEN '$date1' and '$date2'";
+						WHERE v.marque = '$username' and v.type = 'Montre' and v.date BETWEEN '$date3' and '$date2'";
 				}
 				elseif( $user->getRole() == 'ROLE_DR' ) {
 					$sql2 = "SELECT v.marque,v.dr,v.boutique,v.type,v.question,v.note,v.verbatim,v.date
 						FROM app_verbatim v
-						WHERE v.dr = '$username' and v.type = 'Montre' and v.date BETWEEN '$date1' and '$date2'";
+						WHERE v.dr = '$username' and v.type = 'Montre' and v.date BETWEEN '$date3' and '$date2'";
 				}
 				elseif( $user->getRole() == 'ROLE_BOUTIQUE' ) {
 					$sql2 = "SELECT v.marque,v.dr,v.boutique,v.type,v.question,v.note,v.verbatim,v.date
 						FROM app_verbatim v
-						WHERE v.boutique = '$username' and v.type = 'Montre' and v.date BETWEEN '$date1' and '$date2'";
+						WHERE v.boutique = '$username' and v.type = 'Montre' and v.date BETWEEN '$date3' and '$date2'";
 				}
 			}
 
@@ -471,17 +474,17 @@ class KpiController extends Controller
 				if( $user->getRole() == 'ROLE_MARQUE' ) {
 					$sql2 = "SELECT v.marque,v.dr,v.boutique,v.type,v.question,v.note,v.verbatim,v.date
 						FROM app_verbatim v
-						WHERE v.marque = '$username' and v.type = 'Pile/Bracelet' and v.date BETWEEN '$date1' and '$date2'";
+						WHERE v.marque = '$username' and v.type = 'Pile/Bracelet' and v.date BETWEEN '$date3' and '$date2'";
 				}
 				elseif( $user->getRole() == 'ROLE_DR' ) {
 					$sql2 = "SELECT v.marque,v.dr,v.boutique,v.type,v.question,v.note,v.verbatim,v.date
 						FROM app_verbatim v
-						WHERE v.dr = '$username' and v.type = 'Pile/Bracelet' and v.date BETWEEN '$date1' and '$date2'";
+						WHERE v.dr = '$username' and v.type = 'Pile/Bracelet' and v.date BETWEEN '$date3' and '$date2'";
 				}
 				elseif( $user->getRole() == 'ROLE_BOUTIQUE' ) {
 					$sql2 = "SELECT v.marque,v.dr,v.boutique,v.type,v.question,v.note,v.verbatim,v.date
 						FROM app_verbatim v
-						WHERE v.boutique = '$username' and v.type = 'Pile/Bracelet' and v.date BETWEEN '$date1' and '$date2'";
+						WHERE v.boutique = '$username' and v.type = 'Pile/Bracelet' and v.date BETWEEN '$date3' and '$date2'";
 				}
 			}
 
@@ -538,8 +541,6 @@ class KpiController extends Controller
 	            $content = stream_get_contents($handle2);
 	            fclose($handle2);
 	        }
-
-	        var_dump($sql2); die();
             
             $date_csv = new \Datetime('now');
             $date_csv = $date_csv->format('Ymd');
@@ -572,6 +573,76 @@ class KpiController extends Controller
 	                'Content-Disposition' => 'attachment; filename="export_verbatims_montre_mois_'.str_replace(' ','_',$username).'_'.$date_csv.'.csv"'
 	            ));
 	        }
+
+			if ($formRank->isSubmitted()) {
+					
+				$username = $user->getUsername();
+				$reseau = $user->getBrand();
+
+
+				if( $user->getRole() == 'ROLE_MARQUE' ) {
+					$sql3 = "SELECT u.dr, u.boutique, k.date, k.quest_satisf_rank_nps_m0, k.quest_satisf_nps_m0, k.nbre_questsatisf_m0, k.quest_satisf_rank_nps_ytd, k.quest_satisf_nps_ytd, k.nbre_questsatisf_ytd
+						FROM app_kpi_month k
+						LEFT JOIN fos_user_user u on k.user_id = u.id
+						WHERE u.brand = '$username' and u.role = 'ROLE_BOUTIQUE' and k.date BETWEEN '$date3' and '$date2'
+						ORDER BY k.quest_satisf_rank_nps_ytd";
+				}
+				elseif( $user->getRole() == 'ROLE_DR' ) {
+					$sql3 = "SELECT u.dr, u.boutique, k.date, k.quest_satisf_rank_nps_m0, k.quest_satisf_nps_m0, k.nbre_questsatisf_m0, k.quest_satisf_rank_nps_ytd, k.quest_satisf_nps_ytd, k.nbre_questsatisf_ytd
+						FROM app_kpi_month k
+						LEFT JOIN fos_user_user u on k.user_id = u.id
+						WHERE u.brand = '$reseau' and u.role = 'ROLE_BOUTIQUE' and k.date BETWEEN '$date3' and '$date2'
+						ORDER BY k.quest_satisf_rank_nps_ytd";
+				}
+				elseif( $user->getRole() == 'ROLE_BOUTIQUE' ) {
+					$sql3 = "SELECT u.dr, u.boutique, k.date, k.quest_satisf_rank_nps_m0, k.quest_satisf_nps_m0, k.nbre_questsatisf_m0, k.quest_satisf_rank_nps_ytd, k.quest_satisf_nps_ytd, k.nbre_questsatisf_ytd
+						FROM app_kpi_month k
+						LEFT JOIN fos_user_user u on k.user_id = u.id
+						WHERE u.brand = '$reseau' and u.role = 'ROLE_BOUTIQUE' and k.date BETWEEN '$date3' and '$date2'
+						ORDER BY k.quest_satisf_rank_nps_ytd";
+				}
+
+				$header3     = array('DR','Boutique','Mois','Classement du mois','Note NPS du mois','Nombre de répondants sur le mois','Classement YTD','Note NPS YTD','Nombre de répondants sur l\'année');
+
+		            //Creation du fichier CSV et du header2
+		            $handle3     = fopen('php://memory', 'r+');
+		            
+		            //Creation de l'entête du fichier pour être lisible dans Exel
+		            fputs($handle3, $bom =( chr(0xEF) . chr(0xBB) . chr(0xBF) ));
+		            fputcsv($handle3, $header3, ';');
+
+		            //Initialisation de la connection à la BDD            
+		            $pdo = $this->container->get('app.pdo_connect');
+		            $pdo = $pdo->initPdoClienteling();
+
+		            //Préparation et execution de la requête
+		            //var_dump($sql2);
+		            $stmt3 = $pdo->prepare($sql3);
+		            $stmt3->execute();
+
+		            //Remplissage du fichier csv.
+		            while ($row = $stmt3->fetch(\PDO::FETCH_ASSOC)) {
+		            	$date_format = $row["date"];
+		            	$date_format = new \Datetime($date_format);
+		            	$date_format = $date_format->format('m-Y');
+                		$row["date"] = $date_format;
+                		$row["quest_satisf_nps_m0"] = round($row["quest_satisf_nps_m0"]);
+                		$row["quest_satisf_nps_ytd"] = round($row["quest_satisf_nps_ytd"]);
+		                fputcsv($handle3, $row, ';');
+		            }
+
+		            //Fermeture du fichier
+		            rewind($handle3);
+		            $content = stream_get_contents($handle3);
+		            fclose($handle3);
+
+	            //Reponse : Téléchargement du fichier
+	            return new Response($content, 200, array(
+	                'Content-Type' => 'application/force-download; text/csv; charset=UTF-8',
+	                'Content-Disposition' => 'attachment; filename="export_classement_'.$date_format.'.csv"'
+	            ));
+
+			}
 		}
 
 		//Retourne la bonne page
@@ -594,7 +665,8 @@ class KpiController extends Controller
 	        	'form'          	=> $form->createView(),
 	        	'form2'          	=> $form2->createView(),
 	        	'scope'				=> 'mensuel',
-	        	'user_actuel'		=> $user_actuel
+	        	'user_actuel'		=> $user_actuel,
+	        	'user_role'			=> $user->getRole()
 	        	)
 	        );
 		}
@@ -617,7 +689,8 @@ class KpiController extends Controller
 	        	'form'          	=> $form->createView(),
 	        	'form2'          	=> $form2->createView(),
 	        	'scope'				=> 'mensuel',
-	        	'user_actuel'		=> $user_actuel
+	        	'user_actuel'		=> $user_actuel,
+	        	'user_role'			=> $user->getRole()
 	        	)
 	        );
 	    }
@@ -637,8 +710,10 @@ class KpiController extends Controller
 	        	'formPile'        	=> $formPile->createView(),
 	        	'formMontreAll'    	=> $formMontreAll->createView(),
 	        	'formPileAll'       => $formPileAll->createView(),
+	        	'formRank'      	=> $formRank->createView(),
 	        	'scope'				=> 'mensuel',
-	        	'user_actuel'		=> $user_actuel
+	        	'user_actuel'		=> $user_actuel,
+	        	'user_role'			=> $user->getRole()
 	        	)
 	        );
 		}
@@ -658,7 +733,8 @@ class KpiController extends Controller
 		        'getDrsMarque'		=> $getDrsMarque,
 		        'getVendeursBoutique' => $getVendeursBoutique,
 		        'scope'				=> 'mensuel',
-		        'user_actuel'		=> $user_actuel
+		        'user_actuel'		=> $user_actuel,
+		        'user_role'			=> $user->getRole()
 	        	)
 	        );
 		}
@@ -972,7 +1048,8 @@ class KpiController extends Controller
 	        	'marque'			=> $marque,
 	        	'form'          	=> $form->createView(),
 	        	'form2'          	=> $form2->createView(),
-	        	'user_actuel'		=> $user_actuel
+	        	'user_actuel'		=> $user_actuel,
+	        	'user_role'			=> $user->getRole()
 	        	)
 	        );
 		}
