@@ -283,82 +283,84 @@
 								<thead>
 									<tr>
 										<th class="col-xs-2"></th>
-										<th {% if user_actuel.id != 101 %}colspan="2"{% endif %} class="col-xs-2 text-center text-uppercase">Sur le mois</th>
-										<th {% if user_actuel.id != 101 %}colspan="2"{% endif %} class="col-xs-2 text-center text-uppercase">Depuis {% if currentKpi.date|date('Y') == "2017" %}Août{% else %}Janvier{% endif %} {{ currentKpi.date|date('Y') }}</th>
+										<th {% if user_id != '101' %}colspan="2"{% endif %} class="col-xs-2 text-center text-uppercase">Sur le mois</th>
+										<th {% if user_id != '101' %}colspan="2"{% endif %} class="col-xs-2 text-center text-uppercase">Depuis {% if currentKpi.date|date('Y') == "2017" %}Août{% else %}Janvier{% endif %} {{ currentKpi.date|date('Y') }}</th>
 									</tr>
 								</thead>
+								{% if user_id != '101' %}
 								<thead>
 									<tr>
 										<th class="col-xs-2" style="border:0;"></th>
-										{% if user_actuel.id != 101 %}<th class="text-center text-uppercase small info" style="color:black;">Réseau</th>{% endif %}
+										{% if user_id != '101' %}<th class="text-center text-uppercase small info" style="color:black;">Réseau</th>{% endif %}
 										<th class="text-center text-uppercase small" style="color:black;">{{ currentKpi.user.username|replace({'LOUIS PION': 'RÉSEAU'}) }}</th>
-										{% if user_actuel.id != 101 %}<th class="text-center text-uppercase small info" style="color:black;">Réseau</th>{% endif %}
+										{% if user_id != '101' %}<th class="text-center text-uppercase small info" style="color:black;">Réseau</th>{% endif %}
 										<th class="text-center text-uppercase small" style="color:black;">{{ currentKpi.user.username|replace({'LOUIS PION': 'RÉSEAU'}) }}</th>
 									</tr>
 								</thead>
+								{% endif %}
 								<tbody>
 									<tr class="">
 										<th class="text-right text-uppercase small" style="color: #000000">Nombre de répondants</th>
-										{% if user_actuel.id != 101 %}
+										{% if user_id != '101' %}
 											<td class="text-center info">{{marque.nbrequestsatisfmontredm0|number_format(0, ',', ' ') }}</td>
 										{% endif %}
 										<td class="text-center">{{currentKpi.nbrequestsatisfmontredm0|number_format(0, ',', ' ')}}</td>
-										{% if user_actuel.id != 101 %}
+										{% if user_id != '101' %}
 											<td class="text-center info">{{marque.nbrequestsatisfmontreytd|number_format(0, ',', ' ')}}</td>
 										{% endif %}
 										<td class="text-center">{{currentKpi.nbrequestsatisfmontreytd|number_format(0, ',', ' ')}}</td>
 									</tr>
 									<tr class="">
 										<th class="text-right text-uppercase small" style="color: #000000;">Question n°2</th>
-										{% if user_actuel.id != 101 %}
+										{% if user_id != '101' %}
 											<td class="text-center info">{{marque.moyquestsatisfmontreq2m0|number_format(1, ',', ' ') }}</td>
 										{% endif %}
 										<td class="text-center">{{currentKpi.moyquestsatisfmontreq2m0|number_format(1, ',', ' ')}}</td>
-										{% if user_actuel.id != 101 %}
+										{% if user_id != '101' %}
 											<td class="text-center info">{{marque.moyquestsatisfmontreq2ytd|number_format(1, ',', ' ')}}</td>
 										{% endif %}
 										<td class="text-center">{{currentKpi.moyquestsatisfmontreq2ytd|number_format(1, ',', ' ')}}</td>
 									</tr>
 									<tr class="">
 										<th class="text-right text-uppercase small" style="color: #000000;">Question n°3</th>
-										{% if user_actuel.id != 101 %}
+										{% if user_id != '101' %}
 											<td class="text-center info">{{marque.moyquestsatisfmontreq3m0|number_format(1, ',', ' ') }}</td>
 										{% endif %}
 										<td class="text-center">{{currentKpi.moyquestsatisfmontreq3m0|number_format(1, ',', ' ')}}</td>
-										{% if user_actuel.id != 101 %}
+										{% if user_id != '101' %}
 											<td class="text-center info">{{marque.moyquestsatisfmontreq3ytd|number_format(1, ',', ' ')}}</td>
 										{% endif %}
 										<td class="text-center">{{currentKpi.moyquestsatisfmontreq3ytd|number_format(1, ',', ' ')}}</td>
 									</tr>
 									<tr class="">
 										<th class="text-right text-uppercase small" style="color: #000000;">Question n°4</th>
-										{% if user_actuel.id != 101 %}
+										{% if user_id != '101' %}
 											<td class="text-center info">{{marque.moyquestsatisfmontreq4m0|number_format(1, ',', ' ') }}</td>
 										{% endif %}
 										<td class="text-center">{{currentKpi.moyquestsatisfmontreq4m0|number_format(1, ',', ' ')}}</td>
-										{% if user_actuel.id != 101 %}
+										{% if user_id != '101' %}
 											<td class="text-center info">{{marque.moyquestsatisfmontreq4ytd|number_format(1, ',', ' ')}}</td>
 										{% endif %}
 										<td class="text-center">{{currentKpi.moyquestsatisfmontreq4ytd|number_format(1, ',', ' ')}}</td>
 									</tr>
 									<tr class="">
 										<th class="text-right text-uppercase small" style="color: #000000;">Question n°5</th>
-										{% if user_actuel.id != 101 %}
+										{% if user_id != '101' %}
 											<td class="text-center info">{{marque.moyquestsatisfmontreq5m0|number_format(1, ',', ' ') }}</td>
 										{% endif %}
 										<td class="text-center">{{currentKpi.moyquestsatisfmontreq5m0|number_format(1, ',', ' ')}}</td>
-										{% if user_actuel.id != 101 %}
+										{% if user_id != '101' %}
 											<td class="text-center info">{{marque.moyquestsatisfmontreq5ytd|number_format(1, ',', ' ')}}</td>
 										{% endif %}
 										<td class="text-center">{{currentKpi.moyquestsatisfmontreq5ytd|number_format(1, ',', ' ')}}</td>
 									</tr>
 									<tr class="">
 										<th class="text-right text-uppercase small" style="color: #000000;">Question n°6</th>
-										{% if user_actuel.id != 101 %}
+										{% if user_id != '101' %}
 											<td class="text-center info">{{marque.moyquestsatisfmontreq6m0|number_format(1, ',', ' ') }}</td>
 										{% endif %}
 										<td class="text-center">{{currentKpi.moyquestsatisfmontreq6m0|number_format(1, ',', ' ')}}</td>
-										{% if user_actuel.id != 101 %}
+										{% if user_id != '101' %}
 											<td class="text-center info">{{marque.moyquestsatisfmontreq6ytd|number_format(1, ',', ' ')}}</td>
 										{% endif %}
 										<td class="text-center">{{currentKpi.moyquestsatisfmontreq6ytd|number_format(1, ',', ' ')}}</td>
@@ -369,11 +371,11 @@
 										{% set moyenne_currentKpi_m = (currentKpi.moyquestsatisfmontreq2m0 + currentKpi.moyquestsatisfmontreq3m0 + currentKpi.moyquestsatisfmontreq4m0 + currentKpi.moyquestsatisfmontreq5m0 + currentKpi.moyquestsatisfmontreq6m0) / 5  %}
 										{% set moyenne_currentKpi_ytd = (currentKpi.moyquestsatisfmontreq2ytd + currentKpi.moyquestsatisfmontreq3ytd + currentKpi.moyquestsatisfmontreq4ytd + currentKpi.moyquestsatisfmontreq5ytd + currentKpi.moyquestsatisfmontreq6ytd) / 5  %}
 										<th class="text-right text-uppercase small" style="color: #000000;">Moyenne</th>
-										{% if user_actuel.id != 101 %}
+										{% if user_id != '101' %}
 											<td class="text-center info">{{moyenne_marque_m|number_format(1, ',', ' ') }}</td>
 										{% endif %}
 										<td class="text-center">{{moyenne_currentKpi_m|number_format(1, ',', ' ')}}</td>
-										{% if user_actuel.id != 101 %}
+										{% if user_id != '101' %}
 											<td class="text-center info">{{marque.moyquestsatisfmontreq6ytd|number_format(1, ',', ' ')}}</td>
 										{% endif %}
 										<td class="text-center">{{moyenne_currentKpi_ytd|number_format(1, ',', ' ')}}</td>
@@ -562,23 +564,25 @@
 								<thead>
 									<tr>
 										<th class="col-xs-2"></th>
-										<th {% if user_actuel.id != 101 %}colspan="2"{% endif %} class="col-xs-2 text-center text-uppercase">Sur le mois</th>
-										<th {% if user_actuel.id != 101 %}colspan="2"{% endif %} class="col-xs-2 text-center text-uppercase">Depuis {% if currentKpi.date|date('Y') == "2017" %}Août{% else %}Janvier{% endif %} {{ currentKpi.date|date('Y') }}</th>
+										<th {% if user_id != '101' %}colspan="2"{% endif %} class="col-xs-2 text-center text-uppercase">Sur le mois</th>
+										<th {% if user_id != '101' %}colspan="2"{% endif %} class="col-xs-2 text-center text-uppercase">Depuis {% if currentKpi.date|date('Y') == "2017" %}Août{% else %}Janvier{% endif %} {{ currentKpi.date|date('Y') }}</th>
 									</tr>
 								</thead>
+								{% if user_id != '101' %}
 								<thead>
 									<tr>
 										<th class="col-xs-2" style="border:0;"></th>
-										{% if user_actuel.id != 101 %}
+										{% if user_id != '101' %}
 											<th class="text-center text-uppercase small info" style="color:black;">Réseau</th>
 										{% endif %}
 										<th class="text-center text-uppercase small" style="color:black;">{{ currentKpi.user.username|replace({'LOUIS PION': 'RÉSEAU'}) }}</th>
-										{% if user_actuel.id != 101 %}
+										{% if user_id != '101' %}
 											<th class="text-center text-uppercase small info" style="color:black;">Réseau</th>
 										{% endif %}
 										<th class="text-center text-uppercase small" style="color:black;">{{ currentKpi.user.username|replace({'LOUIS PION': 'RÉSEAU'}) }}</th>
 									</tr>
 								</thead>
+							{% endif %}
 								<tbody>
 										{% set moyenne_marque_m = (marque.moyquestsatisfpileq2m0 + marque.moyquestsatisfpileq3m0 + marque.moyquestsatisfpileq4m0) / 3  %}
 										{% set moyenne_marque_ytd = (marque.moyquestsatisfpileq2ytd + marque.moyquestsatisfpileq3ytd + marque.moyquestsatisfpileq4ytd  ) / 3  %}
@@ -586,55 +590,55 @@
 										{% set moyenne_currentKpi_ytd = (currentKpi.moyquestsatisfpileq2ytd + currentKpi.moyquestsatisfpileq3ytd + currentKpi.moyquestsatisfpileq4ytd  ) / 3  %}
 									<tr class="">
 										<th class="text-right text-uppercase small" style="color: #000000">Nombre de répondants</th>
-										{% if user_actuel.id != 101 %}
+										{% if user_id != '101' %}
 											<td class="text-center info">{{marque.nbrequestsatisfpiledm0|number_format(0, ',', ' ') }}</td>
 										{% endif %}
 										<td class="text-center">{{currentKpi.nbrequestsatisfpiledm0|number_format(0, ',', ' ')}}</td>
-										{% if user_actuel.id != 101 %}
+										{% if user_id != '101' %}
 											<td class="text-center info">{{marque.nbrequestsatisfpileytd|number_format(0, ',', ' ')}}</td>
 										{% endif %}
 										<td class="text-center">{{currentKpi.nbrequestsatisfpileytd|number_format(0, ',', ' ')}}</td>
 									</tr>
 									<tr class="">
 										<th class="text-right text-uppercase small" style="color: #000000;">Question n°2</th>
-										{% if user_actuel.id != 101 %}
+										{% if user_id != '101' %}
 											<td class="text-center info">{{marque.moyquestsatisfpileq2m0|number_format(1, ',', ' ') }}</td>
 										{% endif %}
 										<td class="text-center">{{currentKpi.moyquestsatisfpileq2m0|number_format(1, ',', ' ')}}</td>
-										{% if user_actuel.id != 101 %}
+										{% if user_id != '101' %}
 											<td class="text-center info">{{marque.moyquestsatisfpileq2ytd|number_format(1, ',', ' ')}}</td>
 										{% endif %}
 										<td class="text-center">{{currentKpi.moyquestsatisfpileq2ytd|number_format(1, ',', ' ')}}</td>
 									</tr>
 									<tr class="">
 										<th class="text-right text-uppercase small" style="color: #000000;">Question n°3</th>
-										{% if user_actuel.id != 101 %}
+										{% if user_id != '101' %}
 											<td class="text-center info">{{marque.moyquestsatisfpileq3m0|number_format(1, ',', ' ') }}</td>
 										{% endif %}
 										<td class="text-center">{{currentKpi.moyquestsatisfpileq3m0|number_format(1, ',', ' ')}}</td>
-										{% if user_actuel.id != 101 %}
+										{% if user_id != '101' %}
 											<td class="text-center info">{{marque.moyquestsatisfpileq3ytd|number_format(1, ',', ' ')}}</td>
 										{% endif %}
 										<td class="text-center">{{currentKpi.moyquestsatisfpileq3ytd|number_format(1, ',', ' ')}}</td>
 									</tr>
 									<tr class="">
 										<th class="text-right text-uppercase small" style="color: #000000;">Question n°4</th>
-										{% if user_actuel.id != 101 %}
+										{% if user_id != '101' %}
 											<td class="text-center info">{{marque.moyquestsatisfpileq4m0|number_format(1, ',', ' ') }}</td>
 										{% endif %}
 										<td class="text-center">{{currentKpi.moyquestsatisfpileq4m0|number_format(1, ',', ' ')}}</td>
-										{% if user_actuel.id != 101 %}
+										{% if user_id != '101' %}
 											<td class="text-center info">{{marque.moyquestsatisfpileq4ytd|number_format(1, ',', ' ')}}</td>
 										{% endif %}
 										<td class="text-center">{{currentKpi.moyquestsatisfpileq4ytd|number_format(1, ',', ' ')}}</td>
 									</tr>
 									<tr class="">
-										<th class="text-right text-uppercase small" style="color: #000000;">Question n°4</th>
-										{% if user_actuel.id != 101 %}
+										<th class="text-right text-uppercase small" style="color: #000000;">Moyenne</th>
+										{% if user_id != '101' %}
 											<td class="text-center info">{{moyenne_marque_m|number_format(1, ',', ' ') }}</td>
 										{% endif %}
 										<td class="text-center">{{moyenne_currentKpi_ytd|number_format(1, ',', ' ')}}</td>
-										{% if user_actuel.id != 101 %}
+										{% if user_id != '101' %}
 											<td class="text-center info">{{moyenne_marque_m|number_format(1, ',', ' ')}}</td>
 										{% endif %}
 										<td class="text-center">{{moyenne_currentKpi_ytd|number_format(1, ',', ' ')}}</td>

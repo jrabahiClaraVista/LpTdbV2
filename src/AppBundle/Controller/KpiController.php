@@ -712,6 +712,7 @@ class KpiController extends Controller
 	        	'formPileAll'       => $formPileAll->createView(),
 	        	'formRank'      	=> $formRank->createView(),
 	        	'scope'				=> 'mensuel',
+	        	'user_bis'			=> $user_id,
 	        	'user_actuel'		=> $user_actuel,
 	        	'user_role'			=> $user->getRole()
 	        	)
