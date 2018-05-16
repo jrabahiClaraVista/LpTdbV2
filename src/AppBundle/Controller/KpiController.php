@@ -109,7 +109,7 @@ class KpiController extends Controller
 		$date1 = $dates['date1'];//Premier jour du mois à J - 1 an
 		$date2 = $dates['date2'];//Dernier jour du mois
 		$date3 = $dates['date3'];//Premier jour du mois
-		
+
 		if($session->get('kpi_year_filtre') != null)
 			$form = $this->createForm(new KpiFilterType($em, $user, $user, null, $month, $session->get('kpi_year_filtre') , 'mensuel'));
 		else
@@ -131,30 +131,46 @@ class KpiController extends Controller
 
 		if( $user->getRole() == 'ROLE_MARQUE' ) {
 			$getDrsMarque = $em->getRepository('AppBundle:KpiMonth')->getKpiDrMarque($date3, $date2, $brand);
-			$getBoutiquesDr = null;
-			$getVendeursBoutique = null;
+			$getBoutiquesDr = array();
+			$getVendeursBoutique = array();
+
+			foreach ($getDrsMarque as $key => $dr) {
+				$getBoutiques = $em->getRepository('AppBundle:KpiMonth')->getKpiBoutiqueDr($dr->getUser()->getUsername(), $date3, $date2, $brand);
+				$getBoutiquesDr[$key] = $getBoutiques;
+
+				/*foreach ($getBoutiques as $key2 => $boutique) {
+					$getVendeurs =  $em->getRepository('AppBundle:KpiMonth')->getKpiVendeurBoutique($boutique->getUser()->getUsername(), $date3, $date2, $brand);
+					$getVendeursBoutique[$key2] = $getVendeurs;
+				}*/
+			}
 		}
 		if( $user->getRole() == 'ROLE_DR' ) {
 			$getBoutiquesDr = $em->getRepository('AppBundle:KpiMonth')->getKpiBoutiqueDr($user->getUsername(), $date3, $date2, $brand);
-			$getVendeursBoutique = null;
-			$$getDrsMarque = null;
+			$getVendeursBoutique = array();
+			$getDrsMarque = null;
+
+			foreach ($getBoutiquesDr as $key2 => $boutique) {
+				$getVendeurs =  $em->getRepository('AppBundle:KpiMonth')->getKpiVendeurBoutique($boutique->getUser()->getUsername(), $date3, $date2, $brand);
+				$getVendeursBoutique[$key2] = $getVendeurs;
+			}
+
 		}
 		if( $user->getRole() == 'ROLE_BOUTIQUE' ) {
 			$getVendeursBoutique = $em->getRepository('AppBundle:KpiMonth')->getKpiVendeurBoutique($user->getUsername(), $date3, $date2, $brand);
 			$getBoutiquesDr = null;
-			$$getDrsMarque = null;
+			$getDrsMarque = null;
 		}
 		if( $user->getRole() == 'ROLE_VENDEUR' ) {
 			$getVendeursBoutique = $em->getRepository('AppBundle:KpiMonth')->getKpiVendeurBoutique($user->getBoutique(), $date3, $date2, $brand);
 			$getBoutiquesDr = null;
-			$$getDrsMarque = null;
+			$getDrsMarque = null;
 		}
 
 		if( $user->getRole() == 'ROLE_MARQUE' ) {
 			$marque = $em->getRepository('AppBundle:KpiMonth')->getKpiMarque($date3, $date2, $user->getUsername());
 		}
 		else{
-			$marque = $em->getRepository('AppBundle:KpiMonth')->getKpiMarque($date3, $date2, $user->getBrand());	
+			$marque = $em->getRepository('AppBundle:KpiMonth')->getKpiMarque($date3, $date2, $user->getBrand());
 		}
 
         if ( $request->getMethod() == 'POST' && $form->isSubmitted() ) {
@@ -208,7 +224,7 @@ class KpiController extends Controller
         }
 
         //Gestion des requêtes selon la page appelée
-        
+
         if($session->get('filtre_vendeur') != null){
         	$kpis = $em->getRepository('AppBundle:KpiMonth')->getUserKpisBetweenDates($session->get('filtre_vendeur'), $date1, $date2, $brand);
         }
@@ -224,7 +240,7 @@ class KpiController extends Controller
         else{
         	$kpis = $em->getRepository('AppBundle:KpiMonth')->getUserKpisBetweenDates($user, $date1, $date2, $brand);
         }
-		
+
 
 		//get current month depending on url parameter
 		foreach ($kpis as $key => $kpi) {
@@ -292,10 +308,10 @@ class KpiController extends Controller
 		}
 
 		//Mise à jour du filtre
-		$kpiFilterService->updateForm($user, $request, $form);
+		$form = $kpiFilterService->updateForm($user, $request, $form);
 
 		$form2 = $this->createForm(new ExportDataType());
-        $form2->handleRequest($request);  
+        $form2->handleRequest($request);
 
 		//Export CSV
 		if ($form2->isSubmitted()) {
@@ -303,6 +319,7 @@ class KpiController extends Controller
 			$idDataMarque 	= $marque->getId();
 			$idDataFiche 	= $kpiCurrentMonth->getId();
 			$idDataAutres	= array();
+
 			if( $user->getRole() == 'ROLE_MARQUE' ) {
 				foreach ($getDrsMarque as $key => $DrMarque) {
 					array_push($idDataAutres, $DrMarque->getId());
@@ -355,12 +372,12 @@ class KpiController extends Controller
 
             //Creation du fichier CSV et du header
             $handle     = fopen('php://memory', 'r+');
-            
+
             //Creation de l'entête du fichier pour être lisible dans Exel
             fputs($handle, $bom =( chr(0xEF) . chr(0xBB) . chr(0xBF) ));
             fputcsv($handle, $header, ';');
 
-            //Initialisation de la connection à la BDD            
+            //Initialisation de la connection à la BDD
             $pdo = $this->container->get('app.pdo_connect');
             $pdo = $pdo->initPdoClienteling();
 
@@ -392,7 +409,7 @@ class KpiController extends Controller
             rewind($handle);
             $content = stream_get_contents($handle);
             fclose($handle);
-            
+
             $date_csv = new \Datetime('now');
             $date_csv = $date_csv->format('Ymd');
 
@@ -409,24 +426,24 @@ class KpiController extends Controller
 			//$kpiFilterService->updateFormVerbatime($user, $request);
 
 			$formMontre = $this->createForm(new ExportVerbatimType(1));
-	        $formMontre->handleRequest($request); 
+	        $formMontre->handleRequest($request);
 
 			$formMontreAll = $this->createForm(new ExportVerbatimType(2));
-	        $formMontreAll->handleRequest($request); 
+	        $formMontreAll->handleRequest($request);
 
 			$formPile = $this->createForm(new ExportVerbatimType(3));
-	        $formPile->handleRequest($request); 
+	        $formPile->handleRequest($request);
 
 			$formPileAll = $this->createForm(new ExportVerbatimType(4));
-	        $formPileAll->handleRequest($request);  
+	        $formPileAll->handleRequest($request);
 
 			$formRank = $this->createForm(new ExportVerbatimType(5));
-	        $formRank->handleRequest($request);  
+	        $formRank->handleRequest($request);
 
 			//Export Verbatim CSV
 
 			if ($formMontre->isSubmitted()) {
-				
+
 				$username = $user->getUsername();
 
 				if( $user->getRole() == 'ROLE_MARQUE' ) {
@@ -447,7 +464,7 @@ class KpiController extends Controller
 			}
 
 			if ($formMontreAll->isSubmitted()) {
-				
+
 				$username = $user->getUsername();
 
 				if( $user->getRole() == 'ROLE_MARQUE' ) {
@@ -468,7 +485,7 @@ class KpiController extends Controller
 			}
 
 			if ($formPile->isSubmitted()) {
-				
+
 				$username = $user->getUsername();
 
 				if( $user->getRole() == 'ROLE_MARQUE' ) {
@@ -489,7 +506,7 @@ class KpiController extends Controller
 			}
 
 			if ($formPileAll->isSubmitted()) {
-				
+
 				$username = $user->getUsername();
 
 				if( $user->getRole() == 'ROLE_MARQUE' ) {
@@ -510,17 +527,17 @@ class KpiController extends Controller
 			}
 
 
-			$header2     = array('Reseau','DR','Boutique','Type','Question','Note','Verbatime','Date');
+			$header2     = array('Reseau','DR','Boutique','Type','Question','Note','Verbatim','Date de validation du questionnaire');
 
 			if($formMontre->isSubmitted() OR $formMontreAll->isSubmitted() OR $formPile->isSubmitted() OR $formPileAll->isSubmitted()){
 	            //Creation du fichier CSV et du header2
 	            $handle2     = fopen('php://memory', 'r+');
-	            
+
 	            //Creation de l'entête du fichier pour être lisible dans Exel
 	            fputs($handle2, $bom =( chr(0xEF) . chr(0xBB) . chr(0xBF) ));
 	            fputcsv($handle2, $header2, ';');
 
-	            //Initialisation de la connection à la BDD            
+	            //Initialisation de la connection à la BDD
 	            $pdo = $this->container->get('app.pdo_connect');
 	            $pdo = $pdo->initPdoClienteling();
 
@@ -532,7 +549,7 @@ class KpiController extends Controller
 	            //Remplissage du fichier csv.
 	            while ($row = $stmt2->fetch(\PDO::FETCH_ASSOC)) {
 	                $row["note"] = '="'.str_replace('.',',',$row["note"]).'"';
-	            	
+
 	                fputcsv($handle2, $row, ';');
 	            }
 
@@ -541,7 +558,7 @@ class KpiController extends Controller
 	            $content = stream_get_contents($handle2);
 	            fclose($handle2);
 	        }
-            
+
             $date_csv = new \Datetime('now');
             $date_csv = $date_csv->format('Ymd');
 
@@ -575,7 +592,7 @@ class KpiController extends Controller
 	        }
 
 			if ($formRank->isSubmitted()) {
-					
+
 				$username = $user->getUsername();
 				$reseau = $user->getBrand();
 
@@ -606,12 +623,12 @@ class KpiController extends Controller
 
 		            //Creation du fichier CSV et du header2
 		            $handle3     = fopen('php://memory', 'r+');
-		            
+
 		            //Creation de l'entête du fichier pour être lisible dans Exel
 		            fputs($handle3, $bom =( chr(0xEF) . chr(0xBB) . chr(0xBF) ));
 		            fputcsv($handle3, $header3, ';');
 
-		            //Initialisation de la connection à la BDD            
+		            //Initialisation de la connection à la BDD
 		            $pdo = $this->container->get('app.pdo_connect');
 		            $pdo = $pdo->initPdoClienteling();
 
@@ -794,9 +811,10 @@ class KpiController extends Controller
 		$vars = $kpiFilterService->initVars($user, $request);
 
         $reseau      = $vars[0];
-        $dr 	     = $vars[1];
+        $dr 	     	= $vars[1];
         $boutique    = $vars[2];
         $vendeur     = $vars[3];
+
 
         //simplification du code par utilisation d'un service pour initialiser les dates utiliser pour filtrer des données
 		$kpiDates = $this->get('app.init_Kpi_dates');
@@ -812,7 +830,7 @@ class KpiController extends Controller
 			$form = $this->createForm(new KpiFilterType($em, $user, $user, $week, null, $session->get('kpi_year_filtre') , 'hebdomadaire'));
 		else
 			$form = $this->createForm(new KpiFilterType($em, $user, $user, $week, null, $year, 'hebdomadaire'));
-		
+
 		$form->handleRequest($request);
 		//Recuperation des données de la requete
         $data = $form->getData();
@@ -829,43 +847,53 @@ class KpiController extends Controller
 		//Requetes Mensuelles / hebdomadaire
 		if( $user->getRole() == 'ROLE_MARQUE' ) {
 			$getDrsMarque = $em->getRepository('AppBundle:KpiWeek')->getKpiDrMarque($dateWeek3, $dateWeek2, $brand);
-			$getBoutiquesDr = null;
+			$getBoutiquesDr = array();
 			$getVendeursBoutique = null;
+
+			foreach ($getDrsMarque as $key => $dr) {
+				$getBoutiques = $em->getRepository('AppBundle:KpiWeek')->getKpiBoutiqueDr($dr->getUser()->getUsername(), $dateWeek3, $dateWeek2, $brand);
+				$getBoutiquesDr[$key] = $getBoutiques;
+			}
 		}
 		if( $user->getRole() == 'ROLE_DR' ) {
 			$getBoutiquesDr = $em->getRepository('AppBundle:KpiWeek')->getKpiBoutiqueDr($user->getUsername(), $dateWeek3, $dateWeek2, $brand);
-			$getVendeursBoutique = null;
-			$$getDrsMarque = null;
+			$getVendeursBoutique = array();
+			$getDrsMarque = null;
+
+			foreach ($getBoutiquesDr as $key2 => $boutique) {
+				$getVendeurs = $em->getRepository('AppBundle:KpiWeek')->getKpiVendeurBoutique($boutique->getUser()->getUsername(), $dateWeek3, $dateWeek2, $brand);
+				$getVendeursBoutique[$key2] = $getVendeurs;
+			}
 		}
 		if( $user->getRole() == 'ROLE_BOUTIQUE' ) {
 			$getVendeursBoutique = $em->getRepository('AppBundle:KpiWeek')->getKpiVendeurBoutique($user->getUsername(), $dateWeek3, $dateWeek2, $brand);
 			$getBoutiquesDr = null;
-			$$getDrsMarque = null;
+			$getDrsMarque = null;
 		}
 		if( $user->getRole() == 'ROLE_VENDEUR' ) {
 			$getVendeursBoutique = $em->getRepository('AppBundle:KpiWeek')->getKpiVendeurBoutique($user->getBoutique(), $dateWeek3, $dateWeek2, $brand);
 			$getBoutiquesDr = null;
-			$$getDrsMarque = null;
+			$getDrsMarque = null;
 		}
 
 		if( $user->getRole() == 'ROLE_MARQUE' ) {
 			$marque = $em->getRepository('AppBundle:KpiWeek')->getKpiMarque($dateWeek3, $dateWeek2, $user->getUsername());
 		}
 		else{
-			$marque = $em->getRepository('AppBundle:KpiWeek')->getKpiMarque($dateWeek3, $dateWeek2, $user->getBrand());	
+			$marque = $em->getRepository('AppBundle:KpiWeek')->getKpiMarque($dateWeek3, $dateWeek2, $user->getBrand());
 		}
 
-        if ( $request->getMethod() == 'POST' && $form->isSubmitted() ) {
-            //Mise à jour des variable de session
-            $kpiFilterService->updateSessionVars($data);
-            $reseau    = $session->get('filtre_reseau');
-	        $dr 	   = $session->get('filtre_dr');
-	        $boutique  = $session->get('filtre_boutique');
-	        $vendeur   = $session->get('filtre_vendeur');
+    if ( $request->getMethod() == 'POST' && $form->isSubmitted() ) {
+      //Mise à jour des variable de session
+      $kpiFilterService->updateSessionVars($data);
+      $reseau    = $session->get('filtre_reseau');
+      $dr 	   = $session->get('filtre_dr');
+      $boutique  = $session->get('filtre_boutique');
+      $vendeur   = $session->get('filtre_vendeur');
 
 
-        	$datesWeek = $kpiDates->getDatesWeekPost($data, $session, 0);
-	        $week 		= $datesWeek['week'];
+    	$datesWeek = $kpiDates->getDatesWeekPost($data, $session, 0);
+      $week 		= $datesWeek['week'];
 			$weekYear	= $datesWeek['year'];
 			$dateWeek1 	= $datesWeek['dateWeek1'];
 			$dateWeek2 	= $datesWeek['dateWeek2'];
@@ -874,84 +902,90 @@ class KpiController extends Controller
 			if($session->get('filtre_vendeur') != null){
 				//var_dump( $data);
 				$id = $session->get('filtre_vendeur')->getId();
-	        }
-	        elseif($session->get('filtre_boutique') != null){
+	    }
+	    elseif($session->get('filtre_boutique') != null){
 				$id = $session->get('filtre_boutique')->getId();
-	        }
-	        elseif($session->get('filtre_dr') != null){
-	        	$id = $session->get('filtre_dr')->getId();
-	        }
-	        elseif($session->get('filtre_reseau') != null){
-	        	$id = $session->get('filtre_reseau')->getId();
-	        }
-	        else{
-	        	$id = $user->getId();
-	        }			
+	    }
+      elseif($session->get('filtre_dr') != null){
+      	$id = $session->get('filtre_dr')->getId();
+      }
+      elseif($session->get('filtre_reseau') != null){
+      	$id = $session->get('filtre_reseau')->getId();
+      }
+      else{
+      	$id = $user->getId();
+      }
 
-	        
+
 			if($routeName == "app_kpi_week"){
 				return $this->redirectToRoute('app_kpi_week', array('user_actuel' => $user_actuel->getId(),'user_id' =>$id));
 			}
-        }
+    }
 
-        //Gestion des requêtes selon la page appelée
-    
-		if($session->get('filtre_boutique') != null){
-        	$kpis = $em->getRepository('AppBundle:KpiWeek')->getUserKpisBetweenDates($session->get('filtre_boutique'), $dateWeek1, $dateWeek2, $brand);
-        }
-        elseif($session->get('filtre_dr') != null){
-        	$kpis = $em->getRepository('AppBundle:KpiWeek')->getUserKpisBetweenDates($session->get('filtre_dr'), $dateWeek1, $dateWeek2, $brand);
-        }
-        elseif($session->get('filtre_reseau') != null){
-        	$kpis = $em->getRepository('AppBundle:KpiWeek')->getUserKpisBetweenDates($session->get('filtre_reseau'), $dateWeek1, $dateWeek2, $brand);
-        }
-        else{
-        	$kpis = $em->getRepository('AppBundle:KpiWeek')->getUserKpisBetweenDates($user, $dateWeek1, $dateWeek2, $brand);
-        }
-		
-		
-		//get current month depending on url parameter
-		foreach ($kpis as $key => $kpi) {
+  //var_dump($dateWeek1);
+  //var_dump($dateWeek2);
+  //var_dump($dateWeek3);
+  //die();
 
-			if ( $week == null ) {
-				if ( $key == 0 )
-					$kpiCurrentWeek = $kpi;
-					$week = $kpiCurrentWeek->getDate()->format("W");
+  //Gestion des requêtes selon la page appelée
+
+	if($session->get('filtre_boutique') != null){
+  	$kpis = $em->getRepository('AppBundle:KpiWeek')->getUserKpisBetweenDates($session->get('filtre_boutique'), $dateWeek1, $dateWeek2, $brand);
+  }
+  elseif($session->get('filtre_dr') != null){
+  	$kpis = $em->getRepository('AppBundle:KpiWeek')->getUserKpisBetweenDates($session->get('filtre_dr'), $dateWeek1, $dateWeek2, $brand);
+  }
+  elseif($session->get('filtre_reseau') != null){
+  	$kpis = $em->getRepository('AppBundle:KpiWeek')->getUserKpisBetweenDates($session->get('filtre_reseau'), $dateWeek1, $dateWeek2, $brand);
+  }
+  else{
+  	$kpis = $em->getRepository('AppBundle:KpiWeek')->getUserKpisBetweenDates($user, $dateWeek1, $dateWeek2, $brand);
+  }
+
+
+	//get current month depending on url parameter
+	foreach ($kpis as $key => $kpi) {
+
+		if ( $week == null ) {
+			if ( $key == 0 )
+				$kpiCurrentWeek = $kpi;
+				$week = $kpiCurrentWeek->getDate()->format("W");
+		}
+		else {
+			if ( $kpi->getDate()->format("W") == $week && $kpi->getDate()->format("Y") == $year ) {
+				$kpiCurrentWeek = $kpi;
 			}
-			else {
-				if ( $kpi->getDate()->format("W") == $week && $kpi->getDate()->format("Y") == $year ) {
-					$kpiCurrentWeek = $kpi;
-				}
-			}
 		}
+	}
 
-		if ($kpis == null or $kpiCurrentWeek == null){
-			//throw new NotFoundHttpException("No data Available");
-			//$kpiCurrentWeek = null;
-			$session->remove('kpi_month_filtre');
-            $session->remove('kpi_year_filtre');
-            $session->remove('kpi_week_filtre');
+	if ($kpis == null or $kpiCurrentWeek == null){
+		//throw new NotFoundHttpException("No data Available");
+		//$kpiCurrentWeek = null;
+		$session->remove('kpi_month_filtre');
+    $session->remove('kpi_year_filtre');
+    $session->remove('kpi_week_filtre');
 
-				return $this->redirectToRoute('app_kpi_week', array('user_actuel' => $user_actuel->getId(), 'user_id' =>$user->getId()));
-		}
+		//return $this->redirectToRoute('app_kpi_week', array('user_actuel' => $user_actuel->getId(), 'user_id' =>$user->getId()));
+	}
 
-		//Récupération des top
-		if($routeName == "app_kpi_week"){
-			$topNpe = $em->getRepository('AppBundle:KpiWeek')->getRank1Npe($dateWeek3, $dateWeek2, $brand);
-			$topNpes = $em->getRepository('AppBundle:KpiWeek')->getRank1Npes($dateWeek3, $dateWeek2, $brand);
-			$topNpesa = $em->getRepository('AppBundle:KpiWeek')->getRank1Npesa($dateWeek3, $dateWeek2, $brand); 
+	//Récupération des top
+	if($routeName == "app_kpi_week"){
+		$topNpe = $em->getRepository('AppBundle:KpiWeek')->getRank1Npe($dateWeek3, $dateWeek2, $brand);
+		$topNpes = $em->getRepository('AppBundle:KpiWeek')->getRank1Npes($dateWeek3, $dateWeek2, $brand);
+		$topNpesa = $em->getRepository('AppBundle:KpiWeek')->getRank1Npesa($dateWeek3, $dateWeek2, $brand);
 
-			$topNpeVendeur = $em->getRepository('AppBundle:KpiWeek')->getRank1NpeVendeur($dateWeek3, $dateWeek2, $brand);
-			$topNpesVendeur = $em->getRepository('AppBundle:KpiWeek')->getRank1NpesVendeur($dateWeek3, $dateWeek2, $brand);
-			$topNpesaVendeur = $em->getRepository('AppBundle:KpiWeek')->getRank1NpesaVendeur($dateWeek3, $dateWeek2, $brand); 
-		}
+		$topNpeVendeur = $em->getRepository('AppBundle:KpiWeek')->getRank1NpeVendeur($dateWeek3, $dateWeek2, $brand);
+		$topNpesVendeur = $em->getRepository('AppBundle:KpiWeek')->getRank1NpesVendeur($dateWeek3, $dateWeek2, $brand);
+		$topNpesaVendeur = $em->getRepository('AppBundle:KpiWeek')->getRank1NpesaVendeur($dateWeek3, $dateWeek2, $brand);
+	}
 
-		//Mise à jour du filtre
-		$kpiFilterService->updateForm($user, $request, $form);
+	//Mise à jour du filtre
+	$form = $kpiFilterService->updateForm($user, $request, $form);
 
 
-		$form2 = $this->createForm(new ExportDataType());
-        $form2->handleRequest($request);  
+
+	$form2 = $this->createForm(new ExportDataType());
+  $form2->handleRequest($request);
 
 		//Export CSV
 		if ($form2->isSubmitted()) {
@@ -996,7 +1030,7 @@ class KpiController extends Controller
             fputs($handle, $bom =( chr(0xEF) . chr(0xBB) . chr(0xBF) ));
             fputcsv($handle, $header, ';');
 
-            //Initialisation de la connection à la BDD            
+            //Initialisation de la connection à la BDD
             $pdo = $this->container->get('app.pdo_connect');
             $pdo = $pdo->initPdoClienteling();
 
@@ -1019,7 +1053,7 @@ class KpiController extends Controller
             rewind($handle);
             $content = stream_get_contents($handle);
             fclose($handle);
-            
+
             $date_csv = new \Datetime('now');
             $date_csv = $date_csv->format('Ymd');
 
@@ -1106,7 +1140,7 @@ class KpiController extends Controller
 		}
 
 		$kpiFilterService = $this->container->get('app.kpi_filter_session');
-		$kpiFilterService->updateFormAjax($week, $month, $year, $reseau, $dr, $boutique, $form);
+		$form = $kpiFilterService->updateFormAjax($week, $month, $year, $reseau, $dr, $boutique, $form);
 
 	    return $this->render('AppBundle:Ajax:ajaxFilter.html.twig', array(
 	    	'user'		=> $user_actuel,

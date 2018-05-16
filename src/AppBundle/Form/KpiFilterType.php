@@ -42,10 +42,11 @@ class KpiFilterType extends AbstractType
             'choices' => array(
               '2016'   => '2016',
               '2017'   => '2017',
+              '2018'   => '2018',
               ),
             'choices_as_values' => true,
             'required' => false,
-            'data' => '2017',
+            'data' => '2018',
             'empty_value' => false,
             )
         )
@@ -79,6 +80,7 @@ class KpiFilterType extends AbstractType
                 'choices' => array(
                     '2016'   => '2016',
                     '2017'   => '2017',
+                    '2018'   => '2018',
                     ),
                 'choices_as_values' => true,
                 'required' => false,
@@ -166,30 +168,36 @@ class KpiFilterType extends AbstractType
                 );
 
                 $date = new \DateTime('now');
+                $now = new \DateTime('now');
 
                 for($i = 1; $i <= 53; $i++) {
                     $date =  $date->setISODate(intval($this->year), $i);
-
-                    if($date <= $date_start and $i > 26 ) {
+                    //if($date <= $date_start and $i > 26 and $date->format('W') < $now->format('W')  ) {
                         #$dates_week[$date->modify('-7 days')->format("d/m/Y")."  - Semaine ".($i-1)] = $i;
-                        $dates_week[$date->format("d/m/Y")."  - Semaine ".($i-1)] = $i;
-                    }
+                        if($i>=10){
+                            $dates_week[$date->format("d/m/Y")."  - Semaine ".($i)] = $i;
+                        }
+                        else{
+                            $dates_week[$date->format("d/m/Y")."  - Semaine ".($i)] = "0".$i;
+                        }
+
+                    //}
                 }
 
 
                 $form->add('week', 'Symfony\Component\Form\Extension\Core\Type\ChoiceType', array(
-                    'choices' => 
+                    'choices' =>
                         $dates_week
                         /*array(
-                        $date_start->setISODate(intval($this->year), 1)->format("d/m/Y")."  - Semaine 1"  => 1,
-                        $date_start->setISODate(intval($this->year), 2)->format("d/m/Y")."  - Semaine 2"  => 2,
-                        $date_start->setISODate(intval($this->year), 3)->format("d/m/Y")."  - Semaine 3"  => 3,
-                        $date_start->setISODate(intval($this->year), 4)->format("d/m/Y")."  - Semaine 4"  => 4,
-                        $date_start->setISODate(intval($this->year), 5)->format("d/m/Y")."  - Semaine 5"  => 5,
-                        $date_start->setISODate(intval($this->year), 6)->format("d/m/Y")."  - Semaine 6"  => 6,
-                        $date_start->setISODate(intval($this->year), 7)->format("d/m/Y")."  - Semaine 7"  => 7,
-                        $date_start->setISODate(intval($this->year), 8)->format("d/m/Y")."  - Semaine 8"  => 8,
-                        $date_start->setISODate(intval($this->year), 9)->format("d/m/Y")."  - Semaine 9"  => 9,
+                        $date_start->setISODate(intval($this->year), 1)->format("d/m/Y")."  - Semaine 1"  => '01',
+                        $date_start->setISODate(intval($this->year), 2)->format("d/m/Y")."  - Semaine 2"  => '02',
+                        $date_start->setISODate(intval($this->year), 3)->format("d/m/Y")."  - Semaine 3"  => '03',
+                        $date_start->setISODate(intval($this->year), 4)->format("d/m/Y")."  - Semaine 4"  => '04',
+                        $date_start->setISODate(intval($this->year), 5)->format("d/m/Y")."  - Semaine 5"  => '05',
+                        $date_start->setISODate(intval($this->year), 6)->format("d/m/Y")."  - Semaine 6"  => '06',
+                        $date_start->setISODate(intval($this->year), 7)->format("d/m/Y")."  - Semaine 7"  => '07',
+                        $date_start->setISODate(intval($this->year), 8)->format("d/m/Y")."  - Semaine 8"  => '08',
+                        $date_start->setISODate(intval($this->year), 9)->format("d/m/Y")."  - Semaine 9"  => '09',
                         $date_start->setISODate(intval($this->year), 10)->format("d/m/Y")." - Semaine 10"  => 10,
                         $date_start->setISODate(intval($this->year), 11)->format("d/m/Y")." - Semaine 11"  => 11,
                         $date_start->setISODate(intval($this->year), 12)->format("d/m/Y")." - Semaine 12"  => 12,
@@ -361,30 +369,31 @@ class KpiFilterType extends AbstractType
                       ;
                   },
                   'empty_value' => 'Tous',
-                  'required' => true
-                  ,'data' => $this->em->getRepository("ApplicationSonataUserBundle:User")->findOneBy(array("username" => $this->user->getDr()))
+                  'required' => true,
+                  'data' => $this->em->getRepository("ApplicationSonataUserBundle:User")->findOneBy(array("username" => $this->user->getDr()))
                   )
-                );          
-                $form->add('boutique', 'entity', array(
-                    'class' => 'ApplicationSonataUserBundle:User',
-                    'property' => 'username',
-                    'query_builder' => function(EntityRepository $er) {
-                        return $er->createQueryBuilder('u')
-                        ->where('u.role = :role')
-                        ->andWhere('u.dr = :dr')
-                        ->andWhere('u.nbTransacYtd > 0')
-                        ->setParameter('role', 'ROLE_BOUTIQUE')
-                        ->setParameter('dr', $this->user->getDr())
-                        ->add('orderBy','u.role DESC ,u.username ASC')
-                        ;
-                    },
-                    'empty_value' => false,
-                    'required' => false
-                    ,'data' => $this->user
-                    )
                 );
 
-                if($this->user->getRole() != "ROLE_VENDEUR"){
+                if($this->user->getRole() == "ROLE_BOUTIQUE"){
+                  $form->add('boutique', 'entity', array(
+                      'class' => 'ApplicationSonataUserBundle:User',
+                      'property' => 'username',
+                      'query_builder' => function(EntityRepository $er) {
+                          return $er->createQueryBuilder('u')
+                          ->where('u.role = :role')
+                          ->andWhere('u.dr = :dr')
+                          ->andWhere('u.nbTransacYtd > 0')
+                          ->setParameter('role', 'ROLE_BOUTIQUE')
+                          ->setParameter('dr', $this->user->getDr())
+                          ->add('orderBy','u.role DESC ,u.username ASC')
+                          ;
+                      },
+                      'empty_value' => false,
+                      'required' => false,
+                      'data' =>$this->user
+                      )
+                  );
+
                   $form->add('vendeur', 'entity', array(
                     'class' => 'ApplicationSonataUserBundle:User',
                     'property' => 'nameAndSurname',
@@ -404,23 +413,42 @@ class KpiFilterType extends AbstractType
                   );
               }
               else{
-                  $form->add('vendeur', 'entity', array(
+                $form->add('boutique', 'entity', array(
                     'class' => 'ApplicationSonataUserBundle:User',
-                    'property' => 'nameAndSurname',
+                    'property' => 'username',
                     'query_builder' => function(EntityRepository $er) {
                         return $er->createQueryBuilder('u')
-                        ->where('u.role = :vendeur')
-                        ->setParameter('vendeur', 'ROLE_VENDEUR')
-                        ->add('orderBy','u.role DESC ,u.nomVendeur ASC')
-                        ->andWhere('u.boutique = :boutique')
+                        ->where('u.role = :role')
+                        ->andWhere('u.dr = :dr')
                         ->andWhere('u.nbTransacYtd > 0')
-                        ->setParameter('boutique', $this->user->getBoutique())
+                        ->setParameter('role', 'ROLE_BOUTIQUE')
+                        ->setParameter('dr', $this->user->getDr())
+                        ->add('orderBy','u.role DESC ,u.username ASC')
                         ;
                     },
-                    'empty_value' => 'Tous',
-                    'required' => false
+                    'empty_value' => false,
+                    'required' => false,
+                    'data' =>$this->em->getRepository("ApplicationSonataUserBundle:User")->findOneBy(array("username" => $this->user->getBoutique()))
                     )
-                  );
+                );
+                $form->add('vendeur', 'entity', array(
+                  'class' => 'ApplicationSonataUserBundle:User',
+                  'property' => 'nameAndSurname',
+                  'query_builder' => function(EntityRepository $er) {
+                      return $er->createQueryBuilder('u')
+                      ->where('u.role = :vendeur')
+                      ->setParameter('vendeur', 'ROLE_VENDEUR')
+                      ->add('orderBy','u.role DESC ,u.nomVendeur ASC')
+                      ->andWhere('u.boutique = :boutique')
+                      ->andWhere('u.nbTransacYtd > 0')
+                      ->setParameter('boutique', $this->user->getBoutique())
+                      ;
+                  },
+                  'empty_value' => 'Tous',
+                  'required' => false,
+                  'data' =>$this->user
+                  )
+                );
               }
 
             }

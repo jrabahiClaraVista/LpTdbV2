@@ -34,7 +34,7 @@ class KpiFilterSessionService
         $vendeur                            = "";
 
         //Set up options Filtre dynamique en focntion du role de l'utilisateur connecté.
-        
+
         $vars = array(  $reseau,
                         $dr,
                         $boutique,
@@ -103,7 +103,7 @@ class KpiFilterSessionService
             if($user->getRole() == 'ROLE_DR'){
                 $dr     = $userEm->findOneBy(array('username' => $user->getUsername()));
                 $reseau = $userEm->findOneBy(array('username' => $dr->getBrand()));
-                
+
                 $form->get('dr')->setData($dr);
                 $form->get('reseau')->setData($reseau);
             }
@@ -128,7 +128,6 @@ class KpiFilterSessionService
                 $form->get('reseau')->setData($reseau);
             }
         }
-
         if($this->session->get('filtre_vendeur') != null && $request->getMethod() == 'GET'){
             $vendeur    = $userEm->findOneBy(array('username' => $this->session->get('filtre_vendeur')->getUsername()));
             $boutique   = $userEm->findOneBy(array('username' => $this->session->get('filtre_boutique')->getUsername()));

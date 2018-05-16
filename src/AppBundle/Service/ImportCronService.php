@@ -36,14 +36,14 @@ class ImportCronService
         $this->em           = $entityManager;
         $this->ip           = $local_ip;
         $this->container    = $container;
-        
+
         $this->encoder = $this->container->get('security.password_encoder');
 
         $this->pdo = $this->container->get('app.pdo_connect');
         $this->pdo = $this->pdo->initPdoClienteling();
     }
 
-    public function setSeparator($separator) 
+    public function setSeparator($separator)
     {
         $this->separator = $separator;
     }
@@ -56,15 +56,16 @@ class ImportCronService
 
         $date = new \DateTime();
         $date = $date->modify('-1 month');
-        $year1 = $date->format("Y"); 
-        $year2 = $year1 + 1; 
+        $year1 = $date->format("Y");
+        $year2 = $year1 + 1;
 
-        
 
-        $sql1 = " SELECT  a.id, username,email, max(b.nb_transac_ytd) as nb_transac_ytd
-                FROM fos_user_user a 
+
+        $sql1 = " SELECT  a.id, username,email, max(b.nb_transac_ytd) as nb_transac_ytd, max(c.nb_transac_S0) as nb_transac2_ytd
+                FROM fos_user_user a
                 LEFT JOIN app_kpi_month as b on a.id = b.user_id
-                WHERE b.date >= '".$year1."-01-01' and b.date < '".$year2."-01-01'
+                LEFT JOIN app_kpi_week as c on a.id = c.user_id
+                WHERE (b.date >= '".$year1."-01-01' and b.date < '".$year2."-01-01') or (c.date >= '".$year1."-01-01' and c.date < '".$year2."-01-01' and b.id is null)
                 GROUP BY `id`, `username`, `email`
         ";
 
@@ -75,13 +76,13 @@ class ImportCronService
         $stmt2 = $this->pdo->prepare($sql2);
 
         $i = 0;
-        
+
         try
         {
             $stmt->execute();
         }
         catch(Exception $e)
-        {       
+        {
             $output->writeln($e->getMessage());
             die('Erreur 1 : '.$e->getMessage());
         }
@@ -89,14 +90,25 @@ class ImportCronService
         while( $result = $stmt->fetch(\PDO::FETCH_ASSOC) )
         {
             $stmt2->bindValue(':id', $result["id"], \PDO::PARAM_INT);
-            $stmt2->bindValue(':nb_transac_ytd', $result["nb_transac_ytd"], \PDO::PARAM_INT);
+
+            if($max_transac = $result["nb_transac_ytd"] >= $max_transac = $result["nb_transac2_ytd"]){
+              $max_transac = $result["nb_transac_ytd"];
+            }
+            elseif($max_transac = $result["nb_transac_ytd"] < $max_transac = $result["nb_transac2_ytd"]){
+              $max_transac = $result["nb_transac2_ytd"];
+            }
+            else{
+              $max_transac = 0;
+            }
+
+            $stmt2->bindValue(':nb_transac_ytd', $max_transac, \PDO::PARAM_INT);
 
             try
             {
                 $stmt2->execute();
             }
             catch(Exception $e)
-            {       
+            {
                 $output->writeln($e->getMessage());
                 die('Erreur 2 : '.$e->getMessage());
             }
@@ -126,49 +138,49 @@ class ImportCronService
         return $this->filesList;
     }
 
-    public function renameLastImport($name = null) 
-    {   
+    public function renameLastImport($name = null)
+    {
         $date = new \DateTime();
         $dateWeek = new \DateTime();
         $date = $date->format("Ym");
         $dateWeek = $dateWeek->format("YmdW");
-        
+
         if($name != null)
             rename ("/srv/data/web/vhosts/louispion-qualification.fr/htdocs/web/imports/TABLEAU_DE_BORD_lp_".$name."_rq.csv" , "/srv/data/web/vhosts/louispion-qualification.fr/htdocs/web/imports/archives/TABLEAU_DE_BORD_lp_".$name."_rq_".$date.".csv" );
         else
             rename ("/srv/data/web/vhosts/louispion-qualification.fr/htdocs/web/imports/TABLEAU_DE_BORD_lp_rq.csv" , "/srv/data/web/vhosts/louispion-qualification.fr/htdocs/web/imports/archives/TABLEAU_DE_BORD_lp_rq_".$date.".csv" );
     }
 
-    public function renameLastImportWeek($name = null) 
-    {   
+    public function renameLastImportWeek($name = null)
+    {
         $date = new \DateTime();
         $dateWeek = new \DateTime();
         $date = $date->format("Ym");
         $dateWeek = $dateWeek->format("YmdW");
-        
+
         if($name != null)
             rename ("/srv/data/web/vhosts/louispion-qualification.fr/htdocs/web/imports/TABLEAU_DE_BORD_hebdo_lp_".$name."_rq.csv" , "/srv/data/web/vhosts/louispion-qualification.fr/htdocs/web/imports/archives/TABLEAU_DE_BORD_hebdo_lp_".$name."_rq_".$dateWeek.".csv" );
         else
             rename ("/srv/data/web/vhosts/louispion-qualification.fr/htdocs/web/imports/TABLEAU_DE_BORD_hebdo_lp_rq.csv" , "/srv/data/web/vhosts/louispion-qualification.fr/htdocs/web/imports/archives/TABLEAU_DE_BORD_hebdo_lp_rq_".$dateWeek.".csv" );
     }
 
-    public function renameLastImportVerbatim() 
-    {   
+    public function renameLastImportVerbatim()
+    {
         $date = new \DateTime();
         $dateWeek = new \DateTime();
         $date = $date->format("Ym");
         $dateWeek = $dateWeek->format("YmdW");
-        
+
         rename ("/srv/data/web/vhosts/louispion-qualification.fr/htdocs/web/imports/Verbatim_Mois.csv" , "/srv/data/web/vhosts/louispion-qualification.fr/htdocs/web/imports/archives/Verbatim_Mois_".$date.".csv" );
     }
 
 
     public function importKpiCaptureCSVFile( InputInterface $input, OutputInterface $output, $csv = null)
-    {        
+    {
         $date = new \DateTime();
         $date = $date->format("Ymd");
 
-        
+
         $file = fopen($csv, "r");
 
         $header1 = "username_canonical,username,prenom_vendeur,nom_vendeur,email,email_canonical,role,boutique,dr,brand,enabled,updated_at";
@@ -187,7 +199,7 @@ class ImportCronService
             if ($i == $len - 1) $update1 .= $value." = :".$value;
             else $update1 .= $value." = :".$value.",";
             $i++;
-        } 
+        }
 
         // Pour update des données sans écrasés les anciennes
         $header3 = "nbre_questsatisf_m0,nbre_questsatisf_ytd,nbre_questsatisf_montred_m0,nbre_questsatisf_montre_ytd,nbre_questsatisf_piled_m0,nbre_questsatisf_pile_ytd,tx_quest_satisf_promoteur_m0,tx_quest_satisf_promoteur_ytd,tx_quest_satisf_passif_m0,tx_quest_satisf_passif_ytd,tx_quest_satisf_detracteur_m0,tx_quest_satisf_detracteur_ytd,quest_satisf_nps_m0,quest_satisf_nps_ytd,quest_satisf_rank_nps_m0,quest_satisf_rank_nps_ytd,moy_quest_satisf_montre_q2_m0,moy_quest_satisf_montre_q3_m0,moy_quest_satisf_montre_q4_m0,moy_quest_satisf_montre_q5_m0,moy_quest_satisf_montre_q6_m0,moy_quest_satisf_montre_q2_ytd,moy_quest_satisf_montre_q3_ytd,moy_quest_satisf_montre_q4_ytd,moy_quest_satisf_montre_q5_ytd,moy_quest_satisf_montre_q6_ytd,moy_quest_satisf_pile_q2_m0,moy_quest_satisf_pile_q3_m0,moy_quest_satisf_pile_q4_m0,moy_quest_satisf_pile_q2_ytd,moy_quest_satisf_pile_q3_ytd,moy_quest_satisf_pile_q4_ytd";
@@ -209,7 +221,7 @@ class ImportCronService
             if ($i == $len - 1) $update2 .= $value." = :".$value;
             else $update2 .= $value." = :".$value.",";
             $i++;
-        } 
+        }
 
         $i = 0;
         $len = count($headers3);
@@ -218,14 +230,14 @@ class ImportCronService
             if ($i == $len - 1) $update3 .= $value." = :".$value;
             else $update3 .= $value." = :".$value.",";
             $i++;
-        } 
+        }
 
 
         $sql1 = "INSERT INTO fos_user_user ( ".$header1.", created_at, salt, password, roles,locked,expired,credentials_expired,ispremium ) VALUES ( ".$values1.", :created_at, :salt, :password, :roles,0,0,0,0 )
                 ON DUPLICATE KEY UPDATE ".$update1."
-        "; 
+        ";
         $sql2 = "INSERT INTO app_kpi_month ( user_id, ".$header2." ) VALUES (  (SELECT id from fos_user_user u WHERE u.username = :username) , ".$values2.")
-                ON DUPLICATE KEY UPDATE ".$update2." 
+                ON DUPLICATE KEY UPDATE ".$update2."
         "; // Mettre $update3 pour updater uniquement des données sur le nps et le verbateam
 
         $i = 0;
@@ -239,8 +251,8 @@ class ImportCronService
 
         while( ($csvfilelines = fgetcsv($file, 0, $this->separator)) != FALSE )
         {
-            if($flag) { $flag = false; continue; } //ignore first line of csv             
-            
+            if($flag) { $flag = false; continue; } //ignore first line of csv
+
             $stmt1 = $this->pdo->prepare($sql1);
             $stmt2 = $this->pdo->prepare($sql2);
 
@@ -262,7 +274,7 @@ class ImportCronService
             $stmt1->bindValue(':salt', $salt, \PDO::PARAM_STR);
             $stmt1->bindValue(':password', "to_change", \PDO::PARAM_STR);
             $stmt1->bindValue(':roles', "a:0:{}", \PDO::PARAM_STR);
-            
+
 
             $stmt2->bindValue(':username', $csvfilelines[0], \PDO::PARAM_STR);
             $stmt2->bindValue(':date', $csvfilelines[8], \PDO::PARAM_STR);
@@ -335,7 +347,7 @@ class ImportCronService
                 $stmt1->execute();
             }
             catch(Exception $e)
-            {       
+            {
                 $output->writeln($e->getMessage());
                 die('Erreur 1 : '.$e->getMessage());
             }
@@ -345,27 +357,27 @@ class ImportCronService
                 $stmt2->execute();
             }
             catch(Exception $e)
-            {       
+            {
                 $output->writeln($e->getMessage());
                 die('Erreur 2 : '.$e->getMessage());
             }
 
-            if($i % 20 == 0){
+            if($i % 100 == 0){
                 $output->writeln($i." lignes importees");
                 gc_collect_cycles();
             }
             $i++;
         }
         $output->writeln($i." lignes importees");
-        
+
     }
 
     public function importKpiCaptureSemaineCSVFile( InputInterface $input, OutputInterface $output, $csv = null)
-    {        
+    {
         $date = new \DateTime();
         $date = $date->format("Ymd");
 
-        
+
         $file = fopen($csv, "r");
 
         $header1 = "username_canonical,username,prenom_vendeur,nom_vendeur,email,email_canonical,role,boutique,dr,brand,enabled,updated_at";
@@ -385,7 +397,7 @@ class ImportCronService
             if ($i == $len - 1) $update1 .= $value." = :".$value;
             else $update1 .= $value." = :".$value.",";
             $i++;
-        } 
+        }
 
         //valeurs de la requête (correspond au header du fichier)
         $values2 = ":".str_replace(",", ",:", $header2);
@@ -400,12 +412,12 @@ class ImportCronService
             if ($i == $len - 1) $update2 .= $value." = :".$value;
             else $update2 .= $value." = :".$value.",";
             $i++;
-        } 
+        }
 
 
         $sql1 = "INSERT INTO fos_user_user ( ".$header1.", created_at, salt, password, roles,locked,expired,credentials_expired,ispremium ) VALUES ( ".$values1.", :created_at, :salt, :password, :roles, 0, 0,0,0 )
                 ON DUPLICATE KEY UPDATE ".$update1."
-        "; 
+        ";
         $sql2 = "INSERT INTO app_kpi_week ( user_id, ".$header2." ) VALUES (  (SELECT id from fos_user_user u WHERE u.username = :username) , ".$values2.")
                 ON DUPLICATE KEY UPDATE ".$update2."
         ";
@@ -421,8 +433,8 @@ class ImportCronService
 
         while( ($csvfilelines = fgetcsv($file, 0, $this->separator)) != FALSE )
         {
-            if($flag) { $flag = false; continue; } //ignore first line of csv             
-            
+            if($flag) { $flag = false; continue; } //ignore first line of csv
+
             $stmt1 = $this->pdo->prepare($sql1);
             $stmt2 = $this->pdo->prepare($sql2);
 
@@ -444,7 +456,7 @@ class ImportCronService
             $stmt1->bindValue(':salt', $salt, \PDO::PARAM_STR);
             $stmt1->bindValue(':password', "to_change", \PDO::PARAM_STR);
             $stmt1->bindValue(':roles', "a:0:{}", \PDO::PARAM_STR);
-            
+
 
             $stmt2->bindValue(':username', $csvfilelines[0], \PDO::PARAM_STR);
             $stmt2->bindValue(':date', $csvfilelines[8], \PDO::PARAM_STR);
@@ -459,13 +471,13 @@ class ImportCronService
             $stmt2->bindValue(':rank_npe_S0', $csvfilelines[17], \PDO::PARAM_STR);
             $stmt2->bindValue(':rank_npes_S0', $csvfilelines[18], \PDO::PARAM_STR);
             $stmt2->bindValue(':rank_npesa_S0', $csvfilelines[19], \PDO::PARAM_STR);
-            
+
             try
             {
                 $stmt1->execute();
             }
             catch(Exception $e)
-            {       
+            {
                 $output->writeln($e->getMessage());
                 die('Erreur 1 : '.$e->getMessage());
             }
@@ -475,7 +487,7 @@ class ImportCronService
                 $stmt2->execute();
             }
             catch(Exception $e)
-            {       
+            {
                 $output->writeln($e->getMessage());
                 die('Erreur 2 : '.$e->getMessage());
             }
@@ -487,7 +499,7 @@ class ImportCronService
             $i++;
         }
         $output->writeln($i." lignes importees");
-        
+
     }
 
     public function importVerbatim(InputInterface $input, OutputInterface $output, $csv = null){
@@ -495,7 +507,7 @@ class ImportCronService
         $date = new \DateTime();
         $date = $date->format("Ymd");
 
-        
+
         $file = fopen($csv, "r");
 
         $header1 = "type,marque,dr,boutique,question,note,verbatim,date";
@@ -511,13 +523,13 @@ class ImportCronService
             if ($i == $len - 1) $update1 .= $value." = :".$value;
             else $update1 .= $value." = :".$value.",";
             $i++;
-        } 
+        }
 
 
 
         $sql1 = "INSERT INTO app_verbatim ( ".$header1." ) VALUES ( ".$values1." )
                 ON DUPLICATE KEY UPDATE ".$update1."
-        "; 
+        ";
 
         $i = 0;
         $flag = true;
@@ -530,8 +542,8 @@ class ImportCronService
 
         while( ($csvfilelines = fgetcsv($file, 0, $this->separator)) != FALSE )
         {
-            if($flag) { $flag = false; continue; } //ignore first line of csv             
-            
+            if($flag) { $flag = false; continue; } //ignore first line of csv
+
             $stmt1 = $this->pdo->prepare($sql1);
 
             $stmt1->bindValue(':type', $csvfilelines[0], \PDO::PARAM_STR);
@@ -550,7 +562,7 @@ class ImportCronService
                 $stmt1->execute();
             }
             catch(Exception $e)
-            {       
+            {
                 $output->writeln($e->getMessage());
                 die('Erreur 1 : '.$e->getMessage());
             }

@@ -8,12 +8,12 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class ImportWeekCronCommand extends ContainerAwareCommand 
-{ 	
-	protected function configure() 
-	{ 
-		$this 
-			->setName('cron:importKpiWeek') 
+class ImportWeekCronCommand extends ContainerAwareCommand
+{
+	protected function configure()
+	{
+		$this
+			->setName('cron:importKpiWeek')
 			->setDescription('Lancement de l\'import des kpi hebdomadaire')
 			->addArgument('separator', InputArgument::REQUIRED, 'CSV separator?')
 			//->addOption('yell', null, InputOption::VALUE_NONE, 'Si définie, la tâche criera en majuscules')
@@ -21,10 +21,10 @@ class ImportWeekCronCommand extends ContainerAwareCommand
 	}
 
 	protected function execute(InputInterface $input, OutputInterface $output)
-	{ 
+	{
 		$ip = $this->getContainer()->getParameter('local_ip');
 
-		
+
 		$date1 = new \DateTime();
 		$date1 = $date1->format('H:i:s');
 
@@ -33,15 +33,16 @@ class ImportWeekCronCommand extends ContainerAwareCommand
 
         if($ip == "127.0.0.1")
         {
-            $filename1 = "D:\wamp64\www\LpTdbV3\web\imports\TABLEAU_DE_BORD_hebdo_lp_rq.csv";
+            $filename1 = "D:\wamp64_3.1.0\www\LpTdbV3\web\imports\TABLEAU_DE_BORD_hebdo_lp_rq.csv";
         }
         else{
-			$filename1 = "/srv/data/web/vhosts/louispion-qualification.fr/htdocs/web/imports/TABLEAU_DE_BORD_hebdo_lp_rq.csv";            
+			$filename1 = "/srv/data/web/vhosts/louispion-qualification.fr/htdocs/web/imports/TABLEAU_DE_BORD_hebdo_lp_rq.csv";
         }
 
 		$output->writeln($filename1);
 		if ( file_exists($filename1) ) {
-		    $text = $this->getDescription();
+
+			$text = $this->getDescription();
 			$output->writeln($text);
 
 			$import = $this->getContainer()->get('cron.import');
@@ -52,9 +53,12 @@ class ImportWeekCronCommand extends ContainerAwareCommand
 			$output->writeln("Import des Kpi Capture");
 			$import->importKpiCaptureSemaineCSVFile($input, $output, $filename1);
 
+			$output->writeln("Update nb Transac User");
+			$import->updateUserTransac($input, $output);
+
 			//$import->setUserforKpiLp();
-			
-			$output->writeln("Archivage du fichier");		
+
+			$output->writeln("Archivage du fichier");
 			$import->renameLastImportWeek();
 		} else {
 		    $output->writeln("Aucun fichier, annulation de l'import");

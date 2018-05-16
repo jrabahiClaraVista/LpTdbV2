@@ -8,7 +8,7 @@
 
 {% block imgNav %}
 	{% if user.brand == "LOUIS PION" and not is_granted("ROLE_ADMIN") %}
-		<img style="display:block; float:left;padding-right:20px;" src="{{ asset('web/images/logolouispion.png') }}" alt="logo" height="50" />		
+		<img style="display:block; float:left;padding-right:20px;" src="{{ asset('web/images/logolouispion.png') }}" alt="logo" height="50" />
 	{% endif %}
 	{% if user.brand == "ROYAL QUARTZ" and not is_granted("ROLE_ADMIN") %}
 		<img style="display:block; float:left;padding-right:20px;" src="{{ asset('web/images/logoroyalquartz.jpg') }}" alt="logo" height="50" />
@@ -36,10 +36,10 @@
                 <li style="color:black;padding-top:3px;">
                     <span style="font-size: 16px;">PERFORMANCES CRM {{ user.username }}</span><br />
                     {% if currentKpi is defined %}
-	                    {% if app.request.get('_route') in ['app_kpi_month','app_kpi_ytd','app_kpi_fid','app_kpi_planning']%}
+	                    {% if app.request.get('_route') in ['app_kpi_month','app_kpi_ytd','app_kpi_fid','app_kpi_planning','app_kpi_satisfaction']%}
 	                    	<span class="small">Rapport du mois {{ getMonthWording(currentKpi.date|date('m'), "de ") }} {{currentKpi.date|date('Y')}}</span>
 		                {% else %}
-		                	<span class="small">Rapport de la semaine du {{ currentKpi.date|date_modify("+1 day")|date('d') }} {{ getMonthWording(currentKpi.date|date('m'), "") }} {{currentKpi.date|date('Y')}}</span>
+		                	<span class="small">Rapport de la semaine du {{ currentKpi.date|date('d') }} {{ getMonthWording(currentKpi.date|date('m'), "") }} {{currentKpi.date|date('Y')}}</span>
 		                {% endif %}
 		             {% endif %}
                 </li>
@@ -51,7 +51,7 @@
 {% block subheader %}
 {% endblock %}
 
-{% block body %}	
+{% block body %}
 
 	{# On définit un nouveau bloc, que les vues du bundle pourront remplir #}
 	{% block content %}

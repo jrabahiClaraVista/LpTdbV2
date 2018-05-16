@@ -4,7 +4,7 @@
 	{% include 'AppBundle:Commons:kpiNav.html.twig' %}
 {% endblock %}
 
-{% block content %}			
+{% block content %}
 
 
 	<h2 class="text-uppercase gris-bg">{{ "Questions - Réponses"|trans }}</h2>
@@ -64,7 +64,7 @@
 			</div>
 			<h4 class="black pointer" data-toggle="collapse" href="#q9" aria-expanded="false" aria-controls="q9">9) Comment un client est-il rattaché à ma boutique dans le calcul du CA ? <i class="fa fa-plus pull-right" aria-hidden="true"></i></h4>
 			<div  class="collapse" id="q9">
-				<p>Un client est rattaché à la boutique X selon les règles suivantes : 
+				<p>Un client est rattaché à la boutique X selon les règles suivantes :
 					<ul style="padding-left:20px;">
 						<li style="color: black;">La boutique X est la boutique dans laquelle le client a acheté le plus souvent dans tout son historique d'achat.</li>
 						<li style="color: black;">En cas d'égalité : c'est la boutique dans laquelle le client a dépensé le plus.</li>
@@ -132,59 +132,59 @@
 						</tr>
 						<tr>
 							<th scope="row">Nombre de transactions enregistrées</th>
-							<td>								
+							<td>
 								Nombre de transactions enregistrées pendant la semaine écoulée.
 							</td>
 						</tr>
 						<tr>
 							<th scope="row">Données collectées email + sms</th>
-							<td>								
+							<td>
 								Nombre de transactions liées à un client dont au moins l'email est renseigné et valide, enregistrées dans la semaine (le sms et l'adresse peuvent être renseignés et valides).
 							</td>
 						</tr>
 						<tr>
 							<th scope="row">Données collectées email + sms + adresse</th>
-							<td>								
+							<td>
 								Nombre de transactions liées à un client dont l'email, l'adresse et le sms sont renseignés et valides, enregistrées dans la semaine.
 							</td>
 						</tr>
 
 						<tr>
 							<th scope="row">Données collectées email non-valides</th>
-							<td>								
+							<td>
 								Nombre de transactions liées à un client dont l'email est renseigné mais non valide, enregistrées dans la semaine.<br />
 								Raisons email non valide: hardbounce, adresse email avec syntaxe erronnée (manque arobase, ...), email fictif ex: client@gmail.com.
 							</td>
 						</tr>
 						<tr>
 							<th scope="row">Données collectées email + sms non-valides</th>
-							<td>								
+							<td>
 								Nombre de transactions liées à un client dont l'email est renseigné mais non valide et/ou le sms est renseigné mais non valide, enregistrées la semaine (un des deux canaux est non valide) soit email soit sms soit les deux sont non valides.<br />
 								Raisons sms non-valides : hardbounce (lié aux campagnes sms), format numéro de téléphone incorrect, numéro inventé (ex: 0610101010).
 							</td>
 						</tr>
 						<tr>
 							<th scope="row">Données collectées email+sms+adresse non-valides</th>
-							<td>								
+							<td>
 								Nombre de transactions liées à un client dont soit l'email soit le sms, soit l'adresse, soit une combinaison des 3 ne sont pas valides.<br />
 								Raisons de l'adresse non-valide: adresse fausse, NPAI suite à l'envoi de campagnes print.
 							</td>
 						</tr>
 						<tr>
 							<th scope="row">Taux d'emails collectés</th>
-							<td>								
+							<td>
 								Nombre de transactions liées à un client dont l'email au moins est renseigné et valide / nombre total de transactions enregistrées.
 							</td>
 						</tr>
 						<tr>
 							<th scope="row">Taux d'emails + SMS collectés</th>
-							<td>								
+							<td>
 								Nombre de transactions liées à un client dont l'email et le sms au moins sont renseignés et valides / nombre total de transactions enregistrées.
 							</td>
 						</tr>
 						<tr>
 							<th scope="row">Taux d'emails + SMS + Téléphone collectés</th>
-							<td>								
+							<td>
 								Nombre de transactions liées à un client dont l'email, le sms et l'adresse sont renseignés et valides / nombre total de transactions enregistrées.
 							</td>
 						</tr>
@@ -333,12 +333,12 @@
 							</td>
 						</tr>
 						<tr>
-							<td>								
+							<td>
 								2) en cas d'égalité  : c'est la boutique dans laquelle le client a dépensé le plus.
 							</td>
 						</tr>
 						<tr>
-							<td>								
+							<td>
 								3) en cas d'égalité  : c'est la boutique dans laquelle il a acheté le plus récemment.
 							</td>
 						</tr>
@@ -419,8 +419,8 @@
 						</tr>
 					</tbody>
 				</table>
-			</div>			
-			
+			</div>
+
 			<h4 class="black pointer" data-toggle="collapse" href="#page5" aria-expanded="false" aria-controls="page5">Page 5 : Planning des campagnes <i class="fa fa-plus pull-right" aria-hidden="true"></i></h4>
 			<div  class="collapse" id="page5">
 				<table class="table table-striped">
@@ -438,20 +438,20 @@
 							</td>
 						</tr>
 						<tr>
-							<th scope="row">Taux d'ouvertures</th>
-							<td>								
-								Rapport entre le nombre d’emails ouverts parles destinataires et le nombre d’emails envoyés.
+							<th scope="row">Taux d'ouverture</th>
+							<td>
+								Rapport entre le nombre d’emails ouverts par les destinataires et le nombre d’emails envoyés.
 							</td>
 						</tr>
 						<tr>
-							<th scope="row">Taux de clics</th>
-							<td>								
+							<th scope="row">Taux de clic</th>
+							<td>
 								Rapport entre le nombre de clics effectués sur des liens contenus dans l’email et le nombre d’emails envoyés. Calcul en taux unique ou cumulé.
 							</td>
 						</tr>
 						<tr>
 							<th scope="row">CA généré </th>
-							<td>								
+							<td>
 								Somme des CA nets par client ciblé ayant acheté pendant la période d'analyse.
 							</td>
 						</tr>
@@ -465,7 +465,7 @@
 	<div style="height:30px;" class="spacer"></div>
 
 {% endblock %}
-	
+
 {% block javascripts %}
 	{{ parent() }}
 
