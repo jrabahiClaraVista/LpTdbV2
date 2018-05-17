@@ -29,33 +29,33 @@
         {# sur server prod ajourter /web aux ressources retirrer /web #}
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
         <link rel="icon" href="http://www.louispion.fr/media/favicon/websites/2/favicon.ico" type="image/x-icon">
-        
 
-        {% stylesheets
+
+        {#% stylesheets
             filter="cssrewrite,compass"
             output="css/all.css"
             "sass/main.scss"
-        %}
+        %#}
             <link rel="stylesheet" href="{{ asset_url }}">
             <link rel="stylesheet" href="{{ asset('web/css/font-awesome.min.css') }}">
-            <!--link rel="stylesheet" href="{{ asset('web/css/all.css') }}"-->
+            <link rel="stylesheet" href="{{ asset('web/css/all.css') }}">
             <link rel="stylesheet" href="{{ asset('web/css/jquery.multiselect.css') }}">
-        {% endstylesheets %}
+        {#% endstylesheets %#}
 
 
         <script src="{{ asset('/web/js/ckeditor/ckeditor.js') }}"></script>
         <script type="text/javascript">
             CKEDITOR.timestamp='ABCD';
-        </script>                
+        </script>
     {% endblock %}
 </head>
 
-<body 
+<body
     {% if app.request.get('_route') == 'fos_user_security_login' or app.request.get('_route') == 'sonata_user_admin_security_login' %}
         class="green"
     {% endif %}
     >
-    <div id="wrapper" class="container">        
+    <div id="wrapper" class="container">
         <header class="nav-wrap">
             <nav class="main-menu">
                 <div class="container">
@@ -76,14 +76,14 @@
                                         {% if is_granted("ROLE_SONATA_ADMIN") %}
                                             <li><a href="{{ path('sonata_admin_dashboard') }}"><i class="fa fa-cog" aria-hidden="true"></i> Back office</a></li>
                                             <li role="separator" class="divider"></li>
-                                        {% endif %}    
+                                        {% endif %}
                                         <li><a href="{{ path('fos_user_security_logout') }}"><i class="fa fa-lock" aria-hidden="true"></i> {{"Logout"|trans}}</a></li>
                                     </ul>
                                 </li>
                             {% else %}
                                 <li><a href="{{ path('fos_user_security_login') }}"><i class="fa fa-unlock" aria-hidden="true"></i> {{"Login"|trans}}</a></li>
                             {% endif %}
-                        </ul>                        
+                        </ul>
                     {% endif %}
                 </div><!-- /.container-fluid -->
             </nav>
