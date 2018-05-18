@@ -132,7 +132,7 @@ class ImportCronService
             $this->filesList = scandir("D:\wamp64\www\LpTdbV3\web\imports");
         }
         else{
-            $this->filesList = scandir("/srv/data/web/vhosts/louispion-qualification.fr/htdocs/web/imports");
+            $this->filesList = scandir("/data/ftp/imports");
         }
 
         return $this->filesList;
@@ -146,9 +146,9 @@ class ImportCronService
         $dateWeek = $dateWeek->format("YmdW");
 
         if($name != null)
-            rename ("/srv/data/web/vhosts/louispion-qualification.fr/htdocs/web/imports/TABLEAU_DE_BORD_lp_".$name."_rq.csv" , "/srv/data/web/vhosts/louispion-qualification.fr/htdocs/web/imports/archives/TABLEAU_DE_BORD_lp_".$name."_rq_".$date.".csv" );
+            rename ("/data/ftp/imports/TABLEAU_DE_BORD_lp_".$name."_rq.csv" , "/data/ftp/imports/archives/TABLEAU_DE_BORD_lp_".$name."_rq_".$date.".csv" );
         else
-            rename ("/srv/data/web/vhosts/louispion-qualification.fr/htdocs/web/imports/TABLEAU_DE_BORD_lp_rq.csv" , "/srv/data/web/vhosts/louispion-qualification.fr/htdocs/web/imports/archives/TABLEAU_DE_BORD_lp_rq_".$date.".csv" );
+            rename ("/data/ftp/imports/TABLEAU_DE_BORD_lp_rq.csv" , "/data/ftp/imports/archives/TABLEAU_DE_BORD_lp_rq_".$date.".csv" );
     }
 
     public function renameLastImportWeek($name = null)
@@ -159,9 +159,9 @@ class ImportCronService
         $dateWeek = $dateWeek->format("YmdW");
 
         if($name != null)
-            rename ("/srv/data/web/vhosts/louispion-qualification.fr/htdocs/web/imports/TABLEAU_DE_BORD_hebdo_lp_".$name."_rq.csv" , "/srv/data/web/vhosts/louispion-qualification.fr/htdocs/web/imports/archives/TABLEAU_DE_BORD_hebdo_lp_".$name."_rq_".$dateWeek.".csv" );
+            rename ("/data/ftp/imports/TABLEAU_DE_BORD_hebdo_lp_".$name."_rq.csv" , "/data/ftp/imports/archives/TABLEAU_DE_BORD_hebdo_lp_".$name."_rq_".$dateWeek.".csv" );
         else
-            rename ("/srv/data/web/vhosts/louispion-qualification.fr/htdocs/web/imports/TABLEAU_DE_BORD_hebdo_lp_rq.csv" , "/srv/data/web/vhosts/louispion-qualification.fr/htdocs/web/imports/archives/TABLEAU_DE_BORD_hebdo_lp_rq_".$dateWeek.".csv" );
+            rename ("/data/ftp/imports/TABLEAU_DE_BORD_hebdo_lp_rq.csv" , "/data/ftp/imports/archives/TABLEAU_DE_BORD_hebdo_lp_rq_".$dateWeek.".csv" );
     }
 
     public function renameLastImportVerbatim()
@@ -171,7 +171,7 @@ class ImportCronService
         $date = $date->format("Ym");
         $dateWeek = $dateWeek->format("YmdW");
 
-        rename ("/srv/data/web/vhosts/louispion-qualification.fr/htdocs/web/imports/Verbatim_Mois.csv" , "/srv/data/web/vhosts/louispion-qualification.fr/htdocs/web/imports/archives/Verbatim_Mois_".$date.".csv" );
+        rename ("/data/ftp/imports/Verbatim_Mois.csv" , "/data/ftp/imports/archives/Verbatim_Mois_".$date.".csv" );
     }
 
 

@@ -36,7 +36,7 @@ class ImportWeekCronCommand extends ContainerAwareCommand
             $filename1 = "D:\wamp64_3.1.0\www\LpTdbV3\web\imports\TABLEAU_DE_BORD_hebdo_lp_rq.csv";
         }
         else{
-			$filename1 = "/srv/data/web/vhosts/louispion-qualification.fr/htdocs/web/imports/TABLEAU_DE_BORD_hebdo_lp_rq.csv";
+			$filename1 = "/data/ftp/imports/TABLEAU_DE_BORD_hebdo_lp_rq.csv";
         }
 
 		$output->writeln($filename1);

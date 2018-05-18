@@ -8,12 +8,12 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class ImportCronCommand extends ContainerAwareCommand 
-{ 	
-	protected function configure() 
-	{ 
-		$this 
-			->setName('cron:importKpi') 
+class ImportCronCommand extends ContainerAwareCommand
+{
+	protected function configure()
+	{
+		$this
+			->setName('cron:importKpi')
 			->setDescription('Lancement de l\'import des kpi')
 			->addArgument('separator', InputArgument::REQUIRED, 'CSV separator?')
 			//->addOption('yell', null, InputOption::VALUE_NONE, 'Si définie, la tâche criera en majuscules')
@@ -21,10 +21,10 @@ class ImportCronCommand extends ContainerAwareCommand
 	}
 
 	protected function execute(InputInterface $input, OutputInterface $output)
-	{ 
+	{
 		$ip = $this->getContainer()->getParameter('local_ip');
 
-		
+
 		$date1 = new \DateTime();
 		$date1 = $date1->format('H:i:s');
 
@@ -36,7 +36,7 @@ class ImportCronCommand extends ContainerAwareCommand
             $filename1 = "D:\wamp64\www\LpTdbV3\web\imports\TABLEAU_DE_BORD_lp_rq.csv";
         }
         else{
-			$filename1 = "/srv/data/web/vhosts/louispion-qualification.fr/htdocs/web/imports/TABLEAU_DE_BORD_lp_rq.csv";            
+			$filename1 = "/data/ftp/imports/TABLEAU_DE_BORD_lp_rq.csv";
         }
 
 		if ( file_exists($filename1) ) {
@@ -55,14 +55,14 @@ class ImportCronCommand extends ContainerAwareCommand
 			$import->updateUserTransac($input, $output);
 
 			//$import->setUserforKpiLp();
-			
-			$output->writeln("Archivage du fichier");		
+
+			$output->writeln("Archivage du fichier");
 			$import->renameLastImport();
 		} else {
 		    $output->writeln("Aucun fichier, annulation de l'import");
 		}
 
-		
+
 	    /*$text = $this->getDescription();
 		$output->writeln($text);
 
