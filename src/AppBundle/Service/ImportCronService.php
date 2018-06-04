@@ -295,10 +295,10 @@ class ImportCronService
             $stmt2->bindValue(':tx_transac_npesa_ytd', $csvfilelines[23], \PDO::PARAM_STR);
             $stmt2->bindValue(':tx_transac_nvesa_ytd', $csvfilelines[24], \PDO::PARAM_STR);
             $stmt2->bindValue(':rank_npe_m0', $csvfilelines[25], \PDO::PARAM_STR);
-            $stmt2->bindValue(':rank_npe_ytd', $csvfilelines[26], \PDO::PARAM_STR);
-            $stmt2->bindValue(':rank_npes_m0', $csvfilelines[27], \PDO::PARAM_STR);
-            $stmt2->bindValue(':rank_npes_ytd', $csvfilelines[28], \PDO::PARAM_STR);
-            $stmt2->bindValue(':rank_npesa_m0', $csvfilelines[29], \PDO::PARAM_STR);
+            $stmt2->bindValue(':rank_npes_m0', $csvfilelines[26], \PDO::PARAM_STR);
+            $stmt2->bindValue(':rank_npesa_m0', $csvfilelines[27], \PDO::PARAM_STR);
+            $stmt2->bindValue(':rank_npe_ytd', $csvfilelines[28], \PDO::PARAM_STR);
+            $stmt2->bindValue(':rank_npes_ytd', $csvfilelines[29], \PDO::PARAM_STR);
             $stmt2->bindValue(':rank_npesa_ytd', $csvfilelines[30], \PDO::PARAM_STR);
             $stmt2->bindValue(':nbre_clients_contactables_email_h', $csvfilelines[31], \PDO::PARAM_STR);
             $stmt2->bindValue(':nbre_clients_inactifs_email_h', $csvfilelines[32], \PDO::PARAM_STR);
