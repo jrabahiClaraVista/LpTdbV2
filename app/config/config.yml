@@ -61,6 +61,7 @@ assetic:
     use_controller:
     bundles:        [ ]
     #java: /usr/bin/java
+    ruby:  C:\Ruby25-x64\bin\ruby.exe
     filters:
         cssrewrite: ~
         #For SASS & Compass, install Ruby 1st then
@@ -70,9 +71,9 @@ assetic:
         #php app/console assetic:watch
         #php app/console assetic:dump --env=prod --no-debug
         sass:
-            bin: C:\Ruby22-x64\bin\sass
+            bin: C:\Ruby25-x64\bin\sass
         compass:
-            bin: C:\Ruby22-x64\bin\compass
+            bin: C:\Ruby25-x64\bin\compass
 
 # Doctrine Configuration
 doctrine:
