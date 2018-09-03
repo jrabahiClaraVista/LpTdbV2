@@ -56,9 +56,6 @@ class ImportWeekCronCommand extends ContainerAwareCommand
 			$output->writeln("Update nb Transac User");
 			$import->updateUserTransac($input, $output);
 
-			$output->writeln("Delete histo > 30 jours");
-			$import->deleteHistoDays($input, $output, 30);
-
 			//$import->setUserforKpiLp();
 
 			$output->writeln("Archivage du fichier");
