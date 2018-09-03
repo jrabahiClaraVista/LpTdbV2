@@ -576,4 +576,26 @@ class ImportCronService
         $output->writeln($i." lignes importees");
     }
 
+    public function deleteHistoDays(InputInterface $input, OutputInterface $output, $days){
+
+        $date = new \DateTime();
+        $date = $date->format("Ymd");
+
+        $sql1 = "DELETE from app_client 
+                WHERE modified_at <= DATE_SUB( now(), INTERVAL $days DAY ) 
+        ";
+
+        try
+        {
+            $stmt1->execute();
+        }
+        catch(Exception $e)
+        {
+            $output->writeln($e->getMessage());
+            die('Erreur 1 : '.$e->getMessage());
+        }
+
+        $output->writeln("Les anciennes lignes ont été supprimees");
+    }
+
 }
