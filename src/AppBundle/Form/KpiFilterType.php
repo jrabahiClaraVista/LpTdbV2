@@ -47,7 +47,7 @@ class KpiFilterType extends AbstractType
               ),
             'choices_as_values' => true,
             'required' => false,
-            'data' => $this->year,,
+            'data' => '2017',
             'empty_value' => false,
             )
         )
