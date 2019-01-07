@@ -170,7 +170,7 @@ class KpiFilterType extends AbstractType
                 );
 
 
-                for($i = 0; $i < 40; $i++) {
+                for($i = 0; $i < 45; $i++) {
                     //$date =  $date->setISODate(intval($this->year), $i);
                     /*if($i>=10){
                         $dates_week[$date->format("d/m/Y")."  - Semaine ".($i)] = $i;
