@@ -893,7 +893,7 @@ class KpiController extends Controller
 
 
     	$datesWeek = $kpiDates->getDatesWeekPost($data, $session, 0);
-      $week 		= $datesWeek['week'];
+      		$week 		= $datesWeek['week'];
 			$weekYear	= $datesWeek['year'];
 			$dateWeek1 	= $datesWeek['dateWeek1'];
 			$dateWeek2 	= $datesWeek['dateWeek2'];

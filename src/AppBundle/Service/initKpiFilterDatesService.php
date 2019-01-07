@@ -116,7 +116,8 @@ class initKpiFilterDatesService
             $week  = $date->format('W');
 
             //on initialise la date2 au dernier jour de la semaine
-            $dateWeek2 = $now->setISODate($year,$week,7);
+            //$dateWeek2 = $now->setISODate($year,$week,7);
+            $dateWeek2 = $now->modify('last monday');
             $dateWeek2 = $dateWeek2->format("Y-m-d");
         }
         //si on a une recherche active
