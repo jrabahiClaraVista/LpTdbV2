@@ -125,7 +125,8 @@ class initKpiFilterDatesService
             $week  = $session->get('kpi_week_filtre');
             $year  = $session->get('kpi_year_filtre');
 
-            $dateWeek2 = $now->setISODate($year,$week,7);
+            //$dateWeek2 = $now->setISODate($year,$week,7);
+            $dateWeek2 = $now->modify('last monday');
             $dateWeek2 = $dateWeek2->format("Y-m-d");
 
             $date_check = new \DateTime($dateWeek2);
@@ -137,7 +138,8 @@ class initKpiFilterDatesService
                 $session->set('kpi_week_filtre', $week);
                 $session->set('kpi_year_filtre', $year);
 
-                $dateWeek2 = $now->setISODate($year,$week,7);
+                //$dateWeek2 = $now->setISODate($year,$week,7);
+                $dateWeek2 = $now->modify('last monday');
                 $dateWeek2 = $dateWeek2->format("Y-m-d");
             }
         }
@@ -243,7 +245,8 @@ class initKpiFilterDatesService
         $week  = $session->get('kpi_week_filtre');
 
         $dateWeek2 = new \DateTime();
-        $dateWeek2 = $dateWeek2->setISODate($year,$week,7);
+        //$dateWeek2 = $dateWeek2->setISODate($year,$week,7);
+        $dateWeek2 = $now->modify('last monday');
         $dateWeek2 = $dateWeek2->format("Y-m-d");
         
         $dateWeek1 = new \DateTime($dateWeek2);
