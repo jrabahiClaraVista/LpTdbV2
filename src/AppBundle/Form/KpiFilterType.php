@@ -169,21 +169,22 @@ class KpiFilterType extends AbstractType
 
                 );
 
-                $date = new \DateTime('now');
-                $now = new \DateTime('now');
 
-                for($i = 1; $i <= 53; $i++) {
-                    $date =  $date->setISODate(intval($this->year), $i);
-                    //if($date <= $date_start and $i > 26 and $date->format('W') < $now->format('W')  ) {
-                        #$dates_week[$date->modify('-7 days')->format("d/m/Y")."  - Semaine ".($i-1)] = $i;
-                        if($i>=10){
-                            $dates_week[$date->format("d/m/Y")."  - Semaine ".($i)] = $i;
-                        }
-                        else{
-                            $dates_week[$date->format("d/m/Y")."  - Semaine ".($i)] = "0".$i;
-                        }
+                for($i = 0; $i < 40; $i++) {
+                    //$date =  $date->setISODate(intval($this->year), $i);
+                    /*if($i>=10){
+                        $dates_week[$date->format("d/m/Y")."  - Semaine ".($i)] = $i;
+                    }
+                    else{
+                        $dates_week[$date->format("d/m/Y")."  - Semaine ".($i)] = "0".$i;
+                    }*/
 
-                    //}
+                    $date1 = new \DateTime('now');
+                    $date2 = new \DateTime('now');
+                    $date_format = $date1->modify('last monday')->modify( -$i*7 .' days' )->format("d/m/Y");
+                    $week_number = $date2->modify('last monday')->modify( -$i*7 .' days' )->format("W");
+
+                    $dates_week["$date_format - Semaine $week_number"] = $week_number;
                 }
 
 
