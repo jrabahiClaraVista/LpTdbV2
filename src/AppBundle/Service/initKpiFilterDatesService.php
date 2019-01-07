@@ -105,7 +105,7 @@ class initKpiFilterDatesService
     public function getDatesWeek(\Datetime $date, $session)
     {
         $now = new \DateTime();
-        $now = $now->modify('-7 days');
+        $now = $now->modify('-6 days');
         $year = $now->format('Y');
 
         //la derniere date est toujours celle du dernier kpicapture en base, la premiere varie de -12 à -24 mois
@@ -221,7 +221,7 @@ class initKpiFilterDatesService
      */
     public function getDatesWeekPost($data, $session, $trigger = null){
         $now = new \DateTime();
-        $now = $now->modify('-7 days');
+        $now = $now->modify('-6 days');
         $year = $now->format('Y');
 
         //Set Session variable
