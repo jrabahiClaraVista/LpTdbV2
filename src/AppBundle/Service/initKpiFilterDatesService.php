@@ -161,7 +161,7 @@ class initKpiFilterDatesService
         $results['week']        = $week;
         $results['year']        = $year;
 
-        var_dump($results);
+        //var_dump($results);
 
         return $results;
     }
