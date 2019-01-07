@@ -65,30 +65,30 @@ security:
 
     access_control:
         # URL of FOSUserBundle which need to be available to anonymous users
-        #- { path: ^/.*, requires_channel: https }
-        - { path: ^/login$, role: IS_AUTHENTICATED_ANONYMOUSLY, requires_channel: http }
-        - { path: ^/register, role: ROLE_ADMIN , requires_channel: http }
-        - { path: ^/resetting, role: ROLE_ADMIN, requires_channel: http }
-        - { path: ^/web/config.php, role: ROLE_ADMIN , requires_channel: http }
-        - { path: ^/profile/edit-profile, role: ROLE_ADMIN , requires_channel: http }
-        - { path: ^/profile, role: ROLE_ADMIN , requires_channel: http }
-        - { path: ^/kpi/, role: IS_AUTHENTICATED_ANONYMOUSLY, requires_channel: http }
+        #- { path: ^/.*, requires_channel: httpss }
+        - { path: ^/login$, role: IS_AUTHENTICATED_ANONYMOUSLY, requires_channel: https }
+        - { path: ^/register, role: ROLE_ADMIN , requires_channel: https }
+        - { path: ^/resetting, role: ROLE_ADMIN, requires_channel: https }
+        - { path: ^/web/config.php, role: ROLE_ADMIN , requires_channel: https }
+        - { path: ^/profile/edit-profile, role: ROLE_ADMIN , requires_channel: https }
+        - { path: ^/profile, role: ROLE_ADMIN , requires_channel: https }
+        - { path: ^/kpi/, role: IS_AUTHENTICATED_ANONYMOUSLY, requires_channel: https }
 
         # Admin login page needs to be accessed without credential
-        - { path: ^/admin/login$, role: IS_AUTHENTICATED_ANONYMOUSLY, requires_channel: http }
-        - { path: ^/admin/logout$, role: IS_AUTHENTICATED_ANONYMOUSLY, requires_channel: http }
-        - { path: ^/admin/login_check$, role: IS_AUTHENTICATED_ANONYMOUSLY, requires_channel: http }
-        - { path: ^/admin/resetting, role: IS_AUTHENTICATED_ANONYMOUSLY, requires_channel: http }
+        - { path: ^/admin/login$, role: IS_AUTHENTICATED_ANONYMOUSLY, requires_channel: https }
+        - { path: ^/admin/logout$, role: IS_AUTHENTICATED_ANONYMOUSLY, requires_channel: https }
+        - { path: ^/admin/login_check$, role: IS_AUTHENTICATED_ANONYMOUSLY, requires_channel: https }
+        - { path: ^/admin/resetting, role: IS_AUTHENTICATED_ANONYMOUSLY, requires_channel: https }
 
         # App URLs
-        - { path: ^/home$, role: ROLE_USER, requires_channel: http }
-        - { path: ^/test$, role: ROLE_USER, requires_channel: http }
-        - { path: ^/campaign$, role: ROLE_USER, requires_channel: http }
-        - { path: ^/campaign/, role: ROLE_USER, requires_channel: http }
-        - { path: ^/campaign_send_email/, role: ROLE_USER, requires_channel: http }
+        - { path: ^/home$, role: ROLE_USER, requires_channel: https }
+        - { path: ^/test$, role: ROLE_USER, requires_channel: https }
+        - { path: ^/campaign$, role: ROLE_USER, requires_channel: https }
+        - { path: ^/campaign/, role: ROLE_USER, requires_channel: https }
+        - { path: ^/campaign_send_email/, role: ROLE_USER, requires_channel: https }
 
         # Secured part of the site
         # This config requires being logged for the whole site and having the admin role for the admin part.
         # Change these rules to adapt them to your needs
-        - { path: ^/admin/, role: [ROLE_ADMIN, ROLE_SONATA_ADMIN], requires_channel: http }
-        - { path: ^/.*, role: IS_AUTHENTICATED_ANONYMOUSLY, requires_channel: http }
+        - { path: ^/admin/, role: [ROLE_ADMIN, ROLE_SONATA_ADMIN], requires_channel: https }
+        - { path: ^/.*, role: IS_AUTHENTICATED_ANONYMOUSLY, requires_channel: https }
