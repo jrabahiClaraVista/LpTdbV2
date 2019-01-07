@@ -43,10 +43,11 @@ class KpiFilterType extends AbstractType
               '2016'   => '2016',
               '2017'   => '2017',
               '2018'   => '2018',
+              '2019'   => '2019',
               ),
             'choices_as_values' => true,
             'required' => false,
-            'data' => '2018',
+            'data' => $this->year,,
             'empty_value' => false,
             )
         )
@@ -81,6 +82,7 @@ class KpiFilterType extends AbstractType
                     '2016'   => '2016',
                     '2017'   => '2017',
                     '2018'   => '2018',
+                    '2019'   => '2019',
                     ),
                 'choices_as_values' => true,
                 'required' => false,
