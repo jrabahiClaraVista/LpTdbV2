@@ -259,7 +259,7 @@ class KpiController extends Controller
 
 		if ($kpis == null or $kpiCurrentMonth == null){
 			//throw new NotFoundHttpException("No data Available");
-			//$kpiCurrentMonth = null;
+			$kpiCurrentMonth = null;
 			$session->remove('kpi_month_filtre');
             $session->remove('kpi_year_filtre');
 
@@ -811,7 +811,7 @@ class KpiController extends Controller
 		$vars = $kpiFilterService->initVars($user, $request);
 
         $reseau      = $vars[0];
-        $dr 	     	= $vars[1];
+        $dr 	     = $vars[1];
         $boutique    = $vars[2];
         $vendeur     = $vars[3];
 
@@ -825,6 +825,8 @@ class KpiController extends Controller
 		$dateWeek1 	= $datesWeek['dateWeek1'];//Premier jour du mois à J - X mois
 		$dateWeek2 	= $datesWeek['dateWeek2'];//Dernier jour du mois
 		$dateWeek3 	= $datesWeek['dateWeek3'];//Premier jour du mois
+
+		var_dump($datesWeek);
 
 		if($session->get('kpi_year_filtre') != null)
 			$form = $this->createForm(new KpiFilterType($em, $user, $user, $week, null, $session->get('kpi_year_filtre') , 'hebdomadaire'));
@@ -930,17 +932,19 @@ class KpiController extends Controller
   //Gestion des requêtes selon la page appelée
 
 	if($session->get('filtre_boutique') != null){
-  	$kpis = $em->getRepository('AppBundle:KpiWeek')->getUserKpisBetweenDates($session->get('filtre_boutique'), $dateWeek1, $dateWeek2, $brand);
-  }
-  elseif($session->get('filtre_dr') != null){
-  	$kpis = $em->getRepository('AppBundle:KpiWeek')->getUserKpisBetweenDates($session->get('filtre_dr'), $dateWeek1, $dateWeek2, $brand);
-  }
-  elseif($session->get('filtre_reseau') != null){
-  	$kpis = $em->getRepository('AppBundle:KpiWeek')->getUserKpisBetweenDates($session->get('filtre_reseau'), $dateWeek1, $dateWeek2, $brand);
-  }
-  else{
-  	$kpis = $em->getRepository('AppBundle:KpiWeek')->getUserKpisBetweenDates($user, $dateWeek1, $dateWeek2, $brand);
-  }
+		$kpis = $em->getRepository('AppBundle:KpiWeek')->getUserKpisBetweenDates($session->get('filtre_boutique'), $dateWeek1, $dateWeek2, $brand);
+	}
+	elseif($session->get('filtre_dr') != null){
+		$kpis = $em->getRepository('AppBundle:KpiWeek')->getUserKpisBetweenDates($session->get('filtre_dr'), $dateWeek1, $dateWeek2, $brand);
+	}
+	elseif($session->get('filtre_reseau') != null){
+		$kpis = $em->getRepository('AppBundle:KpiWeek')->getUserKpisBetweenDates($session->get('filtre_reseau'), $dateWeek1, $dateWeek2, $brand);
+	}
+	else{
+		var_dump($dateWeek1);
+	var_dump($dateWeek2);
+		$kpis = $em->getRepository('AppBundle:KpiWeek')->getUserKpisBetweenDates($user, $dateWeek1, $dateWeek2, $brand);
+	}
 
 
 	//get current month depending on url parameter
@@ -960,10 +964,10 @@ class KpiController extends Controller
 
 	if ($kpis == null or $kpiCurrentWeek == null){
 		//throw new NotFoundHttpException("No data Available");
-		//$kpiCurrentWeek = null;
+		$kpiCurrentWeek = null;
 		$session->remove('kpi_month_filtre');
-    $session->remove('kpi_year_filtre');
-    $session->remove('kpi_week_filtre');
+	    $session->remove('kpi_year_filtre');
+	    $session->remove('kpi_week_filtre');
 
 		//return $this->redirectToRoute('app_kpi_week', array('user_actuel' => $user_actuel->getId(), 'user_id' =>$user->getId()));
 	}
@@ -985,7 +989,7 @@ class KpiController extends Controller
 
 
 	$form2 = $this->createForm(new ExportDataType());
-  $form2->handleRequest($request);
+  	$form2->handleRequest($request);
 
 		//Export CSV
 		if ($form2->isSubmitted()) {

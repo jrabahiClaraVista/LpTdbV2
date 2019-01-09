@@ -223,7 +223,7 @@ class initKpiFilterDatesService
      */
     public function getDatesWeekPost($data, $session, $trigger = null){
         $now = new \DateTime();
-        $now = $now->modify('-7 days');
+        $now = $now;//->modify('-7 days');
         $year = $now->format('Y');
 
         //Set Session variable
@@ -246,8 +246,8 @@ class initKpiFilterDatesService
         $year  = $session->get('kpi_year_filtre');
         $week  = $session->get('kpi_week_filtre');
 
-        $dateWeek2 = new \DateTime();
-        $dateWeek2 = $dateWeek2->setISODate($year,$week,7);
+        //$dateWeek2 = $dateWeek2->setISODate($year,$week,7);
+        $dateWeek2 = $now->modify('last monday');
         $dateWeek2 = $dateWeek2->format("Y-m-d");
         
         $dateWeek1 = new \DateTime($dateWeek2);
