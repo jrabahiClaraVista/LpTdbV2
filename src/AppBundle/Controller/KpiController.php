@@ -259,7 +259,7 @@ class KpiController extends Controller
 
 		if ($kpis == null or $kpiCurrentMonth == null){
 			//throw new NotFoundHttpException("No data Available");
-			$kpiCurrentMonth = null;
+			//$kpiCurrentMonth = null;
 			$session->remove('kpi_month_filtre');
             $session->remove('kpi_year_filtre');
 
@@ -382,7 +382,6 @@ class KpiController extends Controller
             $pdo = $pdo->initPdoClienteling();
 
             //Préparation et execution de la requête
-            //var_dump($sql);
             $stmt = $pdo->prepare($sql);
             $stmt->execute();
 
@@ -542,7 +541,6 @@ class KpiController extends Controller
 	            $pdo = $pdo->initPdoClienteling();
 
 	            //Préparation et execution de la requête
-	            //var_dump($sql2);
 	            $stmt2 = $pdo->prepare($sql2);
 	            $stmt2->execute();
 
@@ -633,7 +631,6 @@ class KpiController extends Controller
 		            $pdo = $pdo->initPdoClienteling();
 
 		            //Préparation et execution de la requête
-		            //var_dump($sql2);
 		            $stmt3 = $pdo->prepare($sql3);
 		            $stmt3->execute();
 
@@ -811,7 +808,7 @@ class KpiController extends Controller
 		$vars = $kpiFilterService->initVars($user, $request);
 
         $reseau      = $vars[0];
-        $dr 	     = $vars[1];
+        $dr 		 = $vars[1];
         $boutique    = $vars[2];
         $vendeur     = $vars[3];
 
@@ -826,12 +823,14 @@ class KpiController extends Controller
 		$dateWeek2 	= $datesWeek['dateWeek2'];//Dernier jour du mois
 		$dateWeek3 	= $datesWeek['dateWeek3'];//Premier jour du mois
 
-		var_dump($datesWeek);
 
-		if($session->get('kpi_year_filtre') != null)
+		if($session->get('kpi_year_filtre') != null){
 			$form = $this->createForm(new KpiFilterType($em, $user, $user, $week, null, $session->get('kpi_year_filtre') , 'hebdomadaire'));
-		else
+		}
+		else{
 			$form = $this->createForm(new KpiFilterType($em, $user, $user, $week, null, $year, 'hebdomadaire'));
+		}
+
 
 		$form->handleRequest($request);
 		//Recuperation des données de la requete
@@ -886,42 +885,42 @@ class KpiController extends Controller
 		}
 
     if ( $request->getMethod() == 'POST' && $form->isSubmitted() ) {
-      //Mise à jour des variable de session
-      $kpiFilterService->updateSessionVars($data);
-      $reseau    = $session->get('filtre_reseau');
-      $dr 	   = $session->get('filtre_dr');
-      $boutique  = $session->get('filtre_boutique');
-      $vendeur   = $session->get('filtre_vendeur');
+		//Mise à jour des variable de session
+		$kpiFilterService->updateSessionVars($data);
+		$reseau    = $session->get('filtre_reseau');
+		$dr 	   = $session->get('filtre_dr');
+		$boutique  = $session->get('filtre_boutique');
+		$vendeur   = $session->get('filtre_vendeur');
 
 
-    	$datesWeek = $kpiDates->getDatesWeekPost($data, $session, 0);
-      		$week 		= $datesWeek['week'];
-			$weekYear	= $datesWeek['year'];
-			$dateWeek1 	= $datesWeek['dateWeek1'];
-			$dateWeek2 	= $datesWeek['dateWeek2'];
-			$dateWeek3 	= $datesWeek['dateWeek3'];
+		$datesWeek = $kpiDates->getDatesWeekPost($data, $session, 0);
+	  	$week 		= $datesWeek['week'];
+		$weekYear	= $datesWeek['year'];
+		$dateWeek1 	= $datesWeek['dateWeek1'];
+		$dateWeek2 	= $datesWeek['dateWeek2'];
+		$dateWeek3 	= $datesWeek['dateWeek3'];
 
-			if($session->get('filtre_vendeur') != null){
-				//var_dump( $data);
-				$id = $session->get('filtre_vendeur')->getId();
+		if($session->get('filtre_vendeur') != null){
+			//var_dump( $data);
+			$id = $session->get('filtre_vendeur')->getId();
 	    }
 	    elseif($session->get('filtre_boutique') != null){
 				$id = $session->get('filtre_boutique')->getId();
 	    }
-      elseif($session->get('filtre_dr') != null){
-      	$id = $session->get('filtre_dr')->getId();
-      }
-      elseif($session->get('filtre_reseau') != null){
-      	$id = $session->get('filtre_reseau')->getId();
-      }
-      else{
-      	$id = $user->getId();
-      }
+		elseif($session->get('filtre_dr') != null){
+			$id = $session->get('filtre_dr')->getId();
+		}
+		elseif($session->get('filtre_reseau') != null){
+			$id = $session->get('filtre_reseau')->getId();
+		}
+		else{
+			$id = $user->getId();
+		}
 
 
-			if($routeName == "app_kpi_week"){
-				return $this->redirectToRoute('app_kpi_week', array('user_actuel' => $user_actuel->getId(),'user_id' =>$id));
-			}
+		if($routeName == "app_kpi_week"){
+			return $this->redirectToRoute('app_kpi_week', array('user_actuel' => $user_actuel->getId(),'user_id' =>$id));
+		}
     }
 
   //var_dump($dateWeek1);
@@ -941,8 +940,6 @@ class KpiController extends Controller
 		$kpis = $em->getRepository('AppBundle:KpiWeek')->getUserKpisBetweenDates($session->get('filtre_reseau'), $dateWeek1, $dateWeek2, $brand);
 	}
 	else{
-		var_dump($dateWeek1);
-	var_dump($dateWeek2);
 		$kpis = $em->getRepository('AppBundle:KpiWeek')->getUserKpisBetweenDates($user, $dateWeek1, $dateWeek2, $brand);
 	}
 
@@ -964,10 +961,10 @@ class KpiController extends Controller
 
 	if ($kpis == null or $kpiCurrentWeek == null){
 		//throw new NotFoundHttpException("No data Available");
-		$kpiCurrentWeek = null;
+		//$kpiCurrentWeek = $lastKpiWeek;
 		$session->remove('kpi_month_filtre');
-	    $session->remove('kpi_year_filtre');
-	    $session->remove('kpi_week_filtre');
+    	$session->remove('kpi_year_filtre');
+    	$session->remove('kpi_week_filtre');
 
 		//return $this->redirectToRoute('app_kpi_week', array('user_actuel' => $user_actuel->getId(), 'user_id' =>$user->getId()));
 	}
@@ -989,7 +986,7 @@ class KpiController extends Controller
 
 
 	$form2 = $this->createForm(new ExportDataType());
-  	$form2->handleRequest($request);
+  $form2->handleRequest($request);
 
 		//Export CSV
 		if ($form2->isSubmitted()) {

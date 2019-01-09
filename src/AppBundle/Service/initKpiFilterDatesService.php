@@ -58,11 +58,6 @@ class initKpiFilterDatesService
 
             $date_check = new \DateTime($date2);
 
-            /*var_dump($date_check);
-            var_dump($date); 
-            var_dump($date_check > $date);
-            die();*/
-
             if($date_check > $date) {
                 $month = $date->format('m');
                 $year  = $date->format('Y');
@@ -103,11 +98,10 @@ class initKpiFilterDatesService
      *
      */
     public function getDatesWeek(\Datetime $date, $session)
-    {
+    { 
         $now = new \DateTime();
-        $now = $now;//->modify('-7 days');
-        $year = $now->format('Y');
-
+        $now = $now->modify('-7 days');//->modify('-1 month');
+        $year = $now->format('Y')-1;
         //la derniere date est toujours celle du dernier kpicapture en base, la premiere varie de -12 à -24 mois
         //Affichage des données du dernier mois / mois selectionné : du premier à la fin du mois.
         //On test aussi les var de session month et year, car par defaut pour TOT la valeur est a null
@@ -116,8 +110,7 @@ class initKpiFilterDatesService
             $week  = $date->format('W');
 
             //on initialise la date2 au dernier jour de la semaine
-            //$dateWeek2 = $now->setISODate($year,$week,7);
-            $dateWeek2 = $now->modify('last monday');
+            $dateWeek2 = $now->setISODate($year,$week,7);//->modify('-1 month');
             $dateWeek2 = $dateWeek2->format("Y-m-d");
         }
         //si on a une recherche active
@@ -125,8 +118,7 @@ class initKpiFilterDatesService
             $week  = $session->get('kpi_week_filtre');
             $year  = $session->get('kpi_year_filtre');
 
-            //$dateWeek2 = $now->setISODate($year,$week,7);
-            $dateWeek2 = $now->modify('last monday');
+            $dateWeek2 = $now->setISODate($year,$week,7);//->modify('-1 month');
             $dateWeek2 = $dateWeek2->format("Y-m-d");
 
             $date_check = new \DateTime($dateWeek2);
@@ -138,8 +130,7 @@ class initKpiFilterDatesService
                 $session->set('kpi_week_filtre', $week);
                 $session->set('kpi_year_filtre', $year);
 
-                //$dateWeek2 = $now->setISODate($year,$week,7);
-                $dateWeek2 = $now->modify('last monday');
+                $dateWeek2 = $now->setISODate($year,$week,7);//->modify('-1 month');
                 $dateWeek2 = $dateWeek2->format("Y-m-d");
             }
         }
@@ -160,8 +151,6 @@ class initKpiFilterDatesService
         $results['dateWeek3']   = $dateWeek3;
         $results['week']        = $week;
         $results['year']        = $year;
-
-        //var_dump($results);
 
         return $results;
     }
@@ -223,7 +212,7 @@ class initKpiFilterDatesService
      */
     public function getDatesWeekPost($data, $session, $trigger = null){
         $now = new \DateTime();
-        $now = $now;//->modify('-7 days');
+        $now = $now->modify('-7 days');
         $year = $now->format('Y');
 
         //Set Session variable
@@ -231,7 +220,7 @@ class initKpiFilterDatesService
             $session->remove('kpi_year_filtre');
         }
         else{
-            $session->set('kpi_year_filtre',$year);
+            $session->set('kpi_year_filtre',$data['year']);
         }
         if( isset($data['week']) ){
             if($data['week'] == '' ){
@@ -242,12 +231,13 @@ class initKpiFilterDatesService
             }
         }
 
+
         // On récupère les bons mois et année FY
         $year  = $session->get('kpi_year_filtre');
         $week  = $session->get('kpi_week_filtre');
 
-        //$dateWeek2 = $dateWeek2->setISODate($year,$week,7);
-        $dateWeek2 = $now->modify('last monday');
+        $dateWeek2 = new \DateTime();
+        $dateWeek2 = $dateWeek2->setISODate($year,$week,7);
         $dateWeek2 = $dateWeek2->format("Y-m-d");
         
         $dateWeek1 = new \DateTime($dateWeek2);

@@ -38,19 +38,6 @@ class KpiFilterType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-        ->add('year', 'Symfony\Component\Form\Extension\Core\Type\ChoiceType', array(
-            'choices' => array(
-              '2016'   => '2016',
-              '2017'   => '2017',
-              '2018'   => '2018',
-              '2019'   => '2019',
-              ),
-            'choices_as_values' => true,
-            'required' => false,
-            'data' => '2017',
-            'empty_value' => false,
-            )
-        )
         ->add('reseau', 'entity', array(
             'class' => 'ApplicationSonataUserBundle:User',
             'property' => 'username',
@@ -76,23 +63,24 @@ class KpiFilterType extends AbstractType
 
             //var_dump($form);
 
-            // Configuration des mois à afficher
-            $form->add('year', 'Symfony\Component\Form\Extension\Core\Type\ChoiceType', array(
-                'choices' => array(
-                    '2016'   => '2016',
-                    '2017'   => '2017',
-                    '2018'   => '2018',
-                    '2019'   => '2019',
-                    ),
-                'choices_as_values' => true,
-                'required' => false,
-                'data' => $this->year,
-                'empty_value' => false,
-                )
-            );
+            
 
             if($this->scope == 'annuel'){
             //Cheat pour détourner le bug du ChoiceType Expended, on récupere la valeur de ChoiceType ici
+
+                $form->add('year', 'Symfony\Component\Form\Extension\Core\Type\ChoiceType', array(
+                    'choices' => array(
+                      '2016'   => '2016',
+                      '2017'   => '2017',
+                      '2018'   => '2018',
+                      '2019'   => '2019',
+                      ),
+                    'choices_as_values' => true,
+                    'required' => false,
+                    'data' => $this->year,
+                    'empty_value' => false,
+                    )
+                );
 
                 if($this->month != null and $this->week == null){
                     $form->add('month', 'hidden', array(
@@ -132,6 +120,19 @@ class KpiFilterType extends AbstractType
 
             }
             elseif($this->scope == 'mensuel'){
+                $form->add('year', 'Symfony\Component\Form\Extension\Core\Type\ChoiceType', array(
+                    'choices' => array(
+                      '2016'   => '2016',
+                      '2017'   => '2017',
+                      '2018'   => '2018',
+                      '2019'   => '2019',
+                      ),
+                    'choices_as_values' => true,
+                    'required' => false,
+                    'data' => $this->year,
+                    'empty_value' => false,
+                    )
+                );
                         // Configuration des mois à afficher
                 $form->add('month', 'Symfony\Component\Form\Extension\Core\Type\ChoiceType', array(
                     'choices' => array(
@@ -162,12 +163,26 @@ class KpiFilterType extends AbstractType
                 );
             }
             elseif($this->scope == 'hebdomadaire'){
+                $form->add('year', 'Symfony\Component\Form\Extension\Core\Type\ChoiceType', array(
+                    'choices' => array(
+                      '2016'   => '2016',
+                      '2017'   => '2017',
+                      '2018'   => '2018',
+                      '2019'   => '2019',
+                      ),
+                    'choices_as_values' => true,
+                    'required' => false,
+                    'data' => $this->year,
+                    'empty_value' => false,
+                    )
+                );
+
                 $date_start = new \DateTime('now');
-                $form->add('month', 'hidden', array(
+                /*$form->add('month', 'hidden', array(
                   'required' => false,
                   )
 
-                );
+                );*/
 
 
                 for($i = 0; $i < 45; $i++) {
