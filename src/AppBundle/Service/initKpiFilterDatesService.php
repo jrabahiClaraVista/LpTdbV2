@@ -101,7 +101,7 @@ class initKpiFilterDatesService
     { 
         $now = new \DateTime();
         $now = $now->modify('-7 days');//->modify('-1 month');
-        $year = $now->format('Y')-1;
+        $year = $now->format('Y');
         //la derniere date est toujours celle du dernier kpicapture en base, la premiere varie de -12 à -24 mois
         //Affichage des données du dernier mois / mois selectionné : du premier à la fin du mois.
         //On test aussi les var de session month et year, car par defaut pour TOT la valeur est a null
