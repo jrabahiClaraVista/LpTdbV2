@@ -35,7 +35,7 @@
             <ul class="nav navbar-nav {% if not is_granted("ROLE_ADMIN") %}navbar-right{% endif %}">
                 <li style="color:black;padding-top:3px;">
                     <span style="font-size: 16px;">PERFORMANCES CRM {{ user.username }}</span><br />
-                    {% if currentKpi is defined %}
+                    {% if currentKpi is defined and currentKpi is not null %}
 	                    {% if app.request.get('_route') in ['app_kpi_month','app_kpi_ytd','app_kpi_fid','app_kpi_planning','app_kpi_satisfaction']%}
 	                    	<span class="small">Rapport du mois {{ getMonthWording(currentKpi.date|date('m'), "de ") }} {{currentKpi.date|date('Y')}}</span>
 		                {% else %}

@@ -14,100 +14,100 @@
 		<p>Les résultats ci-dessous sont mis à jour toutes les semaines</p>
 	</div>
 
-	{% if currentKpi.nbTransacS0 > 0 %}
+	{% if currentKpi is not null and currentKpi.nbTransacS0 > 0 %}
 
-	<div class="col-xs-12">
-		<h2 class="text-uppercase gris-bg">{{ "La qualification de mes clients"|trans }}</h2>
+		<div class="col-xs-12">
+			<h2 class="text-uppercase gris-bg">{{ "La qualification de mes clients"|trans }}</h2>
 
-		<div class="col-xs-12 kpi-box">
+			<div class="col-xs-12 kpi-box">
 
-			{% if user_role != "ROLE_VENDEUR" %}
-				<div class="inside col-xs-12 bordered-bottom">
-					<h3 class="text-uppercase text-center gris">Identification des clients</h3>
-						<p class="col-xs-12 text-center">
-							<strong>{{ currentKpi.nbTransacS0|number_format(0, ',', ' ') }} Transactions enregistrées</strong>
-						</p>
-					<figure class="col-xs-12">
-						<div id="chartContainer0" class="col-xs-12" style="height: 250px;"></div>
+				{% if user_role != "ROLE_VENDEUR" %}
+					<div class="inside col-xs-12 bordered-bottom">
+						<h3 class="text-uppercase text-center gris">Identification des clients</h3>
+							<p class="col-xs-12 text-center">
+								<strong>{{ currentKpi.nbTransacS0|number_format(0, ',', ' ') }} Transactions enregistrées</strong>
+							</p>
+						<figure class="col-xs-12">
+							<div id="chartContainer0" class="col-xs-12" style="height: 250px;"></div>
+						</figure>
+					</div>
+				{% endif %}
+
+				<div class="inside col-xs-12 col-md-6">
+					<h4 class="text-uppercase black text-center">Capture par canal</h4>
+
+					<figure class="col-xs-12 col-md-4">
+						<h4 class="text-center bg-white black">Email<br />&nbsp;</h4>
+						<div id="chartContainer1" style="height: 150px;"></div>
+						<figcaption>
+							<p class="small">
+								<i style="color: #E80C7A;" class="fa fa-square fa-lg" aria-hidden="true"></i>
+								<i style="color: #f2ce18;" class="fa fa-square fa-lg" aria-hidden="true"></i>
+								<i style="color: #2D89FF;" class="fa fa-square fa-lg" aria-hidden="true"></i><br />
+								{{ "Taux de transactions avec des données valides"|trans}}
+							</p>
+						</figcaption>
 					</figure>
+					<figure class="col-xs-12 col-md-4">
+						<h4 class="text-center bg-white black">Email + SMS<br />&nbsp;</h4>
+						<div id="chartContainer2" style="height: 150px;"></div>
+						<figcaption>
+							<p class="small">
+								<i style="color: #aaaaaa;" class="fa fa-square fa-lg" aria-hidden="true"></i><br />
+								{{ "Taux de transactions avec des données non-collectées"|trans}}
+							</p>
+						</figcaption>
+					</figure>
+					<figure class="col-xs-12 col-md-4">
+						<h4 class="text-center bg-white black">Email + SMS + Adresse</h4>
+						<div id="chartContainer3" style="height: 150px;"></div>
+						<figcaption>
+							<p class="small">
+								<i style="color: #f0f0f0;" class="fa fa-square fa-lg" aria-hidden="true"></i><br />
+								{{ "Taux de transactions avec des données non-valides"|trans}}
+							</p>
+						</figcaption>
+					</figure>
+					<div class="spacer"></div>
+					<div class="col-xs-12 text-center">
+						<a href="{{ path('app_kpi_faq', { 'user_actuel' : userId, 'user_id' : user.id } ) }}" class="small" style="color:#666; text-decoration:underline;">
+				    		{{"Définitions et règles de calcul dans l'onglet FAQ"|trans}}
+				    	</a>
+					</div>
 				</div>
-			{% endif %}
 
-			<div class="inside col-xs-12 col-md-6">
-				<h4 class="text-uppercase black text-center">Capture par canal</h4>
+				<div class="inside col-xs-12 col-md-6 bordered-left">
+					<h4 class="text-uppercase black text-center">{{ "Evolution hebdomadaire des indicateurs de collecte"|trans }}</h4>
 
-				<figure class="col-xs-12 col-md-4">
-					<h4 class="text-center bg-white black">Email<br />&nbsp;</h4>
-					<div id="chartContainer1" style="height: 150px;"></div>
-					<figcaption>
-						<p class="small">
-							<i style="color: #E80C7A;" class="fa fa-square fa-lg" aria-hidden="true"></i>
-							<i style="color: #f2ce18;" class="fa fa-square fa-lg" aria-hidden="true"></i>
-							<i style="color: #2D89FF;" class="fa fa-square fa-lg" aria-hidden="true"></i><br />
-							{{ "Taux de transactions avec des données valides"|trans}}
-						</p>
-					</figcaption>
-				</figure>
-				<figure class="col-xs-12 col-md-4">
-					<h4 class="text-center bg-white black">Email + SMS<br />&nbsp;</h4>
-					<div id="chartContainer2" style="height: 150px;"></div>
-					<figcaption>
-						<p class="small">
-							<i style="color: #aaaaaa;" class="fa fa-square fa-lg" aria-hidden="true"></i><br />
-							{{ "Taux de transactions avec des données non-collectées"|trans}}
-						</p>
-					</figcaption>
-				</figure>
-				<figure class="col-xs-12 col-md-4">
-					<h4 class="text-center bg-white black">Email + SMS + Adresse</h4>
-					<div id="chartContainer3" style="height: 150px;"></div>
-					<figcaption>
-						<p class="small">
-							<i style="color: #f0f0f0;" class="fa fa-square fa-lg" aria-hidden="true"></i><br />
-							{{ "Taux de transactions avec des données non-valides"|trans}}
-						</p>
-					</figcaption>
-				</figure>
-				<div class="spacer"></div>
-				<div class="col-xs-12 text-center">
-					<a href="{{ path('app_kpi_faq', { 'user_actuel' : userId, 'user_id' : user.id } ) }}" class="small" style="color:#666; text-decoration:underline;">
-			    		{{"Définitions et règles de calcul dans l'onglet FAQ"|trans}}
-			    	</a>
+					<figure class="col-xs-12">
+						<div id="chartContainer4" class="col-xs-12" style="height: 194px;"></div>
+						<figcaption class="col-xs-12 col-md-4">
+							<p class="small">
+								&nbsp;<br />
+								<i style="color: #E80C7A;" class="fa fa-square fa-lg" aria-hidden="true"></i><br />
+								{{ "Taux de transactions avec des emails valides"|trans}}
+							</p>
+						</figcaption>
+						<figcaption class="col-xs-12 col-md-4">
+							<p class="small">
+								&nbsp;<br />
+								<i style="color: #f2ce18;" class="fa fa-square fa-lg" aria-hidden="true"></i><br />
+								{{ "Taux de transactions avec des emails + SMS valides"|trans}}
+							</p>
+						</figcaption>
+						<figcaption class="col-xs-12 col-md-4">
+							<p class="small">
+								&nbsp;<br />
+								<i style="color: #2D89FF;" class="fa fa-square fa-lg" aria-hidden="true"></i><br />
+								{{ "Taux de transactions avec des emails + SMS + adresses valides"|trans}}
+							</p>
+						</figcaption>
+					</figure>
+					<div class="spacer"></div>
 				</div>
 			</div>
 
-			<div class="inside col-xs-12 col-md-6 bordered-left">
-				<h4 class="text-uppercase black text-center">{{ "Evolution hebdomadaire des indicateurs de collecte"|trans }}</h4>
-
-				<figure class="col-xs-12">
-					<div id="chartContainer4" class="col-xs-12" style="height: 194px;"></div>
-					<figcaption class="col-xs-12 col-md-4">
-						<p class="small">
-							&nbsp;<br />
-							<i style="color: #E80C7A;" class="fa fa-square fa-lg" aria-hidden="true"></i><br />
-							{{ "Taux de transactions avec des emails valides"|trans}}
-						</p>
-					</figcaption>
-					<figcaption class="col-xs-12 col-md-4">
-						<p class="small">
-							&nbsp;<br />
-							<i style="color: #f2ce18;" class="fa fa-square fa-lg" aria-hidden="true"></i><br />
-							{{ "Taux de transactions avec des emails + SMS valides"|trans}}
-						</p>
-					</figcaption>
-					<figcaption class="col-xs-12 col-md-4">
-						<p class="small">
-							&nbsp;<br />
-							<i style="color: #2D89FF;" class="fa fa-square fa-lg" aria-hidden="true"></i><br />
-							{{ "Taux de transactions avec des emails + SMS + adresses valides"|trans}}
-						</p>
-					</figcaption>
-				</figure>
-				<div class="spacer"></div>
-			</div>
 		</div>
-
-	</div>
 	{% else %}
 		<div class="col-xs-12">
 			<h2 class="text-uppercase gris-bg text-center">Aucune transactions pour la date demandée</h2>
@@ -116,117 +116,118 @@
 
 	<div class="spacer" style="margin-bottom:0px;"></div>
 
-	{% if user_role != "ROLE_VENDEUR" %}
-		<div class="col-xs-12">
-			{% if user_role == "ROLE_MARQUE" %}
-				<h2 class="text-uppercase gris-bg">Performance des DR du réseau {{user.username}}</h2>
-			{% elseif user_role == "ROLE_DR" %}
-				<h2 class="text-uppercase gris-bg">Performance des Boutiques du DR {{user.username}}</h2>
-			{% elseif user_role == "ROLE_BOUTIQUE" %}
-				<h2 class="text-uppercase gris-bg">Performance des Vendeurs de la Boutique {{user.username}}</h2>
-			{% endif %}
-			<div class="col-xs-12 kpi-box">
-				<table class="table table-bordered table-hover" style="margin-bottom:0;">
-					<thead>
-						<tr>
-							<th class="col-xs-2"></th>
-							<th class="col-xs-2 text-center text-uppercase">Nombre de transactions</th>
-							<th class="col-xs-2 text-center text-uppercase">Taux de transactions identifiées</th>
-							<th class="col-xs-2 text-center text-uppercase">Capture email valide</th>
-							<th class="col-xs-2 text-center text-uppercase">Capture email + SMS valide</th>
-							<th class="col-xs-2 text-center text-uppercase">Capture email + SMS + adresse valide</th>
-						</tr>
-					</thead>
-					<tbody>
-						<tr class="info">
-							<th class="text-right text-uppercase" style="color: #3399FF">Résultats du réseau</th>
-							<td class="text-center">{{marque.nbTransacS0|number_format(0, ',', ' ') }}</td>
-							<td class="text-center">{{ marque.txTransacLinkedS0|number_format}} %</td>
-							<td class="text-center">{{ marque.txTransacNpeS0|number_format}} %</td>
-							<td class="text-center">{{ marque.txTransacNpesS0|number_format}} %</td>
-							<td class="text-center">{{ marque.txTransacNpesaS0|number_format}} %</td>
-						</tr>
-						{% if user_role == "ROLE_MARQUE" %}
-							{% for boutique in getDrsMarque %}
-								{% set keyloop = loop.index %}
-								{% if getDrsMarque is not null %}
-									<tr>
-										<th class="text-right text-uppercase"><i class="fa fa-plus-circle" aria-hidden="true" data="boutiques_{{keyloop}}" style="cursor:pointer;"></i>&nbsp;&nbsp;<a href="{{ path('app_kpi_week', { 'user_actuel' : userId, 'user_id' : boutique.user.id } ) }}">{{boutique.user.nameAndSurname}}</a></th>
-										<td class="text-center">{{ boutique.nbTransacS0|number_format(0, ',', ' ') }}</td>
-										<td class="text-center">{{ boutique.txTransacLinkedS0|number_format}} %</td>
-										<td class="text-center">{{ boutique.txTransacNpeS0|number_format}} %</td>
-										<td class="text-center">{{ boutique.txTransacNpesS0|number_format}} %</td>
-										<td class="text-center">{{ boutique.txTransacNpesaS0|number_format}} %</td>
-									</tr>
-								{% endif %}
-								{% for boutique2 in getBoutiquesDr %}
-									<tbody class="boutiques_{{keyloop}}" style="display:none;">
-									{% for boutique3 in boutique2 %}
-										{% if boutique3.user.dr == boutique.user.username %}
-											<tr>
-												<th class="text-right text-uppercase small"><a href="{{ path('app_kpi_week', { 'user_actuel' : userId, 'user_id' : boutique3.user.id } ) }}">{{boutique3.user.username}}</a></th>
-												<td class="text-center">{{ boutique3.nbTransacS0|number_format(0, ',', ' ') }}</td>
-												<td class="text-center">{{ boutique3.txTransacLinkedS0|number_format}} %</td>
-												<td class="text-center">{{ boutique3.txTransacNpeS0|number_format}} %</td>
-												<td class="text-center">{{ boutique3.txTransacNpesS0|number_format}} %</td>
-												<td class="text-center">{{ boutique3.txTransacNpesaS0|number_format}} %</td>
-											</tr>
-										{% endif %}
+	{% if currentKpi is not null %}
+
+		{% if user_role != "ROLE_VENDEUR" %}
+			<div class="col-xs-12">
+				{% if user_role == "ROLE_MARQUE" %}
+					<h2 class="text-uppercase gris-bg">Performance des DR du réseau {{user.username}}</h2>
+				{% elseif user_role == "ROLE_DR" %}
+					<h2 class="text-uppercase gris-bg">Performance des Boutiques du DR {{user.username}}</h2>
+				{% elseif user_role == "ROLE_BOUTIQUE" %}
+					<h2 class="text-uppercase gris-bg">Performance des Vendeurs de la Boutique {{user.username}}</h2>
+				{% endif %}
+				<div class="col-xs-12 kpi-box">
+					<table class="table table-bordered table-hover" style="margin-bottom:0;">
+						<thead>
+							<tr>
+								<th class="col-xs-2"></th>
+								<th class="col-xs-2 text-center text-uppercase">Nombre de transactions</th>
+								<th class="col-xs-2 text-center text-uppercase">Taux de transactions identifiées</th>
+								<th class="col-xs-2 text-center text-uppercase">Capture email valide</th>
+								<th class="col-xs-2 text-center text-uppercase">Capture email + SMS valide</th>
+								<th class="col-xs-2 text-center text-uppercase">Capture email + SMS + adresse valide</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr class="info">
+								<th class="text-right text-uppercase" style="color: #3399FF">Résultats du réseau</th>
+								<td class="text-center">{{marque.nbTransacS0|number_format(0, ',', ' ') }}</td>
+								<td class="text-center">{{ marque.txTransacLinkedS0|number_format}} %</td>
+								<td class="text-center">{{ marque.txTransacNpeS0|number_format}} %</td>
+								<td class="text-center">{{ marque.txTransacNpesS0|number_format}} %</td>
+								<td class="text-center">{{ marque.txTransacNpesaS0|number_format}} %</td>
+							</tr>
+							{% if user_role == "ROLE_MARQUE" %}
+								{% for boutique in getDrsMarque %}
+									{% set keyloop = loop.index %}
+									{% if getDrsMarque is not null %}
+										<tr>
+											<th class="text-right text-uppercase"><i class="fa fa-plus-circle" aria-hidden="true" data="boutiques_{{keyloop}}" style="cursor:pointer;"></i>&nbsp;&nbsp;<a href="{{ path('app_kpi_week', { 'user_actuel' : userId, 'user_id' : boutique.user.id } ) }}">{{boutique.user.nameAndSurname}}</a></th>
+											<td class="text-center">{{ boutique.nbTransacS0|number_format(0, ',', ' ') }}</td>
+											<td class="text-center">{{ boutique.txTransacLinkedS0|number_format}} %</td>
+											<td class="text-center">{{ boutique.txTransacNpeS0|number_format}} %</td>
+											<td class="text-center">{{ boutique.txTransacNpesS0|number_format}} %</td>
+											<td class="text-center">{{ boutique.txTransacNpesaS0|number_format}} %</td>
+										</tr>
+									{% endif %}
+									{% for boutique2 in getBoutiquesDr %}
+										<tbody class="boutiques_{{keyloop}}" style="display:none;">
+										{% for boutique3 in boutique2 %}
+											{% if boutique3.user.dr == boutique.user.username %}
+												<tr>
+													<th class="text-right text-uppercase small"><a href="{{ path('app_kpi_week', { 'user_actuel' : userId, 'user_id' : boutique3.user.id } ) }}">{{boutique3.user.username}}</a></th>
+													<td class="text-center">{{ boutique3.nbTransacS0|number_format(0, ',', ' ') }}</td>
+													<td class="text-center">{{ boutique3.txTransacLinkedS0|number_format}} %</td>
+													<td class="text-center">{{ boutique3.txTransacNpeS0|number_format}} %</td>
+													<td class="text-center">{{ boutique3.txTransacNpesS0|number_format}} %</td>
+													<td class="text-center">{{ boutique3.txTransacNpesaS0|number_format}} %</td>
+												</tr>
+											{% endif %}
+										{% endfor %}
+										</tbody>
 									{% endfor %}
-									</tbody>
 								{% endfor %}
-							{% endfor %}
-						{% elseif user_role == "ROLE_DR" %}
-							{% for boutique in getBoutiquesDr %}
-								{% set keyloop = loop.index %}
-								{% if getBoutiquesDr is not null and boutique.user.nbTransacYtd > 0 %}
-									<tr>
-										<th class="text-right text-uppercase"><i class="fa fa-plus-circle" aria-hidden="true" data="boutiques_{{keyloop}}" style="cursor:pointer;"></i>&nbsp;&nbsp;<a href="{{ path('app_kpi_week', { 'user_actuel' : userId, 'user_id' : boutique.user.id } ) }}">{{boutique.user.username}}</a></th>
-										<td class="text-center">{{ boutique.nbTransacS0|number_format(0, ',', ' ') }}</td>
-										<td class="text-center">{{ boutique.txTransacLinkedS0|number_format}} %</td>
-										<td class="text-center">{{ boutique.txTransacNpeS0|number_format}} %</td>
-										<td class="text-center">{{ boutique.txTransacNpesS0|number_format}} %</td>
-										<td class="text-center">{{ boutique.txTransacNpesaS0|number_format}} %</td>
-									</tr>
-								{% endif %}
-								{% for boutique2 in getVendeursBoutique %}
-									<tbody class="boutiques_{{keyloop}}" style="display:none;">
-									{% for boutique3 in boutique2 %}
-										{% if boutique3.user.boutique == boutique.user.username %}
-											<tr>
-												<th class="text-right text-uppercase small"><a href="{{ path('app_kpi_week', { 'user_actuel' : userId, 'user_id' : boutique3.user.id } ) }}">{{boutique3.user.nameAndSurname}}</a></th>
-												<td class="text-center">{{ boutique3.nbTransacS0|number_format(0, ',', ' ') }}</td>
-												<td class="text-center">{{ boutique3.txTransacLinkedS0|number_format}} %</td>
-												<td class="text-center">{{ boutique3.txTransacNpeS0|number_format}} %</td>
-												<td class="text-center">{{ boutique3.txTransacNpesS0|number_format}} %</td>
-												<td class="text-center">{{ boutique3.txTransacNpesaS0|number_format}} %</td>
-											</tr>
-										{% endif %}
+							{% elseif user_role == "ROLE_DR" %}
+								{% for boutique in getBoutiquesDr %}
+									{% set keyloop = loop.index %}
+									{% if getBoutiquesDr is not null and boutique.user.nbTransacYtd > 0 %}
+										<tr>
+											<th class="text-right text-uppercase"><i class="fa fa-plus-circle" aria-hidden="true" data="boutiques_{{keyloop}}" style="cursor:pointer;"></i>&nbsp;&nbsp;<a href="{{ path('app_kpi_week', { 'user_actuel' : userId, 'user_id' : boutique.user.id } ) }}">{{boutique.user.username}}</a></th>
+											<td class="text-center">{{ boutique.nbTransacS0|number_format(0, ',', ' ') }}</td>
+											<td class="text-center">{{ boutique.txTransacLinkedS0|number_format}} %</td>
+											<td class="text-center">{{ boutique.txTransacNpeS0|number_format}} %</td>
+											<td class="text-center">{{ boutique.txTransacNpesS0|number_format}} %</td>
+											<td class="text-center">{{ boutique.txTransacNpesaS0|number_format}} %</td>
+										</tr>
+									{% endif %}
+									{% for boutique2 in getVendeursBoutique %}
+										<tbody class="boutiques_{{keyloop}}" style="display:none;">
+										{% for boutique3 in boutique2 %}
+											{% if boutique3.user.boutique == boutique.user.username %}
+												<tr>
+													<th class="text-right text-uppercase small"><a href="{{ path('app_kpi_week', { 'user_actuel' : userId, 'user_id' : boutique3.user.id } ) }}">{{boutique3.user.nameAndSurname}}</a></th>
+													<td class="text-center">{{ boutique3.nbTransacS0|number_format(0, ',', ' ') }}</td>
+													<td class="text-center">{{ boutique3.txTransacLinkedS0|number_format}} %</td>
+													<td class="text-center">{{ boutique3.txTransacNpeS0|number_format}} %</td>
+													<td class="text-center">{{ boutique3.txTransacNpesS0|number_format}} %</td>
+													<td class="text-center">{{ boutique3.txTransacNpesaS0|number_format}} %</td>
+												</tr>
+											{% endif %}
+										{% endfor %}
+										</tbody>
 									{% endfor %}
-									</tbody>
 								{% endfor %}
-							{% endfor %}
-						{% elseif user_role == "ROLE_BOUTIQUE" %}
-							{% for boutique in getVendeursBoutique %}
-								{% if getVendeursBoutique is not null and boutique.user.nbTransacYtd > 0 %}
-									<tr>
-										<th class="text-right text-uppercase"><a href="{{ path('app_kpi_week', { 'user_actuel' : userId, 'user_id' : boutique.user.id } ) }}">{{boutique.user.nameAndSurname}}</a></th>
-										<td class="text-center">{{ boutique.nbTransacS0|number_format(0, ',', ' ') }}</td>
-										<td class="text-center">{{ boutique.txTransacLinkedS0|number_format}} %</td>
-										<td class="text-center">{{ boutique.txTransacNpeS0|number_format}} %</td>
-										<td class="text-center">{{ boutique.txTransacNpesS0|number_format}} %</td>
-										<td class="text-center">{{ boutique.txTransacNpesaS0|number_format}} %</td>
-									</tr>
-								{% endif %}
-							{% endfor %}
-						{% endif %}
-					</tbody>
-				</table>
+							{% elseif user_role == "ROLE_BOUTIQUE" %}
+								{% for boutique in getVendeursBoutique %}
+									{% if getVendeursBoutique is not null and boutique.user.nbTransacYtd > 0 %}
+										<tr>
+											<th class="text-right text-uppercase"><a href="{{ path('app_kpi_week', { 'user_actuel' : userId, 'user_id' : boutique.user.id } ) }}">{{boutique.user.nameAndSurname}}</a></th>
+											<td class="text-center">{{ boutique.nbTransacS0|number_format(0, ',', ' ') }}</td>
+											<td class="text-center">{{ boutique.txTransacLinkedS0|number_format}} %</td>
+											<td class="text-center">{{ boutique.txTransacNpeS0|number_format}} %</td>
+											<td class="text-center">{{ boutique.txTransacNpesS0|number_format}} %</td>
+											<td class="text-center">{{ boutique.txTransacNpesaS0|number_format}} %</td>
+										</tr>
+									{% endif %}
+								{% endfor %}
+							{% endif %}
+						</tbody>
+					</table>
+				</div>
 			</div>
-		</div>
+		{% endif %}
 	{% endif %}
-
-
 
 	<div class="spacer" style="margin-bottom:0px;"></div>
 
@@ -403,276 +404,279 @@
     	});
 	});
 
+	{% if currentKpi is not null %}
 
-	var date = new Date({{ currentKpi.date|date("Y") }}, {{ currentKpi.date|date("m") }} - 1, {{ currentKpi.date|date("d") }} );
-	var month = date.getMonth();
-	var year  = date.getFullYear();
-	var day   = date.getDate();
+		var date = new Date({{ currentKpi.date|date("Y") }}, {{ currentKpi.date|date("m") }} - 1, {{ currentKpi.date|date("d") }} );
+		var month = date.getMonth();
+		var year  = date.getFullYear();
+		var day   = date.getDate();
 
-	var startDate = new Date( year , month - 4)
-	var endDate = new Date( year, month, day + 7 );
+		var startDate = new Date( year , month - 4)
+		var endDate = new Date( year, month, day + 7 );
 
-	var dataToBeC1 = {{ 100 - currentKpi.txTransacNpeS0|number_format - currentKpi.txTransacNveS0|number_format }};
-	var dataToBeC2 = {{ 100 - currentKpi.txTransacNpesS0|number_format - currentKpi.txTransacNvesS0|number_format }};
-	var dataToBeC3 = {{ 100 - currentKpi.txTransacNpesaS0|number_format - currentKpi.txTransacNvesaS0|number_format }};
+		var dataToBeC1 = {{ 100 - currentKpi.txTransacNpeS0|number_format - currentKpi.txTransacNveS0|number_format }};
+		var dataToBeC2 = {{ 100 - currentKpi.txTransacNpesS0|number_format - currentKpi.txTransacNvesS0|number_format }};
+		var dataToBeC3 = {{ 100 - currentKpi.txTransacNpesaS0|number_format - currentKpi.txTransacNvesaS0|number_format }};
 
-	if (dataToBeC1 < 0) dataToBeC1 = 0;
-	if (dataToBeC2 < 0) dataToBeC2 = 0;
-	if (dataToBeC3 < 0) dataToBeC3 = 0;
+		if (dataToBeC1 < 0) dataToBeC1 = 0;
+		if (dataToBeC2 < 0) dataToBeC2 = 0;
+		if (dataToBeC3 < 0) dataToBeC3 = 0;
 
-    CanvasJS.addColorSet("set1",
-		[
-		"#E80C7A",
-		"#aaaaaa",
-		"#f0f0f0",
-		]);
-		CanvasJS.addColorSet("set2",
-		[
-		"#f2ce18",
-		"#aaaaaa",
-		"#f0f0f0",
-		]);
-		CanvasJS.addColorSet("set3",
-		[
-		"#2D89FF",
-		"#bbbbbb",
-		"#f0f0f0",
-		]);
-		CanvasJS.addColorSet("set4",
-		[
-		"#E80C7A",
-		"#f2ce18",
-		"#2D89FF",
-		]);
-		CanvasJS.addColorSet("set5",
-		[
-		"#aaaaaa",
-		"#dddddd",
-		]);
-    CanvasJS.addCultureInfo("fr",{
-        shortMonths: ["Jan", "Fev", "Mars", "Avril", "Mai", "Juin", "Juil", "Août","Sept", "Oct", "Nov", "Déc"],
-    });
+	    CanvasJS.addColorSet("set1",
+			[
+			"#E80C7A",
+			"#aaaaaa",
+			"#f0f0f0",
+			]);
+			CanvasJS.addColorSet("set2",
+			[
+			"#f2ce18",
+			"#aaaaaa",
+			"#f0f0f0",
+			]);
+			CanvasJS.addColorSet("set3",
+			[
+			"#2D89FF",
+			"#bbbbbb",
+			"#f0f0f0",
+			]);
+			CanvasJS.addColorSet("set4",
+			[
+			"#E80C7A",
+			"#f2ce18",
+			"#2D89FF",
+			]);
+			CanvasJS.addColorSet("set5",
+			[
+			"#aaaaaa",
+			"#dddddd",
+			]);
+	    CanvasJS.addCultureInfo("fr",{
+	        shortMonths: ["Jan", "Fev", "Mars", "Avril", "Mai", "Juin", "Juil", "Août","Sept", "Oct", "Nov", "Déc"],
+	    });
 
-	window.onload = function () {
+		window.onload = function () {
 
-		{% if user_role != "ROLE_VENDEUR" %}
-		var chart = new CanvasJS.Chart("chartContainer0",
-		{
-			colorSet: "set5",
-			animationEnabled: true,
-			toolTip:{
-				enabled: true
-			},
-			legend:{
-					verticalAlign: "center",
-					horizontalAlign: "left",
-					fontSize: 16 ,
-					fontFamily: "Arial"
+			{% if user_role != "ROLE_VENDEUR" %}
+			var chart = new CanvasJS.Chart("chartContainer0",
+			{
+				colorSet: "set5",
+				animationEnabled: true,
+				toolTip:{
+					enabled: true
 				},
-			data: [
-			{
-				startAngle: -90,
-				indexLabelPlacement: "inside",
-				indexLabelFontColor: "white",
-				indexLabelFontWeight: "bold",
-				indexLabelFontSize: 18,
-				explodeOnClick: false,
-				highlightEnabled: false,
-				showInLegend: true,
-
-				type: "pie",
-				dataPoints: [
-					{  y: {{ (currentKpi.txTransacLinkedS0)|number_format('0','.','') }},
-						indexLabel: 	"{y}%",
-						toolTipContent: "{y}%",
-						exploded: false,
-						legendText:"{y}% Transactions identifiées avec un nom & un prénom",
-						label: "{y}% Transactions identifiées avec un nom & un prénom"},
-					{  y: {{ ((100 - currentKpi.txTransacLinkedS0))|number_format('0','.','') }},
-						indexLabel: 	"{y}%",
-						toolTipContent: "{y}%",
-						exploded: false,
-						legendText:"{y}% Transactions sans nom & prénom",
-						label: "{y}% Transactions sans nom & prénom"},
-				]
-			}
-			]
-
-		});
-		chart.render();
-		{% endif %}
-
-		var chart = new CanvasJS.Chart("chartContainer1",
-		{
-			colorSet: "set1",
-			animationEnabled: true,
-			title:{
-				text: {{ currentKpi.txTransacNpeS0|number_format }} + "%",
-				fontSize: 32,
-				verticalAlign: "center", // "top", "center", "bottom"
-				horizontalAlign: "center", // "left", "right", "center"
-				fontColor: "#E80C7A",
-			},
-			toolTip:{
-			enabled: true
-			},
-			data: [
-			{
-				startAngle: -90,
-				indexLabelFontColor: "black",
-				indexLabelLineColor: "#4c4c4c",
-				indexLabelPlacement: "inside",
-				type: "doughnut",
-				innerRadius: "70%",
-				dataPoints: [
-					{  y: {{ currentKpi.txTransacNpeS0|number_format }}, toolTipContent: "Qualification email {y}%"},
-					{  y: dataToBeC1, indexLabel: "", indexLabelFontWeight: "bold", indexLabelFontColor: "white", indexLabelFontSize: 12, toolTipContent: "Données non collectées : {y}%"},
-					{  y: {{ currentKpi.txTransacNveS0|number_format }}, indexLabel: "", indexLabelFontWeight: "bold", indexLabelFontColor: "black", indexLabelFontSize: 8, toolTipContent: "Données non-valides : {y}%"}
-				]
-			}
-			]
-
-		});
-
-		chart.render();
-		var chart = new CanvasJS.Chart("chartContainer2",
-		{
-			colorSet: "set2",
-			animationEnabled: true,
-			title:{
-				text: {{ currentKpi.txTransacNpesS0|number_format }} + "%",
-				fontSize: 32,
-				verticalAlign: "center", // "top", "center", "bottom"
-				horizontalAlign: "center", // "left", "right", "center"
-				fontColor: "#f2ce18",
-			},
-			toolTip:{
-				enabled: true
-			},
-			data: [
-			{
-				startAngle: -90,
-				indexLabelFontColor: "black",
-				indexLabelLineColor: "#4c4c4c",
-
-				indexLabelPlacement: "inside",
-				type: "doughnut",
-				innerRadius: "70%",
-				dataPoints: [
-					{  y: {{ currentKpi.txTransacNpesS0|number_format }}, indexLabel: "", indexLabelFontWeight: "bold", toolTipContent: "Qualification email + sms {y}%"},
-					{  y: dataToBeC2, indexLabel: "", indexLabelFontSize: 12,indexLabelFontColor: "white",indexLabelFontWeight: "bold",toolTipContent: "Données non collectées : {y}%"},
-					{  y: {{ currentKpi.txTransacNvesS0|number_format }}, indexLabel: "", indexLabelFontWeight: "bold", indexLabelFontColor: "black", indexLabelFontSize: 10, toolTipContent: "Données non-valides : {y}%"}
-				]
-			}
-			]
-
-		});
-
-		chart.render();
-		var chart = new CanvasJS.Chart("chartContainer3",
-		{
-			colorSet: "set3",
-			animationEnabled: true,
-			title:{
-				text: {{ currentKpi.txTransacNpesaS0|number_format }} + "%",
-				fontSize: 32,
-				verticalAlign: "center", // "top", "center", "bottom"
-				horizontalAlign: "center", // "left", "right", "center"
-				fontColor: "#2D89FF",
-			},
-			toolTip:{
-				enabled: true
-			},
-			data: [
-			{
-				startAngle: -90,
-				indexLabelFontColor: "black",
-				indexLabelLineColor: "#4c4c4c",
-
-				indexLabelPlacement: "inside",
-				type: "doughnut",
-				innerRadius: "70%",
-				dataPoints: [
-					{  y: {{ currentKpi.txTransacNpesaS0|number_format }}, indexLabel: "",indexLabelFontSize: 12, indexLabelFontWeight: "bold", toolTipContent: "Qualification email +sms + adresse : {y}%"},
-					{  y: dataToBeC3, indexLabel: "",indexLabelFontSize: 12,indexLabelFontColor: "white", indexLabelFontWeight: "bold",toolTipContent: "Données non collectées : {y}%"},
-					{  y: {{ currentKpi.txTransacNvesaS0|number_format }}, indexLabel: "", indexLabelFontWeight: "bold", indexLabelFontColor: "black", indexLabelFontSize: 10, toolTipContent: "Données non-valides : {y}%"}
-				]
-			}
-			]
-
-		});
-
-		chart.render();
-		var chart = new CanvasJS.Chart("chartContainer4",
-		{
-			culture:  "fr",
-			colorSet: "set4",
-			animationEnabled: true,
-			toolTip:{
-				enabled: true,
-				shared: true,
-				content: "<span style='\"'color: {color}'\"'>{name}</span> : {y}%"
-			},axisY: {
-				suffix: " %",
-				labelFontSize: 14
-			},
-			axisX:{
-		        interval: 2,
-		        intervalType: "week",
-		        minimum : startDate,
-		        maximum : endDate,
-		        valueFormatString: "DD MMM",
-		        labelFontSize: 13,
-		        labelAngle: -45
-		    },
-			data: [
+				legend:{
+						verticalAlign: "center",
+						horizontalAlign: "left",
+						fontSize: 16 ,
+						fontFamily: "Arial"
+					},
+				data: [
 				{
-					xValueType: "dateTime",
+					startAngle: -90,
+					indexLabelPlacement: "inside",
+					indexLabelFontColor: "white",
+					indexLabelFontWeight: "bold",
+					indexLabelFontSize: 18,
+					explodeOnClick: false,
+					highlightEnabled: false,
+					showInLegend: true,
+
+					type: "pie",
+					dataPoints: [
+						{  y: {{ (currentKpi.txTransacLinkedS0)|number_format('0','.','') }},
+							indexLabel: 	"{y}%",
+							toolTipContent: "{y}%",
+							exploded: false,
+							legendText:"{y}% Transactions identifiées avec un nom & un prénom",
+							label: "{y}% Transactions identifiées avec un nom & un prénom"},
+						{  y: {{ ((100 - currentKpi.txTransacLinkedS0))|number_format('0','.','') }},
+							indexLabel: 	"{y}%",
+							toolTipContent: "{y}%",
+							exploded: false,
+							legendText:"{y}% Transactions sans nom & prénom",
+							label: "{y}% Transactions sans nom & prénom"},
+					]
+				}
+				]
+
+			});
+			chart.render();
+			{% endif %}
+
+			var chart = new CanvasJS.Chart("chartContainer1",
+			{
+				colorSet: "set1",
+				animationEnabled: true,
+				title:{
+					text: {{ currentKpi.txTransacNpeS0|number_format }} + "%",
+					fontSize: 32,
+					verticalAlign: "center", // "top", "center", "bottom"
+					horizontalAlign: "center", // "left", "right", "center"
+					fontColor: "#E80C7A",
+				},
+				toolTip:{
+				enabled: true
+				},
+				data: [
+				{
+					startAngle: -90,
 					indexLabelFontColor: "black",
 					indexLabelLineColor: "#4c4c4c",
-					markerSize: 8,
-					name: "Qualification Email",
 					indexLabelPlacement: "inside",
-					type: "line",
+					type: "doughnut",
+					innerRadius: "70%",
 					dataPoints: [
-						{% for kpi in kpis %}
-							//{ y: {{ kpi.txTransacNpeS0|number_format }}, x: new Date( {{ kpi.date|date("Y") }}, {{ kpi.date|date("m") }}, {{ kpi.date|date("d") }} )
-							{ y: {{ kpi.txTransacNpeS0|number_format }}, x: new Date( {{ kpi.date|date("Y") }}, {{ kpi.date|date("m") - 1 }}, {{ kpi.date|date("d") }} ) },
-						{% endfor %}
+						{  y: {{ currentKpi.txTransacNpeS0|number_format }}, toolTipContent: "Qualification email {y}%"},
+						{  y: dataToBeC1, indexLabel: "", indexLabelFontWeight: "bold", indexLabelFontColor: "white", indexLabelFontSize: 12, toolTipContent: "Données non collectées : {y}%"},
+						{  y: {{ currentKpi.txTransacNveS0|number_format }}, indexLabel: "", indexLabelFontWeight: "bold", indexLabelFontColor: "black", indexLabelFontSize: 8, toolTipContent: "Données non-valides : {y}%"}
 					]
+				}
+				]
+
+			});
+
+			chart.render();
+			var chart = new CanvasJS.Chart("chartContainer2",
+			{
+				colorSet: "set2",
+				animationEnabled: true,
+				title:{
+					text: {{ currentKpi.txTransacNpesS0|number_format }} + "%",
+					fontSize: 32,
+					verticalAlign: "center", // "top", "center", "bottom"
+					horizontalAlign: "center", // "left", "right", "center"
+					fontColor: "#f2ce18",
 				},
+				toolTip:{
+					enabled: true
+				},
+				data: [
 				{
+					startAngle: -90,
 					indexLabelFontColor: "black",
 					indexLabelLineColor: "#4c4c4c",
-					markerSize: 8,
-					name: "Qualification Email + SMS",
+
 					indexLabelPlacement: "inside",
-					type: "line",
+					type: "doughnut",
+					innerRadius: "70%",
 					dataPoints: [
-						{% for kpi in kpis %}
-							{ y: {{ kpi.txTransacNpesS0|number_format }}, x: new Date( {{ kpi.date|date("Y") }}, {{ kpi.date|date("m") - 1 }}, {{ kpi.date|date("d") }} ) },
-						{% endfor %}
+						{  y: {{ currentKpi.txTransacNpesS0|number_format }}, indexLabel: "", indexLabelFontWeight: "bold", toolTipContent: "Qualification email + sms {y}%"},
+						{  y: dataToBeC2, indexLabel: "", indexLabelFontSize: 12,indexLabelFontColor: "white",indexLabelFontWeight: "bold",toolTipContent: "Données non collectées : {y}%"},
+						{  y: {{ currentKpi.txTransacNvesS0|number_format }}, indexLabel: "", indexLabelFontWeight: "bold", indexLabelFontColor: "black", indexLabelFontSize: 10, toolTipContent: "Données non-valides : {y}%"}
 					]
+				}
+				]
+
+			});
+
+			chart.render();
+			var chart = new CanvasJS.Chart("chartContainer3",
+			{
+				colorSet: "set3",
+				animationEnabled: true,
+				title:{
+					text: {{ currentKpi.txTransacNpesaS0|number_format }} + "%",
+					fontSize: 32,
+					verticalAlign: "center", // "top", "center", "bottom"
+					horizontalAlign: "center", // "left", "right", "center"
+					fontColor: "#2D89FF",
 				},
+				toolTip:{
+					enabled: true
+				},
+				data: [
 				{
+					startAngle: -90,
 					indexLabelFontColor: "black",
 					indexLabelLineColor: "#4c4c4c",
-					markerSize: 8,
-					name: "Qualification Email + SMS + Adresse",
+
 					indexLabelPlacement: "inside",
-					type: "line",
+					type: "doughnut",
+					innerRadius: "70%",
 					dataPoints: [
-						{% for kpi in kpis %}
-							{ y: {{ kpi.txTransacNpesaS0|number_format }}, x: new Date( {{ kpi.date|date("Y") }}, {{ kpi.date|date("m") - 1 }}, {{ kpi.date|date("d") }} ) },
-						{% endfor %}
+						{  y: {{ currentKpi.txTransacNpesaS0|number_format }}, indexLabel: "",indexLabelFontSize: 12, indexLabelFontWeight: "bold", toolTipContent: "Qualification email +sms + adresse : {y}%"},
+						{  y: dataToBeC3, indexLabel: "",indexLabelFontSize: 12,indexLabelFontColor: "white", indexLabelFontWeight: "bold",toolTipContent: "Données non collectées : {y}%"},
+						{  y: {{ currentKpi.txTransacNvesaS0|number_format }}, indexLabel: "", indexLabelFontWeight: "bold", indexLabelFontColor: "black", indexLabelFontSize: 10, toolTipContent: "Données non-valides : {y}%"}
 					]
+				}
+				]
+
+			});
+
+			chart.render();
+			var chart = new CanvasJS.Chart("chartContainer4",
+			{
+				culture:  "fr",
+				colorSet: "set4",
+				animationEnabled: true,
+				toolTip:{
+					enabled: true,
+					shared: true,
+					content: "<span style='\"'color: {color}'\"'>{name}</span> : {y}%"
+				},axisY: {
+					suffix: " %",
+					labelFontSize: 14
 				},
+				axisX:{
+			        interval: 2,
+			        intervalType: "week",
+			        minimum : startDate,
+			        maximum : endDate,
+			        valueFormatString: "DD MMM",
+			        labelFontSize: 13,
+			        labelAngle: -45
+			    },
+				data: [
+					{
+						xValueType: "dateTime",
+						indexLabelFontColor: "black",
+						indexLabelLineColor: "#4c4c4c",
+						markerSize: 8,
+						name: "Qualification Email",
+						indexLabelPlacement: "inside",
+						type: "line",
+						dataPoints: [
+							{% for kpi in kpis %}
+								//{ y: {{ kpi.txTransacNpeS0|number_format }}, x: new Date( {{ kpi.date|date("Y") }}, {{ kpi.date|date("m") }}, {{ kpi.date|date("d") }} )
+								{ y: {{ kpi.txTransacNpeS0|number_format }}, x: new Date( {{ kpi.date|date("Y") }}, {{ kpi.date|date("m") - 1 }}, {{ kpi.date|date("d") }} ) },
+							{% endfor %}
+						]
+					},
+					{
+						indexLabelFontColor: "black",
+						indexLabelLineColor: "#4c4c4c",
+						markerSize: 8,
+						name: "Qualification Email + SMS",
+						indexLabelPlacement: "inside",
+						type: "line",
+						dataPoints: [
+							{% for kpi in kpis %}
+								{ y: {{ kpi.txTransacNpesS0|number_format }}, x: new Date( {{ kpi.date|date("Y") }}, {{ kpi.date|date("m") - 1 }}, {{ kpi.date|date("d") }} ) },
+							{% endfor %}
+						]
+					},
+					{
+						indexLabelFontColor: "black",
+						indexLabelLineColor: "#4c4c4c",
+						markerSize: 8,
+						name: "Qualification Email + SMS + Adresse",
+						indexLabelPlacement: "inside",
+						type: "line",
+						dataPoints: [
+							{% for kpi in kpis %}
+								{ y: {{ kpi.txTransacNpesaS0|number_format }}, x: new Date( {{ kpi.date|date("Y") }}, {{ kpi.date|date("m") - 1 }}, {{ kpi.date|date("d") }} ) },
+							{% endfor %}
+						]
+					},
 
-			]
+				]
 
-		});
+			});
 
-		chart.render();
-	}
+			chart.render();
+		}
+	
+	{% endif %}
 	</script>
 {% endblock %}

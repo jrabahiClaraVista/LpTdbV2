@@ -778,6 +778,8 @@ class KpiController extends Controller
 		$session = $request->getSession();
 		$routeName = $request->get('_route');
 
+		//$session->clear();
+
 		if($user_id == 0) {$user = $user_actuel;}
 		else {$user = $em->getRepository('ApplicationSonataUserBundle:User')->findOneById($user_id);}
 
@@ -822,7 +824,6 @@ class KpiController extends Controller
 		$dateWeek1 	= $datesWeek['dateWeek1'];//Premier jour du mois à J - X mois
 		$dateWeek2 	= $datesWeek['dateWeek2'];//Dernier jour du mois
 		$dateWeek3 	= $datesWeek['dateWeek3'];//Premier jour du mois
-
 
 		if($session->get('kpi_year_filtre') != null){
 			$form = $this->createForm(new KpiFilterType($em, $user, $user, $week, null, $session->get('kpi_year_filtre') , 'hebdomadaire'));
@@ -943,6 +944,7 @@ class KpiController extends Controller
 		$kpis = $em->getRepository('AppBundle:KpiWeek')->getUserKpisBetweenDates($user, $dateWeek1, $dateWeek2, $brand);
 	}
 
+	$kpiCurrentWeek = null;
 
 	//get current month depending on url parameter
 	foreach ($kpis as $key => $kpi) {
@@ -1036,7 +1038,6 @@ class KpiController extends Controller
             $pdo = $pdo->initPdoClienteling();
 
             //Préparation et execution de la requête
-            //var_dump($sql);
             $stmt = $pdo->prepare($sql);
             $stmt->execute();
 
