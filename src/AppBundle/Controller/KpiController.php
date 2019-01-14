@@ -818,6 +818,7 @@ class KpiController extends Controller
         //simplification du code par utilisation d'un service pour initialiser les dates utiliser pour filtrer des données
 		$kpiDates = $this->get('app.init_Kpi_dates');
 		$datesWeek = $kpiDates->getDatesWeek($dateWeek, $session, 0);
+		//var_dump($datesWeek);
 
 		$week 		= $datesWeek['week'];
 		$year 		= $datesWeek['year'];
@@ -948,7 +949,6 @@ class KpiController extends Controller
 
 	//get current month depending on url parameter
 	foreach ($kpis as $key => $kpi) {
-
 		if ( $week == null ) {
 			if ( $key == 0 )
 				$kpiCurrentWeek = $kpi;
