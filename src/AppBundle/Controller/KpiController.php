@@ -1076,7 +1076,7 @@ class KpiController extends Controller
 
         }
 
-        if($kpiCurrentMonth->getDate() < new \Datetime('2019-01-01'))
+        if($kpiCurrentWeek->getDate() < new \Datetime('2019-04-15'))
 		{
 			$path_week = 'AppBundle:Kpi:week.html.twig';
 		}

@@ -797,7 +797,7 @@
 					type: "line",
 					dataPoints: [
 						{% for kpi in kpis %}
-							{ y: {{ kpi.txTransacNpesM0|number_format }}, x: new Date( {{ kpi.date|date("Y") }}, {{ kpi.date|date("m") - 1 }} ) },
+							{ y: {{ kpi.txTransacNpsM0|number_format }}, x: new Date( {{ kpi.date|date("Y") }}, {{ kpi.date|date("m") - 1 }} ) },
 						{% endfor %}
 					]
 				},
@@ -810,7 +810,7 @@
 					type: "line",
 					dataPoints: [
 						{% for kpi in kpis %}
-							{ y: {{ kpi.txTransacNpesaM0|number_format }}, x: new Date( {{ kpi.date|date("Y") }}, {{ kpi.date|date("m") - 1 }} ) },
+							{ y: {{ kpi.txTransacNpaM0|number_format }}, x: new Date( {{ kpi.date|date("Y") }}, {{ kpi.date|date("m") - 1 }} ) },
 						{% endfor %}
 					]
 				},
