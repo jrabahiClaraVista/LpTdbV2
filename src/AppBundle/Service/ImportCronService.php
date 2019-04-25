@@ -432,7 +432,7 @@ class ImportCronService
 
         $header1 = "username_canonical,username,prenom_vendeur,nom_vendeur,email,email_canonical,role,boutique,dr,brand,enabled,updated_at";
         //$header2 = "date,nb_transac_S0,tx_transac_npe_S0,tx_transac_nve_S0,tx_transac_npes_S0,tx_transac_nves_S0,tx_transac_npesa_S0,tx_transac_nvesa_S0,rank_npe_S0,rank_npes_S0,rank_npesa_S0,nbre_clients_contactables_email_h,nbre_clients_inactifs_email_h,nbre_clients_animes_S0,nbre_clients_transformes_S0,CA_clients_transformes_S0";
-        $header2 = "date,nb_transac_S0,tx_transac_linked_S0,tx_transac_npe_S0,tx_transac_nve_S0,tx_transac_npes_S0,tx_transac_nves_S0,tx_transac_npesa_S0,tx_transac_nvesa_S0,rank_npe_S0,rank_npes_S0,rank_npesa_S0";
+        $header2 = "date,nb_transac_S0,tx_transac_linked_S0,tx_transac_npe_S0,tx_transac_nve_S0,tx_transac_npes_S0,tx_transac_nves_S0,tx_transac_npesa_S0,tx_transac_nvesa_S0,rank_npe_S0,rank_npes_S0,rank_npesa_S0,tx_transac_linked_optin_s0,tx_transac_linked_optout_s0,tx_transac_npei_s0,tx_transac_npeo_s0,tx_transac_npesi_s0,tx_transac_npeso_s0,tx_transac_npesai_s0,tx_transac_npesao_s0,tx_transac_nps_s0,tx_transac_npsi_s0,tx_transac_npso_s0,tx_transac_nvs_s0,tx_transac_npa_s0,tx_transac_npai_s0,tx_transac_npao_s0,tx_transac_nva_s0,tx_transac_npes2_s0,tx_transac_npesi2_s0,tx_transac_npeso2_s0,tx_transac_nves2_s0,tx_transac_npesa2_s0,tx_transac_npesai2_s0,tx_transac_npesao2_s0,tx_transac_nvesa2_s0";
 
         //valeurs de la requête (correspond au header du fichier)
         $values1 = ":".str_replace(",", ",:", $header1);
@@ -521,6 +521,31 @@ class ImportCronService
             $stmt2->bindValue(':rank_npe_S0', $csvfilelines[17], \PDO::PARAM_STR);
             $stmt2->bindValue(':rank_npes_S0', $csvfilelines[18], \PDO::PARAM_STR);
             $stmt2->bindValue(':rank_npesa_S0', $csvfilelines[19], \PDO::PARAM_STR);
+
+            $stmt2->bindValue(':tx_transac_linked_optin_s0', $csvfilelines[20], \PDO::PARAM_STR);
+            $stmt2->bindValue(':tx_transac_linked_optout_s0', $csvfilelines[21], \PDO::PARAM_STR);
+            $stmt2->bindValue(':tx_transac_npei_s0', $csvfilelines[22], \PDO::PARAM_STR);
+            $stmt2->bindValue(':tx_transac_npeo_s0', $csvfilelines[23], \PDO::PARAM_STR);
+            $stmt2->bindValue(':tx_transac_npesi_s0', $csvfilelines[24], \PDO::PARAM_STR);
+            $stmt2->bindValue(':tx_transac_npeso_s0', $csvfilelines[25], \PDO::PARAM_STR);
+            $stmt2->bindValue(':tx_transac_npesai_s0', $csvfilelines[26], \PDO::PARAM_STR);
+            $stmt2->bindValue(':tx_transac_npesao_s0', $csvfilelines[27], \PDO::PARAM_STR);
+            $stmt2->bindValue(':tx_transac_nps_s0', $csvfilelines[28], \PDO::PARAM_STR);
+            $stmt2->bindValue(':tx_transac_npsi_s0', $csvfilelines[29], \PDO::PARAM_STR);
+            $stmt2->bindValue(':tx_transac_npso_s0', $csvfilelines[30], \PDO::PARAM_STR);
+            $stmt2->bindValue(':tx_transac_nvs_s0', $csvfilelines[31], \PDO::PARAM_STR);
+            $stmt2->bindValue(':tx_transac_npa_s0', $csvfilelines[32], \PDO::PARAM_STR);
+            $stmt2->bindValue(':tx_transac_npai_s0', $csvfilelines[33], \PDO::PARAM_STR);
+            $stmt2->bindValue(':tx_transac_npao_s0', $csvfilelines[34], \PDO::PARAM_STR);
+            $stmt2->bindValue(':tx_transac_nva_s0', $csvfilelines[35], \PDO::PARAM_STR);
+            $stmt2->bindValue(':tx_transac_npes2_s0', $csvfilelines[36], \PDO::PARAM_STR);
+            $stmt2->bindValue(':tx_transac_npesi2_s0', $csvfilelines[37], \PDO::PARAM_STR);
+            $stmt2->bindValue(':tx_transac_npeso2_s0', $csvfilelines[38], \PDO::PARAM_STR);
+            $stmt2->bindValue(':tx_transac_nves2_s0', $csvfilelines[39], \PDO::PARAM_STR);
+            $stmt2->bindValue(':tx_transac_npesa2_s0', $csvfilelines[40], \PDO::PARAM_STR);
+            $stmt2->bindValue(':tx_transac_npesai2_s0', $csvfilelines[41], \PDO::PARAM_STR);
+            $stmt2->bindValue(':tx_transac_npesao2_s0', $csvfilelines[42], \PDO::PARAM_STR);
+            $stmt2->bindValue(':tx_transac_nvesa2_s0', $csvfilelines[43], \PDO::PARAM_STR);
 
             try
             {
