@@ -659,9 +659,18 @@ class KpiController extends Controller
 			}
 		}
 
+		if($kpiCurrentMonth->getDate() < new \Datetime('2019-01-01'))
+		{
+			$path_month = 'AppBundle:Kpi:month.html.twig';
+			$path_ytd = 'AppBundle:Kpi:ytd.html.twig';
+		}
+		else{
+			$path_month = 'AppBundle:Kpi:month_2019.html.twig';
+			$path_ytd = 'AppBundle:Kpi:ytd_2019.html.twig';
+		}
 		//Retourne la bonne page
 		if($routeName == "app_kpi_month"){
-	        return $this->render('AppBundle:Kpi:month.html.twig', array(
+	        return $this->render($path_month, array(
 	        	'kpis' 				=> $kpis,
 	        	'currentKpi'	 	=> $kpiCurrentMonth,
 	        	'topNpe'			=> $topNpe,
@@ -685,7 +694,7 @@ class KpiController extends Controller
 	        );
 		}
 		if($routeName == "app_kpi_ytd"){
-	        return $this->render('AppBundle:Kpi:ytd.html.twig', array(
+	        return $this->render($path_ytd, array(
 	        	'currentKpi'		=> $kpiCurrentMonth,
 	        	'year'				=> $year,
 	        	'topNpe'			=> $topNpe,
@@ -1067,9 +1076,17 @@ class KpiController extends Controller
 
         }
 
+        if($kpiCurrentMonth->getDate() < new \Datetime('2019-01-01'))
+		{
+			$path_week = 'AppBundle:Kpi:week.html.twig';
+		}
+		else{
+			$path_week = 'AppBundle:Kpi:week_2019.html.twig';
+		}
+
 		//Retourne la bonne page
 		if($routeName == "app_kpi_week"){
-	        return $this->render('AppBundle:Kpi:week.html.twig', array(
+	        return $this->render($path_week, array(
 	        	'kpis' 				=> $kpis,
 	        	'currentKpi'	 	=> $kpiCurrentWeek,
 	        	'topNpe'			=> $topNpe,

@@ -486,6 +486,358 @@ class KpiMonth
      */
     private $moyquestsatisfpileq4ytd;
 
+
+
+
+    /**
+     * Nouvelle variables Avril 2019
+     */
+
+    /**
+     * @var decimal
+     *
+     * @ORM\Column(name="tx_transac_linked_optin_m0", type="decimal", precision=9, scale=2)
+     */
+    private $txTransacLinkedOptinM0;
+
+
+    /**
+     * @var decimal
+     *
+     * @ORM\Column(name="tx_transac_linked_optout_m0", type="decimal", precision=9, scale=2)
+     */
+    private $txTransacLinkedOptoutM0;
+
+
+    /**
+     * @var decimal
+     *
+     * @ORM\Column(name="tx_transac_npei_m0", type="decimal", precision=9, scale=2)
+     */
+    private $txTransacNpeiM0;
+
+    /**
+     * @var decimal
+     *
+     * @ORM\Column(name="tx_transac_npeo_m0", type="decimal", precision=9, scale=2)
+     */
+    private $txTransacNpeoM0;
+
+    /**
+     * @var decimal
+     *
+     * @ORM\Column(name="tx_transac_npesi_m0", type="decimal", precision=9, scale=2)
+     */
+    private $txTransacNpesiM0;
+
+    /**
+     * @var decimal
+     *
+     * @ORM\Column(name="tx_transac_npeso_m0", type="decimal", precision=9, scale=2)
+     */
+    private $txTransacNpesoM0;
+
+    /**
+     * @var decimal
+     *
+     * @ORM\Column(name="tx_transac_npesai_m0", type="decimal", precision=9, scale=2)
+     */
+    private $txTransacNpesaiM0;
+
+    /**
+     * @var decimal
+     *
+     * @ORM\Column(name="tx_transac_npesao_m0", type="decimal", precision=9, scale=2)
+     */
+    private $txTransacNpesaoM0;
+
+    /**
+     * @var decimal
+     *
+     * @ORM\Column(name="tx_transac_nps_m0", type="decimal", precision=9, scale=2)
+     */
+    private $txTransacNpsM0;
+
+    /**
+     * @var decimal
+     *
+     * @ORM\Column(name="tx_transac_npsi_m0", type="decimal", precision=9, scale=2)
+     */
+    private $txTransacNpsiM0;
+
+    /**
+     * @var decimal
+     *
+     * @ORM\Column(name="tx_transac_npso_m0", type="decimal", precision=9, scale=2)
+     */
+    private $txTransacNpsoM0;
+
+    /**
+     * @var decimal
+     *
+     * @ORM\Column(name="tx_transac_nvs_m0", type="decimal", precision=9, scale=2)
+     */
+    private $txTransacNvsM0;
+
+    /**
+     * @var decimal
+     *
+     * @ORM\Column(name="tx_transac_npa_m0", type="decimal", precision=9, scale=2)
+     */
+    private $txTransacNpaM0;
+
+    /**
+     * @var decimal
+     *
+     * @ORM\Column(name="tx_transac_npai_m0", type="decimal", precision=9, scale=2)
+     */
+    private $txTransacNpaiM0;
+
+    /**
+     * @var decimal
+     *
+     * @ORM\Column(name="tx_transac_npao_m0", type="decimal", precision=9, scale=2)
+     */
+    private $txTransacNpaoM0;
+
+    /**
+     * @var decimal
+     *
+     * @ORM\Column(name="tx_transac_nva_m0", type="decimal", precision=9, scale=2)
+     */
+    private $txTransacNvaM0;
+
+    /**
+     * @var decimal
+     *
+     * @ORM\Column(name="tx_transac_npes2_m0", type="decimal", precision=9, scale=2)
+     */
+    private $txTransacNpes2M0;
+
+    /**
+     * @var decimal
+     *
+     * @ORM\Column(name="tx_transac_npesi2_m0", type="decimal", precision=9, scale=2)
+     */
+    private $txTransacNpesi2M0;
+
+    /**
+     * @var decimal
+     *
+     * @ORM\Column(name="tx_transac_npeso2_m0", type="decimal", precision=9, scale=2)
+     */
+    private $txTransacNpeso2M0;
+
+    /**
+     * @var decimal
+     *
+     * @ORM\Column(name="tx_transac_nves2_m0", type="decimal", precision=9, scale=2)
+     */
+    private $txTransacNves2M0;
+
+    /**
+     * @var decimal
+     *
+     * @ORM\Column(name="tx_transac_npesa2_m0", type="decimal", precision=9, scale=2)
+     */
+    private $txTransacNpesa2M0;
+
+    /**
+     * @var decimal
+     *
+     * @ORM\Column(name="tx_transac_npesai2_m0", type="decimal", precision=9, scale=2)
+     */
+    private $txTransacNpesai2M0;
+
+    /**
+     * @var decimal
+     *
+     * @ORM\Column(name="tx_transac_npesao2_m0", type="decimal", precision=9, scale=2)
+     */
+    private $txTransacNpesao2M0;
+
+    /**
+     * @var decimal
+     *
+     * @ORM\Column(name="tx_transac_nvesa2_m0", type="decimal", precision=9, scale=2)
+     */
+    private $txTransacNvesa2M0;
+
+
+
+
+    /**
+     * Nouvelle variables Avril 2019
+     */
+
+    /**
+     * @var decimal
+     *
+     * @ORM\Column(name="tx_transac_linked_optin_ytd", type="decimal", precision=9, scale=2)
+     */
+    private $txTransacLinkedOptinYTD;
+
+    /**
+     * @var decimal
+     *
+     * @ORM\Column(name="tx_transac_linked_optout_ytd", type="decimal", precision=9, scale=2)
+     */
+    private $txTransacLinkedOptoutYTD;
+
+    /**
+     * @var decimal
+     *
+     * @ORM\Column(name="tx_transac_npei_ytd", type="decimal", precision=9, scale=2)
+     */
+    private $txTransacNpeiYtd;
+
+    /**
+     * @var decimal
+     *
+     * @ORM\Column(name="tx_transac_npeo_ytd", type="decimal", precision=9, scale=2)
+     */
+    private $txTransacNpeoYtd;
+
+    /**
+     * @var decimal
+     *
+     * @ORM\Column(name="tx_transac_npesi_ytd", type="decimal", precision=9, scale=2)
+     */
+    private $txTransacNpesiYtd;
+
+    /**
+     * @var decimal
+     *
+     * @ORM\Column(name="tx_transac_npeso_ytd", type="decimal", precision=9, scale=2)
+     */
+    private $txTransacNpesoYtd;
+
+    /**
+     * @var decimal
+     *
+     * @ORM\Column(name="tx_transac_npesai_ytd", type="decimal", precision=9, scale=2)
+     */
+    private $txTransacNpesaiYtd;
+
+    /**
+     * @var decimal
+     *
+     * @ORM\Column(name="tx_transac_npesao_ytd", type="decimal", precision=9, scale=2)
+     */
+    private $txTransacNpesaoYtd;
+
+    /**
+     * @var decimal
+     *
+     * @ORM\Column(name="tx_transac_nps_ytd", type="decimal", precision=9, scale=2)
+     */
+    private $txTransacNpsYtd;
+
+    /**
+     * @var decimal
+     *
+     * @ORM\Column(name="tx_transac_npsi_ytd", type="decimal", precision=9, scale=2)
+     */
+    private $txTransacNpsiYtd;
+
+    /**
+     * @var decimal
+     *
+     * @ORM\Column(name="tx_transac_npso_ytd", type="decimal", precision=9, scale=2)
+     */
+    private $txTransacNpsoYtd;
+
+    /**
+     * @var decimal
+     *
+     * @ORM\Column(name="tx_transac_nvs_ytd", type="decimal", precision=9, scale=2)
+     */
+    private $txTransacNvsYtd;
+
+    /**
+     * @var decimal
+     *
+     * @ORM\Column(name="tx_transac_npa_ytd", type="decimal", precision=9, scale=2)
+     */
+    private $txTransacNpaYtd;
+
+    /**
+     * @var decimal
+     *
+     * @ORM\Column(name="tx_transac_npai_ytd", type="decimal", precision=9, scale=2)
+     */
+    private $txTransacNpaiYtd;
+
+    /**
+     * @var decimal
+     *
+     * @ORM\Column(name="tx_transac_npao_ytd", type="decimal", precision=9, scale=2)
+     */
+    private $txTransacNpaoYtd;
+
+    /**
+     * @var decimal
+     *
+     * @ORM\Column(name="tx_transac_nva_ytd", type="decimal", precision=9, scale=2)
+     */
+    private $txTransacNvaYtd;
+
+    /**
+     * @var decimal
+     *
+     * @ORM\Column(name="tx_transac_npes2_ytd", type="decimal", precision=9, scale=2)
+     */
+    private $txTransacNpes2Ytd;
+
+    /**
+     * @var decimal
+     *
+     * @ORM\Column(name="tx_transac_npesi2_ytd", type="decimal", precision=9, scale=2)
+     */
+    private $txTransacNpesi2Ytd;
+
+    /**
+     * @var decimal
+     *
+     * @ORM\Column(name="tx_transac_npeso2_ytd", type="decimal", precision=9, scale=2)
+     */
+    private $txTransacNpeso2Ytd;
+
+    /**
+     * @var decimal
+     *
+     * @ORM\Column(name="tx_transac_nves2_ytd", type="decimal", precision=9, scale=2)
+     */
+    private $txTransacNves2Ytd;
+
+    /**
+     * @var decimal
+     *
+     * @ORM\Column(name="tx_transac_npesa2_ytd", type="decimal", precision=9, scale=2)
+     */
+    private $txTransacNpesa2Ytd;
+
+    /**
+     * @var decimal
+     *
+     * @ORM\Column(name="tx_transac_npesai2_ytd", type="decimal", precision=9, scale=2)
+     */
+    private $txTransacNpesai2Ytd;
+
+    /**
+     * @var decimal
+     *
+     * @ORM\Column(name="tx_transac_npesao2_ytd", type="decimal", precision=9, scale=2)
+     */
+    private $txTransacNpesao2Ytd;
+
+    /**
+     * @var decimal
+     *
+     * @ORM\Column(name="tx_transac_nvesa2_ytd", type="decimal", precision=9, scale=2)
+     */
+    private $txTransacNvesa2Ytd;
+
     /*
      *
      *  GETTERS / SETTERS
@@ -1928,5 +2280,491 @@ class KpiMonth
     public function getMoyquestsatisfpileq4ytd()
     {
         return $this->moyquestsatisfpileq4ytd;
+    }
+
+
+    public function getTxTransacNpeiM0()
+    {
+        return $this->txTransacNpeiM0;
+    }
+     
+    public function setTxTransacNpeiM0($txTransacNpeiM0)
+    {
+        $this->txTransacNpeiM0 = $txTransacNpeiM0;
+        return $this;
+    }
+    public function getTxTransacNpeoM0()
+    {
+        return $this->txTransacNpeoM0;
+    }
+     
+    public function setTxTransacNpeoM0($txTransacNpeoM0)
+    {
+        $this->txTransacNpeoM0 = $txTransacNpeoM0;
+        return $this;
+    }
+    public function getTxTransacNpesiM0()
+    {
+        return $this->txTransacNpesiM0;
+    }
+     
+    public function setTxTransacNpesiM0($txTransacNpesiM0)
+    {
+        $this->txTransacNpesiM0 = $txTransacNpesiM0;
+        return $this;
+    }
+    public function getTxTransacNpesoM0()
+    {
+        return $this->txTransacNpesoM0;
+    }
+     
+    public function setTxTransacNpesoM0($txTransacNpesoM0)
+    {
+        $this->txTransacNpesoM0 = $txTransacNpesoM0;
+        return $this;
+    }
+    public function getTxTransacNpesaiM0()
+    {
+        return $this->txTransacNpesaiM0;
+    }
+     
+    public function setTxTransacNpesaiM0($txTransacNpesaiM0)
+    {
+        $this->txTransacNpesaiM0 = $txTransacNpesaiM0;
+        return $this;
+    }
+    public function getTxTransacNpesaoM0()
+    {
+        return $this->txTransacNpesaoM0;
+    }
+     
+    public function setTxTransacNpesaoM0($txTransacNpesaoM0)
+    {
+        $this->txTransacNpesaoM0 = $txTransacNpesaoM0;
+        return $this;
+    }
+    public function getTxTransacNpsM0()
+    {
+        return $this->txTransacNpsM0;
+    }
+     
+    public function setTxTransacNpsM0($txTransacNpsM0)
+    {
+        $this->txTransacNpsM0 = $txTransacNpsM0;
+        return $this;
+    }
+    public function getTxTransacNpsiM0()
+    {
+        return $this->txTransacNpsiM0;
+    }
+     
+    public function setTxTransacNpsiM0($txTransacNpsiM0)
+    {
+        $this->txTransacNpsiM0 = $txTransacNpsiM0;
+        return $this;
+    }
+    public function getTxTransacNpsoM0()
+    {
+        return $this->txTransacNpsoM0;
+    }
+     
+    public function setTxTransacNpsoM0($txTransacNpsoM0)
+    {
+        $this->txTransacNpsoM0 = $txTransacNpsoM0;
+        return $this;
+    }
+    public function getTxTransacNvsM0()
+    {
+        return $this->txTransacNvsM0;
+    }
+     
+    public function setTxTransacNvsM0($txTransacNvsM0)
+    {
+        $this->txTransacNvsM0 = $txTransacNvsM0;
+        return $this;
+    }
+    public function getTxTransacNpaM0()
+    {
+        return $this->txTransacNpaM0;
+    }
+     
+    public function setTxTransacNpaM0($txTransacNpaM0)
+    {
+        $this->txTransacNpaM0 = $txTransacNpaM0;
+        return $this;
+    }
+    public function getTxTransacNpaiM0()
+    {
+        return $this->txTransacNpaiM0;
+    }
+     
+    public function setTxTransacNpaiM0($txTransacNpaiM0)
+    {
+        $this->txTransacNpaiM0 = $txTransacNpaiM0;
+        return $this;
+    }
+    public function getTxTransacNpaoM0()
+    {
+        return $this->txTransacNpaoM0;
+    }
+     
+    public function setTxTransacNpaoM0($txTransacNpaoM0)
+    {
+        $this->txTransacNpaoM0 = $txTransacNpaoM0;
+        return $this;
+    }
+    public function getTxTransacNvaM0()
+    {
+        return $this->txTransacNvaM0;
+    }
+     
+    public function setTxTransacNvaM0($txTransacNvaM0)
+    {
+        $this->txTransacNvaM0 = $txTransacNvaM0;
+        return $this;
+    }
+    public function getTxTransacNpes2M0()
+    {
+        return $this->txTransacNpes2M0;
+    }
+     
+    public function setTxTransacNpes2M0($txTransacNpes2M0)
+    {
+        $this->txTransacNpes2M0 = $txTransacNpes2M0;
+        return $this;
+    }
+    public function getTxTransacNpesi2M0()
+    {
+        return $this->txTransacNpesi2M0;
+    }
+     
+    public function setTxTransacNpesi2M0($txTransacNpesi2M0)
+    {
+        $this->txTransacNpesi2M0 = $txTransacNpesi2M0;
+        return $this;
+    }
+    public function getTxTransacNpeso2M0()
+    {
+        return $this->txTransacNpeso2M0;
+    }
+     
+    public function setTxTransacNpeso2M0($txTransacNpeso2M0)
+    {
+        $this->txTransacNpeso2M0 = $txTransacNpeso2M0;
+        return $this;
+    }
+    public function getTxTransacNves2M0()
+    {
+        return $this->txTransacNves2M0;
+    }
+     
+    public function setTxTransacNves2M0($txTransacNves2M0)
+    {
+        $this->txTransacNves2M0 = $txTransacNves2M0;
+        return $this;
+    }
+    public function getTxTransacNpesa2M0()
+    {
+        return $this->txTransacNpesa2M0;
+    }
+     
+    public function setTxTransacNpesa2M0($txTransacNpesa2M0)
+    {
+        $this->txTransacNpesa2M0 = $txTransacNpesa2M0;
+        return $this;
+    }
+    public function getTxTransacNpesai2M0()
+    {
+        return $this->txTransacNpesai2M0;
+    }
+     
+    public function setTxTransacNpesai2M0($txTransacNpesai2M0)
+    {
+        $this->txTransacNpesai2M0 = $txTransacNpesai2M0;
+        return $this;
+    }
+    public function getTxTransacNpesao2M0()
+    {
+        return $this->txTransacNpesao2M0;
+    }
+     
+    public function setTxTransacNpesao2M0($txTransacNpesao2M0)
+    {
+        $this->txTransacNpesao2M0 = $txTransacNpesao2M0;
+        return $this;
+    }
+    public function getTxTransacNvesa2M0()
+    {
+        return $this->txTransacNvesa2M0;
+    }
+     
+    public function setTxTransacNvesa2M0($txTransacNvesa2M0)
+    {
+        $this->txTransacNvesa2M0 = $txTransacNvesa2M0;
+        return $this;
+    }
+    public function getTxTransacNpeiYtd()
+    {
+        return $this->txTransacNpeiYtd;
+    }
+     
+    public function setTxTransacNpeiYtd($txTransacNpeiYtd)
+    {
+        $this->txTransacNpeiYtd = $txTransacNpeiYtd;
+        return $this;
+    }
+    public function getTxTransacNpeoYtd()
+    {
+        return $this->txTransacNpeoYtd;
+    }
+     
+    public function setTxTransacNpeoYtd($txTransacNpeoYtd)
+    {
+        $this->txTransacNpeoYtd = $txTransacNpeoYtd;
+        return $this;
+    }
+    public function getTxTransacNpesiYtd()
+    {
+        return $this->txTransacNpesiYtd;
+    }
+     
+    public function setTxTransacNpesiYtd($txTransacNpesiYtd)
+    {
+        $this->txTransacNpesiYtd = $txTransacNpesiYtd;
+        return $this;
+    }
+    public function getTxTransacNpesoYtd()
+    {
+        return $this->txTransacNpesoYtd;
+    }
+     
+    public function setTxTransacNpesoYtd($txTransacNpesoYtd)
+    {
+        $this->txTransacNpesoYtd = $txTransacNpesoYtd;
+        return $this;
+    }
+    public function getTxTransacNpesaiYtd()
+    {
+        return $this->txTransacNpesaiYtd;
+    }
+     
+    public function setTxTransacNpesaiYtd($txTransacNpesaiYtd)
+    {
+        $this->txTransacNpesaiYtd = $txTransacNpesaiYtd;
+        return $this;
+    }
+    public function getTxTransacNpesaoYtd()
+    {
+        return $this->txTransacNpesaoYtd;
+    }
+     
+    public function setTxTransacNpesaoYtd($txTransacNpesaoYtd)
+    {
+        $this->txTransacNpesaoYtd = $txTransacNpesaoYtd;
+        return $this;
+    }
+    public function getTxTransacNpsYtd()
+    {
+        return $this->txTransacNpsYtd;
+    }
+     
+    public function setTxTransacNpsYtd($txTransacNpsYtd)
+    {
+        $this->txTransacNpsYtd = $txTransacNpsYtd;
+        return $this;
+    }
+    public function getTxTransacNpsiYtd()
+    {
+        return $this->txTransacNpsiYtd;
+    }
+     
+    public function setTxTransacNpsiYtd($txTransacNpsiYtd)
+    {
+        $this->txTransacNpsiYtd = $txTransacNpsiYtd;
+        return $this;
+    }
+    public function getTxTransacNpsoYtd()
+    {
+        return $this->txTransacNpsoYtd;
+    }
+     
+    public function setTxTransacNpsoYtd($txTransacNpsoYtd)
+    {
+        $this->txTransacNpsoYtd = $txTransacNpsoYtd;
+        return $this;
+    }
+    public function getTxTransacNvsYtd()
+    {
+        return $this->txTransacNvsYtd;
+    }
+     
+    public function setTxTransacNvsYtd($txTransacNvsYtd)
+    {
+        $this->txTransacNvsYtd = $txTransacNvsYtd;
+        return $this;
+    }
+    public function getTxTransacNpaYtd()
+    {
+        return $this->txTransacNpaYtd;
+    }
+     
+    public function setTxTransacNpaYtd($txTransacNpaYtd)
+    {
+        $this->txTransacNpaYtd = $txTransacNpaYtd;
+        return $this;
+    }
+    public function getTxTransacNpaiYtd()
+    {
+        return $this->txTransacNpaiYtd;
+    }
+     
+    public function setTxTransacNpaiYtd($txTransacNpaiYtd)
+    {
+        $this->txTransacNpaiYtd = $txTransacNpaiYtd;
+        return $this;
+    }
+    public function getTxTransacNpaoYtd()
+    {
+        return $this->txTransacNpaoYtd;
+    }
+     
+    public function setTxTransacNpaoYtd($txTransacNpaoYtd)
+    {
+        $this->txTransacNpaoYtd = $txTransacNpaoYtd;
+        return $this;
+    }
+    public function getTxTransacNvaYtd()
+    {
+        return $this->txTransacNvaYtd;
+    }
+     
+    public function setTxTransacNvaYtd($txTransacNvaYtd)
+    {
+        $this->txTransacNvaYtd = $txTransacNvaYtd;
+        return $this;
+    }
+    public function getTxTransacNpes2Ytd()
+    {
+        return $this->txTransacNpes2Ytd;
+    }
+     
+    public function setTxTransacNpes2Ytd($txTransacNpes2Ytd)
+    {
+        $this->txTransacNpes2Ytd = $txTransacNpes2Ytd;
+        return $this;
+    }
+    public function getTxTransacNpesi2Ytd()
+    {
+        return $this->txTransacNpesi2Ytd;
+    }
+     
+    public function setTxTransacNpesi2Ytd($txTransacNpesi2Ytd)
+    {
+        $this->txTransacNpesi2Ytd = $txTransacNpesi2Ytd;
+        return $this;
+    }
+    public function getTxTransacNpeso2Ytd()
+    {
+        return $this->txTransacNpeso2Ytd;
+    }
+     
+    public function setTxTransacNpeso2Ytd($txTransacNpeso2Ytd)
+    {
+        $this->txTransacNpeso2Ytd = $txTransacNpeso2Ytd;
+        return $this;
+    }
+    public function getTxTransacNves2Ytd()
+    {
+        return $this->txTransacNves2Ytd;
+    }
+     
+    public function setTxTransacNves2Ytd($txTransacNves2Ytd)
+    {
+        $this->txTransacNves2Ytd = $txTransacNves2Ytd;
+        return $this;
+    }
+    public function getTxTransacNpesa2Ytd()
+    {
+        return $this->txTransacNpesa2Ytd;
+    }
+     
+    public function setTxTransacNpesa2Ytd($txTransacNpesa2Ytd)
+    {
+        $this->txTransacNpesa2Ytd = $txTransacNpesa2Ytd;
+        return $this;
+    }
+    public function getTxTransacNpesai2Ytd()
+    {
+        return $this->txTransacNpesai2Ytd;
+    }
+     
+    public function setTxTransacNpesai2Ytd($txTransacNpesai2Ytd)
+    {
+        $this->txTransacNpesai2Ytd = $txTransacNpesai2Ytd;
+        return $this;
+    }
+    public function getTxTransacNpesao2Ytd()
+    {
+        return $this->txTransacNpesao2Ytd;
+    }
+     
+    public function setTxTransacNpesao2Ytd($txTransacNpesao2Ytd)
+    {
+        $this->txTransacNpesao2Ytd = $txTransacNpesao2Ytd;
+        return $this;
+    }
+    public function getTxTransacNvesa2Ytd()
+    {
+        return $this->txTransacNvesa2Ytd;
+    }
+     
+    public function setTxTransacNvesa2Ytd($txTransacNvesa2Ytd)
+    {
+        $this->txTransacNvesa2Ytd = $txTransacNvesa2Ytd;
+        return $this;
+    }
+
+    public function getTxTransacLinkedOptinM0()
+    {
+        return $this->txTransacLinkedOptinM0;
+    }
+     
+    public function setTxTransacLinkedOptinM0($txTransacLinkedOptinM0)
+    {
+        $this->txTransacLinkedOptinM0 = $txTransacLinkedOptinM0;
+        return $this;
+    }
+    public function getTxTransacLinkedOptinYTD()
+    {
+        return $this->txTransacLinkedOptinYTD;
+    }
+     
+    public function setTxTransacLinkedOptinYTD($txTransacLinkedOptinYTD)
+    {
+        $this->txTransacLinkedOptinYTD = $txTransacLinkedOptinYTD;
+        return $this;
+    }
+
+
+
+    public function getTxTransacLinkedOptoutM0()
+    {
+        return $this->txTransacLinkedOptoutM0;
+    }
+     
+    public function setTxTransacLinkedOptoutM0($txTransacLinkedOptoutM0)
+    {
+        $this->txTransacLinkedOptoutM0 = $txTransacLinkedOptoutM0;
+        return $this;
+    }
+    public function getTxTransacLinkedOptoutYTD()
+    {
+        return $this->txTransacLinkedOptoutYTD;
+    }
+     
+    public function setTxTransacLinkedOptoutYTD($txTransacLinkedOptoutYTD)
+    {
+        $this->txTransacLinkedOptoutYTD = $txTransacLinkedOptoutYTD;
+        return $this;
     }
 }

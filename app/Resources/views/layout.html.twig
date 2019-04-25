@@ -31,16 +31,16 @@
         <link rel="icon" href="https://www.louispion.fr/media/favicon/websites/2/favicon.ico" type="image/x-icon">
 
 
-        {#% stylesheets
+        {% stylesheets
             filter="cssrewrite,compass"
             output="css/all.css"
             "sass/main.scss"
-        %#}
-            <!--link rel="stylesheet" href="{{ asset_url }}"-->
+        %}
+            <link rel="stylesheet" href="{{ asset_url }}">
             <link rel="stylesheet" href="{{ asset('web/css/font-awesome.min.css') }}">
             <link rel="stylesheet" href="{{ asset('web/css/all.css') }}">
             <link rel="stylesheet" href="{{ asset('web/css/jquery.multiselect.css') }}">
-        {#% endstylesheets %#}
+        {% endstylesheets %}
 
 
         <script src="{{ asset('/web/js/ckeditor/ckeditor.js') }}"></script>

@@ -184,7 +184,7 @@ class ImportCronService
         $file = fopen($csv, "r");
 
         $header1 = "username_canonical,username,prenom_vendeur,nom_vendeur,email,email_canonical,role,boutique,dr,brand,enabled,updated_at";
-        $header2 = "date,nb_transac_m0,nb_transac_ytd,tx_transac_linked_m0,tx_transac_linked_ytd,tx_transac_npe_m0,tx_transac_nve_m0,tx_transac_npe_ytd,tx_transac_nve_ytd,tx_transac_npes_m0,tx_transac_nves_m0,tx_transac_npes_ytd,tx_transac_nves_ytd,tx_transac_npesa_m0,tx_transac_nvesa_m0,tx_transac_npesa_ytd,tx_transac_nvesa_ytd,rank_npe_m0,rank_npes_m0,rank_npesa_m0,rank_npe_ytd,rank_npes_ytd,rank_npesa_ytd,nbre_clients_contactables_email_h,nbre_clients_inactifs_email_h,nbre_clients_animes_m0,nbre_clients_transformes_m0,CA_clients_transformes_m0,ca_crm_ytd,nbre_questsatisf_m0,nbre_questsatisf_ytd,nbre_questsatisf_montred_m0,nbre_questsatisf_montre_ytd,nbre_questsatisf_piled_m0,nbre_questsatisf_pile_ytd,tx_quest_satisf_promoteur_m0,tx_quest_satisf_promoteur_ytd,tx_quest_satisf_passif_m0,tx_quest_satisf_passif_ytd,tx_quest_satisf_detracteur_m0,tx_quest_satisf_detracteur_ytd,quest_satisf_nps_m0,quest_satisf_nps_ytd,quest_satisf_rank_nps_m0,quest_satisf_rank_nps_ytd,moy_quest_satisf_montre_q2_m0,moy_quest_satisf_montre_q3_m0,moy_quest_satisf_montre_q4_m0,moy_quest_satisf_montre_q5_m0,moy_quest_satisf_montre_q6_m0,moy_quest_satisf_montre_q2_ytd,moy_quest_satisf_montre_q3_ytd,moy_quest_satisf_montre_q4_ytd,moy_quest_satisf_montre_q5_ytd,moy_quest_satisf_montre_q6_ytd,moy_quest_satisf_pile_q2_m0,moy_quest_satisf_pile_q3_m0,moy_quest_satisf_pile_q4_m0,moy_quest_satisf_pile_q2_ytd,moy_quest_satisf_pile_q3_ytd,moy_quest_satisf_pile_q4_ytd";
+        $header2 = "date,nb_transac_m0,nb_transac_ytd,tx_transac_linked_m0,tx_transac_linked_ytd,tx_transac_npe_m0,tx_transac_nve_m0,tx_transac_npe_ytd,tx_transac_nve_ytd,tx_transac_npes_m0,tx_transac_nves_m0,tx_transac_npes_ytd,tx_transac_nves_ytd,tx_transac_npesa_m0,tx_transac_nvesa_m0,tx_transac_npesa_ytd,tx_transac_nvesa_ytd,rank_npe_m0,rank_npes_m0,rank_npesa_m0,rank_npe_ytd,rank_npes_ytd,rank_npesa_ytd,nbre_clients_contactables_email_h,nbre_clients_inactifs_email_h,nbre_clients_animes_m0,nbre_clients_transformes_m0,CA_clients_transformes_m0,ca_crm_ytd,nbre_questsatisf_m0,nbre_questsatisf_ytd,nbre_questsatisf_montred_m0,nbre_questsatisf_montre_ytd,nbre_questsatisf_piled_m0,nbre_questsatisf_pile_ytd,tx_quest_satisf_promoteur_m0,tx_quest_satisf_promoteur_ytd,tx_quest_satisf_passif_m0,tx_quest_satisf_passif_ytd,tx_quest_satisf_detracteur_m0,tx_quest_satisf_detracteur_ytd,quest_satisf_nps_m0,quest_satisf_nps_ytd,quest_satisf_rank_nps_m0,quest_satisf_rank_nps_ytd,moy_quest_satisf_montre_q2_m0,moy_quest_satisf_montre_q3_m0,moy_quest_satisf_montre_q4_m0,moy_quest_satisf_montre_q5_m0,moy_quest_satisf_montre_q6_m0,moy_quest_satisf_montre_q2_ytd,moy_quest_satisf_montre_q3_ytd,moy_quest_satisf_montre_q4_ytd,moy_quest_satisf_montre_q5_ytd,moy_quest_satisf_montre_q6_ytd,moy_quest_satisf_pile_q2_m0,moy_quest_satisf_pile_q3_m0,moy_quest_satisf_pile_q4_m0,moy_quest_satisf_pile_q2_ytd,moy_quest_satisf_pile_q3_ytd,moy_quest_satisf_pile_q4_ytd,tx_transac_linked_optin_m0,tx_transac_linked_optout_m0,tx_transac_npei_m0,tx_transac_npeo_m0,tx_transac_npesi_m0,tx_transac_npeso_m0,tx_transac_npesai_m0,tx_transac_npesao_m0,tx_transac_nps_m0,tx_transac_npsi_m0,tx_transac_npso_m0,tx_transac_nvs_m0,tx_transac_npa_m0,tx_transac_npai_m0,tx_transac_npao_m0,tx_transac_nva_m0,tx_transac_npes2_m0,tx_transac_npesi2_m0,tx_transac_npeso2_m0,tx_transac_nves2_m0,tx_transac_npesa2_m0,tx_transac_npesai2_m0,tx_transac_npesao2_m0,tx_transac_nvesa2_m0,tx_transac_linked_optin_ytd,tx_transac_linked_optout_ytd,tx_transac_npei_ytd,tx_transac_npeo_ytd,tx_transac_npesi_ytd,tx_transac_npeso_ytd,tx_transac_npesai_ytd,tx_transac_npesao_ytd,tx_transac_nps_ytd,tx_transac_npsi_ytd,tx_transac_npso_ytd,tx_transac_nvs_ytd,tx_transac_npa_ytd,tx_transac_npai_ytd,tx_transac_npao_ytd,tx_transac_nva_ytd,tx_transac_npes2_ytd,tx_transac_npesi2_ytd,tx_transac_npeso2_ytd,tx_transac_nves2_ytd,tx_transac_npesa2_ytd,tx_transac_npesai2_ytd,tx_transac_npesao2_ytd,tx_transac_nvesa2_ytd";
 
         //valeurs de la requête (correspond au header du fichier)
         $values1 = ":".str_replace(",", ",:", $header1);
@@ -202,7 +202,7 @@ class ImportCronService
         }
 
         // Pour update des données sans écrasés les anciennes
-        $header3 = "nbre_questsatisf_m0,nbre_questsatisf_ytd,nbre_questsatisf_montred_m0,nbre_questsatisf_montre_ytd,nbre_questsatisf_piled_m0,nbre_questsatisf_pile_ytd,tx_quest_satisf_promoteur_m0,tx_quest_satisf_promoteur_ytd,tx_quest_satisf_passif_m0,tx_quest_satisf_passif_ytd,tx_quest_satisf_detracteur_m0,tx_quest_satisf_detracteur_ytd,quest_satisf_nps_m0,quest_satisf_nps_ytd,quest_satisf_rank_nps_m0,quest_satisf_rank_nps_ytd,moy_quest_satisf_montre_q2_m0,moy_quest_satisf_montre_q3_m0,moy_quest_satisf_montre_q4_m0,moy_quest_satisf_montre_q5_m0,moy_quest_satisf_montre_q6_m0,moy_quest_satisf_montre_q2_ytd,moy_quest_satisf_montre_q3_ytd,moy_quest_satisf_montre_q4_ytd,moy_quest_satisf_montre_q5_ytd,moy_quest_satisf_montre_q6_ytd,moy_quest_satisf_pile_q2_m0,moy_quest_satisf_pile_q3_m0,moy_quest_satisf_pile_q4_m0,moy_quest_satisf_pile_q2_ytd,moy_quest_satisf_pile_q3_ytd,moy_quest_satisf_pile_q4_ytd";
+        $header3 = "nbre_questsatisf_m0,nbre_questsatisf_ytd,nbre_questsatisf_montred_m0,nbre_questsatisf_montre_ytd,nbre_questsatisf_piled_m0,nbre_questsatisf_pile_ytd,tx_quest_satisf_promoteur_m0,tx_quest_satisf_promoteur_ytd,tx_quest_satisf_passif_m0,tx_quest_satisf_passif_ytd,tx_quest_satisf_detracteur_m0,tx_quest_satisf_detracteur_ytd,quest_satisf_nps_m0,quest_satisf_nps_ytd,quest_satisf_rank_nps_m0,quest_satisf_rank_nps_ytd,moy_quest_satisf_montre_q2_m0,moy_quest_satisf_montre_q3_m0,moy_quest_satisf_montre_q4_m0,moy_quest_satisf_montre_q5_m0,moy_quest_satisf_montre_q6_m0,moy_quest_satisf_montre_q2_ytd,moy_quest_satisf_montre_q3_ytd,moy_quest_satisf_montre_q4_ytd,moy_quest_satisf_montre_q5_ytd,moy_quest_satisf_montre_q6_ytd,moy_quest_satisf_pile_q2_m0,moy_quest_satisf_pile_q3_m0,moy_quest_satisf_pile_q4_m0,moy_quest_satisf_pile_q2_ytd,moy_quest_satisf_pile_q3_ytd,moy_quest_satisf_pile_q4_ytd,tx_transac_linked_optin_m0,tx_transac_linked_optout_m0,tx_transac_npei_m0,tx_transac_npeo_m0,tx_transac_npesi_m0,tx_transac_npeso_m0,tx_transac_npesai_m0,tx_transac_npesao_m0,tx_transac_nps_m0,tx_transac_npsi_m0,tx_transac_npso_m0,tx_transac_nvs_m0,tx_transac_npa_m0,tx_transac_npai_m0,tx_transac_npao_m0,tx_transac_nva_m0,tx_transac_npes2_m0,tx_transac_npesi2_m0,tx_transac_npeso2_m0,tx_transac_nves2_m0,tx_transac_npesa2_m0,tx_transac_npesai2_m0,tx_transac_npesao2_m0,tx_transac_nvesa2_m0,tx_transac_linked_optin_ytd,tx_transac_linked_optout_ytd,tx_transac_npei_ytd,tx_transac_npeo_ytd,tx_transac_npesi_ytd,tx_transac_npeso_ytd,tx_transac_npesai_ytd,tx_transac_npesao_ytd,tx_transac_nps_ytd,tx_transac_npsi_ytd,tx_transac_npso_ytd,tx_transac_nvs_ytd,tx_transac_npa_ytd,tx_transac_npai_ytd,tx_transac_npao_ytd,tx_transac_nva_ytd,tx_transac_npes2_ytd,tx_transac_npesi2_ytd,tx_transac_npeso2_ytd,tx_transac_nves2_ytd,tx_transac_npesa2_ytd,tx_transac_npesai2_ytd,tx_transac_npesao2_ytd,tx_transac_nvesa2_ytd";
 
         //valeurs de la requête (correspond au header du fichier)
         $values2 = ":".str_replace(",", ",:", $header2);
@@ -339,6 +339,56 @@ class ImportCronService
             $stmt2->bindValue(':moy_quest_satisf_pile_q2_ytd',$csvfilelines[66], \PDO::PARAM_STR);
             $stmt2->bindValue(':moy_quest_satisf_pile_q3_ytd',$csvfilelines[67], \PDO::PARAM_STR);
             $stmt2->bindValue(':moy_quest_satisf_pile_q4_ytd',$csvfilelines[68], \PDO::PARAM_STR);
+
+            $stmt2->bindValue(':tx_transac_linked_optin_m0',$csvfilelines[69], \PDO::PARAM_STR);
+            $stmt2->bindValue(':tx_transac_linked_optout_m0',$csvfilelines[70], \PDO::PARAM_STR);
+            $stmt2->bindValue(':tx_transac_npei_m0',$csvfilelines[71], \PDO::PARAM_STR);
+            $stmt2->bindValue(':tx_transac_npeo_m0',$csvfilelines[72], \PDO::PARAM_STR);
+            $stmt2->bindValue(':tx_transac_npesi_m0',$csvfilelines[73], \PDO::PARAM_STR);
+            $stmt2->bindValue(':tx_transac_npeso_m0',$csvfilelines[74], \PDO::PARAM_STR);
+            $stmt2->bindValue(':tx_transac_npesai_m0',$csvfilelines[75], \PDO::PARAM_STR);
+            $stmt2->bindValue(':tx_transac_npesao_m0',$csvfilelines[76], \PDO::PARAM_STR);
+            $stmt2->bindValue(':tx_transac_nps_m0',$csvfilelines[77], \PDO::PARAM_STR);
+            $stmt2->bindValue(':tx_transac_npsi_m0',$csvfilelines[78], \PDO::PARAM_STR);
+            $stmt2->bindValue(':tx_transac_npso_m0',$csvfilelines[79], \PDO::PARAM_STR);
+            $stmt2->bindValue(':tx_transac_nvs_m0',$csvfilelines[80], \PDO::PARAM_STR);
+            $stmt2->bindValue(':tx_transac_npa_m0',$csvfilelines[81], \PDO::PARAM_STR);
+            $stmt2->bindValue(':tx_transac_npai_m0',$csvfilelines[82], \PDO::PARAM_STR);
+            $stmt2->bindValue(':tx_transac_npao_m0',$csvfilelines[83], \PDO::PARAM_STR);
+            $stmt2->bindValue(':tx_transac_nva_m0',$csvfilelines[84], \PDO::PARAM_STR);
+            $stmt2->bindValue(':tx_transac_npes2_m0',$csvfilelines[85], \PDO::PARAM_STR);
+            $stmt2->bindValue(':tx_transac_npesi2_m0',$csvfilelines[86], \PDO::PARAM_STR);
+            $stmt2->bindValue(':tx_transac_npeso2_m0',$csvfilelines[87], \PDO::PARAM_STR);
+            $stmt2->bindValue(':tx_transac_nves2_m0',$csvfilelines[88], \PDO::PARAM_STR);
+            $stmt2->bindValue(':tx_transac_npesa2_m0',$csvfilelines[89], \PDO::PARAM_STR);
+            $stmt2->bindValue(':tx_transac_npesai2_m0',$csvfilelines[90], \PDO::PARAM_STR);
+            $stmt2->bindValue(':tx_transac_npesao2_m0',$csvfilelines[91], \PDO::PARAM_STR);
+            $stmt2->bindValue(':tx_transac_nvesa2_m0',$csvfilelines[92], \PDO::PARAM_STR);
+
+            $stmt2->bindValue(':tx_transac_linked_optin_ytd',$csvfilelines[93], \PDO::PARAM_STR);
+            $stmt2->bindValue(':tx_transac_linked_optout_ytd',$csvfilelines[94], \PDO::PARAM_STR);
+            $stmt2->bindValue(':tx_transac_npei_ytd',$csvfilelines[95], \PDO::PARAM_STR);
+            $stmt2->bindValue(':tx_transac_npeo_ytd',$csvfilelines[96], \PDO::PARAM_STR);
+            $stmt2->bindValue(':tx_transac_npesi_ytd',$csvfilelines[97], \PDO::PARAM_STR);
+            $stmt2->bindValue(':tx_transac_npeso_ytd',$csvfilelines[98], \PDO::PARAM_STR);
+            $stmt2->bindValue(':tx_transac_npesai_ytd',$csvfilelines[99], \PDO::PARAM_STR);
+            $stmt2->bindValue(':tx_transac_npesao_ytd',$csvfilelines[100], \PDO::PARAM_STR);
+            $stmt2->bindValue(':tx_transac_nps_ytd',$csvfilelines[101], \PDO::PARAM_STR);
+            $stmt2->bindValue(':tx_transac_npsi_ytd',$csvfilelines[102], \PDO::PARAM_STR);
+            $stmt2->bindValue(':tx_transac_npso_ytd',$csvfilelines[103], \PDO::PARAM_STR);
+            $stmt2->bindValue(':tx_transac_nvs_ytd',$csvfilelines[104], \PDO::PARAM_STR);
+            $stmt2->bindValue(':tx_transac_npa_ytd',$csvfilelines[105], \PDO::PARAM_STR);
+            $stmt2->bindValue(':tx_transac_npai_ytd',$csvfilelines[106], \PDO::PARAM_STR);
+            $stmt2->bindValue(':tx_transac_npao_ytd',$csvfilelines[107], \PDO::PARAM_STR);
+            $stmt2->bindValue(':tx_transac_nva_ytd',$csvfilelines[108], \PDO::PARAM_STR);
+            $stmt2->bindValue(':tx_transac_npes2_ytd',$csvfilelines[109], \PDO::PARAM_STR);
+            $stmt2->bindValue(':tx_transac_npesi2_ytd',$csvfilelines[110], \PDO::PARAM_STR);
+            $stmt2->bindValue(':tx_transac_npeso2_ytd',$csvfilelines[111], \PDO::PARAM_STR);
+            $stmt2->bindValue(':tx_transac_nves2_ytd',$csvfilelines[112], \PDO::PARAM_STR);
+            $stmt2->bindValue(':tx_transac_npesa2_ytd',$csvfilelines[113], \PDO::PARAM_STR);
+            $stmt2->bindValue(':tx_transac_npesai2_ytd',$csvfilelines[114], \PDO::PARAM_STR);
+            $stmt2->bindValue(':tx_transac_npesao2_ytd',$csvfilelines[115], \PDO::PARAM_STR);
+            $stmt2->bindValue(':tx_transac_nvesa2_ytd',$csvfilelines[116], \PDO::PARAM_STR);
 
             //$output->writeln($sql2);die();
 
