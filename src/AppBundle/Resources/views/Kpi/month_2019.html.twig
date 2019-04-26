@@ -36,7 +36,7 @@
 						<p class="small">
 							&nbsp;<br />
 							<i style="color: #53B3AD;" class="fa fa-square fa-lg" aria-hidden="true"></i><br />
-							{{ "Transactions identifiées avec un nom & un prénom et avec au moin un moyen de contact valide et optin"|trans}}
+							{{ "Transactions identifiées avec un nom & un prénom et avec au moins un moyen de contact valide et optin"|trans}}
 						</p>
 					</figcaption>
 
@@ -52,7 +52,7 @@
 						<p class="small">
 							&nbsp;<br />
 							<i style="color: #393845;" class="fa fa-square fa-lg" aria-hidden="true"></i><br />
-							{{ "Transactions sans nom & prénom"|trans}}
+							{{ "Transactions non liées (sans nom & prénom)"|trans}}
 						</p>
 					</figcaption>
 					</figure>
@@ -198,11 +198,11 @@
 							<th class=""></th>
 							<th class=" text-center text-uppercase">Nombre de transactions</th>
 							<th class=" text-center text-uppercase">Taux de transactions liées</th>
-							<th class=" text-center text-uppercase">Taux de transactions liées valide et optin</th>
-							<th class=" text-center text-uppercase">Capture email valide</th>
-							<th class=" text-center text-uppercase">Capture SMS valide</th>
-							<th class=" text-center text-uppercase">Capture adresse valide</th>
-							<th class=" text-center text-uppercase">Capture sur au moins un canal</th>
+							<th class=" text-center text-uppercase">Taux de transactions liées optin et valide</th>
+							<th class=" text-center text-uppercase">Capture email optin et valide</th>
+							<th class=" text-center text-uppercase">Capture SMS optin et valide</th>
+							<th class=" text-center text-uppercase">Capture adresse optin et valide</th>
+							<th class=" text-center text-uppercase">Capture sur au moins un canal optin et valide</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -211,10 +211,10 @@
 							<td class="text-center">{{marque.nbTransacM0|number_format(0, ',', ' ') }}</td>
 							<td class="text-center">{{ marque.txTransacLinkedM0|number_format}} %</td>
 							<td class="text-center">{{ marque.txTransacLinkedOptinM0|number_format}} %</td>
-							<td class="text-center">{{ marque.txTransacNpeM0|number_format}} %</td>
-							<td class="text-center">{{ marque.txTransacNpsM0|number_format}} %</td>
-							<td class="text-center">{{ marque.txTransacNpaM0|number_format}} %</td>
-							<td class="text-center">{{ marque.txTransacNpesa2M0|number_format}} %</td>
+							<td class="text-center">{{ marque.txTransacNpeiM0|number_format}} %</td>
+							<td class="text-center">{{ marque.txTransacNpsiM0|number_format}} %</td>
+							<td class="text-center">{{ marque.txTransacNpaiM0|number_format}} %</td>
+							<td class="text-center">{{ marque.txTransacNpesai2M0|number_format}} %</td>
 						</tr>
 						{% if user_role == "ROLE_MARQUE" %}
 							{% for boutique in getDrsMarque %}
@@ -225,10 +225,10 @@
 										<td class="text-center">{{ boutique.nbTransacM0|number_format(0, ',', ' ') }}</td>
 										<td class="text-center">{{ boutique.txTransacLinkedM0|number_format}} %</td>
 										<td class="text-center">{{ boutique.txTransacLinkedOptinM0|number_format}} %</td>
-										<td class="text-center">{{ boutique.txTransacNpeM0|number_format}} %</td>
-										<td class="text-center">{{ boutique.txTransacNpsM0|number_format}} %</td>
-										<td class="text-center">{{ boutique.txTransacNpaM0|number_format}} %</td>
-										<td class="text-center">{{ boutique.txTransacNpesa2M0|number_format}} %</td>
+										<td class="text-center">{{ boutique.txTransacNpeiM0|number_format}} %</td>
+										<td class="text-center">{{ boutique.txTransacNpsiM0|number_format}} %</td>
+										<td class="text-center">{{ boutique.txTransacNpaiM0|number_format}} %</td>
+										<td class="text-center">{{ boutique.txTransacNpesai2M0|number_format}} %</td>
 									</tr>
 								{% endif %}
 								{% for boutique2 in getBoutiquesDr %}
@@ -240,10 +240,10 @@
 												<td class="text-center">{{ boutique3.nbTransacM0|number_format(0, ',', ' ') }}</td>
 												<td class="text-center">{{ boutique3.txTransacLinkedM0|number_format}} %</td>
 												<td class="text-center">{{ boutique3.txTransacLinkedOptinM0|number_format}} %</td>
-												<td class="text-center">{{ boutique3.txTransacNpeM0|number_format}} %</td>
-												<td class="text-center">{{ boutique3.txTransacNpsM0|number_format}} %</td>
-												<td class="text-center">{{ boutique3.txTransacNpaM0|number_format}} %</td>
-												<td class="text-center">{{ boutique3.txTransacNpesa2M0|number_format}} %</td>
+												<td class="text-center">{{ boutique3.txTransacNpeiM0|number_format}} %</td>
+												<td class="text-center">{{ boutique3.txTransacNpsiM0|number_format}} %</td>
+												<td class="text-center">{{ boutique3.txTransacNpaiM0|number_format}} %</td>
+												<td class="text-center">{{ boutique3.txTransacNpesai2M0|number_format}} %</td>
 											</tr>
 										{% endif %}
 									{% endfor %}
@@ -259,10 +259,10 @@
 										<td class="text-center">{{ boutique.nbTransacM0|number_format(0, ',', ' ') }}</td>
 										<td class="text-center">{{ boutique.txTransacLinkedM0|number_format}} %</td>
 										<td class="text-center">{{ boutique.txTransacLinkedOptinM0|number_format}} %</td>
-										<td class="text-center">{{ boutique.txTransacNpeM0|number_format}} %</td>
-										<td class="text-center">{{ boutique.txTransacNpsM0|number_format}} %</td>
-										<td class="text-center">{{ boutique.txTransacNpaM0|number_format}} %</td>
-										<td class="text-center">{{ boutique.txTransacNpesa2M0|number_format}} %</td>
+										<td class="text-center">{{ boutique.txTransacNpeiM0|number_format}} %</td>
+										<td class="text-center">{{ boutique.txTransacNpsiM0|number_format}} %</td>
+										<td class="text-center">{{ boutique.txTransacNpaiM0|number_format}} %</td>
+										<td class="text-center">{{ boutique.txTransacNpesai2M0|number_format}} %</td>
 									</tr>
 								{% endif %}
 								{% for boutique2 in getVendeursBoutique %}
@@ -274,10 +274,10 @@
 												<td class="text-center">{{ boutique3.nbTransacM0|number_format(0, ',', ' ') }}</td>
 												<td class="text-center">{{ boutique3.txTransacLinkedM0|number_format}} %</td>
 												<td class="text-center">{{ boutique3.txTransacLinkedOptinM0|number_format}} %</td>
-												<td class="text-center">{{ boutique3.txTransacNpeM0|number_format}} %</td>
-												<td class="text-center">{{ boutique3.txTransacNpsM0|number_format}} %</td>
-												<td class="text-center">{{ boutique3.txTransacNpaM0|number_format}} %</td>
-												<td class="text-center">{{ boutique3.txTransacNpesa2M0|number_format}} %</td>
+												<td class="text-center">{{ boutique3.txTransacNpeiM0|number_format}} %</td>
+												<td class="text-center">{{ boutique3.txTransacNpsiM0|number_format}} %</td>
+												<td class="text-center">{{ boutique3.txTransacNpaiM0|number_format}} %</td>
+												<td class="text-center">{{ boutique3.txTransacNpesai2M0|number_format}} %</td>
 											</tr>
 										{% endif %}
 									{% endfor %}
@@ -292,10 +292,10 @@
 										<td class="text-center">{{ boutique.nbTransacM0|number_format(0, ',', ' ') }}</td>
 										<td class="text-center">{{ boutique.txTransacLinkedM0|number_format}} %</td>
 										<td class="text-center">{{ boutique.txTransacLinkedOptinM0|number_format}} %</td>
-										<td class="text-center">{{ boutique.txTransacNpeM0|number_format}} %</td>
-										<td class="text-center">{{ boutique.txTransacNpesM0|number_format}} %</td>
-										<td class="text-center">{{ boutique.txTransacNpesaM0|number_format}} %</td>
-										<td class="text-center">{{ boutique.txTransacNpesa2M0|number_format}} %</td>
+										<td class="text-center">{{ boutique.txTransacNpeiM0|number_format}} %</td>
+										<td class="text-center">{{ boutique.txTransacNpsiM0|number_format}} %</td>
+										<td class="text-center">{{ boutique.txTransacNpaiM0|number_format}} %</td>
+										<td class="text-center">{{ boutique.txTransacNpesai2M0|number_format}} %</td>
 									</tr>
 								{% endif %}
 							{% endfor %}
@@ -589,7 +589,7 @@
 							indexLabel: 	"{y}%",
 							toolTipContent: "{y}%",
 							exploded: false,
-							legendText:"{y}% Transactions identifiées avec un nom & un prénom et avec au moin un moyen de contact valide et optin",
+							legendText:"{y}% Transactions identifiées avec un nom & un prénom et avec au moins un moyen de contact valide et optin",
 							label: "{y}% Transactions identifiées avec un nom & un prénom"},
 						{  y: {{ (currentKpi.txTransacLinkedOptoutM0)|number_format('0','.','') }},
 							indexLabel: 	"{y}%",
@@ -602,8 +602,8 @@
 							indexLabel: 	"{y}%",
 							toolTipContent: "{y}%",
 							exploded: false,
-							legendText:"{y}% Transactions sans nom & prénom",
-							label: "{y}% Transactions sans nom & prénom"},
+							legendText:"{y}% Transactions non liées (sans nom & prénom)",
+							label: "{y}% Transactions non liées (sans nom & prénom)"},
 					]
 				}
 				]
@@ -618,7 +618,7 @@
 			colorSet: "set1",
 			animationEnabled: true,
 			title:{
-				text: {{ currentKpi.txTransacNpeM0|number_format }} + "%",
+				text: {{ currentKpi.txTransacNpeiM0|number_format }} + "%",
 				fontSize: 32,
 				verticalAlign: "center", // "top", "center", "bottom"
 				horizontalAlign: "center", // "left", "right", "center"
@@ -652,7 +652,7 @@
 			colorSet: "set2",
 			animationEnabled: true,
 			title:{
-				text: {{ currentKpi.txTransacNpsM0|number_format }} + "%",
+				text: {{ currentKpi.txTransacNpsiM0|number_format }} + "%",
 				fontSize: 32,
 				verticalAlign: "center", // "top", "center", "bottom"
 				horizontalAlign: "center", // "left", "right", "center"
@@ -687,7 +687,7 @@
 			colorSet: "set3",
 			animationEnabled: true,
 			title:{
-				text: {{ currentKpi.txTransacNpaM0|number_format }} + "%",
+				text: {{ currentKpi.txTransacNpaiM0|number_format }} + "%",
 				fontSize: 32,
 				verticalAlign: "center", // "top", "center", "bottom"
 				horizontalAlign: "center", // "left", "right", "center"
@@ -721,7 +721,7 @@
 			colorSet: "set4",
 			animationEnabled: true,
 			title:{
-				text: {{ currentKpi.txTransacNpes2M0|number_format }} + "%",
+				text: {{ currentKpi.txTransacNpesi2M0|number_format }} + "%",
 				fontSize: 32,
 				verticalAlign: "center", // "top", "center", "bottom"
 				horizontalAlign: "center", // "left", "right", "center"
