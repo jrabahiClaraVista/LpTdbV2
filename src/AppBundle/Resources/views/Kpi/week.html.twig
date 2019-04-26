@@ -12,9 +12,13 @@
 
 	<div class="text-center col-xs-12">
 		<p>Les résultats ci-dessous sont mis à jour toutes les semaines</p>
+		{% if currentKpi.date > '2019-01-01' %}
+			<p>Attention : les indicateurs affichés sont différrents de ceux des vues mensuelles et annuelles</p>
+			}
+		{% endif %}
 	</div>
 
-	{% if currentKpi is not null and currentKpi.nbTransacS0 > 0 %}
+	{% if currentKpi is not null %}
 
 		<div class="col-xs-12">
 			<h2 class="text-uppercase gris-bg">{{ "La qualification de mes clients"|trans }}</h2>

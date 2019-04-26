@@ -184,6 +184,7 @@ class KpiFilterType extends AbstractType
 
                 );*/
 
+                $now =  new \DateTime('now');
 
                 for($i = 0; $i < 45; $i++) {
                     //$date =  $date->setISODate(intval($this->year), $i);
@@ -199,8 +200,12 @@ class KpiFilterType extends AbstractType
                     $date_format = $date1->modify('last monday')->modify( -$i*7 .' days' )->format("d/m/Y");
                     $week_number = $date2->modify('last monday')->modify( -$i*7 .' days' )->format("W");
 
-                    $dates_week["$date_format - Semaine $week_number"] = $week_number;
-                }
+
+
+                    if( intval($date1->format('W')) < intval($now->format('W')) ){
+                        $dates_week["$date_format - Semaine $week_number"] = $week_number;
+                    }
+                }                
 
 
                 $form->add('week', 'Symfony\Component\Form\Extension\Core\Type\ChoiceType', array(

@@ -827,7 +827,6 @@ class KpiController extends Controller
         //simplification du code par utilisation d'un service pour initialiser les dates utiliser pour filtrer des données
 		$kpiDates = $this->get('app.init_Kpi_dates');
 		$datesWeek = $kpiDates->getDatesWeek($dateWeek, $session, 0);
-		//var_dump($datesWeek);
 
 		$week 		= $datesWeek['week'];
 		$year 		= $datesWeek['year'];
@@ -881,6 +880,8 @@ class KpiController extends Controller
 			$getVendeursBoutique = $em->getRepository('AppBundle:KpiWeek')->getKpiVendeurBoutique($user->getUsername(), $dateWeek3, $dateWeek2, $brand);
 			$getBoutiquesDr = null;
 			$getDrsMarque = null;
+
+			dump($getVendeursBoutique);
 		}
 		if( $user->getRole() == 'ROLE_VENDEUR' ) {
 			$getVendeursBoutique = $em->getRepository('AppBundle:KpiWeek')->getKpiVendeurBoutique($user->getBoutique(), $dateWeek3, $dateWeek2, $brand);
@@ -895,6 +896,7 @@ class KpiController extends Controller
 			$marque = $em->getRepository('AppBundle:KpiWeek')->getKpiMarque($dateWeek3, $dateWeek2, $user->getBrand());
 		}
 
+		
     if ( $request->getMethod() == 'POST' && $form->isSubmitted() ) {
 		//Mise à jour des variable de session
 		$kpiFilterService->updateSessionVars($data);
@@ -934,10 +936,6 @@ class KpiController extends Controller
 		}
     }
 
-  //var_dump($dateWeek1);
-  //var_dump($dateWeek2);
-  //var_dump($dateWeek3);
-  //die();
 
   //Gestion des requêtes selon la page appelée
 
@@ -997,7 +995,7 @@ class KpiController extends Controller
 
 
 	$form2 = $this->createForm(new ExportDataType());
-  $form2->handleRequest($request);
+  	$form2->handleRequest($request);
 
 		//Export CSV
 		if ($form2->isSubmitted()) {
@@ -1076,13 +1074,21 @@ class KpiController extends Controller
 
         }
 
-        if($kpiCurrentWeek->getDate() < new \Datetime('2019-04-15'))
-		{
-			$path_week = 'AppBundle:Kpi:week.html.twig';
-		}
-		else{
-			$path_week = 'AppBundle:Kpi:week_2019.html.twig';
-		}
+
+        if($kpiCurrentWeek != null) {
+        
+	        if($kpiCurrentWeek->getDate() < new \Datetime('2019-04-15'))
+			{
+				$path_week = 'AppBundle:Kpi:week.html.twig';
+			}
+			else{
+				$path_week = 'AppBundle:Kpi:week_2019.html.twig';
+			}
+
+        }
+        else {
+        	$path_week = 'AppBundle:Kpi:week_2019.html.twig';
+        }
 
 		//Retourne la bonne page
 		if($routeName == "app_kpi_week"){
