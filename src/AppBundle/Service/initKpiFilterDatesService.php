@@ -126,7 +126,7 @@ class initKpiFilterDatesService
             $year  = $session->get('kpi_year_filtre');
 
             //$dateWeek2 = $now->setISODate($year,$week,7);//->modify('-1 month');
-            $dateWeek2 = $now;
+            $dateWeek2 = $now->setISODate($year,$week,7);
             $dateWeek2 = $dateWeek2->format("Y-m-d");
 
             $date_check = new \DateTime($dateWeek2);
@@ -208,6 +208,7 @@ class initKpiFilterDatesService
         $results['date3'] = $date3;
         $results['month'] = $month;
         $results['year']  = $year;
+        dump($results);
 
         return $results;
     }
@@ -240,6 +241,8 @@ class initKpiFilterDatesService
         }
 
 
+
+
         // On récupère les bons mois et année FY
         $year  = $session->get('kpi_year_filtre');
         $week  = $session->get('kpi_week_filtre');
@@ -262,7 +265,7 @@ class initKpiFilterDatesService
         $results['dateWeek3']   = $dateWeek3;
         $results['year']        = $year;
         $results['week']        = $week;
-
+//dump($session->get('kpi_week_filtre'));die();
         return $results;
     }
 }
