@@ -36,7 +36,7 @@
 						<p class="small">
 							&nbsp;<br />
 							<i style="color: #53B3AD;" class="fa fa-square fa-lg" aria-hidden="true"></i><br />
-							{{ "Transactions identifiées avec un nom & un prénom et avec au moin un moyen de contact valide et optin"|trans}}
+							{{ "Transactions identifiées avec un nom & un prénom et avec au moins un moyen de contact valide et optin"|trans}}
 						</p>
 					</figcaption>
 
@@ -52,7 +52,7 @@
 						<p class="small">
 							&nbsp;<br />
 							<i style="color: #393845;" class="fa fa-square fa-lg" aria-hidden="true"></i><br />
-							{{ "Transactions sans nom & prénom"|trans}}
+							{{ "Transactions non liées (sans nom & prénom)"|trans}}
 						</p>
 					</figcaption>
 					</figure>
@@ -198,11 +198,11 @@
 							<th class=""></th>
 							<th class=" text-center text-uppercase">Nombre de transactions</th>
 							<th class=" text-center text-uppercase">Taux de transactions liées</th>
-							<th class=" text-center text-uppercase">Taux de transactions liées valide et optin</th>
-							<th class=" text-center text-uppercase">Capture email valide</th>
-							<th class=" text-center text-uppercase">Capture SMS valide</th>
-							<th class=" text-center text-uppercase">Capture adresse valide</th>
-							<th class=" text-center text-uppercase">Capture sur au moins un canal</th>
+							<th class=" text-center text-uppercase">Taux de transactions liées optin et valide</th>
+							<th class=" text-center text-uppercase">Capture email optin et valide</th>
+							<th class=" text-center text-uppercase">Capture SMS optin et valide</th>
+							<th class=" text-center text-uppercase">Capture adresse optin et valide</th>
+							<th class=" text-center text-uppercase">Capture sur au moins un canal optin et valide</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -225,10 +225,10 @@
 										<td class="text-center">{{ boutique.nbTransacS0|number_format(0, ',', ' ') }}</td>
 										<td class="text-center">{{ boutique.txTransacLinkedS0|number_format}} %</td>
 										<td class="text-center">{{ boutique.txTransacLinkedOptinS0|number_format}} %</td>
-										<td class="text-center">{{ boutique.txTransacNpeS0|number_format}} %</td>
-										<td class="text-center">{{ boutique.txTransacNpsS0|number_format}} %</td>
-										<td class="text-center">{{ boutique.txTransacNpaS0|number_format}} %</td>
-										<td class="text-center">{{ boutique.txTransacNpesa2S0|number_format}} %</td>
+										<td class="text-center">{{ boutique.txTransacNpeiS0|number_format}} %</td>
+										<td class="text-center">{{ boutique.txTransacNpsiS0|number_format}} %</td>
+										<td class="text-center">{{ boutique.txTransacNpaiS0|number_format}} %</td>
+										<td class="text-center">{{ boutique.txTransacNpesai2S0|number_format}} %</td>
 									</tr>
 								{% endif %}
 								{% for boutique2 in getBoutiquesDr %}
@@ -240,10 +240,10 @@
 												<td class="text-center">{{ boutique3.nbTransacS0|number_format(0, ',', ' ') }}</td>
 												<td class="text-center">{{ boutique3.txTransacLinkedS0|number_format}} %</td>
 												<td class="text-center">{{ boutique3.txTransacLinkedOptinS0|number_format}} %</td>
-												<td class="text-center">{{ boutique3.txTransacNpeS0|number_format}} %</td>
-												<td class="text-center">{{ boutique3.txTransacNpsS0|number_format}} %</td>
-												<td class="text-center">{{ boutique3.txTransacNpaS0|number_format}} %</td>
-												<td class="text-center">{{ boutique3.txTransacNpesa2S0|number_format}} %</td>
+												<td class="text-center">{{ boutique3.txTransacNpeiS0|number_format}} %</td>
+												<td class="text-center">{{ boutique3.txTransacNpsiS0|number_format}} %</td>
+												<td class="text-center">{{ boutique3.txTransacNpaiS0|number_format}} %</td>
+												<td class="text-center">{{ boutique3.txTransacNpesai2S0|number_format}} %</td>
 											</tr>
 										{% endif %}
 									{% endfor %}
@@ -259,10 +259,10 @@
 										<td class="text-center">{{ boutique.nbTransacS0|number_format(0, ',', ' ') }}</td>
 										<td class="text-center">{{ boutique.txTransacLinkedS0|number_format}} %</td>
 										<td class="text-center">{{ boutique.txTransacLinkedOptinS0|number_format}} %</td>
-										<td class="text-center">{{ boutique.txTransacNpeS0|number_format}} %</td>
-										<td class="text-center">{{ boutique.txTransacNpsS0|number_format}} %</td>
-										<td class="text-center">{{ boutique.txTransacNpaS0|number_format}} %</td>
-										<td class="text-center">{{ boutique.txTransacNpesa2S0|number_format}} %</td>
+										<td class="text-center">{{ boutique.txTransacNpeiS0|number_format}} %</td>
+										<td class="text-center">{{ boutique.txTransacNpsiS0|number_format}} %</td>
+										<td class="text-center">{{ boutique.txTransacNpaiS0|number_format}} %</td>
+										<td class="text-center">{{ boutique.txTransacNpesai2S0|number_format}} %</td>
 									</tr>
 								{% endif %}
 								{% for boutique2 in getVendeursBoutique %}
@@ -274,10 +274,10 @@
 												<td class="text-center">{{ boutique3.nbTransacS0|number_format(0, ',', ' ') }}</td>
 												<td class="text-center">{{ boutique3.txTransacLinkedS0|number_format}} %</td>
 												<td class="text-center">{{ boutique3.txTransacLinkedOptinS0|number_format}} %</td>
-												<td class="text-center">{{ boutique3.txTransacNpeS0|number_format}} %</td>
-												<td class="text-center">{{ boutique3.txTransacNpsS0|number_format}} %</td>
-												<td class="text-center">{{ boutique3.txTransacNpaS0|number_format}} %</td>
-												<td class="text-center">{{ boutique3.txTransacNpesa2S0|number_format}} %</td>
+												<td class="text-center">{{ boutique3.txTransacNpeiS0|number_format}} %</td>
+												<td class="text-center">{{ boutique3.txTransacNpsiS0|number_format}} %</td>
+												<td class="text-center">{{ boutique3.txTransacNpaiS0|number_format}} %</td>
+												<td class="text-center">{{ boutique3.txTransacNpesai2S0|number_format}} %</td>
 											</tr>
 										{% endif %}
 									{% endfor %}
@@ -292,10 +292,10 @@
 										<td class="text-center">{{ boutique.nbTransacS0|number_format(0, ',', ' ') }}</td>
 										<td class="text-center">{{ boutique.txTransacLinkedS0|number_format}} %</td>
 										<td class="text-center">{{ boutique.txTransacLinkedOptinS0|number_format}} %</td>
-										<td class="text-center">{{ boutique.txTransacNpeS0|number_format}} %</td>
-										<td class="text-center">{{ boutique.txTransacNpesS0|number_format}} %</td>
-										<td class="text-center">{{ boutique.txTransacNpesaS0|number_format}} %</td>
-										<td class="text-center">{{ boutique.txTransacNpesa2S0|number_format}} %</td>
+										<td class="text-center">{{ boutique.txTransacNpeiS0|number_format}} %</td>
+										<td class="text-center">{{ boutique.txTransacNpsiS0|number_format}} %</td>
+										<td class="text-center">{{ boutique.txTransacNpaiS0|number_format}} %</td>
+										<td class="text-center">{{ boutique.txTransacNpesai2S0|number_format}} %</td>
 									</tr>
 								{% endif %}
 							{% endfor %}
@@ -590,7 +590,7 @@
 							indexLabel: 	"{y}%",
 							toolTipContent: "{y}%",
 							exploded: false,
-							legendText:"{y}% Transactions identifiées avec un nom & un prénom et avec au moin un moyen de contact valide et optin",
+							legendText:"{y}% Transactions identifiées avec un nom & un prénom et avec au moins un moyen de contact valide et optin",
 							label: "{y}% Transactions identifiées avec un nom & un prénom"},
 						{  y: {{ (currentKpi.txTransacLinkedOptoutS0)|number_format('0','.','') }},
 							indexLabel: 	"{y}%",
@@ -603,8 +603,8 @@
 							indexLabel: 	"{y}%",
 							toolTipContent: "{y}%",
 							exploded: false,
-							legendText:"{y}% Transactions sans nom & prénom",
-							label: "{y}% Transactions sans nom & prénom"},
+							legendText:"{y}% Transactions non liées (sans nom & prénom)",
+							label: "{y}% Transactions non liées (sans nom & prénom)"},
 					]
 				}
 				]
