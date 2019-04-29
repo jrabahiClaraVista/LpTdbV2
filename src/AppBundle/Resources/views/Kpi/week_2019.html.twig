@@ -211,10 +211,10 @@
 							<td class="text-center">{{marque.nbTransacS0|number_format(0, ',', ' ') }}</td>
 							<td class="text-center">{{ marque.txTransacLinkedS0|number_format}} %</td>
 							<td class="text-center">{{ marque.txTransacLinkedOptinS0|number_format}} %</td>
-							<td class="text-center">{{ marque.txTransacNpeS0|number_format}} %</td>
-							<td class="text-center">{{ marque.txTransacNpsS0|number_format}} %</td>
-							<td class="text-center">{{ marque.txTransacNpaS0|number_format}} %</td>
-							<td class="text-center">{{ marque.txTransacNpesa2S0|number_format}} %</td>
+							<td class="text-center">{{ marque.txTransacNpeiS0|number_format}} %</td>
+							<td class="text-center">{{ marque.txTransacNpsiS0|number_format}} %</td>
+							<td class="text-center">{{ marque.txTransacNpaiS0|number_format}} %</td>
+							<td class="text-center">{{ marque.txTransacNpesai2S0|number_format}} %</td>
 						</tr>
 						{% if user_role == "ROLE_MARQUE" %}
 							{% for boutique in getDrsMarque %}
