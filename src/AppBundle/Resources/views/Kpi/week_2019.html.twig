@@ -199,10 +199,10 @@
 							<th class=" text-center text-uppercase">Nombre de transactions</th>
 							<th class=" text-center text-uppercase">Taux de transactions liées</th>
 							<th class=" text-center text-uppercase">Taux de transactions liées valides et optin</th>
-							<th class=" text-center text-uppercase">Capture email valides et optin</th>
+							<th class=" text-center text-uppercase">Capture emails valides et optin</th>
 							<th class=" text-center text-uppercase">Capture SMS valides et optin</th>
 							<th class=" text-center text-uppercase">Capture adresses valides et optin</th>
-							<th class=" text-center text-uppercase">Capture email ou SMS valide et optin</th>
+							<th class=" text-center text-uppercase">Capture emails ou SMS valide et optin</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -216,6 +216,18 @@
 							<td class="text-center">{{ marque.txTransacNpaiS0|number_format}} %</td>
 							<td class="text-center">{{ marque.txTransacNpesi2S0|number_format}} %</td>
 						</tr>
+						{% if user_role == "ROLE_BOUTIQUE" or user_role == "ROLE_DR" %}
+							<tr class="info">
+								<th class="text-right text-uppercase" style="color: #3399FF">{{currentKpi.user.username}}</th>
+								<td class="text-center">{{ currentKpi.nbTransacS0|number_format(0, ',', ' ') }}</td>
+								<td class="text-center">{{ currentKpi.txTransacLinkedS0|number_format}} %</td>
+								<td class="text-center">{{ currentKpi.txTransacLinkedOptinS0|number_format}} %</td>
+								<td class="text-center">{{ currentKpi.txTransacNpeiS0|number_format}} %</td>
+								<td class="text-center">{{ currentKpi.txTransacNpsiS0|number_format}} %</td>
+								<td class="text-center">{{ currentKpi.txTransacNpaiS0|number_format}} %</td>
+								<td class="text-center">{{ currentKpi.txTransacNpesi2S0|number_format}} %</td>
+							</tr>
+						{% endif %}
 						{% if user_role == "ROLE_MARQUE" %}
 							{% for boutique in getDrsMarque %}
 								{% set keyloop = loop.index %}
