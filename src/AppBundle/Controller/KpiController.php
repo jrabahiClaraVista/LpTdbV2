@@ -880,8 +880,6 @@ class KpiController extends Controller
 			$getVendeursBoutique = $em->getRepository('AppBundle:KpiWeek')->getKpiVendeurBoutique($user->getUsername(), $dateWeek3, $dateWeek2, $brand);
 			$getBoutiquesDr = null;
 			$getDrsMarque = null;
-
-			dump($getVendeursBoutique);
 		}
 		if( $user->getRole() == 'ROLE_VENDEUR' ) {
 			$getVendeursBoutique = $em->getRepository('AppBundle:KpiWeek')->getKpiVendeurBoutique($user->getBoutique(), $dateWeek3, $dateWeek2, $brand);
@@ -914,7 +912,6 @@ class KpiController extends Controller
 		$dateWeek3 	= $datesWeek['dateWeek3'];
 
 		if($session->get('filtre_vendeur') != null){
-			//var_dump( $data);
 			$id = $session->get('filtre_vendeur')->getId();
 	    }
 	    elseif($session->get('filtre_boutique') != null){
