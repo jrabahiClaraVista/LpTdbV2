@@ -208,7 +208,6 @@ class initKpiFilterDatesService
         $results['date3'] = $date3;
         $results['month'] = $month;
         $results['year']  = $year;
-        dump($results);
 
         return $results;
     }
@@ -265,7 +264,7 @@ class initKpiFilterDatesService
         $results['dateWeek3']   = $dateWeek3;
         $results['year']        = $year;
         $results['week']        = $week;
-//dump($session->get('kpi_week_filtre'));die();
+        
         return $results;
     }
 }
