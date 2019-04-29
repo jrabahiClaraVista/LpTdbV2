@@ -131,35 +131,35 @@
 						<p class="small">
 							&nbsp;<br />
 							<i style="color: #93A603;" class="fa fa-square fa-lg" aria-hidden="true"></i><br />
-							{{ "Taux de transactions avec des emails valides"|trans}}
+							{{ "Taux de transactions avec des emails valides et optin"|trans}}
 						</p>
 					</figcaption>
 					<figcaption class="col-xs-12 col-md-3">
 						<p class="small">
 							&nbsp;<br />
 							<i style="color: #05AFF2;" class="fa fa-square fa-lg" aria-hidden="true"></i><br />
-							{{ "Taux de transactions avec des SMS valides"|trans}}
+							{{ "Taux de transactions avec des SMS valides et optin"|trans}}
 						</p>
 					</figcaption>
 					<figcaption class="col-xs-12 col-md-3">
 						<p class="small">
 							&nbsp;<br />
 							<i style="color: #F0948A;" class="fa fa-square fa-lg" aria-hidden="true"></i><br />
-							{{ "Taux de transactions avec des adresses valides"|trans}}
+							{{ "Taux de transactions avec des adresses valides et optin"|trans}}
 						</p>
 					</figcaption>
 					<figcaption class="col-xs-12 col-md-3">
 						<p class="small">
 							&nbsp;<br />
 							<i style="color: #FFA118;" class="fa fa-square fa-lg" aria-hidden="true"></i><br />
-							{{ "Taux de transactions avec des emails ou SMS valides"|trans}}
+							{{ "Taux de transactions avec des emails ou SMS valides et optin"|trans}}
 						</p>
 					</figcaption>
 					<figcaption class="col-xs-12 col-md-3">
 						<p class="small">
 							&nbsp;<br />
 							<i style="color: #53B3AD;" class="fa fa-square fa-lg" aria-hidden="true"></i><br />
-							{{ "Taux de transactions avec des emails ou SMS ou adresses valides"|trans}}
+							{{ "Taux de transactions avec des emails ou SMS ou adresses valides et optin"|trans}}
 						</p>
 					</figcaption>
 				</figure>
@@ -198,11 +198,11 @@
 							<th class=""></th>
 							<th class=" text-center text-uppercase">Nombre de transactions</th>
 							<th class=" text-center text-uppercase">Taux de transactions liées</th>
-							<th class=" text-center text-uppercase">Taux de transactions liées optin et valide</th>
-							<th class=" text-center text-uppercase">Capture email optin et valide</th>
-							<th class=" text-center text-uppercase">Capture SMS optin et valide</th>
-							<th class=" text-center text-uppercase">Capture adresse optin et valide</th>
-							<th class=" text-center text-uppercase">Capture sur au moins un canal optin et valide</th>
+							<th class=" text-center text-uppercase">Taux de transactions liées valides et optin</th>
+							<th class=" text-center text-uppercase">Capture email valides et optin</th>
+							<th class=" text-center text-uppercase">Capture SMS valides et optin</th>
+							<th class=" text-center text-uppercase">Capture adresse valides et optin</th>
+							<th class=" text-center text-uppercase">Capture sur au moins un canal valides et optin</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -781,7 +781,7 @@
 						dataPoints: [
 							{% for kpi in kpis %}
 								//{ y: {{ kpi.txTransacNpeS0|number_format }}, x: new Date( {{ kpi.date|date("Y") }}, {{ kpi.date|date("m") }}, {{ kpi.date|date("d") }} )
-								{ y: {{ kpi.txTransacNpeS0|number_format }}, x: new Date( {{ kpi.date|date("Y") }}, {{ kpi.date|date("m") - 1 }}, {{ kpi.date|date("d") }} ) },
+								{ y: {{ kpi.txTransacNpeiS0|number_format }}, x: new Date( {{ kpi.date|date("Y") }}, {{ kpi.date|date("m") - 1 }}, {{ kpi.date|date("d") }} ) },
 							{% endfor %}
 						]
 					},
@@ -794,7 +794,7 @@
 						type: "line",
 						dataPoints: [
 							{% for kpi in kpis %}
-								{ y: {{ kpi.txTransacNpsS0|number_format }}, x: new Date( {{ kpi.date|date("Y") }}, {{ kpi.date|date("m") - 1 }}, {{ kpi.date|date("d") }} ) },
+								{ y: {{ kpi.txTransacNpsiS0|number_format }}, x: new Date( {{ kpi.date|date("Y") }}, {{ kpi.date|date("m") - 1 }}, {{ kpi.date|date("d") }} ) },
 							{% endfor %}
 						]
 					},
@@ -807,7 +807,7 @@
 						type: "line",
 						dataPoints: [
 							{% for kpi in kpis %}
-								{ y: {{ kpi.txTransacNpaS0|number_format }}, x: new Date( {{ kpi.date|date("Y") }}, {{ kpi.date|date("m") - 1 }}, {{ kpi.date|date("d") }} ) },
+								{ y: {{ kpi.txTransacNpaiS0|number_format }}, x: new Date( {{ kpi.date|date("Y") }}, {{ kpi.date|date("m") - 1 }}, {{ kpi.date|date("d") }} ) },
 							{% endfor %}
 						]
 					},
@@ -820,7 +820,7 @@
 						type: "line",
 						dataPoints: [
 							{% for kpi in kpis %}
-								{ y: {{ kpi.txTransacNpes2S0|number_format }}, x: new Date( {{ kpi.date|date("Y") }}, {{ kpi.date|date("m") - 1 }}, {{ kpi.date|date("d") }} ) },
+								{ y: {{ kpi.txTransacNpesi2S0|number_format }}, x: new Date( {{ kpi.date|date("Y") }}, {{ kpi.date|date("m") - 1 }}, {{ kpi.date|date("d") }} ) },
 							{% endfor %}
 						]
 					},
@@ -833,7 +833,7 @@
 						type: "line",
 						dataPoints: [
 							{% for kpi in kpis %}
-								{ y: {{ kpi.txTransacNpesa2S0|number_format }}, x: new Date( {{ kpi.date|date("Y") }}, {{ kpi.date|date("m") - 1 }}, {{ kpi.date|date("d") }} ) },
+								{ y: {{ kpi.txTransacNpesai2S0|number_format }}, x: new Date( {{ kpi.date|date("Y") }}, {{ kpi.date|date("m") - 1 }}, {{ kpi.date|date("d") }} ) },
 							{% endfor %}
 						]
 					},
