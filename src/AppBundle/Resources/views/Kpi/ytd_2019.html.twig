@@ -158,7 +158,7 @@
 							<th class=" text-center text-uppercase">Capture email valides et optin</th>
 							<th class=" text-center text-uppercase">Capture SMS valides et optin</th>
 							<th class=" text-center text-uppercase">Capture adresses valides et optin</th>
-							<th class=" text-center text-uppercase">Capture sur au moins un canal valide et optin</th>
+							<th class=" text-center text-uppercase">Capture email ou SMS valide et optin</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -170,7 +170,7 @@
 							<td class="text-center">{{ marque.txTransacNpeiYtd|number_format}} %</td>
 							<td class="text-center">{{ marque.txTransacNpsiYtd|number_format}} %</td>
 							<td class="text-center">{{ marque.txTransacNpaiYtd|number_format}} %</td>
-							<td class="text-center">{{ marque.txTransacNpesai2Ytd|number_format}} %</td>
+							<td class="text-center">{{ marque.txTransacNpesi2Ytd|number_format}} %</td>
 						</tr>
 						{% if user_role == "ROLE_MARQUE" %}
 							{% for boutique in getDrsMarque %}
@@ -184,7 +184,7 @@
 										<td class="text-center">{{ boutique.txTransacNpeiYtd|number_format}} %</td>
 										<td class="text-center">{{ boutique.txTransacNpsiYtd|number_format}} %</td>
 										<td class="text-center">{{ boutique.txTransacNpaiYtd|number_format}} %</td>
-										<td class="text-center">{{ boutique.txTransacNpesai2Ytd|number_format}} %</td>
+										<td class="text-center">{{ boutique.txTransacNpesi2Ytd|number_format}} %</td>
 									</tr>
 								{% endif %}
 								{% for boutique2 in getBoutiquesDr %}
@@ -199,7 +199,7 @@
 												<td class="text-center">{{ boutique3.txTransacNpeiYtd|number_format}} %</td>
 												<td class="text-center">{{ boutique3.txTransacNpsiYtd|number_format}} %</td>
 												<td class="text-center">{{ boutique3.txTransacNpaiYtd|number_format}} %</td>
-												<td class="text-center">{{ boutique3.txTransacNpesai2Ytd|number_format}} %</td>
+												<td class="text-center">{{ boutique3.txTransacNpesi2Ytd|number_format}} %</td>
 											</tr>
 										{% endif %}
 									{% endfor %}
@@ -218,7 +218,7 @@
 										<td class="text-center">{{ boutique.txTransacNpeiYtd|number_format}} %</td>
 										<td class="text-center">{{ boutique.txTransacNpsiYtd|number_format}} %</td>
 										<td class="text-center">{{ boutique.txTransacNpaiYtd|number_format}} %</td>
-										<td class="text-center">{{ boutique.txTransacNpesai2Ytd|number_format}} %</td>
+										<td class="text-center">{{ boutique.txTransacNpesi2Ytd|number_format}} %</td>
 									</tr>
 								{% endif %}
 								{% for boutique2 in getVendeursBoutique %}
@@ -233,7 +233,7 @@
 												<td class="text-center">{{ boutique3.txTransacNpeiYtd|number_format}} %</td>
 												<td class="text-center">{{ boutique3.txTransacNpsiYtd|number_format}} %</td>
 												<td class="text-center">{{ boutique3.txTransacNpaiYtd|number_format}} %</td>
-												<td class="text-center">{{ boutique3.txTransacNpesai2Ytd|number_format}} %</td>
+												<td class="text-center">{{ boutique3.txTransacNpesi2Ytd|number_format}} %</td>
 											</tr>
 										{% endif %}
 									{% endfor %}
@@ -251,7 +251,7 @@
 										<td class="text-center">{{ boutique.txTransacNpeiYtd|number_format}} %</td>
 										<td class="text-center">{{ boutique.txTransacNpsiYtd|number_format}} %</td>
 										<td class="text-center">{{ boutique.txTransacNpaiYtd|number_format}} %</td>
-										<td class="text-center">{{ boutique.txTransacNpesai2Ytd|number_format}} %</td>
+										<td class="text-center">{{ boutique.txTransacNpesi2Ytd|number_format}} %</td>
 									</tr>
 								{% endif %}
 							{% endfor %}
