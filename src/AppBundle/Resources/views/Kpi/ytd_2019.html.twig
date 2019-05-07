@@ -175,13 +175,13 @@
 						{% if user_role == "ROLE_BOUTIQUE" or user_role == "ROLE_DR" %}
 							<tr class="info">
 								<th class="text-right text-uppercase" style="color: #3399FF">{{currentKpi.user.username}}</th>
-								<td class="text-center">{{ currentKpi.nbTransacS0|number_format(0, ',', ' ') }}</td>
-								<td class="text-center">{{ currentKpi.txTransacLinkedS0|number_format}} %</td>
-								<td class="text-center">{{ currentKpi.txTransacLinkedOptinS0|number_format}} %</td>
-								<td class="text-center">{{ currentKpi.txTransacNpeiS0|number_format}} %</td>
-								<td class="text-center">{{ currentKpi.txTransacNpsiS0|number_format}} %</td>
-								<td class="text-center">{{ currentKpi.txTransacNpaiS0|number_format}} %</td>
-								<td class="text-center">{{ currentKpi.txTransacNpesi2S0|number_format}} %</td>
+								<td class="text-center">{{ currentKpi.nbTransacYtd|number_format(0, ',', ' ') }}</td>
+								<td class="text-center">{{ currentKpi.txTransacLinkedYtd|number_format}} %</td>
+								<td class="text-center">{{ currentKpi.txTransacLinkedOptinYtd|number_format}} %</td>
+								<td class="text-center">{{ currentKpi.txTransacNpeiYtd|number_format}} %</td>
+								<td class="text-center">{{ currentKpi.txTransacNpsiYtd|number_format}} %</td>
+								<td class="text-center">{{ currentKpi.txTransacNpaiYtd|number_format}} %</td>
+								<td class="text-center">{{ currentKpi.txTransacNpesi2Ytd|number_format}} %</td>
 							</tr>
 						{% endif %}
 						{% if user_role == "ROLE_MARQUE" %}
