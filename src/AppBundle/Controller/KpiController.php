@@ -126,6 +126,10 @@ class KpiController extends Controller
 		$brand = $user->getBrand();
 		if ($brand == null) $brand = '';
 
+
+		$vendeurBoutique = $user->getBoutique();
+		if ($vendeurBoutique == null) $vendeurBoutique = '';
+
 		$getBoutiquesDr = null;
 		$getDrsMarque = null;
 
@@ -134,9 +138,12 @@ class KpiController extends Controller
 			$getBoutiquesDr = array();
 			$getVendeursBoutique = array();
 
+			$kpisCSV = $em->getRepository('AppBundle:KpiMonth')->getKpisMarque($date3, $date2, $brand);
+
 			foreach ($getDrsMarque as $key => $dr) {
 				$getBoutiques = $em->getRepository('AppBundle:KpiMonth')->getKpiBoutiqueDr($dr->getUser()->getUsername(), $date3, $date2, $brand);
 				$getBoutiquesDr[$key] = $getBoutiques;
+
 
 				/*foreach ($getBoutiques as $key2 => $boutique) {
 					$getVendeurs =  $em->getRepository('AppBundle:KpiMonth')->getKpiVendeurBoutique($boutique->getUser()->getUsername(), $date3, $date2, $brand);
@@ -154,23 +161,29 @@ class KpiController extends Controller
 				$getVendeursBoutique[$key2] = $getVendeurs;
 			}
 
+			$kpisCSV = $em->getRepository('AppBundle:KpiMonth')->getKpisDr($date3, $date2, $user->getUsername(), $brand);
+
 		}
 		if( $user->getRole() == 'ROLE_BOUTIQUE' ) {
 			$getVendeursBoutique = $em->getRepository('AppBundle:KpiMonth')->getKpiVendeurBoutique($user->getUsername(), $date3, $date2, $brand);
 			$getBoutiquesDr = null;
 			$getDrsMarque = null;
+
+			$kpisCSV = $em->getRepository('AppBundle:KpiMonth')->getKpisBoutique($date3, $date2, $user->getUsername(), $brand);
 		}
 		if( $user->getRole() == 'ROLE_VENDEUR' ) {
 			$getVendeursBoutique = $em->getRepository('AppBundle:KpiMonth')->getKpiVendeurBoutique($user->getBoutique(), $date3, $date2, $brand);
 			$getBoutiquesDr = null;
 			$getDrsMarque = null;
+
+			$kpisCSV = $em->getRepository('AppBundle:KpiMonth')->getKpisBoutique($date3, $date2, $user->getBoutique(), $brand);
 		}
 
 		if( $user->getRole() == 'ROLE_MARQUE' ) {
 			$marque = $em->getRepository('AppBundle:KpiMonth')->getKpiMarque($date3, $date2, $user->getUsername());
 		}
 		else{
-			$marque = $em->getRepository('AppBundle:KpiMonth')->getKpiMarque($date3, $date2, $user->getBrand());
+			$marque = $em->getRepository('AppBundle:KpiMonth')->getKpiMarque($date3, $date2, $user->getBrand(), $brand);
 		}
 
         if ( $request->getMethod() == 'POST' && $form->isSubmitted() ) {
@@ -286,6 +299,14 @@ class KpiController extends Controller
 			$topNpeVendeur = $em->getRepository('AppBundle:KpiMonth')->getRank1NpeVendeur($date3, $date2, $brand);
 			$topNpesVendeur = $em->getRepository('AppBundle:KpiMonth')->getRank1NpesVendeur($date3, $date2, $brand);
 			$topNpesaVendeur = $em->getRepository('AppBundle:KpiMonth')->getRank1NpesaVendeur($date3, $date2, $brand);
+
+			$topNpe2 = $em->getRepository('AppBundle:KpiMonth')->getRank1Npe2($date3, $date2, $brand);
+			$topNps2 = $em->getRepository('AppBundle:KpiMonth')->getRank1Nps2($date3, $date2, $brand);
+			$topNpes2 = $em->getRepository('AppBundle:KpiMonth')->getRank1Npes2($date3, $date2, $brand);
+
+			$topNpeVendeur2 = $em->getRepository('AppBundle:KpiMonth')->getRank1Npe2Vendeur($date3, $date2, $brand, $vendeurBoutique);
+			$topNpsVendeur2 = $em->getRepository('AppBundle:KpiMonth')->getRank1Nps2Vendeur($date3, $date2, $brand, $vendeurBoutique);
+			$topNpesVendeur2 = $em->getRepository('AppBundle:KpiMonth')->getRank1Npes2Vendeur($date3, $date2, $brand, $vendeurBoutique);
 		}
 		if($routeName == "app_kpi_ytd"){
 			$topNpe = $em->getRepository('AppBundle:KpiMonth')->getRank1NpeYtd($date3, $date2, $brand);
@@ -295,6 +316,14 @@ class KpiController extends Controller
 			$topNpeVendeur = $em->getRepository('AppBundle:KpiMonth')->getRank1NpeYtdVendeur($date3, $date2, $brand);
 			$topNpesVendeur = $em->getRepository('AppBundle:KpiMonth')->getRank1NpesYtdVendeur($date3, $date2, $brand);
 			$topNpesaVendeur = $em->getRepository('AppBundle:KpiMonth')->getRank1NpesaYtdVendeur($date3, $date2, $brand);
+
+			$topNpe2 = $em->getRepository('AppBundle:KpiMonth')->getRank1Npe2Ytd($date3, $date2, $brand);
+			$topNps2 = $em->getRepository('AppBundle:KpiMonth')->getRank1Nps2Ytd($date3, $date2, $brand);
+			$topNpes2 = $em->getRepository('AppBundle:KpiMonth')->getRank1Npes2Ytd($date3, $date2, $brand);
+
+			$topNpeVendeur2 = $em->getRepository('AppBundle:KpiMonth')->getRank1Npe2YtdVendeur($date3, $date2, $brand, $vendeurBoutique);
+			$topNpsVendeur2 = $em->getRepository('AppBundle:KpiMonth')->getRank1Nps2YtdVendeur($date3, $date2, $brand, $vendeurBoutique);
+			$topNpesVendeur2 = $em->getRepository('AppBundle:KpiMonth')->getRank1Npes2YtdVendeur($date3, $date2, $brand, $vendeurBoutique);
 		}
 		if($routeName == "app_kpi_fid"){
 			$kpisTopCa = $em->getRepository('AppBundle:KpiMonth')->getTop3Ca($brand, $date);
@@ -316,7 +345,7 @@ class KpiController extends Controller
 		//Export CSV
 		if ($form2->isSubmitted()) {
 			//$id_data = $user->getId();
-			$idDataMarque 	= $marque->getId();
+			/*$idDataMarque 	= $marque->getId();
 			$idDataFiche 	= $kpiCurrentMonth->getId();
 			$idDataAutres	= array();
 
@@ -342,72 +371,162 @@ class KpiController extends Controller
 				$ids .= ",".$id;
 			}
 			$ids .= ")";
+			*/
 
-			if($routeName == "app_kpi_month"){
-				$sql = "SELECT u.username,u.role,u.brand,u.dr,u.boutique,u.nom_vendeur,u.prenom_vendeur,d.date,d.nb_transac_m0,d.tx_transac_linked_m0,d.tx_transac_npe_m0,d.tx_transac_npes_m0,d.tx_transac_npesa_m0
-						FROM app_kpi_month d
-						LEFT JOIN fos_user_user u on d.user_id = u.id
-						WHERE d.id in $ids";
-				$header     = array('Libelle','Role','Reseau','DR','Boutique','Nom Vendeur','Prenom Vendeur','Date','NOMBRE DE TRANSACTIONS Mensuel',
-	            					'TAUX DE TRANSACTIONS LIÉES Mensuel','CAPTURE EMAIL VALIDE Mensuel','CAPTURE EMAIL + SMS VALIDE Mensuel','CAPTURE EMAIL + SMS + ADRESSE VALIDE Mensuel');
+			
+			$ids = "(";
+
+			foreach ($kpisCSV as $key => $id_kpi){
+				if($key == 0){
+					$ids .= $id_kpi['id'];
+				}
+				else{
+					$ids .= ",".$id_kpi['id'];
+				}
 			}
-			if($routeName == "app_kpi_ytd"){
-				$sql = "SELECT u.username,u.role,u.brand,u.dr,u.boutique,u.nom_vendeur,u.prenom_vendeur,d.date,d.nb_transac_ytd,d.tx_transac_linked_ytd,d.tx_transac_npe_ytd,d.tx_transac_npes_ytd,d.tx_transac_npesa_ytd
-						FROM app_kpi_month d
-						LEFT JOIN fos_user_user u on d.user_id = u.id
-						WHERE d.id in $ids";
-				$header     = array('Libelle','Role','Reseau','DR','Boutique','Nom Vendeur','Prenom Vendeur','Date','NOMBRE DE TRANSACTIONS YtD',
-	            					'TAUX DE TRANSACTIONS LIÉES YtD','CAPTURE EMAIL VALIDE YtD','CAPTURE EMAIL + SMS VALIDE YtD','CAPTURE EMAIL + SMS + ADRESSE VALIDE YtD');
+			$ids .= ")";
+			
+			// OLD KPIs export
+			if($kpiCurrentMonth->getDate() < new \Datetime('2019-01-01'))
+			{
+				if($routeName == "app_kpi_month"){
+					$sql = "SELECT u.username,u.role,u.brand,u.dr,u.boutique,u.nom_vendeur,u.prenom_vendeur,d.date,d.nb_transac_m0,d.tx_transac_linked_m0,d.tx_transac_npe_m0,d.tx_transac_npes_m0,d.tx_transac_npesa_m0
+							FROM app_kpi_month d
+							LEFT JOIN fos_user_user u on d.user_id = u.id
+							WHERE d.id in $ids";
+					$header     = array('Libelle','Role','Reseau','DR','Boutique','Nom Vendeur','Prenom Vendeur','Date','NOMBRE DE TRANSACTIONS Mensuel',
+		            					'TAUX DE TRANSACTIONS LIÉES Mensuel','CAPTURE EMAIL VALIDE Mensuel','CAPTURE EMAIL + SMS VALIDE Mensuel','CAPTURE EMAIL + SMS + ADRESSE VALIDE Mensuel');
+				}
+				if($routeName == "app_kpi_ytd"){
+					$sql = "SELECT u.username,u.role,u.brand,u.dr,u.boutique,u.nom_vendeur,u.prenom_vendeur,d.date,d.nb_transac_ytd,d.tx_transac_linked_ytd,d.tx_transac_npe_ytd,d.tx_transac_npes_ytd,d.tx_transac_npesa_ytd
+							FROM app_kpi_month d
+							LEFT JOIN fos_user_user u on d.user_id = u.id
+							WHERE d.id in $ids";
+					$header     = array('Libelle','Role','Reseau','DR','Boutique','Nom Vendeur','Prenom Vendeur','Date','NOMBRE DE TRANSACTIONS YtD',
+		            					'TAUX DE TRANSACTIONS LIÉES YtD','CAPTURE EMAIL VALIDE YtD','CAPTURE EMAIL + SMS VALIDE YtD','CAPTURE EMAIL + SMS + ADRESSE VALIDE YtD');
+				}
+				if($routeName == "app_kpi_fid"){
+					$sql = "SELECT u.username,u.role,u.brand,u.dr,u.boutique,u.nom_vendeur,u.prenom_vendeur,d.date,d.nbre_clients_contactables_email_h,d.nbre_clients_animes_m0,
+									d.nbre_clients_transformes_m0,d.ca_clients_transformes_m0,d.ca_Crm_ytd
+							FROM app_kpi_month d
+							LEFT JOIN fos_user_user u on d.user_id = u.id
+							WHERE d.id in $ids";
+					$header     = array('Libelle','Role','Reseau','DR','Boutique','Nom Vendeur','Prenom Vendeur','Date','NOMBRE DE CLIENTS CONTACTABLES PAR EMAIL',
+		            					'CLIENTS CONTACTÉS PAR EMAIL SUR LE MOIS','CLIENTS CONTACTÉS PAR EMAIL AYANT ACHETÉ SUR LE MOIS','CA DES CLIENTS CONTACTÉS PAR EMAIL AYANT ACHETÉ SUR LE MOIS',
+		            					'CA GÉNÉRÉ PAR LES CLIENTS CONTACTÉS PAR EMAIL DEPUIS JANVIER');
+				}
+				
+
+	            //Creation du fichier CSV et du header
+	            $handle     = fopen('php://memory', 'r+');
+
+	            //Creation de l'entête du fichier pour être lisible dans Exel
+	            fputs($handle, $bom =( chr(0xEF) . chr(0xBB) . chr(0xBF) ));
+	            fputcsv($handle, $header, ';');
+
+	            //Initialisation de la connection à la BDD
+	            $pdo = $this->container->get('app.pdo_connect');
+	            $pdo = $pdo->initPdoClienteling();
+
+	            //Préparation et execution de la requête
+	            $stmt = $pdo->prepare($sql);
+	            $stmt->execute();
+
+	            //Remplissage du fichier csv.
+	            while ($row = $stmt->fetch(\PDO::FETCH_ASSOC)) {
+	            	if($routeName == "app_kpi_month"){
+	                $row["nb_transac_m0"] = '="'.str_replace('.',',',$row["nb_transac_m0"]).'"';
+	                $row["tx_transac_linked_m0"] = '="'.str_replace('.',',',$row["tx_transac_linked_m0"]).'"';
+	                $row["tx_transac_npe_m0"] = '="'.str_replace('.',',',$row["tx_transac_npe_m0"]).'"';
+	                $row["tx_transac_npes_m0"]  = '="'.str_replace('.',',',$row["tx_transac_npes_m0"]).'"';
+	                $row["tx_transac_npesa_m0"]  = '="'.str_replace('.',',',$row["tx_transac_npesa_m0"]).'"';
+	            	}
+	            	if($routeName == "app_kpi_ytd"){
+	                $row["nb_transac_ytd"] = '="'.str_replace('.',',',$row["nb_transac_ytd"]).'"';
+	                $row["tx_transac_linked_ytd"] = '="'.str_replace('.',',',$row["tx_transac_linked_ytd"]).'"';
+	                $row["tx_transac_npe_ytd"] = '="'.str_replace('.',',',$row["tx_transac_npe_ytd"]).'"';
+	                $row["tx_transac_npes_ytd"]  = '="'.str_replace('.',',',$row["tx_transac_npes_ytd"]).'"';
+	                $row["tx_transac_npesa_ytd"]  = '="'.str_replace('.',',',$row["tx_transac_npesa_ytd"]).'"';
+	            	}
+	                fputcsv($handle, $row, ';');
+	            }
+
+	            //Fermeture du fichier
+	            rewind($handle);
+	            $content = stream_get_contents($handle);
+	            fclose($handle);
 			}
-			if($routeName == "app_kpi_fid"){
-				$sql = "SELECT u.username,u.role,u.brand,u.dr,u.boutique,u.nom_vendeur,u.prenom_vendeur,d.date,d.nbre_clients_contactables_email_h,d.nbre_clients_animes_m0,
-								d.nbre_clients_transformes_m0,d.ca_clients_transformes_m0,d.ca_Crm_ytd
-						FROM app_kpi_month d
-						LEFT JOIN fos_user_user u on d.user_id = u.id
-						WHERE d.id in $ids";
-				$header     = array('Libelle','Role','Reseau','DR','Boutique','Nom Vendeur','Prenom Vendeur','Date','NOMBRE DE CLIENTS CONTACTABLES PAR EMAIL',
-	            					'CLIENTS CONTACTÉS PAR EMAIL SUR LE MOIS','CLIENTS CONTACTÉS PAR EMAIL AYANT ACHETÉ SUR LE MOIS','CA DES CLIENTS CONTACTÉS PAR EMAIL AYANT ACHETÉ SUR LE MOIS',
-	            					'CA GÉNÉRÉ PAR LES CLIENTS CONTACTÉS PAR EMAIL DEPUIS JANVIER');
+			// NEW KPIs export
+			else{
+				if($routeName == "app_kpi_month"){
+					$sql = "SELECT u.username,u.role,u.brand,u.dr,u.boutique,u.nom_vendeur,u.prenom_vendeur,d.date,d.nb_transac_m0,d.tx_transac_linked_m0,d.tx_transac_npesi2_m0,d.tx_transac_npei_m0,d.tx_transac_npsi_m0
+							FROM app_kpi_month d
+							LEFT JOIN fos_user_user u on d.user_id = u.id
+							WHERE d.id in $ids";
+					$header     = array('Libelle','Role','Reseau','DR','Boutique','Nom Vendeur','Prenom Vendeur','Date','NOMBRE DE TRANSACTIONS Mensuel',
+		            					'TAUX DE TRANSACTIONS LIÉES Mensuel','CAPTURE EMAIL ET/OU SMS VALIDE et OPTIN Mensuel','CAPTURE EMAIL VALIDE et OPTIN Mensuel','CAPTURE SMS VALIDE et OPTIN Mensuel');
+				}
+				if($routeName == "app_kpi_ytd"){
+					$sql = "SELECT u.username,u.role,u.brand,u.dr,u.boutique,u.nom_vendeur,u.prenom_vendeur,d.date,d.nb_transac_ytd,d.tx_transac_linked_ytd,d.tx_transac_npesi2_ytd,d.tx_transac_npei_ytd,d.tx_transac_npsi_ytd
+							FROM app_kpi_month d
+							LEFT JOIN fos_user_user u on d.user_id = u.id
+							WHERE d.id in $ids";
+					$header     = array('Libelle','Role','Reseau','DR','Boutique','Nom Vendeur','Prenom Vendeur','Date','NOMBRE DE TRANSACTIONS YtD',
+		            					'TAUX DE TRANSACTIONS LIÉES YtD','CAPTURE EMAIL ET/OU SMS VALIDE et OPTIN YtD','CAPTURE EMAIL VALIDE et OPTIN YtD','CAPTURE SMS VALIDE et OPTIN YtD');
+				}
+				if($routeName == "app_kpi_fid"){
+					$sql = "SELECT u.username,u.role,u.brand,u.dr,u.boutique,u.nom_vendeur,u.prenom_vendeur,d.date,d.nbre_clients_contactables_email_h,d.nbre_clients_animes_m0,
+									d.nbre_clients_transformes_m0,d.ca_clients_transformes_m0,d.ca_Crm_ytd
+							FROM app_kpi_month d
+							LEFT JOIN fos_user_user u on d.user_id = u.id
+							WHERE d.id in $ids";
+					$header     = array('Libelle','Role','Reseau','DR','Boutique','Nom Vendeur','Prenom Vendeur','Date','NOMBRE DE CLIENTS CONTACTABLES PAR EMAIL',
+		            					'CLIENTS CONTACTÉS PAR EMAIL SUR LE MOIS','CLIENTS CONTACTÉS PAR EMAIL AYANT ACHETÉ SUR LE MOIS','CA DES CLIENTS CONTACTÉS PAR EMAIL AYANT ACHETÉ SUR LE MOIS',
+		            					'CA GÉNÉRÉ PAR LES CLIENTS CONTACTÉS PAR EMAIL DEPUIS JANVIER');
+				}
+				
+
+	            //Creation du fichier CSV et du header
+	            $handle     = fopen('php://memory', 'r+');
+
+	            //Creation de l'entête du fichier pour être lisible dans Exel
+	            fputs($handle, $bom =( chr(0xEF) . chr(0xBB) . chr(0xBF) ));
+	            fputcsv($handle, $header, ';');
+
+	            //Initialisation de la connection à la BDD
+	            $pdo = $this->container->get('app.pdo_connect');
+	            $pdo = $pdo->initPdoClienteling();
+
+	            //Préparation et execution de la requête
+	            $stmt = $pdo->prepare($sql);
+	            $stmt->execute();
+
+	            //Remplissage du fichier csv.
+	            while ($row = $stmt->fetch(\PDO::FETCH_ASSOC)) {
+	            	if($routeName == "app_kpi_month"){
+	                $row["nb_transac_m0"] = '="'.str_replace('.',',',$row["nb_transac_m0"]).'"';
+	                $row["tx_transac_linked_m0"] = '="'.str_replace('.',',',$row["tx_transac_linked_m0"]).'"';
+	                $row["tx_transac_npesi2_m0"] = '="'.str_replace('.',',',$row["tx_transac_npesi2_m0"]).'"';
+	                $row["tx_transac_npei_m0"]  = '="'.str_replace('.',',',$row["tx_transac_npei_m0"]).'"';
+	                $row["tx_transac_npsi_m0"]  = '="'.str_replace('.',',',$row["tx_transac_npsi_m0"]).'"';
+	            	}
+	            	if($routeName == "app_kpi_ytd"){
+	                $row["nb_transac_ytd"] = '="'.str_replace('.',',',$row["nb_transac_ytd"]).'"';
+	                $row["tx_transac_linked_ytd"] = '="'.str_replace('.',',',$row["tx_transac_linked_ytd"]).'"';
+	                $row["tx_transac_npesi2_ytd"] = '="'.str_replace('.',',',$row["tx_transac_npesi2_ytd"]).'"';
+	                $row["tx_transac_npei_ytd"]  = '="'.str_replace('.',',',$row["tx_transac_npei_ytd"]).'"';
+	                $row["tx_transac_npsi_ytd"]  = '="'.str_replace('.',',',$row["tx_transac_npsi_ytd"]).'"';
+	            	}
+	                fputcsv($handle, $row, ';');
+	            }
+
+	            //Fermeture du fichier
+	            rewind($handle);
+	            $content = stream_get_contents($handle);
+	            fclose($handle);
 			}
 
-            //Creation du fichier CSV et du header
-            $handle     = fopen('php://memory', 'r+');
 
-            //Creation de l'entête du fichier pour être lisible dans Exel
-            fputs($handle, $bom =( chr(0xEF) . chr(0xBB) . chr(0xBF) ));
-            fputcsv($handle, $header, ';');
-
-            //Initialisation de la connection à la BDD
-            $pdo = $this->container->get('app.pdo_connect');
-            $pdo = $pdo->initPdoClienteling();
-
-            //Préparation et execution de la requête
-            $stmt = $pdo->prepare($sql);
-            $stmt->execute();
-
-            //Remplissage du fichier csv.
-            while ($row = $stmt->fetch(\PDO::FETCH_ASSOC)) {
-            	if($routeName == "app_kpi_month"){
-                $row["nb_transac_m0"] = '="'.str_replace('.',',',$row["nb_transac_m0"]).'"';
-                $row["tx_transac_linked_m0"] = '="'.str_replace('.',',',$row["tx_transac_linked_m0"]).'"';
-                $row["tx_transac_npe_m0"] = '="'.str_replace('.',',',$row["tx_transac_npe_m0"]).'"';
-                $row["tx_transac_npes_m0"]  = '="'.str_replace('.',',',$row["tx_transac_npes_m0"]).'"';
-                $row["tx_transac_npesa_m0"]  = '="'.str_replace('.',',',$row["tx_transac_npesa_m0"]).'"';
-            	}
-            	if($routeName == "app_kpi_ytd"){
-                $row["nb_transac_ytd"] = '="'.str_replace('.',',',$row["nb_transac_ytd"]).'"';
-                $row["tx_transac_linked_ytd"] = '="'.str_replace('.',',',$row["tx_transac_linked_ytd"]).'"';
-                $row["tx_transac_npe_ytd"] = '="'.str_replace('.',',',$row["tx_transac_npe_ytd"]).'"';
-                $row["tx_transac_npes_ytd"]  = '="'.str_replace('.',',',$row["tx_transac_npes_ytd"]).'"';
-                $row["tx_transac_npesa_ytd"]  = '="'.str_replace('.',',',$row["tx_transac_npesa_ytd"]).'"';
-            	}
-                fputcsv($handle, $row, ';');
-            }
-
-            //Fermeture du fichier
-            rewind($handle);
-            $content = stream_get_contents($handle);
-            fclose($handle);
 
             $date_csv = new \Datetime('now');
             $date_csv = $date_csv->format('Ymd');
@@ -679,6 +798,12 @@ class KpiController extends Controller
 	        	'topNpeVendeur'		=> $topNpeVendeur,
 	        	'topNpesVendeur'	=> $topNpesVendeur,
 	        	'topNpesaVendeur'	=> $topNpesaVendeur,
+	        	'topNpe2'			=> $topNpe2,
+	        	'topNps2'			=> $topNps2,
+	        	'topNpes2'			=> $topNpes2,
+	        	'topNpeVendeur2'	=> $topNpeVendeur2,
+	        	'topNpsVendeur2'	=> $topNpsVendeur2,
+	        	'topNpesVendeur2'	=> $topNpesVendeur2,
 	        	'currentMonth'		=> $currentMonth,
 	        	'user'				=> $user,
 	        	'getBoutiquesDr'	=> $getBoutiquesDr,
@@ -703,6 +828,12 @@ class KpiController extends Controller
 	        	'topNpeVendeur'		=> $topNpeVendeur,
 	        	'topNpesVendeur'	=> $topNpesVendeur,
 	        	'topNpesaVendeur'	=> $topNpesaVendeur,
+	        	'topNpe2'			=> $topNpe2,
+	        	'topNps2'			=> $topNps2,
+	        	'topNpes2'			=> $topNpes2,
+	        	'topNpeVendeur2'	=> $topNpeVendeur2,
+	        	'topNpsVendeur2'	=> $topNpsVendeur2,
+	        	'topNpesVendeur2'	=> $topNpesVendeur2,
 	        	'user'				=> $user,
 	        	'month'				=> $month,
 	        	'marque'			=> $marque,
@@ -852,6 +983,10 @@ class KpiController extends Controller
 		$brand = $user->getBrand();
 		if ($brand == null) $brand = '';
 
+
+		$vendeurBoutique = $user->getBoutique();
+		if ($vendeurBoutique == null) $vendeurBoutique = '';
+
 		$getBoutiquesDr = null;
 		$getDrsMarque = null;
 
@@ -984,6 +1119,14 @@ class KpiController extends Controller
 		$topNpeVendeur = $em->getRepository('AppBundle:KpiWeek')->getRank1NpeVendeur($dateWeek3, $dateWeek2, $brand);
 		$topNpesVendeur = $em->getRepository('AppBundle:KpiWeek')->getRank1NpesVendeur($dateWeek3, $dateWeek2, $brand);
 		$topNpesaVendeur = $em->getRepository('AppBundle:KpiWeek')->getRank1NpesaVendeur($dateWeek3, $dateWeek2, $brand);
+
+		$topNpe2 = $em->getRepository('AppBundle:KpiWeek')->getRank1Npe2($dateWeek3, $dateWeek2, $brand);
+		$topNps2 = $em->getRepository('AppBundle:KpiWeek')->getRank1Nps2($dateWeek3, $dateWeek2, $brand);
+		$topNpes2 = $em->getRepository('AppBundle:KpiWeek')->getRank1Npes2($dateWeek3, $dateWeek2, $brand);
+
+		$topNpeVendeur2 = $em->getRepository('AppBundle:KpiWeek')->getRank1Npe2Vendeur($dateWeek3, $dateWeek2, $brand, $vendeurBoutique);
+		$topNpsVendeur2 = $em->getRepository('AppBundle:KpiWeek')->getRank1Nps2Vendeur($dateWeek3, $dateWeek2, $brand, $vendeurBoutique);
+		$topNpes2Vendeur2 = $em->getRepository('AppBundle:KpiWeek')->getRank1Npes2Vendeur($dateWeek3, $dateWeek2, $brand, $vendeurBoutique);
 	}
 
 	//Mise à jour du filtre
@@ -1098,6 +1241,12 @@ class KpiController extends Controller
 	        	'topNpeVendeur'		=> $topNpeVendeur,
 	        	'topNpesVendeur'	=> $topNpesVendeur,
 	        	'topNpesaVendeur'	=> $topNpesaVendeur,
+	        	'topNpe2'			=> $topNpe2,
+	        	'topNps2'			=> $topNps2,
+	        	'topNpes2'			=> $topNpes2,
+	        	'topNpeVendeur2'	=> $topNpeVendeur2,
+	        	'topNpsVendeur2'	=> $topNpsVendeur2,
+	        	'topNpesVendeur2'	=> $topNpeVendeur2,
 	        	'user'				=> $user,
 	        	'getBoutiquesDr'	=> $getBoutiquesDr,
 	        	'getDrsMarque'		=> $getDrsMarque,

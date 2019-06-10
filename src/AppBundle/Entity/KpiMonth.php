@@ -838,6 +838,52 @@ class KpiMonth
      */
     private $txTransacNvesa2Ytd;
 
+    
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="rank_npe2_m0", type="integer")
+     */
+    private $rankNpe2M0 = 1;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="rank_nps2_m0", type="integer")
+     */
+    private $rankNps2M0 = 1;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="rank_npes2_m0", type="integer")
+     */
+    private $rankNpes2M0 = 1;
+
+
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="rank_npe2_ytd", type="integer")
+     */
+    private $rankNpe2Ytd = 1;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="rank_nps2_ytd", type="integer")
+     */
+    private $rankNps2Ytd = 1;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="rank_npes2_ytd", type="integer")
+     */
+    private $rankNpes2Ytd = 1;
+
     /*
      *
      *  GETTERS / SETTERS
@@ -2766,5 +2812,143 @@ class KpiMonth
     {
         $this->txTransacLinkedOptoutYTD = $txTransacLinkedOptoutYTD;
         return $this;
+    }
+
+    /**
+     * Set rankNpe2M0
+     *
+     * @param string $rankNpe2M0
+     * @return KpiMonth
+     */
+    public function setRankNpe2M0($rankNpe2M0)
+    {
+        $this->rankNpe2M0 = $rankNpe2M0;
+
+        return $this;
+    }
+
+    /**
+     * Get rankNpe2M0
+     *
+     * @return string 
+     */
+    public function getRankNpe2M0()
+    {
+        return $this->rankNpe2M0;
+    }
+
+    /**
+     * Set rankNps2M0
+     *
+     * @param string $rankNps2M0
+     * @return KpiMonth
+     */
+    public function setRankNps2M0($rankNps2M0)
+    {
+        $this->rankNps2M0 = $rankNps2M0;
+
+        return $this;
+    }
+
+    /**
+     * Get rankNps2M0
+     *
+     * @return string 
+     */
+    public function getRankNps2M0()
+    {
+        return $this->rankNps2M0;
+    }
+
+    /**
+     * Set rankNpes2M0
+     *
+     * @param string $rankNpes2M0
+     * @return KpiMonth
+     */
+    public function setRankNpes2M0($rankNpes2M0)
+    {
+        $this->rankNpes2M0 = $rankNpes2M0;
+
+        return $this;
+    }
+
+    /**
+     * Get rankNpes2M0
+     *
+     * @return string 
+     */
+    public function getRankNpes2M0()
+    {
+        return $this->rankNpes2M0;
+    }
+
+    /**
+     * Set rankNpe2Ytd
+     *
+     * @param string $rankNpe2Ytd
+     * @return KpiMonth
+     */
+    public function setRankNpe2Ytd($rankNpe2Ytd)
+    {
+        $this->rankNpe2Ytd = $rankNpe2Ytd;
+
+        return $this;
+    }
+
+    /**
+     * Get rankNpe2Ytd
+     *
+     * @return string 
+     */
+    public function getRankNpe2Ytd()
+    {
+        return $this->rankNpe2Ytd;
+    }
+
+    /**
+     * Set rankNps2Ytd
+     *
+     * @param string $rankNps2Ytd
+     * @return KpiMonth
+     */
+    public function setRankNps2Ytd($rankNps2Ytd)
+    {
+        $this->rankNps2Ytd = $rankNps2Ytd;
+
+        return $this;
+    }
+
+    /**
+     * Get rankNps2Ytd
+     *
+     * @return string 
+     */
+    public function getRankNps2Ytd()
+    {
+        return $this->rankNps2Ytd;
+    }
+
+    /**
+     * Set rankNpes2Ytd
+     *
+     * @param string $rankNpes2Ytd
+     * @return KpiMonth
+     */
+    public function setRankNpes2Ytd($rankNpes2Ytd)
+    {
+        $this->rankNpes2Ytd = $rankNpes2Ytd;
+
+        return $this;
+    }
+
+    /**
+     * Get rankNpes2Ytd
+     *
+     * @return string 
+     */
+    public function getRankNpes2Ytd()
+    {
+        return $this->rankNpes2Ytd;
     }
 }
