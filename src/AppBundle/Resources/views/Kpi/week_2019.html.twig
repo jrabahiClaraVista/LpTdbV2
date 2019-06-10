@@ -21,7 +21,6 @@
 
 	<div class="col-xs-12">
 		<h2 class="text-uppercase gris-bg">{{ "La qualification de mes clients"|trans }}</h2>
-
 		<div class="col-xs-12 kpi-box">
 
 			{% if user_role != "ROLE_VENDEUR" and currentKpi.txTransacLinkedS0 > 0 %}
@@ -31,87 +30,60 @@
 							<strong>{{ currentKpi.nbTransacS0|number_format(0, ',', ' ') }} Transactions enregistrées</strong>
 						</p>
 					<figure class="col-xs-12">
-						<div id="chartContainer0" class="col-xs-12" style="height: 250px;"></div>
-					<figcaption class="col-xs-12 col-md-4">
-						<p class="small">
-							&nbsp;<br />
-							<i style="color: #53B3AD;" class="fa fa-square fa-lg" aria-hidden="true"></i><br />
-							{{ "Transactions identifiées avec un nom & un prénom et avec au moins un moyen de contact valide et optin"|trans}}
-						</p>
-					</figcaption>
-
-					<figcaption class="col-xs-12 col-md-4">
-						<p class="small">
-							&nbsp;<br />
-							<i style="color: #F5F4F2;" class="fa fa-square fa-lg" aria-hidden="true"></i><br />
-							{{ "Transactions identifiées avec un nom & un prénom sans moyen de contact"|trans}}
-						</p>
-					</figcaption>
-
-					<figcaption class="col-xs-12 col-md-4">
-						<p class="small">
-							&nbsp;<br />
-							<i style="color: #393845;" class="fa fa-square fa-lg" aria-hidden="true"></i><br />
-							{{ "Transactions non liées (sans nom & prénom)"|trans}}
-						</p>
-					</figcaption>
+						<figcaption class="col-xs-12 col-lg-4 alert alert-info text-center">
+							<h3>Rappel des objectifs</h3>
+							<h1>65%</h1>
+							<p><strong>de capture Email et/ou SMS valide et optin</strong></p>
+						</figcaption>
+						<div id="chartContainer0" class="col-xs-12 col-lg-8" style="height: 250px;"></div>
 					</figure>
+					<div class="col-xs-12">
+						<h4>Legendes</h4>
+						<p class="small">
+							<i style="color: #53B3AD;" class="fa fa-square fa-lg" aria-hidden="true"></i>
+							{{ "Taux de transactions identifiées avec un nom & un prénom et avec au moins un moyen de contact valide et optin"|trans}}<br />
+							<i style="color: #F5F4F2;" class="fa fa-square fa-lg" aria-hidden="true"></i>
+							{{ "Taux de transactions identifiées avec un nom & un prénom sans moyen de contact"|trans}}<br />
+							<i style="color: #393845;" class="fa fa-square fa-lg" aria-hidden="true"></i>
+							{{ "Taux de transactions non identifiées (sans nom & prénom)"|trans}}
+						</p>
+					</div>
 				</div>
 			{% endif %}
 
 			<div class="inside col-xs-12 bordered-bottom">
 				<h4 class="text-uppercase black text-center">Capture par canal{% if  currentKpi.txTransacLinkedS0 == 0 %}<br />{{ currentKpi.nbTransacS0|number_format(0, ',', ' ') }} Transactions enregistrées{% endif %}</h4>
 
-				<figure class="col-xs-12 col-md-3">
-					<h4 class="text-center bg-white black">Email<br />&nbsp;</h4>
-					<div id="chartContainer1" style="height: 150px;"></div>
-				</figure>
-				<figure class="col-xs-12 col-md-3">
-					<h4 class="text-center bg-white black">SMS<br />&nbsp;</h4>
-					<div id="chartContainer2" style="height: 150px;"></div>
-				</figure>
-				<figure class="col-xs-12 col-md-3">
-					<h4 class="text-center bg-white black">Adresse<br />&nbsp;</h4>
-					<div id="chartContainer3" style="height: 150px;"></div>
-				</figure>
-				<figure class="col-xs-12 col-md-3">
+				<figure class="col-xs-12 col-md-4">
 					<h4 class="text-center bg-white black">Email ou SMS<br />&nbsp;</h4>
 					<div id="chartContainer4" style="height: 150px;"></div>
 				</figure>
-				<figure class="col-xs-12 col-md-3">
-					<figcaption>
-						<p class="small">
-							<i style="color: #93A603;" class="fa fa-square fa-lg" aria-hidden="true"></i>
-							<i style="color: #05AFF2;" class="fa fa-square fa-lg" aria-hidden="true"></i>
-							<i style="color: #F0948A;" class="fa fa-square fa-lg" aria-hidden="true"></i>
-							<i style="color: #FFA118;" class="fa fa-square fa-lg" aria-hidden="true"></i><br />
-							{{ "Taux de transactions avec des données valides et optin"|trans}}
-						</p>
-					</figcaption>
+				<figure class="col-xs-12 col-md-4">
+					<h4 class="text-center bg-white black">Email<br />&nbsp;</h4>
+					<div id="chartContainer1" style="height: 150px;"></div>
 				</figure>
-				<figure class="col-xs-12 col-md-3">
+				<figure class="col-xs-12 col-md-4">
+					<h4 class="text-center bg-white black">SMS<br />&nbsp;</h4>
+					<div id="chartContainer2" style="height: 150px;"></div>
+				</figure>
+				<figure class="col-xs-12">
 					<figcaption>
+						<h4>Legendes</h4>
 						<p class="small">
+							<i style="color: #FFA118;" class="fa fa-square fa-lg" aria-hidden="true"></i>
+							<i style="color: #718003;" class="fa fa-square fa-lg" aria-hidden="true"></i>
+							<i style="color: #0481b3;" class="fa fa-square fa-lg" aria-hidden="true"></i>
+							{{ "Taux de transactions avec des données valides et optin"|trans}}<br />
+
+							<i style="color: #FFD14A;" class="fa fa-square fa-lg" aria-hidden="true"></i>
 							<i style="color: #A9BF04;" class="fa fa-square fa-lg" aria-hidden="true"></i>
 							<i style="color: #05C7F2;" class="fa fa-square fa-lg" aria-hidden="true"></i>
-							<i style="color: #FFD9D8;" class="fa fa-square fa-lg" aria-hidden="true"></i>
-							<i style="color: #FFD14A;" class="fa fa-square fa-lg" aria-hidden="true"></i><br />
-							{{ "Taux de transactions avec des données valides et optout"|trans}}
-						</p>
-					</figcaption>
-				</figure>
-				<figure class="col-xs-12 col-md-3">
-					<figcaption>
-						<p class="small">
-							<i style="color: #F5F4F2;" class="fa fa-square fa-lg" aria-hidden="true"></i><br />
-							{{ "Taux de transactions avec des données non-collectées"|trans}}
-						</p>
-					</figcaption>
-				</figure>
-				<figure class="col-xs-12 col-md-3">
-					<figcaption>
-						<p class="small">
-							<i style="color: #393845;" class="fa fa-square fa-lg" aria-hidden="true"></i><br />
+							{{ "Taux de transactions avec des données valides mais non optin (optout ou consentement non demandé)"|trans}}<br />
+
+							<i style="color: #F5F4F2;" class="fa fa-square fa-lg" aria-hidden="true"></i>
+							{{ "Taux de transactions avec des données non-collectées"|trans}}<br />
+
+							<i style="color: #393845;" class="fa fa-square fa-lg" aria-hidden="true"></i>
 							{{ "Taux de transactions avec des données non-valides"|trans}}
 						</p>
 					</figcaption>
@@ -127,39 +99,15 @@
 				</figure>
 
 				<figure class="col-xs-12">
-					<figcaption class="col-xs-12 col-md-3">
+					<figcaption>
+						<h4>Legendes</h4>
 						<p class="small">
-							&nbsp;<br />
-							<i style="color: #93A603;" class="fa fa-square fa-lg" aria-hidden="true"></i><br />
+							<i style="color: #FFA118;" class="fa fa-square fa-lg" aria-hidden="true"></i>
+							{{ "Taux de transactions avec des emails ou SMS valides et optin"|trans}}<br />
+							<i style="color: #0481b3;" class="fa fa-square fa-lg" aria-hidden="true"></i>
+							{{ "Taux de transactions avec des SMS valides et optin"|trans}}<br />
+							<i style="color: #718003;" class="fa fa-square fa-lg" aria-hidden="true"></i>
 							{{ "Taux de transactions avec des emails valides et optin"|trans}}
-						</p>
-					</figcaption>
-					<figcaption class="col-xs-12 col-md-3">
-						<p class="small">
-							&nbsp;<br />
-							<i style="color: #05AFF2;" class="fa fa-square fa-lg" aria-hidden="true"></i><br />
-							{{ "Taux de transactions avec des SMS valides et optin"|trans}}
-						</p>
-					</figcaption>
-					<figcaption class="col-xs-12 col-md-3">
-						<p class="small">
-							&nbsp;<br />
-							<i style="color: #F0948A;" class="fa fa-square fa-lg" aria-hidden="true"></i><br />
-							{{ "Taux de transactions avec des adresses valides et optin"|trans}}
-						</p>
-					</figcaption>
-					<figcaption class="col-xs-12 col-md-3">
-						<p class="small">
-							&nbsp;<br />
-							<i style="color: #FFA118;" class="fa fa-square fa-lg" aria-hidden="true"></i><br />
-							{{ "Taux de transactions avec des emails ou SMS valides et optin"|trans}}
-						</p>
-					</figcaption>
-					<figcaption class="col-xs-12 col-md-3">
-						<p class="small">
-							&nbsp;<br />
-							<i style="color: #53B3AD;" class="fa fa-square fa-lg" aria-hidden="true"></i><br />
-							{{ "Taux de transactions avec des emails ou SMS ou adresses valides et optin"|trans}}
 						</p>
 					</figcaption>
 				</figure>
@@ -197,12 +145,10 @@
 						<tr>
 							<th class=""></th>
 							<th class=" text-center text-uppercase">Nombre de transactions</th>
-							<th class=" text-center text-uppercase">Taux de transactions liées</th>
-							<th class=" text-center text-uppercase">Taux de transactions liées valides et optin</th>
+							<th class=" text-center text-uppercase">Taux de transactions identifiées</th>
+							<th class=" text-center text-uppercase">Capture emails ou SMS valides et optin</th>
 							<th class=" text-center text-uppercase">Capture emails valides et optin</th>
 							<th class=" text-center text-uppercase">Capture SMS valides et optin</th>
-							<th class=" text-center text-uppercase">Capture adresses valides et optin</th>
-							<th class=" text-center text-uppercase">Capture emails ou SMS valides et optin</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -210,22 +156,18 @@
 							<th class="text-right text-uppercase" style="color: #3399FF">Résultats du réseau</th>
 							<td class="text-center">{{marque.nbTransacS0|number_format(0, ',', ' ') }}</td>
 							<td class="text-center">{{ marque.txTransacLinkedS0|number_format}} %</td>
-							<td class="text-center">{{ marque.txTransacLinkedOptinS0|number_format}} %</td>
+							<td class="text-center">{{ marque.txTransacNpesi2S0|number_format}} %</td>
 							<td class="text-center">{{ marque.txTransacNpeiS0|number_format}} %</td>
 							<td class="text-center">{{ marque.txTransacNpsiS0|number_format}} %</td>
-							<td class="text-center">{{ marque.txTransacNpaiS0|number_format}} %</td>
-							<td class="text-center">{{ marque.txTransacNpesi2S0|number_format}} %</td>
 						</tr>
 						{% if user_role == "ROLE_BOUTIQUE" or user_role == "ROLE_DR" %}
 							<tr class="info">
 								<th class="text-right text-uppercase" style="color: #3399FF">{{currentKpi.user.username}}</th>
 								<td class="text-center">{{ currentKpi.nbTransacS0|number_format(0, ',', ' ') }}</td>
 								<td class="text-center">{{ currentKpi.txTransacLinkedS0|number_format}} %</td>
-								<td class="text-center">{{ currentKpi.txTransacLinkedOptinS0|number_format}} %</td>
+								<td class="text-center">{{ currentKpi.txTransacNpesi2S0|number_format}} %</td>
 								<td class="text-center">{{ currentKpi.txTransacNpeiS0|number_format}} %</td>
 								<td class="text-center">{{ currentKpi.txTransacNpsiS0|number_format}} %</td>
-								<td class="text-center">{{ currentKpi.txTransacNpaiS0|number_format}} %</td>
-								<td class="text-center">{{ currentKpi.txTransacNpesi2S0|number_format}} %</td>
 							</tr>
 						{% endif %}
 						{% if user_role == "ROLE_MARQUE" %}
@@ -236,11 +178,9 @@
 										<th class="text-right text-uppercase"><i class="fa fa-plus-circle" aria-hidden="true" data="boutiques_{{keyloop}}" style="cursor:pointer;"></i>&nbsp;&nbsp;<a target="_blank" href="{{ path('app_kpi_month', { 'user_actuel' : userId, 'user_id' : boutique.user.id } ) }}">{{boutique.user.username}}</a></th>
 										<td class="text-center">{{ boutique.nbTransacS0|number_format(0, ',', ' ') }}</td>
 										<td class="text-center">{{ boutique.txTransacLinkedS0|number_format}} %</td>
-										<td class="text-center">{{ boutique.txTransacLinkedOptinS0|number_format}} %</td>
+										<td class="text-center">{{ boutique.txTransacNpesi2S0|number_format}} %</td>
 										<td class="text-center">{{ boutique.txTransacNpeiS0|number_format}} %</td>
 										<td class="text-center">{{ boutique.txTransacNpsiS0|number_format}} %</td>
-										<td class="text-center">{{ boutique.txTransacNpaiS0|number_format}} %</td>
-										<td class="text-center">{{ boutique.txTransacNpesi2S0|number_format}} %</td>
 									</tr>
 								{% endif %}
 								{% for boutique2 in getBoutiquesDr %}
@@ -251,11 +191,9 @@
 												<th class="text-right text-uppercase small"><a target="_blank" href="{{ path('app_kpi_month', { 'user_actuel' : userId, 'user_id' : boutique3.user.id } ) }}">{{boutique3.user.username}}</a></th>
 												<td class="text-center">{{ boutique3.nbTransacS0|number_format(0, ',', ' ') }}</td>
 												<td class="text-center">{{ boutique3.txTransacLinkedS0|number_format}} %</td>
-												<td class="text-center">{{ boutique3.txTransacLinkedOptinS0|number_format}} %</td>
+												<td class="text-center">{{ boutique3.txTransacNpesi2S0|number_format}} %</td>
 												<td class="text-center">{{ boutique3.txTransacNpeiS0|number_format}} %</td>
 												<td class="text-center">{{ boutique3.txTransacNpsiS0|number_format}} %</td>
-												<td class="text-center">{{ boutique3.txTransacNpaiS0|number_format}} %</td>
-												<td class="text-center">{{ boutique3.txTransacNpesi2S0|number_format}} %</td>
 											</tr>
 										{% endif %}
 									{% endfor %}
@@ -270,11 +208,9 @@
 										<th class="text-right text-uppercase"><i class="fa fa-plus-circle" aria-hidden="true" data="boutiques_{{keyloop}}" style="cursor:pointer;"></i>&nbsp;&nbsp;<a target="_blank" href="{{ path('app_kpi_month', { 'user_actuel' : userId, 'user_id' : boutique.user.id } ) }}">{{boutique.user.username}}</a></th>
 										<td class="text-center">{{ boutique.nbTransacS0|number_format(0, ',', ' ') }}</td>
 										<td class="text-center">{{ boutique.txTransacLinkedS0|number_format}} %</td>
-										<td class="text-center">{{ boutique.txTransacLinkedOptinS0|number_format}} %</td>
+										<td class="text-center">{{ boutique.txTransacNpesi2S0|number_format}} %</td>
 										<td class="text-center">{{ boutique.txTransacNpeiS0|number_format}} %</td>
 										<td class="text-center">{{ boutique.txTransacNpsiS0|number_format}} %</td>
-										<td class="text-center">{{ boutique.txTransacNpaiS0|number_format}} %</td>
-										<td class="text-center">{{ boutique.txTransacNpesi2S0|number_format}} %</td>
 									</tr>
 								{% endif %}
 								{% for boutique2 in getVendeursBoutique %}
@@ -285,11 +221,9 @@
 												<th class="text-right text-uppercase small"><a target="_blank" href="{{ path('app_kpi_month', { 'user_actuel' : userId, 'user_id' : boutique3.user.id } ) }}">{{boutique3.user.nameAndSurname}}</a></th>
 												<td class="text-center">{{ boutique3.nbTransacS0|number_format(0, ',', ' ') }}</td>
 												<td class="text-center">{{ boutique3.txTransacLinkedS0|number_format}} %</td>
-												<td class="text-center">{{ boutique3.txTransacLinkedOptinS0|number_format}} %</td>
+												<td class="text-center">{{ boutique3.txTransacNpesi2S0|number_format}} %</td>
 												<td class="text-center">{{ boutique3.txTransacNpeiS0|number_format}} %</td>
 												<td class="text-center">{{ boutique3.txTransacNpsiS0|number_format}} %</td>
-												<td class="text-center">{{ boutique3.txTransacNpaiS0|number_format}} %</td>
-												<td class="text-center">{{ boutique3.txTransacNpesi2S0|number_format}} %</td>
 											</tr>
 										{% endif %}
 									{% endfor %}
@@ -303,11 +237,9 @@
 										<th class="text-right text-uppercase"><a target="_blank" href="{{ path('app_kpi_month', { 'user_actuel' : userId, 'user_id' : boutique.user.id } ) }}">{{boutique.user.nameAndSurname}}</a></th>
 										<td class="text-center">{{ boutique.nbTransacS0|number_format(0, ',', ' ') }}</td>
 										<td class="text-center">{{ boutique.txTransacLinkedS0|number_format}} %</td>
-										<td class="text-center">{{ boutique.txTransacLinkedOptinS0|number_format}} %</td>
+										<td class="text-center">{{ boutique.txTransacNpesi2S0|number_format}} %</td>
 										<td class="text-center">{{ boutique.txTransacNpeiS0|number_format}} %</td>
 										<td class="text-center">{{ boutique.txTransacNpsiS0|number_format}} %</td>
-										<td class="text-center">{{ boutique.txTransacNpaiS0|number_format}} %</td>
-										<td class="text-center">{{ boutique.txTransacNpesi2S0|number_format}} %</td>
 									</tr>
 								{% endif %}
 							{% endfor %}
@@ -329,24 +261,24 @@
 			<div class="col-xs-12 kpi-box">
 				<div class="inside">
 					<div class="inside top col-xs-4 text-center">
+						<h3 class="black">#1 Email et/ou SMS</h3>
+						<div class="dark-box">
+							<h3>{{ deleteFirstCharacters(topNpe2.user.username,4)|upper }}</h3>
+							<p class="small white">{{ topNpe2.txTransacNpesi2S0|number_format(0, ',', ' ') }} % {{ "de transactions"|trans }}<br /> {{ "Emails ou SMS valides et optin"|trans }}</p>
+						</div>
+					</div>
+					<div class="inside top col-xs-4 text-center">
 						<h3 class="black">#1 Email</h3>
 						<div class="dark-box">
-							<h3>{{ deleteFirstCharacters(topNpe.user.username,4)|upper }}</h3>
-							<p class="small white">{{ topNpe.txTransacNpeS0|number_format(0, ',', ' ') }} % {{ "de transactions"|trans }}<br /> {{ "Emails valides"|trans }}</p>
+							<h3>{{ deleteFirstCharacters(topNps2.user.username, 4)|upper }}</h3>
+							<p class="small white">{{ topNps2.txTransacNpeiS0|number_format(0, ',', ' ') }} % {{ "de transactions"|trans }}<br /> {{ "Emails valides et optin"|trans }}</p>
 						</div>
 					</div>
 					<div class="inside top col-xs-4 text-center">
-						<h3 class="black">#1 Email + SMS</h3>
+						<h3 class="black">#1 SMS</h3>
 						<div class="dark-box">
-							<h3>{{ deleteFirstCharacters(topNpes.user.username, 4)|upper }}</h3>
-							<p class="small white">{{ topNpes.txTransacNpesS0|number_format(0, ',', ' ') }} % {{ "de transactions"|trans }}<br /> {{ "Emails + SMS valides"|trans }}</p>
-						</div>
-					</div>
-					<div class="inside top col-xs-4 text-center">
-						<h3 class="black">#1 Email + SMS + Adresse</h3>
-						<div class="dark-box">
-							<h3>{{ deleteFirstCharacters(topNpesa.user.username,4)|upper }}</h3>
-							<p class="small white">{{ topNpesa.txTransacNpesaS0|number_format(0, ',', ' ') }} % {{ "de transactions"|trans }}<br /> {{ "Emails + SMS + Adresses valides"|trans }}</p>
+							<h3>{{ deleteFirstCharacters(topNpes2.user.username,4)|upper }}</h3>
+							<p class="small white">{{ topNpes2.txTransacNpsiS0|number_format(0, ',', ' ') }} % {{ "de transactions"|trans }}<br /> {{ "SMS valides et optin"|trans }}</p>
 						</div>
 					</div>
 					<div style="height:0px;" class="spacer"></div>
@@ -357,24 +289,24 @@
 			<div class="col-xs-12 kpi-box">
 				<div class="inside">
 					<div class="inside top col-xs-4 text-center">
+						<h3 class="black">#1 Email et/ou SMS</h3>
+						<div class="dark-box">
+							<h3>{{ topNpe2Vendeur.user.nameAndSurname|upper }}</h3>
+							<p class="small white">{{ topNpe2Vendeur.txTransacNpesi2S0|number_format(0, ',', ' ') }} % {{ "de transactions"|trans }}<br /> {{ "Emails ou SMS valides"|trans }}</p>
+						</div>
+					</div>
+					<div class="inside top col-xs-4 text-center">
 						<h3 class="black">#1 Email</h3>
 						<div class="dark-box">
-							<h3>{{ topNpeVendeur.user.nameAndSurname|upper }}</h3>
-							<p class="small white">{{ topNpeVendeur.txTransacNpeS0|number_format(0, ',', ' ') }} % {{ "de transactions"|trans }}<br /> {{ "Emails valides"|trans }}</p>
+							<h3>{{ topNps2Vendeur.user.nameAndSurname|upper }}</h3>
+							<p class="small white">{{ topNps2Vendeur.txTransacNpeiS0|number_format(0, ',', ' ') }} % {{ "de transactions"|trans }}<br /> {{ "Emails valides et optin"|trans }}</p>
 						</div>
 					</div>
 					<div class="inside top col-xs-4 text-center">
-						<h3 class="black">#1 Email + SMS</h3>
+						<h3 class="black">#1 SMS</h3>
 						<div class="dark-box">
-							<h3>{{ topNpesVendeur.user.nameAndSurname|upper }}</h3>
-							<p class="small white">{{ topNpesVendeur.txTransacNpesS0|number_format(0, ',', ' ') }} % {{ "de transactions"|trans }}<br /> {{ "Emails + SMS valides"|trans }}</p>
-						</div>
-					</div>
-					<div class="inside top col-xs-4 text-center">
-						<h3 class="black">#1 Email + SMS + Adresse</h3>
-						<div class="dark-box">
-							<h3>{{ topNpesaVendeur.user.nameAndSurname|upper }}</h3>
-							<p class="small white">{{ topNpesaVendeur.txTransacNpesaS0|number_format(0, ',', ' ') }} % {{ "de transactions"|trans }}<br /> {{ "Emails + SMS + Adresses valides"|trans }}</p>
+							<h3>{{ topNpes2Vendeur.user.nameAndSurname|upper }}</h3>
+							<p class="small white">{{ topNpes2Vendeur.txTransacNpsiS0|number_format(0, ',', ' ') }} % {{ "de transactions"|trans }}<br /> {{ "SMS valides et optin"|trans }}</p>
 						</div>
 					</div>
 					<div style="height:0px;" class="spacer"></div>
@@ -516,14 +448,14 @@
 
     CanvasJS.addColorSet("set1",
 		[
-		"#93A603",
+		"#718003",
 		"#A9BF04",
 		"#F5F4F2",
 		"#393845",
 		]);
 		CanvasJS.addColorSet("set2",
 		[
-		"#05AFF2",
+		"#0481b3",
 		"#05C7F2",
 		"#F5F4F2",
 		"#393845",
@@ -550,8 +482,8 @@
 		]);
 		CanvasJS.addColorSet("set0",
 		[
-		"#93A603",
-		"#05AFF2",
+		"#718003",
+		"#0481b3",
 		'#F0948A',
 		"#FFA118",
 		"#53B3AD",
@@ -610,8 +542,8 @@
 							indexLabel: 	"{y}%",
 							toolTipContent: "{y}%",
 							exploded: false,
-							legendText:"{y}% Transactions non liées (sans nom & prénom)",
-							label: "{y}% Transactions non liées (sans nom & prénom)"},
+							legendText:"{y}% Transactions non identifiées (sans nom & prénom)",
+							label: "{y}% Transactions non identifiées (sans nom & prénom)"},
 					]
 				}
 				]
@@ -626,7 +558,7 @@
 			colorSet: "set1",
 			animationEnabled: true,
 			title:{
-				text: {{ currentKpi.txTransacNpeS0|number_format }} + "%",
+				text: {{ currentKpi.txTransacNpeiS0|number_format }} + "%",
 				fontSize: 32,
 				verticalAlign: "center", // "top", "center", "bottom"
 				horizontalAlign: "center", // "left", "right", "center"
@@ -660,7 +592,7 @@
 			colorSet: "set2",
 			animationEnabled: true,
 			title:{
-				text: {{ currentKpi.txTransacNpsS0|number_format }} + "%",
+				text: {{ currentKpi.txTransacNpsiS0|number_format }} + "%",
 				fontSize: 32,
 				verticalAlign: "center", // "top", "center", "bottom"
 				horizontalAlign: "center", // "left", "right", "center"
@@ -690,46 +622,12 @@
 		});
 
 		chart.render();
-		var chart = new CanvasJS.Chart("chartContainer3",
-		{
-			colorSet: "set3",
-			animationEnabled: true,
-			title:{
-				text: {{ currentKpi.txTransacNpaS0|number_format }} + "%",
-				fontSize: 32,
-				verticalAlign: "center", // "top", "center", "bottom"
-				horizontalAlign: "center", // "left", "right", "center"
-				fontColor: "#333333",
-			},
-			toolTip:{
-				enabled: true
-			},
-			data: [
-			{
-				startAngle: -90,
-				indexLabelFontColor: "black",
-				indexLabelLineColor: "#4c4c4c",
-
-				indexLabelPlacement: "inside",
-				type: "doughnut",
-				innerRadius: "70%",
-				dataPoints: [
-					{  y: {{ currentKpi.txTransacNpaiS0|number_format }}, indexLabel: "",indexLabelFontSize: 12, indexLabelFontWeight: "bold", toolTipContent: "Qualification adresse optin : {y}%"},
-					{  y: {{ currentKpi.txTransacNpaoS0|number_format }}, indexLabel: "",indexLabelFontSize: 12, indexLabelFontWeight: "bold", toolTipContent: "Qualification adresse optout : {y}%"},
-					{  y: dataToBeC3, indexLabel: "",indexLabelFontSize: 12,indexLabelFontColor: "white", indexLabelFontWeight: "bold",toolTipContent: "Données non collectées : {y}%"},
-					{  y: {{ currentKpi.txTransacNvaS0|number_format }}, indexLabel: "", indexLabelFontWeight: "bold", indexLabelFontColor: "black", indexLabelFontSize: 10, toolTipContent: "Données non-valides : {y}%"}
-				]
-			}
-			]
-
-		});
-
-		chart.render();var chart = new CanvasJS.Chart("chartContainer4",
+		var chart = new CanvasJS.Chart("chartContainer4",
 		{
 			colorSet: "set4",
 			animationEnabled: true,
 			title:{
-				text: {{ currentKpi.txTransacNpes2S0|number_format }} + "%",
+				text: {{ currentKpi.txTransacNpesi2S0|number_format }} + "%",
 				fontSize: 32,
 				verticalAlign: "center", // "top", "center", "bottom"
 				horizontalAlign: "center", // "left", "right", "center"
@@ -810,7 +708,7 @@
 							{% endfor %}
 						]
 					},
-					{
+					/*{
 						indexLabelFontColor: "black",
 						indexLabelLineColor: "#4c4c4c",
 						markerSize: 8,
@@ -822,7 +720,7 @@
 								{ y: {{ kpi.txTransacNpaiS0|number_format }}, x: new Date( {{ kpi.date|date("Y") }}, {{ kpi.date|date("m") - 1 }}, {{ kpi.date|date("d") }} ) },
 							{% endfor %}
 						]
-					},
+					},*/
 					{
 						indexLabelFontColor: "black",
 						indexLabelLineColor: "#4c4c4c",
@@ -836,7 +734,7 @@
 							{% endfor %}
 						]
 					},
-					{
+					/*{
 						indexLabelFontColor: "black",
 						indexLabelLineColor: "#4c4c4c",
 						markerSize: 8,
@@ -848,7 +746,7 @@
 								{ y: {{ kpi.txTransacNpesai2S0|number_format }}, x: new Date( {{ kpi.date|date("Y") }}, {{ kpi.date|date("m") - 1 }}, {{ kpi.date|date("d") }} ) },
 							{% endfor %}
 						]
-					},
+					},*/
 				]
 			});
 			chart.render();

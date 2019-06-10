@@ -302,6 +302,28 @@ class KpiWeek
      */
     private $txTransacNvesa2S0;
 
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="rank_npe2_s0", type="integer")
+     */
+    private $rankNpe2S0 = 1;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="rank_nps2_s0", type="integer")
+     */
+    private $rankNps2S0 = 1;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="rank_npes2_s0", type="integer")
+     */
+    private $rankNpes2S0 = 1;
+
     /*
      *
      *  GETTERS / SETTERS
@@ -863,6 +885,76 @@ class KpiWeek
     {
         $this->txTransacLinkedOptoutS0 = $txTransacLinkedOptoutS0;
         return $this;
+    }
+
+
+    /**
+     * Set rankNpe2S0
+     *
+     * @param string $rankNpe2S0
+     * @return KpiMonth
+     */
+    public function setRankNpe2S0($rankNpe2S0)
+    {
+        $this->rankNpe2S0 = $rankNpe2S0;
+
+        return $this;
+    }
+
+    /**
+     * Get rankNpe2S0
+     *
+     * @return string 
+     */
+    public function getRankNpe2S0()
+    {
+        return $this->rankNpe2S0;
+    }
+
+    /**
+     * Set rankNps2S0
+     *
+     * @param string $rankNps2S0
+     * @return KpiMonth
+     */
+    public function setRankNps2S0($rankNps2S0)
+    {
+        $this->rankNps2S0 = $rankNps2S0;
+
+        return $this;
+    }
+
+    /**
+     * Get rankNps2S0
+     *
+     * @return string 
+     */
+    public function getRankNps2S0()
+    {
+        return $this->rankNps2S0;
+    }
+
+    /**
+     * Set rankNpes2S0
+     *
+     * @param string $rankNpes2S0
+     * @return KpiMonth
+     */
+    public function setRankNpes2S0($rankNpes2S0)
+    {
+        $this->rankNpes2S0 = $rankNpes2S0;
+
+        return $this;
+    }
+
+    /**
+     * Get rankNpes2S0
+     *
+     * @return string 
+     */
+    public function getRankNpes2S0()
+    {
+        return $this->rankNpes2S0;
     }
 
 }

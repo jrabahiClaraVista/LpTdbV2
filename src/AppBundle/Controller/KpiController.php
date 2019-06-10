@@ -126,6 +126,10 @@ class KpiController extends Controller
 		$brand = $user->getBrand();
 		if ($brand == null) $brand = '';
 
+
+		$vendeurBoutique = $user->getBoutique();
+		if ($vendeurBoutique == null) $vendeurBoutique = '';
+
 		$getBoutiquesDr = null;
 		$getDrsMarque = null;
 
@@ -286,6 +290,14 @@ class KpiController extends Controller
 			$topNpeVendeur = $em->getRepository('AppBundle:KpiMonth')->getRank1NpeVendeur($date3, $date2, $brand);
 			$topNpesVendeur = $em->getRepository('AppBundle:KpiMonth')->getRank1NpesVendeur($date3, $date2, $brand);
 			$topNpesaVendeur = $em->getRepository('AppBundle:KpiMonth')->getRank1NpesaVendeur($date3, $date2, $brand);
+
+			$topNpe2 = $em->getRepository('AppBundle:KpiMonth')->getRank1Npe2($date3, $date2, $brand);
+			$topNps2 = $em->getRepository('AppBundle:KpiMonth')->getRank1Nps2($date3, $date2, $brand);
+			$topNpes2 = $em->getRepository('AppBundle:KpiMonth')->getRank1Npes2($date3, $date2, $brand);
+
+			$topNpeVendeur2 = $em->getRepository('AppBundle:KpiMonth')->getRank1Npe2Vendeur($date3, $date2, $brand, $vendeurBoutique);
+			$topNpsVendeur2 = $em->getRepository('AppBundle:KpiMonth')->getRank1Nps2Vendeur($date3, $date2, $brand, $vendeurBoutique);
+			$topNpesVendeur2 = $em->getRepository('AppBundle:KpiMonth')->getRank1Npes2Vendeur($date3, $date2, $brand, $vendeurBoutique);
 		}
 		if($routeName == "app_kpi_ytd"){
 			$topNpe = $em->getRepository('AppBundle:KpiMonth')->getRank1NpeYtd($date3, $date2, $brand);
@@ -295,6 +307,14 @@ class KpiController extends Controller
 			$topNpeVendeur = $em->getRepository('AppBundle:KpiMonth')->getRank1NpeYtdVendeur($date3, $date2, $brand);
 			$topNpesVendeur = $em->getRepository('AppBundle:KpiMonth')->getRank1NpesYtdVendeur($date3, $date2, $brand);
 			$topNpesaVendeur = $em->getRepository('AppBundle:KpiMonth')->getRank1NpesaYtdVendeur($date3, $date2, $brand);
+
+			$topNpe2 = $em->getRepository('AppBundle:KpiMonth')->getRank1Npe2Ytd($date3, $date2, $brand);
+			$topNps2 = $em->getRepository('AppBundle:KpiMonth')->getRank1Nps2Ytd($date3, $date2, $brand);
+			$topNpes2 = $em->getRepository('AppBundle:KpiMonth')->getRank1Npes2Ytd($date3, $date2, $brand);
+
+			$topNpeVendeur2 = $em->getRepository('AppBundle:KpiMonth')->getRank1Npe2YtdVendeur($date3, $date2, $brand, $vendeurBoutique);
+			$topNpsVendeur2 = $em->getRepository('AppBundle:KpiMonth')->getRank1Nps2YtdVendeur($date3, $date2, $brand, $vendeurBoutique);
+			$topNpesVendeur2 = $em->getRepository('AppBundle:KpiMonth')->getRank1Npes2YtdVendeur($date3, $date2, $brand, $vendeurBoutique);
 		}
 		if($routeName == "app_kpi_fid"){
 			$kpisTopCa = $em->getRepository('AppBundle:KpiMonth')->getTop3Ca($brand, $date);
@@ -679,6 +699,12 @@ class KpiController extends Controller
 	        	'topNpeVendeur'		=> $topNpeVendeur,
 	        	'topNpesVendeur'	=> $topNpesVendeur,
 	        	'topNpesaVendeur'	=> $topNpesaVendeur,
+	        	'topNpe2'			=> $topNpe2,
+	        	'topNps2'			=> $topNps2,
+	        	'topNpes2'			=> $topNpes2,
+	        	'topNpeVendeur2'	=> $topNpeVendeur2,
+	        	'topNpsVendeur2'	=> $topNpsVendeur2,
+	        	'topNpesVendeur2'	=> $topNpesVendeur2,
 	        	'currentMonth'		=> $currentMonth,
 	        	'user'				=> $user,
 	        	'getBoutiquesDr'	=> $getBoutiquesDr,
@@ -703,6 +729,12 @@ class KpiController extends Controller
 	        	'topNpeVendeur'		=> $topNpeVendeur,
 	        	'topNpesVendeur'	=> $topNpesVendeur,
 	        	'topNpesaVendeur'	=> $topNpesaVendeur,
+	        	'topNpe2'			=> $topNpe2,
+	        	'topNps2'			=> $topNps2,
+	        	'topNpes2'			=> $topNpes2,
+	        	'topNpeVendeur2'	=> $topNpeVendeur2,
+	        	'topNpsVendeur2'	=> $topNpsVendeur2,
+	        	'topNpesVendeur2'	=> $topNpesVendeur2,
 	        	'user'				=> $user,
 	        	'month'				=> $month,
 	        	'marque'			=> $marque,
@@ -852,6 +884,10 @@ class KpiController extends Controller
 		$brand = $user->getBrand();
 		if ($brand == null) $brand = '';
 
+
+		$vendeurBoutique = $user->getBoutique();
+		if ($vendeurBoutique == null) $vendeurBoutique = '';
+
 		$getBoutiquesDr = null;
 		$getDrsMarque = null;
 
@@ -984,6 +1020,14 @@ class KpiController extends Controller
 		$topNpeVendeur = $em->getRepository('AppBundle:KpiWeek')->getRank1NpeVendeur($dateWeek3, $dateWeek2, $brand);
 		$topNpesVendeur = $em->getRepository('AppBundle:KpiWeek')->getRank1NpesVendeur($dateWeek3, $dateWeek2, $brand);
 		$topNpesaVendeur = $em->getRepository('AppBundle:KpiWeek')->getRank1NpesaVendeur($dateWeek3, $dateWeek2, $brand);
+
+		$topNpe2 = $em->getRepository('AppBundle:KpiWeek')->getRank1Npe2($dateWeek3, $dateWeek2, $brand);
+		$topNps2 = $em->getRepository('AppBundle:KpiWeek')->getRank1Nps2($dateWeek3, $dateWeek2, $brand);
+		$topNpes2 = $em->getRepository('AppBundle:KpiWeek')->getRank1Npes2($dateWeek3, $dateWeek2, $brand);
+
+		$topNpeVendeur2 = $em->getRepository('AppBundle:KpiWeek')->getRank1Npe2Vendeur($dateWeek3, $dateWeek2, $brand);
+		$topNpsVendeur2 = $em->getRepository('AppBundle:KpiWeek')->getRank1Nps2Vendeur($dateWeek3, $dateWeek2, $brand);
+		$topNpes2Vendeur2 = $em->getRepository('AppBundle:KpiWeek')->getRank1Npes2Vendeur($dateWeek3, $dateWeek2, $brand);
 	}
 
 	//Mise à jour du filtre
@@ -1098,6 +1142,12 @@ class KpiController extends Controller
 	        	'topNpeVendeur'		=> $topNpeVendeur,
 	        	'topNpesVendeur'	=> $topNpesVendeur,
 	        	'topNpesaVendeur'	=> $topNpesaVendeur,
+	        	'topNpe2'			=> $topNpe2,
+	        	'topNps2'			=> $topNps2,
+	        	'topNpes2'			=> $topNpes2,
+	        	'topNpeVendeur2'	=> $topNpeVendeur2,
+	        	'topNpsVendeur2'	=> $topNpsVendeur2,
+	        	'topNpesVendeur2'	=> $topNpeVendeur2,
 	        	'user'				=> $user,
 	        	'getBoutiquesDr'	=> $getBoutiquesDr,
 	        	'getDrsMarque'		=> $getDrsMarque,

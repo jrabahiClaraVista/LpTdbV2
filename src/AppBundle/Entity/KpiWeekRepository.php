@@ -34,6 +34,31 @@ class KpiWeekRepository extends EntityRepository
 			->getResult();
 	}
 
+	/*********************************************************/
+
+	public function getRank1_3NPS($date1,$date2, $brand){
+		$qb = $this
+			->createQueryBuilder('k')
+			->leftJoin('k.user', 'u')
+		  	->addSelect('u')
+		  	->where('u.brand = :brand')		  	
+		  	->setParameter('brand', $brand)
+		  	->andWhere('k.date BETWEEN :date1 AND :date2')
+		  	->setParameter('date1', $date1)
+		  	->setParameter('date2', $date2)
+		  	->andWhere('u.role = :role')
+		  	->setParameter('role', "ROLE_BOUTIQUE")
+		  	->orderBy('k.questsatisfranknpsytd', 'ASC')
+		  	->setMaxResults(3);
+		;
+
+		return $qb
+			->getQuery()
+			->getResult();
+	}
+
+	/*********************************************************/
+
 	public function getRank1Npe($date1, $date2, $brand){
 		$qb = $this
 			->createQueryBuilder('k')
@@ -48,30 +73,6 @@ class KpiWeekRepository extends EntityRepository
 		  	->setParameter('date2', $date2)
 		  	->andWhere('u.role = :role')
 		  	->setParameter('role', "ROLE_BOUTIQUE")
-		  	->orderBy('k.rankNpeS0', 'DESC')
-		  	->setMaxResults(1);
-		;
-
-		return $qb
-			->getQuery()
-			->getOneOrNullResult();
-	}
-
-	public function getRank1NpeVendeur($date1, $date2, $brand){
-		$qb = $this
-			->createQueryBuilder('k')
-			->where('k.rankNpeS0 = :val')
-			->setParameter(':val', 1)
-		  	->leftJoin('k.user', 'u')
-		  	->addSelect('u')
-		  	->andWhere('u.brand = :brand')
-		  	->setParameter('brand', $brand)
-		  	->andWhere('k.date BETWEEN :date1 AND :date2')
-		  	->setParameter('date1', $date1)
-		  	->setParameter('date2', $date2)
-		  	->andWhere('u.role = :role')
-		  	->setParameter('role', "ROLE_VENDEUR")
-		  	->orderBy('k.txTransacNpeS0', 'DESC')
 		  	->setMaxResults(1);
 		;
 
@@ -94,30 +95,6 @@ class KpiWeekRepository extends EntityRepository
 		  	->setParameter('date2', $date2)
 		  	->andWhere('u.role = :role')
 		  	->setParameter('role', "ROLE_BOUTIQUE")
-		  	->orderBy('k.rankNpesS0', 'DESC')
-		  	->setMaxResults(1);
-		;
-
-		return $qb
-			->getQuery()
-			->getOneOrNullResult();
-	}
-
-	public function getRank1NpesVendeur($date1, $date2, $brand){
-		$qb = $this
-			->createQueryBuilder('k')
-			->where('k.rankNpesS0= :val')
-			->setParameter(':val', 1)
-		  	->leftJoin('k.user', 'u')
-		  	->addSelect('u')
-		  	->andWhere('u.brand = :brand')
-		  	->setParameter('brand', $brand)
-		  	->andWhere('k.date BETWEEN :date1 AND :date2')
-		  	->setParameter('date1', $date1)
-		  	->setParameter('date2', $date2)
-		  	->andWhere('u.role = :role')
-		  	->setParameter('role', "ROLE_VENDEUR")
-		  	->orderBy('k.txTransacNpesS0', 'DESC')
 		  	->setMaxResults(1);
 		;
 
@@ -140,7 +117,52 @@ class KpiWeekRepository extends EntityRepository
 		  	->setParameter('date2', $date2)
 		  	->andWhere('u.role = :role')
 		  	->setParameter('role', "ROLE_BOUTIQUE")
-		  	->orderBy('k.rankNpesaS0', 'DESC')
+		  	->setMaxResults(1);
+		;
+
+		return $qb
+			->getQuery()
+			->getOneOrNullResult();
+	}
+
+	/*********************************************************/
+
+	public function getRank1NpeVendeur($date1, $date2, $brand){
+		$qb = $this
+			->createQueryBuilder('k')
+			->where('k.rankNpeS0 = :val')
+			->setParameter(':val', 1)
+		  	->leftJoin('k.user', 'u')
+		  	->addSelect('u')
+		  	->andWhere('u.brand = :brand')
+		  	->setParameter('brand', $brand)
+		  	->andWhere('k.date BETWEEN :date1 AND :date2')
+		  	->setParameter('date1', $date1)
+		  	->setParameter('date2', $date2)
+		  	->andWhere('u.role = :role')
+		  	->setParameter('role', "ROLE_VENDEUR")
+		  	->setMaxResults(1);
+		;
+
+		return $qb
+			->getQuery()
+			->getOneOrNullResult();
+	}
+
+	public function getRank1NpesVendeur($date1, $date2, $brand){
+		$qb = $this
+			->createQueryBuilder('k')
+			->where('k.rankNpesS0= :val')
+			->setParameter(':val', 1)
+		  	->leftJoin('k.user', 'u')
+		  	->addSelect('u')
+		  	->andWhere('u.brand = :brand')
+		  	->setParameter('brand', $brand)
+		  	->andWhere('k.date BETWEEN :date1 AND :date2')
+		  	->setParameter('date1', $date1)
+		  	->setParameter('date2', $date2)
+		  	->andWhere('u.role = :role')
+		  	->setParameter('role', "ROLE_VENDEUR")
 		  	->setMaxResults(1);
 		;
 
@@ -163,7 +185,6 @@ class KpiWeekRepository extends EntityRepository
 		  	->setParameter('date2', $date2)
 		  	->andWhere('u.role = :role')
 		  	->setParameter('role', "ROLE_VENDEUR")
-		  	->orderBy('k.txTransacNpesaS0', 'DESC')
 		  	->setMaxResults(1);
 		;
 
@@ -171,6 +192,144 @@ class KpiWeekRepository extends EntityRepository
 			->getQuery()
 			->getOneOrNullResult();
 	}
+
+	/*****************************************************/
+
+	public function getRank1Npe2($date1, $date2, $brand){
+		$qb = $this
+			->createQueryBuilder('k')
+			->where('k.rankNpe2S0 = :val')
+			->setParameter(':val', 1)
+		  	->leftJoin('k.user', 'u')
+		  	->addSelect('u')
+		  	->andWhere('u.brand = :brand')
+		  	->setParameter('brand', $brand)
+		  	->andWhere('k.date BETWEEN :date1 AND :date2')
+		  	->setParameter('date1', $date1)
+		  	->setParameter('date2', $date2)
+		  	->andWhere('u.role = :role')
+		  	->setParameter('role', "ROLE_BOUTIQUE")
+		  	->setMaxResults(1);
+		;
+
+		return $qb
+			->getQuery()
+			->getOneOrNullResult();
+	}
+
+	public function getRank1Nps2($date1, $date2, $brand){
+		$qb = $this
+			->createQueryBuilder('k')
+			->where('k.rankNps2S0= :val')
+			->setParameter(':val', 1)
+		  	->leftJoin('k.user', 'u')
+		  	->addSelect('u')
+		  	->andWhere('u.brand = :brand')
+		  	->setParameter('brand', $brand)
+		  	->andWhere('k.date BETWEEN :date1 AND :date2')
+		  	->setParameter('date1', $date1)
+		  	->setParameter('date2', $date2)
+		  	->andWhere('u.role = :role')
+		  	->setParameter('role', "ROLE_BOUTIQUE")
+		  	->setMaxResults(1);
+		;
+
+		return $qb
+			->getQuery()
+			->getOneOrNullResult();
+	}
+
+	public function getRank1Npes2($date1, $date2, $brand){
+		$qb = $this
+			->createQueryBuilder('k')
+			->where('k.rankNpes2S0 = :val')
+			->setParameter(':val', 1)
+		  	->leftJoin('k.user', 'u')
+		  	->addSelect('u')
+		  	->andWhere('u.brand = :brand')
+		  	->setParameter('brand', $brand)
+		  	->andWhere('k.date BETWEEN :date1 AND :date2')
+		  	->setParameter('date1', $date1)
+		  	->setParameter('date2', $date2)
+		  	->andWhere('u.role = :role')
+		  	->setParameter('role', "ROLE_BOUTIQUE")
+		  	->setMaxResults(1);
+		;
+
+		return $qb
+			->getQuery()
+			->getOneOrNullResult();
+	}
+
+	/*********************************************************/
+
+	public function getRank1Npe2Vendeur($date1, $date2, $brand){
+		$qb = $this
+			->createQueryBuilder('k')
+			->where('k.rankNpe2S0 = :val')
+			->setParameter(':val', 1)
+		  	->leftJoin('k.user', 'u')
+		  	->addSelect('u')
+		  	->andWhere('u.brand = :brand')
+		  	->setParameter('brand', $brand)
+		  	->andWhere('k.date BETWEEN :date1 AND :date2')
+		  	->setParameter('date1', $date1)
+		  	->setParameter('date2', $date2)
+		  	->andWhere('u.role = :role')
+		  	->setParameter('role', "ROLE_VENDEUR")
+		  	->setMaxResults(1);
+		;
+
+		return $qb
+			->getQuery()
+			->getOneOrNullResult();
+	}
+
+	public function getRank1Nps2Vendeur($date1, $date2, $brand){
+		$qb = $this
+			->createQueryBuilder('k')
+			->where('k.rankNps2S0= :val')
+			->setParameter(':val', 1)
+		  	->leftJoin('k.user', 'u')
+		  	->addSelect('u')
+		  	->andWhere('u.brand = :brand')
+		  	->setParameter('brand', $brand)
+		  	->andWhere('k.date BETWEEN :date1 AND :date2')
+		  	->setParameter('date1', $date1)
+		  	->setParameter('date2', $date2)
+		  	->andWhere('u.role = :role')
+		  	->setParameter('role', "ROLE_VENDEUR")
+		  	->setMaxResults(1);
+		;
+
+		return $qb
+			->getQuery()
+			->getOneOrNullResult();
+	}
+
+	public function getRank1Npes2Vendeur($date1, $date2, $brand){
+		$qb = $this
+			->createQueryBuilder('k')
+			->where('k.rankNpes2S0 = :val')
+			->setParameter(':val', 1)
+		  	->leftJoin('k.user', 'u')
+		  	->addSelect('u')
+		  	->andWhere('u.brand = :brand')
+		  	->setParameter('brand', $brand)
+		  	->andWhere('k.date BETWEEN :date1 AND :date2')
+		  	->setParameter('date1', $date1)
+		  	->setParameter('date2', $date2)
+		  	->andWhere('u.role = :role')
+		  	->setParameter('role', "ROLE_VENDEUR")
+		  	->setMaxResults(1);
+		;
+
+		return $qb
+			->getQuery()
+			->getOneOrNullResult();
+	}
+
+	/*********************************************************/
 
 
 	public function getKpiVendeurBoutique($boutique, $date1, $date2, $brand){
