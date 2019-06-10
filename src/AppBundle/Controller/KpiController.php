@@ -138,7 +138,7 @@ class KpiController extends Controller
 			$getBoutiquesDr = array();
 			$getVendeursBoutique = array();
 
-			$kpisMarque = $em->getRepository('AppBundle:KpiMonth')->getKpisMarque($date3, $date2, $brand);
+			$kpisCSV = $em->getRepository('AppBundle:KpiMonth')->getKpisMarque($date3, $date2, $brand);
 
 			foreach ($getDrsMarque as $key => $dr) {
 				$getBoutiques = $em->getRepository('AppBundle:KpiMonth')->getKpiBoutiqueDr($dr->getUser()->getUsername(), $date3, $date2, $brand);
@@ -161,7 +161,7 @@ class KpiController extends Controller
 				$getVendeursBoutique[$key2] = $getVendeurs;
 			}
 
-			$kpisDr = $em->getRepository('AppBundle:KpiMonth')->getKpisDr($date3, $date2, $user->getUsername(), $brand);
+			$kpisCSV = $em->getRepository('AppBundle:KpiMonth')->getKpisDr($date3, $date2, $user->getUsername(), $brand);
 
 		}
 		if( $user->getRole() == 'ROLE_BOUTIQUE' ) {
@@ -169,14 +169,14 @@ class KpiController extends Controller
 			$getBoutiquesDr = null;
 			$getDrsMarque = null;
 
-			$kpisBoutique = $em->getRepository('AppBundle:KpiMonth')->getKpisBoutique($date3, $date2, $user->getUsername(), $brand);
+			$kpisCSV = $em->getRepository('AppBundle:KpiMonth')->getKpisBoutique($date3, $date2, $user->getUsername(), $brand);
 		}
 		if( $user->getRole() == 'ROLE_VENDEUR' ) {
 			$getVendeursBoutique = $em->getRepository('AppBundle:KpiMonth')->getKpiVendeurBoutique($user->getBoutique(), $date3, $date2, $brand);
 			$getBoutiquesDr = null;
 			$getDrsMarque = null;
 
-			$kpisBoutique = $em->getRepository('AppBundle:KpiMonth')->getKpisBoutique($date3, $date2, $user->getBoutique(), $brand);
+			$kpisCSV = $em->getRepository('AppBundle:KpiMonth')->getKpisBoutique($date3, $date2, $user->getBoutique(), $brand);
 		}
 
 		if( $user->getRole() == 'ROLE_MARQUE' ) {
@@ -345,7 +345,7 @@ class KpiController extends Controller
 		//Export CSV
 		if ($form2->isSubmitted()) {
 			//$id_data = $user->getId();
-			$idDataMarque 	= $marque->getId();
+			/*$idDataMarque 	= $marque->getId();
 			$idDataFiche 	= $kpiCurrentMonth->getId();
 			$idDataAutres	= array();
 
@@ -371,7 +371,21 @@ class KpiController extends Controller
 				$ids .= ",".$id;
 			}
 			$ids .= ")";
+			*/
 
+			
+			$ids = "(";
+
+			foreach ($kpisCSV as $key => $id_kpi){
+				if($key == 0){
+					$ids .= $id_kpi['id'];
+				}
+				else{
+					$ids .= ",".$id_kpi['id'];
+				}
+			}
+			$ids .= ")";
+			
 			// OLD KPIs export
 			if($kpiCurrentMonth->getDate() < new \Datetime('2019-01-01'))
 			{
