@@ -60,8 +60,8 @@ class KpiMonthRepository extends EntityRepository
 	public function getRank1Npe($date1, $date2, $brand){
 		$qb = $this
 			->createQueryBuilder('k')
-			->where('k.rankNpeM0 = :val')
-			->setParameter(':val', 1)
+			->where('k.rankNpeM0 = 1')
+			//->setParameter('val', 1)
 		  	->leftJoin('k.user', 'u')
 		  	->addSelect('u')
 		  	->andWhere('u.brand = :brand')
@@ -82,8 +82,8 @@ class KpiMonthRepository extends EntityRepository
 	public function getRank1Npes($date1, $date2, $brand){
 		$qb = $this
 			->createQueryBuilder('k')
-			->where('k.rankNpesM0= :val')
-			->setParameter(':val', 1)
+			->where('k.rankNpesM0 = 1')
+			//->setParameter('val', 1)
 		  	->leftJoin('k.user', 'u')
 		  	->addSelect('u')
 		  	->andWhere('u.brand = :brand')
@@ -103,8 +103,8 @@ class KpiMonthRepository extends EntityRepository
 	public function getRank1Npesa($date1, $date2, $brand){
 		$qb = $this
 			->createQueryBuilder('k')
-			->where('k.rankNpesaM0 = :val')
-			->setParameter(':val', 1)
+			->where('k.rankNpesaM0 = 1')
+			//->setParameter('val', 1)
 		  	->leftJoin('k.user', 'u')
 		  	->addSelect('u')
 		  	->andWhere('u.brand = :brand')
@@ -127,8 +127,8 @@ class KpiMonthRepository extends EntityRepository
 	public function getRank1NpeVendeur($date1, $date2, $brand){
 		$qb = $this
 			->createQueryBuilder('k')
-			->where('k.rankNpeM0 = :val')
-			->setParameter(':val', 1)
+			->where('k.rankNpeM0 = 1')
+			//->setParameter('val', 1)
 		  	->leftJoin('k.user', 'u')
 		  	->addSelect('u')
 		  	->andWhere('u.brand = :brand')
@@ -149,8 +149,8 @@ class KpiMonthRepository extends EntityRepository
 	public function getRank1NpesVendeur($date1, $date2, $brand){
 		$qb = $this
 			->createQueryBuilder('k')
-			->where('k.rankNpesM0= :val')
-			->setParameter(':val', 1)
+			->where('k.rankNpesM0 = 1')
+			//->setParameter('val', 1)
 		  	->leftJoin('k.user', 'u')
 		  	->addSelect('u')
 		  	->andWhere('u.brand = :brand')
@@ -171,8 +171,8 @@ class KpiMonthRepository extends EntityRepository
 	public function getRank1NpesaVendeur($date1, $date2, $brand){
 		$qb = $this
 			->createQueryBuilder('k')
-			->where('k.rankNpesaM0 = :val')
-			->setParameter(':val', 1)
+			->where('k.rankNpesaM0 = 1')
+			//->setParameter('val', 1)
 		  	->leftJoin('k.user', 'u')
 		  	->addSelect('u')
 		  	->andWhere('u.brand = :brand')
@@ -195,8 +195,8 @@ class KpiMonthRepository extends EntityRepository
 	public function getRank1NpeYtd($date1,$date2, $brand){
 		$qb = $this
 			->createQueryBuilder('k')
-			->where('k.rankNpeYtd = :val')
-			->setParameter(':val', 1)
+			->where('k.rankNpeYtd = 1')
+			//->setParameter('val', 1)
 			->leftJoin('k.user', 'u')
 		  	->addSelect('u')
 		  	->andWhere('u.brand = :brand')
@@ -217,8 +217,8 @@ class KpiMonthRepository extends EntityRepository
 	public function getRank1NpesYtd($date1,$date2, $brand){
 		$qb = $this
 			->createQueryBuilder('k')
-			->where('k.rankNpesYtd= :val')
-			->setParameter(':val', 1)
+			->where('k.rankNpesYtd= 1')
+			//->setParameter('val', 1)
 			->leftJoin('k.user', 'u')
 		  	->addSelect('u')
 		  	->andWhere('u.brand = :brand')
@@ -239,8 +239,8 @@ class KpiMonthRepository extends EntityRepository
 	public function getRank1NpesaYtd($date1,$date2, $brand){
 		$qb = $this
 			->createQueryBuilder('k')
-			->where('k.rankNpesaYtd = :val')
-			->setParameter(':val', 1)
+			->where('k.rankNpesaYtd = 1')
+			//->setParameter('val', 1)
 			->leftJoin('k.user', 'u')
 		  	->addSelect('u')
 		  	->andWhere('u.brand = :brand')		  	
@@ -265,8 +265,8 @@ class KpiMonthRepository extends EntityRepository
 	public function getRank1NpeYtdVendeur($date1,$date2, $brand){
 		$qb = $this
 			->createQueryBuilder('k')
-			->where('k.rankNpesaM0 = :val')
-			->setParameter(':val', 1)
+			->where('k.rankNpesaYtd = 1')
+			//->setParameter('val', 1)
 		  	->leftJoin('k.user', 'u')
 		  	->addSelect('u')
 		  	->andWhere('u.brand = :brand')
@@ -288,8 +288,8 @@ class KpiMonthRepository extends EntityRepository
 	public function getRank1NpesYtdVendeur($date1,$date2, $brand){
 		$qb = $this
 			->createQueryBuilder('k')
-			->where('k.rankNpesaM0 = :val')
-			->setParameter(':val', 1)
+			->where('k.rankNpesaYtd = 1')
+			//->setParameter('val', 1)
 		  	->leftJoin('k.user', 'u')
 		  	->addSelect('u')
 		  	->andWhere('u.brand = :brand')
@@ -310,8 +310,8 @@ class KpiMonthRepository extends EntityRepository
 	public function getRank1NpesaYtdVendeur($date1,$date2, $brand){
 		$qb = $this
 			->createQueryBuilder('k')
-			->where('k.rankNpesaM0 = :val')
-			->setParameter(':val', 1)
+			->where('k.rankNpesaYtd = 1')
+			//->setParameter('val', 1)
 		  	->leftJoin('k.user', 'u')
 		  	->addSelect('u')
 		  	->andWhere('u.brand = :brand')
@@ -334,8 +334,8 @@ class KpiMonthRepository extends EntityRepository
 	public function getRank1Npe2($date1, $date2, $brand){
 		$qb = $this
 			->createQueryBuilder('k')
-			->where('k.rankNpe2M0 = :val')
-			->setParameter(':val', 1)
+			->where('k.rankNpe2M0 = 1')
+			//->setParameter('val', 1)
 		  	->leftJoin('k.user', 'u')
 		  	->addSelect('u')
 		  	->andWhere('u.brand = :brand')
@@ -356,8 +356,8 @@ class KpiMonthRepository extends EntityRepository
 	public function getRank1Nps2($date1, $date2, $brand){
 		$qb = $this
 			->createQueryBuilder('k')
-			->where('k.rankNps2M0= :val')
-			->setParameter(':val', 1)
+			->where('k.rankNps2M0 = 1')
+			//->setParameter('val', 1)
 		  	->leftJoin('k.user', 'u')
 		  	->addSelect('u')
 		  	->andWhere('u.brand = :brand')
@@ -378,8 +378,8 @@ class KpiMonthRepository extends EntityRepository
 	public function getRank1Npes2($date1, $date2, $brand){
 		$qb = $this
 			->createQueryBuilder('k')
-			->where('k.rankNpes2M0 = :val')
-			->setParameter(':val', 1)
+			->where('k.rankNpes2M0 = 1')
+			//->setParameter('val', 1)
 		  	->leftJoin('k.user', 'u')
 		  	->addSelect('u')
 		  	->andWhere('u.brand = :brand')
@@ -399,15 +399,17 @@ class KpiMonthRepository extends EntityRepository
 
 	/*********************************************************/
 
-	public function getRank1Npe2Vendeur($date1, $date2, $brand){
+	public function getRank1Npe2Vendeur($date1, $date2, $brand, $boutique){
 		$qb = $this
 			->createQueryBuilder('k')
-			->where('k.rankNpe2M0 = :val')
-			->setParameter(':val', 1)
+			->where('k.rankNpe2M0 = 1')
+			//->setParameter('val', 1)
 		  	->leftJoin('k.user', 'u')
 		  	->addSelect('u')
 		  	->andWhere('u.brand = :brand')
 		  	->setParameter('brand', $brand)
+		  	->andWhere('u.boutique = :boutique')
+		  	->setParameter('boutique', $boutique)
 		  	->andWhere('k.date BETWEEN :date1 AND :date2')
 		  	->setParameter('date1', $date1)
 		  	->setParameter('date2', $date2)
@@ -421,15 +423,17 @@ class KpiMonthRepository extends EntityRepository
 			->getOneOrNullResult();
 	}
 
-	public function getRank1Nps2Vendeur($date1, $date2, $brand){
+	public function getRank1Nps2Vendeur($date1, $date2, $brand, $boutique){
 		$qb = $this
 			->createQueryBuilder('k')
-			->where('k.rankNps2M0= :val')
-			->setParameter(':val', 1)
+			->where('k.rankNps2M0 = 1')
+			//->setParameter('val', 1)
 		  	->leftJoin('k.user', 'u')
 		  	->addSelect('u')
 		  	->andWhere('u.brand = :brand')
 		  	->setParameter('brand', $brand)
+		  	->andWhere('u.boutique = :boutique')
+		  	->setParameter('boutique', $boutique)
 		  	->andWhere('k.date BETWEEN :date1 AND :date2')
 		  	->setParameter('date1', $date1)
 		  	->setParameter('date2', $date2)
@@ -443,15 +447,17 @@ class KpiMonthRepository extends EntityRepository
 			->getOneOrNullResult();
 	}
 
-	public function getRank1Npes2Vendeur($date1, $date2, $brand){
+	public function getRank1Npes2Vendeur($date1, $date2, $brand, $boutique){
 		$qb = $this
 			->createQueryBuilder('k')
-			->where('k.rankNpes2M0 = :val')
-			->setParameter(':val', 1)
+			->where('k.rankNpes2M0 = 1')
+			//->setParameter('val', 1)
 		  	->leftJoin('k.user', 'u')
 		  	->addSelect('u')
 		  	->andWhere('u.brand = :brand')
 		  	->setParameter('brand', $brand)
+		  	->andWhere('u.boutique = :boutique')
+		  	->setParameter('boutique', $boutique)
 		  	->andWhere('k.date BETWEEN :date1 AND :date2')
 		  	->setParameter('date1', $date1)
 		  	->setParameter('date2', $date2)
@@ -470,8 +476,8 @@ class KpiMonthRepository extends EntityRepository
 	public function getRank1Npe2Ytd($date1,$date2, $brand){
 		$qb = $this
 			->createQueryBuilder('k')
-			->where('k.rankNpe2Ytd = :val')
-			->setParameter(':val', 1)
+			->where('k.rankNpe2Ytd = 1')
+			//->setParameter('val', 1)
 			->leftJoin('k.user', 'u')
 		  	->addSelect('u')
 		  	->andWhere('u.brand = :brand')
@@ -492,8 +498,8 @@ class KpiMonthRepository extends EntityRepository
 	public function getRank1Nps2Ytd($date1,$date2, $brand){
 		$qb = $this
 			->createQueryBuilder('k')
-			->where('k.rankNps2Ytd= :val')
-			->setParameter(':val', 1)
+			->where('k.rankNps2Ytd= 1')
+			//->setParameter('val', 1)
 			->leftJoin('k.user', 'u')
 		  	->addSelect('u')
 		  	->andWhere('u.brand = :brand')
@@ -514,8 +520,8 @@ class KpiMonthRepository extends EntityRepository
 	public function getRank1Npes2Ytd($date1,$date2, $brand){
 		$qb = $this
 			->createQueryBuilder('k')
-			->where('k.rankNpes2Ytd = :val')
-			->setParameter(':val', 1)
+			->where('k.rankNpes2Ytd = 1')
+			//->setParameter('val', 1)
 			->leftJoin('k.user', 'u')
 		  	->addSelect('u')
 		  	->andWhere('u.brand = :brand')		  	
@@ -537,15 +543,17 @@ class KpiMonthRepository extends EntityRepository
 
 
 
-	public function getRank1Npe2YtdVendeur($date1,$date2, $brand){
+	public function getRank1Npe2YtdVendeur($date1,$date2, $brand, $boutique){
 		$qb = $this
 			->createQueryBuilder('k')
-			->where('k.rankNpe2M0 = :val')
-			->setParameter(':val', 1)
+			->where('k.rankNpe2Ytd = 1')
+			//->setParameter('val', 1)
 		  	->leftJoin('k.user', 'u')
 		  	->addSelect('u')
 		  	->andWhere('u.brand = :brand')
 		  	->setParameter('brand', $brand)
+		  	->andWhere('u.boutique = :boutique')
+		  	->setParameter('boutique', $boutique)
 		  	->andWhere('k.date BETWEEN :date1 AND :date2')
 		  	->setParameter('date1', $date1)
 		  	->setParameter('date2', $date2)
@@ -560,15 +568,17 @@ class KpiMonthRepository extends EntityRepository
 	}
 
 
-	public function getRank1Nps2YtdVendeur($date1,$date2, $brand){
+	public function getRank1Nps2YtdVendeur($date1,$date2, $brand, $boutique){
 		$qb = $this
 			->createQueryBuilder('k')
-			->where('k.rankNps2M0 = :val')
-			->setParameter(':val', 1)
+			->where('k.rankNps2Ytd = 1')
+			//->setParameter('val', 1)
 		  	->leftJoin('k.user', 'u')
 		  	->addSelect('u')
 		  	->andWhere('u.brand = :brand')
 		  	->setParameter('brand', $brand)
+		  	->andWhere('u.boutique = :boutique')
+		  	->setParameter('boutique', $boutique)
 		  	->andWhere('k.date BETWEEN :date1 AND :date2')
 		  	->setParameter('date1', $date1)
 		  	->setParameter('date2', $date2)
@@ -582,15 +592,17 @@ class KpiMonthRepository extends EntityRepository
 			->getOneOrNullResult();
 	}
 
-	public function getRank1Npes2YtdVendeur($date1,$date2, $brand){
+	public function getRank1Npes2YtdVendeur($date1,$date2, $brand, $boutique){
 		$qb = $this
 			->createQueryBuilder('k')
-			->where('k.rankNpes2M0 = :val')
-			->setParameter(':val', 1)
+			->where('k.rankNpes2Ytd = 1')
+			//->setParameter('val', 1)
 		  	->leftJoin('k.user', 'u')
 		  	->addSelect('u')
 		  	->andWhere('u.brand = :brand')
 		  	->setParameter('brand', $brand)
+		  	->andWhere('u.boutique = :boutique')
+		  	->setParameter('boutique', $boutique)
 		  	->andWhere('k.date BETWEEN :date1 AND :date2')
 		  	->setParameter('date1', $date1)
 		  	->setParameter('date2', $date2)
@@ -716,5 +728,71 @@ class KpiMonthRepository extends EntityRepository
 			->getQuery()
 			->getOneOrNullResult();
 			//->getResult();
+	}
+
+	/***********************************************/
+
+	public function getKpisMarque($date1, $date2, $brand){
+		$qb = $this
+			->createQueryBuilder('k')
+			->select('k.id')
+		  	->leftJoin('k.user', 'u')
+			->where('u.brand = :brand or u.username = :brand')
+		  	->setParameter('brand', $brand)
+		  	//->andWhere('u.role = :role')
+		  	//->setParameter('role', "ROLE_MARQUE")
+		  	->andWhere('k.date BETWEEN :date1 AND :date2')
+		  	->setParameter('date1', $date1)
+		  	->setParameter('date2', $date2)
+		  	->orderBy('u.role', 'ASC')
+		;
+
+		return $qb
+			->getQuery()
+			->getResult();
+	}
+
+
+	public function getKpisBoutique($date1, $date2, $boutique, $brand){
+		$qb = $this
+			->createQueryBuilder('k')
+			->select('k.id')
+		  	->leftJoin('k.user', 'u')
+			->where('u.boutique = :boutique or u.boutique = :boutique or u.username = :brand')
+		  	->setParameter('boutique', $boutique)
+		  	->setParameter('brand', $brand)
+		  	//->andWhere('u.role = :role')
+		  	//->setParameter('role', "ROLE_MARQUE")
+		  	->andWhere('k.date BETWEEN :date1 AND :date2')
+		  	->setParameter('date1', $date1)
+		  	->setParameter('date2', $date2)
+		  	->orderBy('u.role', 'ASC')
+		;
+
+		return $qb
+			->getQuery()
+			->getResult();
+	}
+
+
+	public function getKpisDr($date1, $date2, $dr, $brand){
+		$qb = $this
+			->createQueryBuilder('k')
+			->select('k.id')
+		  	->leftJoin('k.user', 'u')
+			->where('u.dr = :dr or u.username = :dr or u.username = :brand')
+		  	->setParameter('dr', $dr)
+		  	->setParameter('brand', $brand)
+		  	//->andWhere('u.role = :role')
+		  	//->setParameter('role', "ROLE_MARQUE")
+		  	->andWhere('k.date BETWEEN :date1 AND :date2')
+		  	->setParameter('date1', $date1)
+		  	->setParameter('date2', $date2)
+		  	->orderBy('u.role', 'ASC')
+		;
+
+		return $qb
+			->getQuery()
+			->getResult();
 	}
 }
