@@ -1073,15 +1073,23 @@ class KpiController extends Controller
 
 	if($session->get('filtre_boutique') != null){
 		$kpis = $em->getRepository('AppBundle:KpiWeek')->getUserKpisBetweenDates($session->get('filtre_boutique'), $dateWeek1, $dateWeek2, $brand);
+
+		$kpisCSV = $em->getRepository('AppBundle:KpiWeek')->getKpisMarque($dateWeek1, $dateWeek2, $brand);
 	}
 	elseif($session->get('filtre_dr') != null){
 		$kpis = $em->getRepository('AppBundle:KpiWeek')->getUserKpisBetweenDates($session->get('filtre_dr'), $dateWeek1, $dateWeek2, $brand);
+
+		$kpisCSV = $em->getRepository('AppBundle:KpiWeek')->getKpisDr($dateWeek1, $dateWeek2, $user->getUsername(), $brand);
 	}
 	elseif($session->get('filtre_reseau') != null){
 		$kpis = $em->getRepository('AppBundle:KpiWeek')->getUserKpisBetweenDates($session->get('filtre_reseau'), $dateWeek1, $dateWeek2, $brand);
+
+		$kpisCSV = $em->getRepository('AppBundle:KpiWeek')->getKpisBoutique($dateWeek1, $dateWeek2, $user->getUsername(), $brand);
 	}
 	else{
 		$kpis = $em->getRepository('AppBundle:KpiWeek')->getUserKpisBetweenDates($user, $dateWeek1, $dateWeek2, $brand);
+
+		$kpisCSV = $em->getRepository('AppBundle:KpiWeek')->getKpisBoutique($dateWeek1, $dateWeek2, $user->getBoutique(), $brand);
 	}
 
 	$kpiCurrentWeek = null;
@@ -1140,7 +1148,7 @@ class KpiController extends Controller
 		//Export CSV
 		if ($form2->isSubmitted()) {
 			//$id_data = $user->getId();
-			$idDataMarque 	= $marque->getId();
+			/*$idDataMarque 	= $marque->getId();
 			$idDataFiche 	= $kpiCurrentWeek->getId();
 			$idDataAutres	= array();
 			if( $user->getRole() == 'ROLE_MARQUE' ) {
@@ -1165,43 +1173,97 @@ class KpiController extends Controller
 				$ids .= ",".$id;
 			}
 			$ids .= ")";
+			*/
+			$ids = "(";
 
-			$sql = "SELECT u.username,u.role,u.brand,u.dr,u.boutique,u.nom_vendeur,u.prenom_vendeur,d.date,d.nb_transac_S0,d.tx_transac_linked_S0,d.tx_transac_npe_S0,d.tx_transac_npes_S0,d.tx_transac_npesa_S0
-					FROM app_kpi_week d
-					LEFT JOIN fos_user_user u on d.user_id = u.id
-					WHERE d.id in $ids";
-			$header     = array('Libelle','Role','Reseau','DR','Boutique','Nom Vendeur','Prenom Vendeur','Date','NOMBRE DE TRANSACTIONS Hebdomadaire',
-	            				'TAUX DE TRANSACTIONS LIÉES Hebdomadaire','CAPTURE EMAIL VALIDE Hebdomadaire','CAPTURE EMAIL + SMS VALIDE Hebdomadaire','CAPTURE EMAIL + SMS + ADRESSE VALIDE Hebdomadaire');
+			foreach ($kpisCSV as $key => $id_kpi){
+				if($key == 0){
+					$ids .= $id_kpi['id'];
+				}
+				else{
+					$ids .= ",".$id_kpi['id'];
+				}
+			}
+			$ids .= ")";
 
-			//Creation du fichier CSV et du header
-            $handle     = fopen('php://memory', 'r+');
+			if($kpiCurrentMonth->getDate() < new \Datetime('2019-01-01'))
+			{
+				$sql = "SELECT u.username,u.role,u.brand,u.dr,u.boutique,u.nom_vendeur,u.prenom_vendeur,d.date,d.nb_transac_S0,d.tx_transac_linked_S0,d.tx_transac_npe_S0,d.tx_transac_npes_S0,d.tx_transac_npesa_S0
+						FROM app_kpi_week d
+						LEFT JOIN fos_user_user u on d.user_id = u.id
+						WHERE d.id in $ids";
+				$header     = array('Libelle','Role','Reseau','DR','Boutique','Nom Vendeur','Prenom Vendeur','Date','NOMBRE DE TRANSACTIONS Hebdomadaire',
+		            				'TAUX DE TRANSACTIONS LIÉES Hebdomadaire','CAPTURE EMAIL VALIDE Hebdomadaire','CAPTURE EMAIL + SMS VALIDE Hebdomadaire','CAPTURE EMAIL + SMS + ADRESSE VALIDE Hebdomadaire');
 
-            //Creation de l'entête du fichier pour être lisible dans Exel
-            fputs($handle, $bom =( chr(0xEF) . chr(0xBB) . chr(0xBF) ));
-            fputcsv($handle, $header, ';');
+				//Creation du fichier CSV et du header
+	            $handle     = fopen('php://memory', 'r+');
 
-            //Initialisation de la connection à la BDD
-            $pdo = $this->container->get('app.pdo_connect');
-            $pdo = $pdo->initPdoClienteling();
+	            //Creation de l'entête du fichier pour être lisible dans Exel
+	            fputs($handle, $bom =( chr(0xEF) . chr(0xBB) . chr(0xBF) ));
+	            fputcsv($handle, $header, ';');
 
-            //Préparation et execution de la requête
-            $stmt = $pdo->prepare($sql);
-            $stmt->execute();
+	            //Initialisation de la connection à la BDD
+	            $pdo = $this->container->get('app.pdo_connect');
+	            $pdo = $pdo->initPdoClienteling();
 
-            //Remplissage du fichier csv.
-            while ($row = $stmt->fetch(\PDO::FETCH_ASSOC)) {
-                $row["nb_transac_S0"] = '="'.str_replace('.',',',$row["nb_transac_S0"]).'"';
-                $row["tx_transac_linked_S0"] = '="'.str_replace('.',',',$row["tx_transac_linked_S0"]).'"';
-                $row["tx_transac_npe_S0"] = '="'.str_replace('.',',',$row["tx_transac_npe_S0"]).'"';
-                $row["tx_transac_npes_S0"]  = '="'.str_replace('.',',',$row["tx_transac_npes_S0"]).'"';
-                $row["tx_transac_npesa_S0"]  = '="'.str_replace('.',',',$row["tx_transac_npesa_S0"]).'"';
-                fputcsv($handle, $row, ';');
-            }
+	            //Préparation et execution de la requête
+	            $stmt = $pdo->prepare($sql);
+	            $stmt->execute();
 
-            //Fermeture du fichier
-            rewind($handle);
-            $content = stream_get_contents($handle);
-            fclose($handle);
+	            //Remplissage du fichier csv.
+	            while ($row = $stmt->fetch(\PDO::FETCH_ASSOC)) {
+	                $row["nb_transac_S0"] = '="'.str_replace('.',',',$row["nb_transac_S0"]).'"';
+	                $row["tx_transac_linked_S0"] = '="'.str_replace('.',',',$row["tx_transac_linked_S0"]).'"';
+	                $row["tx_transac_npe_S0"] = '="'.str_replace('.',',',$row["tx_transac_npe_S0"]).'"';
+	                $row["tx_transac_npes_S0"]  = '="'.str_replace('.',',',$row["tx_transac_npes_S0"]).'"';
+	                $row["tx_transac_npesa_S0"]  = '="'.str_replace('.',',',$row["tx_transac_npesa_S0"]).'"';
+	                fputcsv($handle, $row, ';');
+	            }
+
+	            //Fermeture du fichier
+	            rewind($handle);
+	            $content = stream_get_contents($handle);
+	            fclose($handle);
+	        }
+	        else{
+	        	$sql = "SELECT u.username,u.role,u.brand,u.dr,u.boutique,u.nom_vendeur,u.prenom_vendeur,d.date,d.nb_transac_s0,d.tx_transac_linked_s0,d.tx_transac_npesi2_s0,d.tx_transac_npei_s0,d.tx_transac_npsi_s0
+						FROM app_kpi_week d
+						LEFT JOIN fos_user_user u on d.user_id = u.id
+						WHERE d.id in $ids";
+				$header     = array('Libelle','Role','Reseau','DR','Boutique','Nom Vendeur','Prenom Vendeur','Date','NOMBRE DE TRANSACTIONS Mensuel',
+	            					'TAUX DE TRANSACTIONS LIÉES Mensuel','CAPTURE EMAIL ET/OU SMS VALIDE et OPTIN Mensuel','CAPTURE EMAIL VALIDE et OPTIN Mensuel','CAPTURE SMS VALIDE et OPTIN Mensuel');
+
+				//Creation du fichier CSV et du header
+	            $handle     = fopen('php://memory', 'r+');
+
+	            //Creation de l'entête du fichier pour être lisible dans Exel
+	            fputs($handle, $bom =( chr(0xEF) . chr(0xBB) . chr(0xBF) ));
+	            fputcsv($handle, $header, ';');
+
+	            //Initialisation de la connection à la BDD
+	            $pdo = $this->container->get('app.pdo_connect');
+	            $pdo = $pdo->initPdoClienteling();
+
+	            //Préparation et execution de la requête
+	            $stmt = $pdo->prepare($sql);
+	            $stmt->execute();
+
+	            //Remplissage du fichier csv.
+	            while ($row = $stmt->fetch(\PDO::FETCH_ASSOC)) {
+	                $row["nb_transac_s0"] = '="'.str_replace('.',',',$row["nb_transac_s0"]).'"';
+	                $row["tx_transac_linked_s0"] = '="'.str_replace('.',',',$row["tx_transac_linked_s0"]).'"';
+	                $row["tx_transac_npesi2_s0"] = '="'.str_replace('.',',',$row["tx_transac_npesi2_s0"]).'"';
+	                $row["tx_transac_npei_s0"]  = '="'.str_replace('.',',',$row["tx_transac_npei_s0"]).'"';
+	                $row["tx_transac_npsi_s0"]  = '="'.str_replace('.',',',$row["tx_transac_npsi_s0"]).'"';
+	                fputcsv($handle, $row, ';');
+	            }
+
+	            //Fermeture du fichier
+	            rewind($handle);
+	            $content = stream_get_contents($handle);
+	            fclose($handle);
+
+	        }
 
             $date_csv = new \Datetime('now');
             $date_csv = $date_csv->format('Ymd');

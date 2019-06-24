@@ -425,4 +425,71 @@ class KpiWeekRepository extends EntityRepository
 			->getOneOrNullResult();
 			//->getResult();
 	}
+
+
+	/***********************************************/
+
+	public function getKpisMarque($date1, $date2, $brand){
+		$qb = $this
+			->createQueryBuilder('k')
+			->select('k.id')
+		  	->leftJoin('k.user', 'u')
+			->where('u.brand = :brand or u.username = :brand')
+		  	->setParameter('brand', $brand)
+		  	//->andWhere('u.role = :role')
+		  	//->setParameter('role', "ROLE_MARQUE")
+		  	->andWhere('k.date BETWEEN :date1 AND :date2')
+		  	->setParameter('date1', $date1)
+		  	->setParameter('date2', $date2)
+		  	->orderBy('u.role', 'ASC')
+		;
+
+		return $qb
+			->getQuery()
+			->getResult();
+	}
+
+
+	public function getKpisBoutique($date1, $date2, $boutique, $brand){
+		$qb = $this
+			->createQueryBuilder('k')
+			->select('k.id')
+		  	->leftJoin('k.user', 'u')
+			->where('u.boutique = :boutique or u.boutique = :boutique or u.username = :brand')
+		  	->setParameter('boutique', $boutique)
+		  	->setParameter('brand', $brand)
+		  	//->andWhere('u.role = :role')
+		  	//->setParameter('role', "ROLE_MARQUE")
+		  	->andWhere('k.date BETWEEN :date1 AND :date2')
+		  	->setParameter('date1', $date1)
+		  	->setParameter('date2', $date2)
+		  	->orderBy('u.role', 'ASC')
+		;
+
+		return $qb
+			->getQuery()
+			->getResult();
+	}
+
+
+	public function getKpisDr($date1, $date2, $dr, $brand){
+		$qb = $this
+			->createQueryBuilder('k')
+			->select('k.id')
+		  	->leftJoin('k.user', 'u')
+			->where('u.dr = :dr or u.username = :dr or u.username = :brand')
+		  	->setParameter('dr', $dr)
+		  	->setParameter('brand', $brand)
+		  	//->andWhere('u.role = :role')
+		  	//->setParameter('role', "ROLE_MARQUE")
+		  	->andWhere('k.date BETWEEN :date1 AND :date2')
+		  	->setParameter('date1', $date1)
+		  	->setParameter('date2', $date2)
+		  	->orderBy('u.role', 'ASC')
+		;
+
+		return $qb
+			->getQuery()
+			->getResult();
+	}
 }
