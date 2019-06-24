@@ -1186,7 +1186,7 @@ class KpiController extends Controller
 			}
 			$ids .= ")";
 
-			if($kpiCurrentMonth->getDate() < new \Datetime('2019-01-01'))
+			if($kpiCurrentWeek->getDate() < new \Datetime('2019-01-01'))
 			{
 				$sql = "SELECT u.username,u.role,u.brand,u.dr,u.boutique,u.nom_vendeur,u.prenom_vendeur,d.date,d.nb_transac_S0,d.tx_transac_linked_S0,d.tx_transac_npe_S0,d.tx_transac_npes_S0,d.tx_transac_npesa_S0
 						FROM app_kpi_week d
