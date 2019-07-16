@@ -1000,6 +1000,8 @@ class KpiController extends Controller
 				$getBoutiques = $em->getRepository('AppBundle:KpiWeek')->getKpiBoutiqueDr($dr->getUser()->getUsername(), $dateWeek3, $dateWeek2, $brand);
 				$getBoutiquesDr[$key] = $getBoutiques;
 			}
+
+			$kpisCSV = $em->getRepository('AppBundle:KpiWeek')->getKpisMarque($dateWeek1, $dateWeek2, $brand);
 		}
 		if( $user->getRole() == 'ROLE_DR' ) {
 			$getBoutiquesDr = $em->getRepository('AppBundle:KpiWeek')->getKpiBoutiqueDr($user->getUsername(), $dateWeek3, $dateWeek2, $brand);
@@ -1010,16 +1012,22 @@ class KpiController extends Controller
 				$getVendeurs = $em->getRepository('AppBundle:KpiWeek')->getKpiVendeurBoutique($boutique->getUser()->getUsername(), $dateWeek3, $dateWeek2, $brand);
 				$getVendeursBoutique[$key2] = $getVendeurs;
 			}
+
+			$kpisCSV = $em->getRepository('AppBundle:KpiWeek')->getKpisDr($dateWeek1, $dateWeek2, $user->getUsername(), $brand);
 		}
 		if( $user->getRole() == 'ROLE_BOUTIQUE' ) {
 			$getVendeursBoutique = $em->getRepository('AppBundle:KpiWeek')->getKpiVendeurBoutique($user->getUsername(), $dateWeek3, $dateWeek2, $brand);
 			$getBoutiquesDr = null;
 			$getDrsMarque = null;
+
+			$kpisCSV = $em->getRepository('AppBundle:KpiWeek')->getKpisBoutique($dateWeek1, $dateWeek2, $user->getBoutique(), $brand);
 		}
 		if( $user->getRole() == 'ROLE_VENDEUR' ) {
 			$getVendeursBoutique = $em->getRepository('AppBundle:KpiWeek')->getKpiVendeurBoutique($user->getBoutique(), $dateWeek3, $dateWeek2, $brand);
 			$getBoutiquesDr = null;
 			$getDrsMarque = null;
+
+			$kpisCSV = $em->getRepository('AppBundle:KpiWeek')->getKpisBoutique($dateWeek1, $dateWeek2, $user->getBoutique(), $brand);
 		}
 
 		if( $user->getRole() == 'ROLE_MARQUE' ) {
@@ -1068,28 +1076,19 @@ class KpiController extends Controller
 		}
     }
 
-
   //Gestion des requêtes selon la page appelée
 
 	if($session->get('filtre_boutique') != null){
 		$kpis = $em->getRepository('AppBundle:KpiWeek')->getUserKpisBetweenDates($session->get('filtre_boutique'), $dateWeek1, $dateWeek2, $brand);
-
-		$kpisCSV = $em->getRepository('AppBundle:KpiWeek')->getKpisMarque($dateWeek1, $dateWeek2, $brand);
 	}
 	elseif($session->get('filtre_dr') != null){
 		$kpis = $em->getRepository('AppBundle:KpiWeek')->getUserKpisBetweenDates($session->get('filtre_dr'), $dateWeek1, $dateWeek2, $brand);
-
-		$kpisCSV = $em->getRepository('AppBundle:KpiWeek')->getKpisDr($dateWeek1, $dateWeek2, $user->getUsername(), $brand);
 	}
 	elseif($session->get('filtre_reseau') != null){
 		$kpis = $em->getRepository('AppBundle:KpiWeek')->getUserKpisBetweenDates($session->get('filtre_reseau'), $dateWeek1, $dateWeek2, $brand);
-
-		$kpisCSV = $em->getRepository('AppBundle:KpiWeek')->getKpisBoutique($dateWeek1, $dateWeek2, $user->getUsername(), $brand);
 	}
 	else{
 		$kpis = $em->getRepository('AppBundle:KpiWeek')->getUserKpisBetweenDates($user, $dateWeek1, $dateWeek2, $brand);
-
-		$kpisCSV = $em->getRepository('AppBundle:KpiWeek')->getKpisBoutique($dateWeek1, $dateWeek2, $user->getBoutique(), $brand);
 	}
 
 	$kpiCurrentWeek = null;
@@ -1139,8 +1138,6 @@ class KpiController extends Controller
 
 	//Mise à jour du filtre
 	$form = $kpiFilterService->updateForm($user, $request, $form);
-
-
 
 	$form2 = $this->createForm(new ExportDataType());
   	$form2->handleRequest($request);
@@ -1275,7 +1272,6 @@ class KpiController extends Controller
             ));
 
         }
-
 
         if($kpiCurrentWeek != null) {
         
