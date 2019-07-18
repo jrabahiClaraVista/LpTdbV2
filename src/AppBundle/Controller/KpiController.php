@@ -435,18 +435,18 @@ class KpiController extends Controller
 	            //Remplissage du fichier csv.
 	            while ($row = $stmt->fetch(\PDO::FETCH_ASSOC)) {
 	            	if($routeName == "app_kpi_month"){
-	                $row["nb_transac_m0"] = str_replace('.',',',$row["nb_transac_m0"]).'"';
-	                $row["tx_transac_linked_m0"] = str_replace('.',',',$row["tx_transac_linked_m0"]).'"';
-	                $row["tx_transac_npe_m0"] = str_replace('.',',',$row["tx_transac_npe_m0"]).'"';
-	                $row["tx_transac_npes_m0"]  = str_replace('.',',',$row["tx_transac_npes_m0"]).'"';
-	                $row["tx_transac_npesa_m0"]  = str_replace('.',',',$row["tx_transac_npesa_m0"]).'"';
+	                $row["nb_transac_m0"] = str_replace('.',',',$row["nb_transac_m0"]);
+	                $row["tx_transac_linked_m0"] = str_replace('.',',',$row["tx_transac_linked_m0"]);
+	                $row["tx_transac_npe_m0"] = str_replace('.',',',$row["tx_transac_npe_m0"]);
+	                $row["tx_transac_npes_m0"]  = str_replace('.',',',$row["tx_transac_npes_m0"]);
+	                $row["tx_transac_npesa_m0"]  = str_replace('.',',',$row["tx_transac_npesa_m0"]);
 	            	}
 	            	if($routeName == "app_kpi_ytd"){
-	                $row["nb_transac_ytd"] = str_replace('.',',',$row["nb_transac_ytd"]).'"';
-	                $row["tx_transac_linked_ytd"] = str_replace('.',',',$row["tx_transac_linked_ytd"]).'"';
-	                $row["tx_transac_npe_ytd"] = str_replace('.',',',$row["tx_transac_npe_ytd"]).'"';
-	                $row["tx_transac_npes_ytd"]  = str_replace('.',',',$row["tx_transac_npes_ytd"]).'"';
-	                $row["tx_transac_npesa_ytd"]  = str_replace('.',',',$row["tx_transac_npesa_ytd"]).'"';
+	                $row["nb_transac_ytd"] = str_replace('.',',',$row["nb_transac_ytd"]);
+	                $row["tx_transac_linked_ytd"] = str_replace('.',',',$row["tx_transac_linked_ytd"]);
+	                $row["tx_transac_npe_ytd"] = str_replace('.',',',$row["tx_transac_npe_ytd"]);
+	                $row["tx_transac_npes_ytd"]  = str_replace('.',',',$row["tx_transac_npes_ytd"]);
+	                $row["tx_transac_npesa_ytd"]  = str_replace('.',',',$row["tx_transac_npesa_ytd"]);
 	            	}
 	                fputcsv($handle, $row, ';');
 	            }
@@ -504,18 +504,18 @@ class KpiController extends Controller
 	            //Remplissage du fichier csv.
 	            while ($row = $stmt->fetch(\PDO::FETCH_ASSOC)) {
 	            	if($routeName == "app_kpi_month"){
-	                $row["nb_transac_m0"] = str_replace('.',',',$row["nb_transac_m0"]).'"';
-	                $row["tx_transac_linked_m0"] = str_replace('.',',',$row["tx_transac_linked_m0"]).'"';
-	                $row["tx_transac_npesi2_m0"] = str_replace('.',',',$row["tx_transac_npesi2_m0"]).'"';
-	                $row["tx_transac_npei_m0"]  = str_replace('.',',',$row["tx_transac_npei_m0"]).'"';
-	                $row["tx_transac_npsi_m0"]  = str_replace('.',',',$row["tx_transac_npsi_m0"]).'"';
+	                $row["nb_transac_m0"] = str_replace('.',',',$row["nb_transac_m0"]);
+	                $row["tx_transac_linked_m0"] = str_replace('.',',',$row["tx_transac_linked_m0"]);
+	                $row["tx_transac_npesi2_m0"] = str_replace('.',',',$row["tx_transac_npesi2_m0"]);
+	                $row["tx_transac_npei_m0"]  = str_replace('.',',',$row["tx_transac_npei_m0"]);
+	                $row["tx_transac_npsi_m0"]  = str_replace('.',',',$row["tx_transac_npsi_m0"]);
 	            	}
 	            	if($routeName == "app_kpi_ytd"){
-	                $row["nb_transac_ytd"] = str_replace('.',',',$row["nb_transac_ytd"]).'"';
-	                $row["tx_transac_linked_ytd"] = str_replace('.',',',$row["tx_transac_linked_ytd"]).'"';
-	                $row["tx_transac_npesi2_ytd"] = str_replace('.',',',$row["tx_transac_npesi2_ytd"]).'"';
-	                $row["tx_transac_npei_ytd"]  = str_replace('.',',',$row["tx_transac_npei_ytd"]).'"';
-	                $row["tx_transac_npsi_ytd"]  = str_replace('.',',',$row["tx_transac_npsi_ytd"]).'"';
+	                $row["nb_transac_ytd"] = str_replace('.',',',$row["nb_transac_ytd"]);
+	                $row["tx_transac_linked_ytd"] = str_replace('.',',',$row["tx_transac_linked_ytd"]);
+	                $row["tx_transac_npesi2_ytd"] = str_replace('.',',',$row["tx_transac_npesi2_ytd"]);
+	                $row["tx_transac_npei_ytd"]  = str_replace('.',',',$row["tx_transac_npei_ytd"]);
+	                $row["tx_transac_npsi_ytd"]  = str_replace('.',',',$row["tx_transac_npsi_ytd"]);
 	            	}
 	                fputcsv($handle, $row, ';');
 	            }
@@ -665,7 +665,7 @@ class KpiController extends Controller
 
 	            //Remplissage du fichier csv.
 	            while ($row = $stmt2->fetch(\PDO::FETCH_ASSOC)) {
-	                $row["note"] = str_replace('.',',',$row["note"]).'"';
+	                $row["note"] = str_replace('.',',',$row["note"]);
 
 	                fputcsv($handle2, $row, ';');
 	            }
@@ -1209,11 +1209,11 @@ class KpiController extends Controller
 
 	            //Remplissage du fichier csv.
 	            while ($row = $stmt->fetch(\PDO::FETCH_ASSOC)) {
-	                $row["nb_transac_S0"] = str_replace('.',',',$row["nb_transac_S0"]).'"';
-	                $row["tx_transac_linked_S0"] = str_replace('.',',',$row["tx_transac_linked_S0"]).'"';
-	                $row["tx_transac_npe_S0"] = str_replace('.',',',$row["tx_transac_npe_S0"]).'"';
-	                $row["tx_transac_npes_S0"]  = str_replace('.',',',$row["tx_transac_npes_S0"]).'"';
-	                $row["tx_transac_npesa_S0"]  = str_replace('.',',',$row["tx_transac_npesa_S0"]).'"';
+	                $row["nb_transac_S0"] = str_replace('.',',',$row["nb_transac_S0"]);
+	                $row["tx_transac_linked_S0"] = str_replace('.',',',$row["tx_transac_linked_S0"]);
+	                $row["tx_transac_npe_S0"] = str_replace('.',',',$row["tx_transac_npe_S0"]);
+	                $row["tx_transac_npes_S0"]  = str_replace('.',',',$row["tx_transac_npes_S0"]);
+	                $row["tx_transac_npesa_S0"]  = str_replace('.',',',$row["tx_transac_npesa_S0"]);
 	                fputcsv($handle, $row, ';');
 	            }
 
@@ -1247,11 +1247,11 @@ class KpiController extends Controller
 
 	            //Remplissage du fichier csv.
 	            while ($row = $stmt->fetch(\PDO::FETCH_ASSOC)) {
-	                $row["nb_transac_s0"] = str_replace('.',',',$row["nb_transac_s0"]).'"';
-	                $row["tx_transac_linked_s0"] = str_replace('.',',',$row["tx_transac_linked_s0"]).'"';
-	                $row["tx_transac_npesi2_s0"] = str_replace('.',',',$row["tx_transac_npesi2_s0"]).'"';
-	                $row["tx_transac_npei_s0"]  = str_replace('.',',',$row["tx_transac_npei_s0"]).'"';
-	                $row["tx_transac_npsi_s0"]  = str_replace('.',',',$row["tx_transac_npsi_s0"]).'"';
+	                $row["nb_transac_s0"] = str_replace('.',',',$row["nb_transac_s0"]);
+	                $row["tx_transac_linked_s0"] = str_replace('.',',',$row["tx_transac_linked_s0"]);
+	                $row["tx_transac_npesi2_s0"] = str_replace('.',',',$row["tx_transac_npesi2_s0"]);
+	                $row["tx_transac_npei_s0"]  = str_replace('.',',',$row["tx_transac_npei_s0"]);
+	                $row["tx_transac_npsi_s0"]  = str_replace('.',',',$row["tx_transac_npsi_s0"]);
 	                fputcsv($handle, $row, ';');
 	            }
 
