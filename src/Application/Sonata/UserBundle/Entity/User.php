@@ -454,7 +454,7 @@ class User extends BaseUser
 
         if($this->locked == 1)
         {
-            return $this->username.' - fermée';
+            return 'FERMÉE$ - '.$this->username;
         }
         else{
             return $this->username;
