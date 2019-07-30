@@ -300,7 +300,7 @@ class KpiFilterType extends AbstractType
                 if($this->user->getRole() == "ROLE_DR"){
                     $form->add('boutique', 'entity', array(
                         'class' => 'ApplicationSonataUserBundle:User',
-                        'property' => 'username',
+                        'property' => 'username_canonical',
                         'query_builder' => function(EntityRepository $er) {
                             return $er->createQueryBuilder('u')
                             ->where('u.role = :role')
@@ -342,7 +342,7 @@ class KpiFilterType extends AbstractType
                 else{
                     $form->add('boutique', 'entity', array(
                         'class' => 'ApplicationSonataUserBundle:User',
-                        'property' => 'username',
+                        'property' => 'username_canonical',
                         'query_builder' => function(EntityRepository $er) {
                             return $er->createQueryBuilder('u')
                             ->where('u.role = :role')
@@ -400,7 +400,7 @@ class KpiFilterType extends AbstractType
                 if($this->user->getRole() == "ROLE_BOUTIQUE"){
                   $form->add('boutique', 'entity', array(
                       'class' => 'ApplicationSonataUserBundle:User',
-                      'property' => 'username',
+                      'property' => 'username_canonical',
                       'query_builder' => function(EntityRepository $er) {
                           return $er->createQueryBuilder('u')
                           ->where('u.role = :role')
@@ -438,7 +438,7 @@ class KpiFilterType extends AbstractType
               else{
                 $form->add('boutique', 'entity', array(
                     'class' => 'ApplicationSonataUserBundle:User',
-                    'property' => 'username',
+                    'property' => 'username_canonical',
                     'query_builder' => function(EntityRepository $er) {
                         return $er->createQueryBuilder('u')
                         ->where('u.role = :role')

@@ -449,4 +449,15 @@ class User extends BaseUser
 
         return $name;
     }
+
+    public function getUsernameCanonical(){
+
+        if($this->locked == 1)
+        {
+            return $this->username.' - fermée';
+        }
+        else{
+            return $this->username;
+        }
+    }
 }
