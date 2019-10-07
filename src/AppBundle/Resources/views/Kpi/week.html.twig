@@ -159,7 +159,7 @@
 											<th class="text-right text-uppercase"><i class="fa fa-plus-circle" aria-hidden="true" data="boutiques_{{keyloop}}" style="cursor:pointer;"></i>&nbsp;&nbsp;<a href="{{ path('app_kpi_week', { 'user_actuel' : userId, 'user_id' : boutique.user.id } ) }}">{{boutique.user.nameAndSurname}}</a></th>
 											<td class="text-center">{{ boutique.nbTransacS0|number_format(0, ',', ' ') }}</td>
 											<td class="text-center">{{ boutique.txTransacLinkedS0|number_format}} %</td>
-											<td class="text-center">{{ boutique.txTransacNpeS0|number_format}} %</td>
+											<td class="text-center">{{ boutique.txTransacNpesi2S0|number_format}} %</td>
 											<td class="text-center">{{ boutique.txTransacNpesS0|number_format}} %</td>
 											<td class="text-center">{{ boutique.txTransacNpesaS0|number_format}} %</td>
 										</tr>
