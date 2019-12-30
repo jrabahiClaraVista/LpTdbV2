@@ -212,6 +212,7 @@ class KpiFilterType extends AbstractType
                 }
 
                 var_dump($now->format('W'));
+                var_dump(intval($date1->format('W')));
 
                 $form->add('week', 'Symfony\Component\Form\Extension\Core\Type\ChoiceType', array(
                     'choices' =>
