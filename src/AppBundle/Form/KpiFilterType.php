@@ -209,8 +209,9 @@ class KpiFilterType extends AbstractType
                         $dates_week["$date_format - Semaine $week_number"] = $week_number;
                     }
 
-                    var_dump($dates_week);
                 }
+
+                var_dump($dates_week);
 
 
                 $form->add('week', 'Symfony\Component\Form\Extension\Core\Type\ChoiceType', array(
