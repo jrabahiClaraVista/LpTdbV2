@@ -74,6 +74,7 @@ class KpiFilterType extends AbstractType
                       '2017'   => '2017',
                       '2018'   => '2018',
                       '2019'   => '2019',
+                      '2020'   => '2020',
                       ),
                     'choices_as_values' => true,
                     'required' => false,
@@ -126,6 +127,7 @@ class KpiFilterType extends AbstractType
                       '2017'   => '2017',
                       '2018'   => '2018',
                       '2019'   => '2019',
+                      '2020'   => '2020',
                       ),
                     'choices_as_values' => true,
                     'required' => false,
@@ -169,6 +171,7 @@ class KpiFilterType extends AbstractType
                       '2017'   => '2017',
                       '2018'   => '2018',
                       '2019'   => '2019',
+                      '2020'   => '2020',
                       ),
                     'choices_as_values' => true,
                     'required' => false,
@@ -205,7 +208,9 @@ class KpiFilterType extends AbstractType
                     if( intval($date1->format('W')) < intval($now->format('W')) ){
                         $dates_week["$date_format - Semaine $week_number"] = $week_number;
                     }
-                }                
+
+                    var_dump($dates_week);
+                }
 
 
                 $form->add('week', 'Symfony\Component\Form\Extension\Core\Type\ChoiceType', array(
