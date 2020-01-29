@@ -154,6 +154,8 @@ class initKpiFilterDatesService
         $dateWeek1 = $dateWeek1->format("Y-m-d");
         $dateWeek3 = $dateWeek3->format("Y-m-d");
 
+
+
         $results['dateWeek1']   = $dateWeek1;
         $results['dateWeek2']   = $dateWeek2;
         $results['dateWeek3']   = $dateWeek3;
@@ -221,7 +223,12 @@ class initKpiFilterDatesService
     public function getDatesWeekPost($data, $session, $trigger = null){
         $now = new \DateTime();
         $now = $now->modify('-7 days');
-        $year = $now->format('Y');
+        $year = $now->format('Y');        
+        $week = $now->format('W');
+
+        if(intval($week) < intval($data['week'])) {
+            $data['year'] =  strval(intval($year) - 1);
+        }
 
         //Set Session variable
         if($data['year'] == '' ){
@@ -240,11 +247,13 @@ class initKpiFilterDatesService
         }
 
 
-
-
         // On récupère les bons mois et année FY
         $year  = $session->get('kpi_year_filtre');
         $week  = $session->get('kpi_week_filtre');
+
+
+
+        
 
         $dateWeek2 = new \DateTime();
         $dateWeek2 = $dateWeek2->setISODate($year,$week,7);

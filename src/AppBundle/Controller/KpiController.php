@@ -930,6 +930,7 @@ class KpiController extends Controller
 
 		$lastKpiWeek = $em->getRepository('AppBundle:KpiWeek')->findOneBy(array('user' => $user), array('date' => "DESC"));
 
+
 		if($lastKpiWeek == null){
 			$session->remove('kpi_week_filtre');
 			$session->remove('kpi_year_filtre');
@@ -1054,6 +1055,7 @@ class KpiController extends Controller
 		$dateWeek2 	= $datesWeek['dateWeek2'];
 		$dateWeek3 	= $datesWeek['dateWeek3'];
 
+
 		if($session->get('filtre_vendeur') != null){
 			$id = $session->get('filtre_vendeur')->getId();
 	    }
@@ -1101,7 +1103,7 @@ class KpiController extends Controller
 				$week = $kpiCurrentWeek->getDate()->format("W");
 		}
 		else {
-			if ( $kpi->getDate()->format("W") == $week && $kpi->getDate()->format("Y") == $year ) {
+			if ( $kpi->getDate()->format("W") == $week && $kpi->getDate()->modify('+1 week')->format("Y") == $year ) {
 				$kpiCurrentWeek = $kpi;
 			}
 		}
