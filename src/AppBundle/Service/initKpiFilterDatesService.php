@@ -37,8 +37,6 @@ class initKpiFilterDatesService
         //Affichage des données du dernier mois / mois selectionné : du premier à la fin du mois.
         //On test aussi les var de session month et year, car par defaut pour TOT la valeur est a null
         if( $session->get('kpi_month_filtre') == null || $session->get('kpi_year_filtre') == null ) {
-
-
             $month = $date->format('m');
             $year  = $date->format('Y');
             $week  = $date->format('W');
@@ -124,15 +122,7 @@ class initKpiFilterDatesService
         //si on a une recherche active
         else{
             $week  = $session->get('kpi_week_filtre');
-
-            if(intval($session->get('kpi_week_filtre')) > intval($week) ) {
-                if(intval($session->get('kpi_year_filtre')) > intval($year)) {
-                    $year =  strval(intval($year) - 1);
-                }
-                else{
-                    $year  = $session->get('kpi_year_filtre');
-                }
-            }
+            $year  = $session->get('kpi_year_filtre');
 
             //$dateWeek2 = $now->setISODate($year,$week,7);//->modify('-1 month');
             $dateWeek2 = $now->setISODate($year,$week,7);
@@ -262,10 +252,7 @@ class initKpiFilterDatesService
         // On récupère les bons mois et année FY
         $year  = $session->get('kpi_year_filtre');
         $week  = $session->get('kpi_week_filtre');
-
-
-
-        
+       
 
         $dateWeek2 = new \DateTime();
         $dateWeek2 = $dateWeek2->setISODate($year,$week,7);
