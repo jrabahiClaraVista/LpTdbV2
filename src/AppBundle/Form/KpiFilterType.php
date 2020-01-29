@@ -200,10 +200,31 @@ class KpiFilterType extends AbstractType
 
                     $date1 = new \DateTime('now');
                     $date2 = new \DateTime('now');
-                    $date_format = $date1->modify('last monday')->modify( -$i*7 .' days' )->format("d/m/Y");
+
+                    switch($date1->format('l')) {
+                        case 'Monday':
+                            $date_format = $date1->modify('last monday')->modify( -$i*7 .' days' )->format("d/m/Y");
+                        break;
+                        case 'Tuesday':
+                            $date_format = $date1->modify('-1 day')->modify('last monday')->modify( -$i*7 .' days' )->format("d/m/Y");
+                        break;
+                        case 'Wednesday':
+                            $date_format = $date1->modify('-2 days')->modify('last monday')->modify( -$i*7 .' days' )->format("d/m/Y");
+                        break;
+                        case 'Thursday':
+                            $date_format = $date1->modify('-3 days')->modify('last monday')->modify( -$i*7 .' days' )->format("d/m/Y");
+                        break;
+                        case 'Friday':
+                            $date_format = $date1->modify('-4 days')->modify('last monday')->modify( -$i*7 .' days' )->format("d/m/Y");
+                        break;
+                        case 'Saturday':
+                            $date_format = $date1->modify('-5 days')->modify('last monday')->modify( -$i*7 .' days' )->format("d/m/Y");
+                        break;
+                        case 'Sunday':
+                            $date_format = $date1->modify('-6 days')->modify('last monday')->modify( -$i*7 .' days' )->format("d/m/Y");
+                        break;
+                    }
                     $week_number = $date2->modify('last monday')->modify( -$i*7 .' days' )->format("W");
-
-
 
                     //if( intval($date1->format('W')) < intval($now->format('W')) ){
                         $dates_week["$date_format - Semaine $week_number"] = $week_number;
