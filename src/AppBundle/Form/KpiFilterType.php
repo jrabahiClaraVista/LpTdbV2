@@ -204,27 +204,33 @@ class KpiFilterType extends AbstractType
                     switch($date1->format('l')) {
                         case 'Monday':
                             $date_format = $date1->modify('last monday')->modify( -$i*7 .' days' )->format("d/m/Y");
+                            $week_number = $date2->modify('last monday')->modify( -$i*7 .' days' )->format("W");
                         break;
                         case 'Tuesday':
                             $date_format = $date1->modify('-1 day')->modify('last monday')->modify( -$i*7 .' days' )->format("d/m/Y");
+                            $week_number = $date2->modify('-1 day')->modify('last monday')->modify( -$i*7 .' days' )->format("W");
                         break;
                         case 'Wednesday':
                             $date_format = $date1->modify('-2 days')->modify('last monday')->modify( -$i*7 .' days' )->format("d/m/Y");
+                            $week_number = $date2->modify('-2 day')->modify('last monday')->modify( -$i*7 .' days' )->format("W");
                         break;
                         case 'Thursday':
                             $date_format = $date1->modify('-3 days')->modify('last monday')->modify( -$i*7 .' days' )->format("d/m/Y");
+                            $week_number = $date2->modify('-3 day')->modify('last monday')->modify( -$i*7 .' days' )->format("W");
                         break;
                         case 'Friday':
                             $date_format = $date1->modify('-4 days')->modify('last monday')->modify( -$i*7 .' days' )->format("d/m/Y");
+                            $week_number = $date2->modify('-4 day')->modify('last monday')->modify( -$i*7 .' days' )->format("W");
                         break;
                         case 'Saturday':
                             $date_format = $date1->modify('-5 days')->modify('last monday')->modify( -$i*7 .' days' )->format("d/m/Y");
+                            $week_number = $date2->modify('-5 day')->modify('last monday')->modify( -$i*7 .' days' )->format("W");
                         break;
                         case 'Sunday':
                             $date_format = $date1->modify('-6 days')->modify('last monday')->modify( -$i*7 .' days' )->format("d/m/Y");
+                            $week_number = $date2->modify('-6 day')->modify('last monday')->modify( -$i*7 .' days' )->format("W");
                         break;
                     }
-                    $week_number = $date2->modify('last monday')->modify( -$i*7 .' days' )->format("W");
 
                     //if( intval($date1->format('W')) < intval($now->format('W')) ){
                         $dates_week["$date_format - Semaine $week_number"] = $week_number;
