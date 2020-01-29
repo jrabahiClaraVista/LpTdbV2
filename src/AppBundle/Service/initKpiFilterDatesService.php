@@ -108,17 +108,13 @@ class initKpiFilterDatesService
             $now = $now->modify('last monday')->modify('-1 week');//->modify('-1 month');    
         }
         
+        $week  = $date->format('W');
         $year = $now->format('Y');
-        $week = $now->format('W');
-
-
-
 
         //la derniere date est toujours celle du dernier kpicapture en base, la premiere varie de -12 à -24 mois
         //Affichage des données du dernier mois / mois selectionné : du premier à la fin du mois.
         //On test aussi les var de session month et year, car par defaut pour TOT la valeur est a null
         if( $session->get('kpi_week_filtre') == null  ) {
-            $week  = $date->format('W');
 
             //on initialise la date2 au dernier jour de la semaine
             //$dateWeek2 = $now->setISODate($year,$week,7);//->modify('-1 month');
@@ -127,14 +123,16 @@ class initKpiFilterDatesService
         }
         //si on a une recherche active
         else{
-
-            if(intval($week) < intval($session->get('kpi_week_filtre'))) {
-                
-                $data['year'] =  strval(intval($year) - 1);
-            }
-
             $week  = $session->get('kpi_week_filtre');
-            $year  = $session->get('kpi_year_filtre');
+
+            if(intval($session->get('kpi_week_filtre')) > intval($week) ) {
+                if(intval($session->get('kpi_year_filtre')) > intval($year)) {
+                    $year =  strval(intval($year) - 1);
+                }
+                else{
+                    $year  = $session->get('kpi_year_filtre');
+                }
+            }
 
             //$dateWeek2 = $now->setISODate($year,$week,7);//->modify('-1 month');
             $dateWeek2 = $now->setISODate($year,$week,7);
