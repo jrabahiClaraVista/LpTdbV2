@@ -489,8 +489,8 @@
 		[
 		"#718003",
 		"#0481b3",
-		'#F0948A',
 		"#FFA118",
+		'#F0948A',
 		"#53B3AD",
 
 		]);
@@ -712,7 +712,7 @@
 						{% endfor %}
 					]
 				},
-				{
+				/*{
 					indexLabelFontColor: "black",
 					indexLabelLineColor: "#4c4c4c",
 					markerSize: 10,
@@ -724,7 +724,7 @@
 							{ y: {{ kpi.txTransacNpaiM0|number_format }}, x: new Date( {{ kpi.date|date("Y") }}, {{ kpi.date|date("m") - 1 }} ) },
 						{% endfor %}
 					]
-				},
+				},*/
 				{
 					indexLabelFontColor: "black",
 					indexLabelLineColor: "#4c4c4c",
@@ -737,7 +737,7 @@
 							{ y: {{ kpi.txTransacNpesi2M0|number_format }}, x: new Date( {{ kpi.date|date("Y") }}, {{ kpi.date|date("m") - 1 }} ) },
 						{% endfor %}
 					]
-				},
+				}/*,
 				{
 					indexLabelFontColor: "black",
 					indexLabelLineColor: "#4c4c4c",
@@ -750,7 +750,7 @@
 							{ y: {{ kpi.txTransacNpesai2M0|number_format }}, x: new Date( {{ kpi.date|date("Y") }}, {{ kpi.date|date("m") - 1 }} ) },
 						{% endfor %}
 					]
-				},
+				},*/
 
 			]
 
