@@ -109,6 +109,11 @@ class initKpiFilterDatesService
         }
         
         $year = $now->format('Y');
+        $week = $now->format('W');
+
+
+
+
         //la derniere date est toujours celle du dernier kpicapture en base, la premiere varie de -12 à -24 mois
         //Affichage des données du dernier mois / mois selectionné : du premier à la fin du mois.
         //On test aussi les var de session month et year, car par defaut pour TOT la valeur est a null
@@ -122,6 +127,12 @@ class initKpiFilterDatesService
         }
         //si on a une recherche active
         else{
+
+            if(intval($week) < intval($session->get('kpi_week_filtre'))) {
+                
+                $data['year'] =  strval(intval($year) - 1);
+            }
+
             $week  = $session->get('kpi_week_filtre');
             $year  = $session->get('kpi_year_filtre');
 
@@ -223,11 +234,14 @@ class initKpiFilterDatesService
     public function getDatesWeekPost($data, $session, $trigger = null){
         $now = new \DateTime();
         $now = $now->modify('-7 days');
-        $year = $now->format('Y');        
+        $year = $now->format('Y');
         $week = $now->format('W');
 
         if(intval($week) < intval($data['week'])) {
             $data['year'] =  strval(intval($year) - 1);
+        }
+        else{
+            $data['year'] = $year;
         }
 
         //Set Session variable
