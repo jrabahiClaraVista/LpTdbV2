@@ -435,7 +435,7 @@
 	var day   = date.getDate();
 
 	var startDate = new Date( year , month - 4)
-	var endDate = new Date( year, month, day + 7 );
+	var endDate = new Date( year, month, day );
 
 	var dataToBeC1 = {{ 100 - currentKpi.txTransacNpeS0|number_format - currentKpi.txTransacNveS0|number_format }};
 	var dataToBeC2 = {{ 100 - currentKpi.txTransacNpsS0|number_format - currentKpi.txTransacNvsS0|number_format }};
