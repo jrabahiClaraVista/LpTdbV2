@@ -1103,7 +1103,7 @@ class KpiController extends Controller
 				$week = $kpiCurrentWeek->getDate()->format("W");
 		}
 		else {
-			if ( $kpi->getDate()->format("W") == $week && $kpi->getDate()->modify('+1 week')->format("Y") == $year ) {
+			if ( $kpi->getDate()->format("W") == $week && $kpi->getDate()->format("Y") == $year ) {
 				$kpiCurrentWeek = $kpi;
 			}
 		}
