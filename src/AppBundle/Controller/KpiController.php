@@ -1190,7 +1190,8 @@ class KpiController extends Controller
 				$sql = "SELECT u.username,u.role,u.brand,u.dr,u.boutique,u.nom_vendeur,u.prenom_vendeur,d.date,d.nb_transac_S0,d.tx_transac_linked_S0,d.tx_transac_npe_S0,d.tx_transac_npes_S0,d.tx_transac_npesa_S0
 						FROM app_kpi_week d
 						LEFT JOIN fos_user_user u on d.user_id = u.id
-						WHERE d.id in $ids";
+						WHERE d.id in $ids
+						ORDER BY d.date DESC, u.role";
 				$header     = array('Libelle','Role','Reseau','DR','Boutique','Nom Vendeur','Prenom Vendeur','Date','NOMBRE DE TRANSACTIONS Hebdomadaire',
 		            				'TAUX DE TRANSACTIONS LIÉES Hebdomadaire','CAPTURE EMAIL VALIDE Hebdomadaire','CAPTURE EMAIL + SMS VALIDE Hebdomadaire','CAPTURE EMAIL + SMS + ADRESSE VALIDE Hebdomadaire');
 
@@ -1228,7 +1229,8 @@ class KpiController extends Controller
 	        	$sql = "SELECT u.username,u.role,u.brand,u.dr,u.boutique,u.nom_vendeur,u.prenom_vendeur,d.date,d.nb_transac_s0,d.tx_transac_linked_s0,d.tx_transac_npesi2_s0,d.tx_transac_npei_s0,d.tx_transac_npsi_s0
 						FROM app_kpi_week d
 						LEFT JOIN fos_user_user u on d.user_id = u.id
-						WHERE d.id in $ids";
+						WHERE d.id in $ids
+						ORDER BY d.date DESC, u.role";
 				$header     = array('Libelle','Role','Reseau','DR','Boutique','Nom Vendeur','Prenom Vendeur','Date','NOMBRE DE TRANSACTIONS Hebdo',
 	            					'TAUX DE TRANSACTIONS LIÉES Hebdo','CAPTURE EMAIL ET/OU SMS VALIDE et OPTIN Hebdo','CAPTURE EMAIL VALIDE et OPTIN Hebdo','CAPTURE SMS VALIDE et OPTIN Hebdo');
 
