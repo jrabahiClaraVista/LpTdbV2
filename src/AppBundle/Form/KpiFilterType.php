@@ -75,6 +75,8 @@ class KpiFilterType extends AbstractType
                       '2018'   => '2018',
                       '2019'   => '2019',
                       '2020'   => '2020',
+                      '2021'   => '2021',
+		      '2022'   => '2022'
                       ),
                     'choices_as_values' => true,
                     'required' => false,
@@ -128,6 +130,8 @@ class KpiFilterType extends AbstractType
                       '2018'   => '2018',
                       '2019'   => '2019',
                       '2020'   => '2020',
+                      '2021'   => '2021',
+                      '2022'   => '2022'
                       ),
                     'choices_as_values' => true,
                     'required' => false,
@@ -172,6 +176,8 @@ class KpiFilterType extends AbstractType
                       '2018'   => '2018',
                       '2019'   => '2019',
                       '2020'   => '2020',
+                      '2021'   => '2021',
+                      '2022'   => '2022'
                       ),
                     'choices_as_values' => true,
                     'required' => false,
