@@ -562,7 +562,7 @@ class KpiController extends Controller
 
 			if ($formMontre->isSubmitted()) {
 
-				$username = $user->getUsername();
+				$username = addslashes($user->getUsername());
 
 				if( $user->getRole() == 'ROLE_MARQUE' ) {
 					$sql2 = "SELECT v.marque,v.dr,v.boutique,v.type,v.question,v.note,v.verbatim,v.date
@@ -583,7 +583,7 @@ class KpiController extends Controller
 
 			if ($formMontreAll->isSubmitted()) {
 
-				$username = $user->getUsername();
+				$username = addslashes($user->getUsername());
 
 				if( $user->getRole() == 'ROLE_MARQUE' ) {
 					$sql2 = "SELECT v.marque,v.dr,v.boutique,v.type,v.question,v.note,v.verbatim,v.date
@@ -604,7 +604,7 @@ class KpiController extends Controller
 
 			if ($formPile->isSubmitted()) {
 
-				$username = $user->getUsername();
+				$username = addslashes($user->getUsername());
 
 				if( $user->getRole() == 'ROLE_MARQUE' ) {
 					$sql2 = "SELECT v.marque,v.dr,v.boutique,v.type,v.question,v.note,v.verbatim,v.date
@@ -625,7 +625,7 @@ class KpiController extends Controller
 
 			if ($formPileAll->isSubmitted()) {
 
-				$username = $user->getUsername();
+				$username = addslashes($user->getUsername());
 
 				if( $user->getRole() == 'ROLE_MARQUE' ) {
 					$sql2 = "SELECT v.marque,v.dr,v.boutique,v.type,v.question,v.note,v.verbatim,v.date
@@ -661,6 +661,7 @@ class KpiController extends Controller
 
 	            //Préparation et execution de la requête
 	            $stmt2 = $pdo->prepare($sql2);
+
 	            $stmt2->execute();
 
 	            //Remplissage du fichier csv.
@@ -710,7 +711,7 @@ class KpiController extends Controller
 
 			if ($formRank->isSubmitted()) {
 
-				$username = $user->getUsername();
+				$username = addslashes($user->getUsername());
 				$reseau = $user->getBrand();
 
 
@@ -778,7 +779,7 @@ class KpiController extends Controller
 			}
 		}
 
-		if($kpiCurrentMonth->getDate() < new \Datetime('2019-01-01') || $request->get('old') == t)
+		if($kpiCurrentMonth->getDate() < new \Datetime('2019-01-01') || $request->get('old') == 't')
 		{
 			$path_month = 'AppBundle:Kpi:month.html.twig';
 			$path_ytd = 'AppBundle:Kpi:ytd.html.twig';

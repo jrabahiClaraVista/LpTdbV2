@@ -70,8 +70,8 @@ security:
         - { path: ^/register, role: ROLE_ADMIN , requires_channel: https }
         - { path: ^/resetting, role: ROLE_ADMIN, requires_channel: https }
         - { path: ^/web/config.php, role: ROLE_ADMIN , requires_channel: https }
-        - { path: ^/profile/edit-profile, role: ROLE_ADMIN , requires_channel: https }
-        - { path: ^/profile, role: ROLE_ADMIN , requires_channel: https }
+        #- { path: ^/profile/edit-profile, role: ROLE_ADMIN , requires_channel: https }
+        #- { path: ^/profile, role: ROLE_ADMIN , requires_channel: https }
         - { path: ^/kpi/, role: IS_AUTHENTICATED_ANONYMOUSLY, requires_channel: https }
 
         # Admin login page needs to be accessed without credential
