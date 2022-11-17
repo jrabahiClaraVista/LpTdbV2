@@ -153,7 +153,7 @@ class initKpiFilterDatesService
         $results['dateTrim1']   = $dateTrim1;
         $results['dateTrim2']   = $dateTrim2;
         $results['dateTrim3']   = $dateTrim3;
-        $results['week']        = $week;
+        $results['trim']        = $trim;
         $results['year']        = $year;
 
         return $results;
