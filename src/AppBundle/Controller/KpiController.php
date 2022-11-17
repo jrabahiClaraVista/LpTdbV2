@@ -1692,20 +1692,7 @@ class KpiController extends Controller
 
         }
 
-        if($kpiCurrentTrim != null) {
-        
-	        if($kpiCurrentTrim->getDate() < new \Datetime('2018-12-31') || $request->get('old') == t)
-			{
-				$path_trim = 'AppBundle:Kpi:trim.html.twig';
-			}
-			else{
-				$path_trim = 'AppBundle:Kpi:trim_2019.html.twig';
-			}
-
-        }
-        else {
-        	$path_trim = 'AppBundle:Kpi:trim_2019.html.twig';
-        }
+       	$path_trim = 'AppBundle:Kpi:trim.html.twig';
 
 		//Retourne la bonne page
 		if($routeName == "app_kpi_trim"){
