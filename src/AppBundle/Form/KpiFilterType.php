@@ -70,7 +70,7 @@ class KpiFilterType extends AbstractType
             $dates_year = [];
 
             for($current_year = 2016; $current_year <= $max_year; $current_year++) {
-                $dates_year[$current_year] = [$current_year];
+                $dates_year[$current_year] = $current_year;
             }
             
 
