@@ -414,8 +414,8 @@
 		var year  = date.getFullYear();
 		var day   = date.getDate();
 
-		var startDate = new Date( year , month - 4)
-		var endDate = new Date( year, month, day + 7 );
+		var startDate = new Date( year , month - 8)
+		var endDate = new Date( year, month, 0 );
 
 		var dataToBeC1 = {{ 100 - currentKpi.txTransacNpeT0|number_format - currentKpi.txTransacNveT0|number_format }};
 		var dataToBeC2 = {{ 100 - currentKpi.txTransacNpesT0|number_format - currentKpi.txTransacNvesT0|number_format }};
