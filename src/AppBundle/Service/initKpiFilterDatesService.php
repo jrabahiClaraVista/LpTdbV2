@@ -116,11 +116,12 @@ class initKpiFilterDatesService
         }
         //si on a une recherche active
         else{
-            $week  = $session->get('kpi_trim_filtre');
+            $trim  = $session->get('kpi_trim_filtre');
             $year  = $session->get('kpi_year_filtre');
 
             //$dateTrim2 = $now->setISODate($year,$week,7);//->modify('-1 month');
-            $dateTrim2 = $now->setISODate($year,$week,7);
+            //$dateTrim2 = $now->setISODate($year,$week,7);
+            $dateTrim2 = new \DateTime($year."-".$month."-01");
             $dateTrim2 = $dateTrim2->format("Y-m-d");
 
             $date_check = new \DateTime($dateTrim2);
@@ -129,10 +130,10 @@ class initKpiFilterDatesService
                 $week  = $date->format('W');
                 $year  = $date->format('Y');
 
-                $session->set('kpi_trim_filtre', $week);
+                $session->set('kpi_trim_filtre', $trim);
                 $session->set('kpi_year_filtre', $year);
 
-                $dateTrim2 = $now->setISODate($year,$week,7);//->modify('-1 month');
+                $dateTrim2 = new \DateTime($year."-".$month."-01");
                 $dateTrim2 = $dateTrim2->format("Y-m-d");
             }
         }
