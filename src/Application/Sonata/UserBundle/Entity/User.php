@@ -72,6 +72,11 @@ class User extends BaseUser
     private $kpiWeeks;
 
     /**
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\KpiTrim", mappedBy="user")
+     */
+    private $kpiTrims;
+
+    /**
      * @var string $dr
      *
      * @ORM\Column(name="dr", type="string", length=100, nullable=true)
@@ -133,7 +138,8 @@ class User extends BaseUser
         parent::__construct();
 
         $this->kpiMonths = new ArrayCollection();
-        $this->kpiWeek = new ArrayCollection();
+        $this->kpiWeeks = new ArrayCollection();
+        $this->kpiTrims = new ArrayCollection();
         $dr = "";
         $brand = "";
         $role = "";
@@ -415,6 +421,32 @@ class User extends BaseUser
     public function getKpiMonths()
     {
         return $this->kpiMonths;
+    }
+
+    /**
+     * add kpiTrim
+     * remove kpiTrim
+     * get kpiTrims
+     *
+     * @param KpiTrim $kpiTrim
+     *
+     * @return User
+     */
+    public function addKpiTrim(KpiTrim $kpiTrim)
+    {
+        $this->kpiTrims[] = $kpiTrim;
+
+        return $this;
+    }
+
+    public function removeKpiTrim(KpiTrim $kpiTrim)
+    {
+        $this->kpiTrims->removeElement($kpiTrim);
+    }
+
+    public function getKpiTrims()
+    {
+        return $this->kpiTrims;
     }
 
     /**
