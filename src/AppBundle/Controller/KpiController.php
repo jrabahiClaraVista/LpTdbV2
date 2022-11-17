@@ -1530,6 +1530,7 @@ class KpiController extends Controller
 		$session->remove('kpi_month_filtre');
     	$session->remove('kpi_year_filtre');
     	$session->remove('kpi_trim_filtre');
+    	$session->remove('kpi_week_filtre');
 
 		//return $this->redirectToRoute('app_kpi_trim', array('user_actuel' => $user_actuel->getId(), 'user_id' =>$user->getId()));
 	}

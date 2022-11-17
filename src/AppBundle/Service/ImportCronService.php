@@ -164,6 +164,19 @@ class ImportCronService
             rename ("/data/ftp/imports/TABLEAU_DE_BORD_hebdo_lp_rq.csv" , "/data/ftp/imports/archives/TABLEAU_DE_BORD_hebdo_lp_rq_".$dateWeek.".csv" );
     }
 
+    public function renameLastImportTrim($name = null)
+    {
+        $date = new \DateTime();
+        $dateTrim = new \DateTime();
+        $date = $date->format("Ym");
+        $dateTrim = $dateTrim->format("YmdW");
+
+        if($name != null)
+            rename ("/data/ftp/imports/TABLEAU_DE_BORD_trim_lp_".$name."_rq.csv" , "/data/ftp/imports/archives/TABLEAU_DE_BORD_trim_lp_".$name."_rq_".$dateTrim.".csv" );
+        else
+            rename ("/data/ftp/imports/TABLEAU_DE_BORD_trim_lp_rq.csv" , "/data/ftp/imports/archives/TABLEAU_DE_BORD_trim_lp_rq_".$dateTrim.".csv" );
+    }
+
     public function renameLastImportVerbatim()
     {
         $date = new \DateTime();

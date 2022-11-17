@@ -62,7 +62,7 @@ class KpiTrimRepository extends EntityRepository
 	public function getRank1Npe($date1, $date2, $brand){
 		$qb = $this
 			->createQueryBuilder('k')
-			->where('k.rankNpeS0 = 1')
+			->where('k.rankNpeT0 = 1')
 			//->setParameter('val', 1)
 		  	->leftJoin('k.user', 'u')
 		  	->addSelect('u')
@@ -84,7 +84,7 @@ class KpiTrimRepository extends EntityRepository
 	public function getRank1Npes($date1, $date2, $brand){
 		$qb = $this
 			->createQueryBuilder('k')
-			->where('k.rankNpesS0 = 1')
+			->where('k.rankNpesT0 = 1')
 			//->setParameter('val', 1)
 		  	->leftJoin('k.user', 'u')
 		  	->addSelect('u')
@@ -106,7 +106,7 @@ class KpiTrimRepository extends EntityRepository
 	public function getRank1Npesa($date1, $date2, $brand){
 		$qb = $this
 			->createQueryBuilder('k')
-			->where('k.rankNpesaS0 = 1')
+			->where('k.rankNpesaT0 = 1')
 			//->setParameter('val', 1)
 		  	->leftJoin('k.user', 'u')
 		  	->addSelect('u')
@@ -130,7 +130,7 @@ class KpiTrimRepository extends EntityRepository
 	public function getRank1NpeVendeur($date1, $date2, $brand){
 		$qb = $this
 			->createQueryBuilder('k')
-			->where('k.rankNpeS0 = 1')
+			->where('k.rankNpeT0 = 1')
 			//->setParameter('val', 1)
 		  	->leftJoin('k.user', 'u')
 		  	->addSelect('u')
@@ -152,7 +152,7 @@ class KpiTrimRepository extends EntityRepository
 	public function getRank1NpesVendeur($date1, $date2, $brand){
 		$qb = $this
 			->createQueryBuilder('k')
-			->where('k.rankNpesS0 = 1')
+			->where('k.rankNpesT0 = 1')
 			//->setParameter('val', 1)
 		  	->leftJoin('k.user', 'u')
 		  	->addSelect('u')
@@ -174,7 +174,7 @@ class KpiTrimRepository extends EntityRepository
 	public function getRank1NpesaVendeur($date1, $date2, $brand){
 		$qb = $this
 			->createQueryBuilder('k')
-			->where('k.rankNpesaS0 = 1')
+			->where('k.rankNpesaT0 = 1')
 			//->setParameter('val', 1)
 		  	->leftJoin('k.user', 'u')
 		  	->addSelect('u')
@@ -198,7 +198,7 @@ class KpiTrimRepository extends EntityRepository
 	public function getRank1Npe2($date1, $date2, $brand){
 		$qb = $this
 			->createQueryBuilder('k')
-			->where('k.rankNpe2S0 = 1')
+			->where('k.rankNpe2T0 = 1')
 			//->setParameter('val', 1)
 		  	->leftJoin('k.user', 'u')
 		  	->addSelect('u')
@@ -220,7 +220,7 @@ class KpiTrimRepository extends EntityRepository
 	public function getRank1Nps2($date1, $date2, $brand){
 		$qb = $this
 			->createQueryBuilder('k')
-			->where('k.rankNps2S0 = 1')
+			->where('k.rankNps2T0 = 1')
 			//->setParameter('val', 1)
 		  	->leftJoin('k.user', 'u')
 		  	->addSelect('u')
@@ -242,7 +242,7 @@ class KpiTrimRepository extends EntityRepository
 	public function getRank1Npes2($date1, $date2, $brand){
 		$qb = $this
 			->createQueryBuilder('k')
-			->where('k.rankNpes2S0 = 1')
+			->where('k.rankNpes2T0 = 1')
 			//->setParameter('val', 1)
 		  	->leftJoin('k.user', 'u')
 		  	->addSelect('u')
@@ -266,7 +266,7 @@ class KpiTrimRepository extends EntityRepository
 	public function getRank1Npe2Vendeur($date1, $date2, $brand, $boutique){
 		$qb = $this
 			->createQueryBuilder('k')
-			->where('k.rankNpe2S0 = 1')
+			->where('k.rankNpe2T0 = 1')
 			//->setParameter('val', 1)
 		  	->leftJoin('k.user', 'u')
 		  	->addSelect('u')
@@ -290,7 +290,7 @@ class KpiTrimRepository extends EntityRepository
 	public function getRank1Nps2Vendeur($date1, $date2, $brand, $boutique){
 		$qb = $this
 			->createQueryBuilder('k')
-			->where('k.rankNps2S0 = 1')
+			->where('k.rankNps2T0 = 1')
 			//->setParameter('val', 1)
 		  	->leftJoin('k.user', 'u')
 		  	->addSelect('u')
@@ -314,7 +314,7 @@ class KpiTrimRepository extends EntityRepository
 	public function getRank1Npes2Vendeur($date1, $date2, $brand, $boutique){
 		$qb = $this
 			->createQueryBuilder('k')
-			->where('k.rankNpes2S0 = 1')
+			->where('k.rankNpes2T0 = 1')
 			//->setParameter('val', 1)
 		  	->leftJoin('k.user', 'u')
 		  	->addSelect('u')
