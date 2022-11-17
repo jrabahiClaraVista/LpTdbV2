@@ -22,6 +22,7 @@ use Sonata\UserBundle\Entity\BaseUser as BaseUser;
 
 use AppBundle\Entity\KpiMonth;
 use AppBundle\Entity\KpiWeek;
+use AppBundle\Entity\KpiTrim;
 use AppBundle\Entity\KpiYearToDate;
 use AppBundle\Entity\Module;
 use AppBundle\Entity\UserModule;
