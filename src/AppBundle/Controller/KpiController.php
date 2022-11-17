@@ -112,9 +112,9 @@ class KpiController extends Controller
 		$date3 = $dates['date3'];//Premier jour du mois
 
 		if($session->get('kpi_year_filtre') != null)
-			$form = $this->createForm(new KpiFilterType($em, $user, $user, null, $month, $session->get('kpi_year_filtre') , 'mensuel'));
+			$form = $this->createForm(new KpiFilterType($em, $user, $user, null, $month, null, $session->get('kpi_year_filtre') , 'mensuel'));
 		else
-			$form = $this->createForm(new KpiFilterType($em, $user, $user, null, $month, $year, 'mensuel'));
+			$form = $this->createForm(new KpiFilterType($em, $user, $user, null, $month, null, $year, 'mensuel'));
 
 		$form->handleRequest($request);
 		//Recuperation des données de la requete
@@ -969,10 +969,10 @@ class KpiController extends Controller
 		$dateWeek3 	= $datesWeek['dateWeek3'];//Premier jour du mois
 
 		if($session->get('kpi_year_filtre') != null){
-			$form = $this->createForm(new KpiFilterType($em, $user, $user, $week, null, $session->get('kpi_year_filtre') , 'hebdomadaire'));
+			$form = $this->createForm(new KpiFilterType($em, $user, $user, $week, null, null, $session->get('kpi_year_filtre') , 'hebdomadaire'));
 		}
 		else{
-			$form = $this->createForm(new KpiFilterType($em, $user, $user, $week, null, $year, 'hebdomadaire'));
+			$form = $this->createForm(new KpiFilterType($em, $user, $user, $week, null, null, $year, 'hebdomadaire'));
 		}
 
 
@@ -1381,11 +1381,11 @@ class KpiController extends Controller
 		$dateTrim2 	= $datesTrim['dateTrim2'];//Dernier jour du mois
 		$dateTrim3 	= $datesTrim['dateTrim3'];//Premier jour du mois
 
-		if($session->get('kpi_year_filtre') != null){
-			$form = $this->createForm(new KpiFilterType($em, $user, $user, $trim, null, $session->get('kpi_year_filtre') , 'hebdomadaire'));
+		if($session->get('kpi_trim_filtre') != null){
+			$form = $this->createForm(new KpiFilterType($em, $user, $user, null, null, $session->get('kpi_trim_filtre'), $session->get('kpi_year_filtre') , 'trimestre'));
 		}
 		else{
-			$form = $this->createForm(new KpiFilterType($em, $user, $user, $trim, null, $year, 'hebdomadaire'));
+			$form = $this->createForm(new KpiFilterType($em, $user, $user, null, null, $trim, $year, 'trimestre'));
 		}
 
 
@@ -1760,12 +1760,12 @@ class KpiController extends Controller
      * @ParamConverter("user", options={"mapping": {"user_actuel": "id"}})
      * @ParamConverter("user", options={"mapping": {"user_id": "id"}})
      */
-	public function ajaxfilterAction(User $user_actuel, User $user, $scope, $week, $month, $year, Request $request)
+	public function ajaxfilterAction(User $user_actuel, User $user, $scope, $week, $month, $trim, $year, Request $request)
 	{
 		$em = $this->getDoctrine()->getManager();
 		$session = $request->getSession();
 
-		$form = $this->createForm(new KpiFilterType($em, $user_actuel,$user, $week, $month, $year, $scope));
+		$form = $this->createForm(new KpiFilterType($em, $user_actuel,$user, $week, $month, $trim, $year, $scope));
 
 		$role = $user->getRole();
 
@@ -1788,7 +1788,7 @@ class KpiController extends Controller
 		}
 
 		$kpiFilterService = $this->container->get('app.kpi_filter_session');
-		$form = $kpiFilterService->updateFormAjax($week, $month, $year, $reseau, $dr, $boutique, $form);
+		$form = $kpiFilterService->updateFormAjax($week, $month, $trim, $year, $reseau, $dr, $boutique, $form);
 
 	    return $this->render('AppBundle:Ajax:ajaxFilter.html.twig', array(
 	    	'user'		=> $user_actuel,
