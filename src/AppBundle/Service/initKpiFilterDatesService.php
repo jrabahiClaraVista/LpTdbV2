@@ -95,6 +95,76 @@ class initKpiFilterDatesService
      * @param $trigger  null ou 1 si utilisé pour récupérer les kpis des triggers
      *
      */
+    public function getDatesTrim(\Datetime $date, $session)
+    { 
+        $now = new \DateTime();
+
+        //mois en cours par defaut 
+        $month = date('n'); 
+        $trim = floor(($month-1)/3)+1;
+        $year = $now->format('Y');
+
+        //la derniere date est toujours celle du dernier kpicapture en base, la premiere varie de -12 à -24 mois
+        //Affichage des données du dernier mois / mois selectionné : du premier à la fin du mois.
+        //On test aussi les var de session month et year, car par defaut pour TOT la valeur est a null
+        if( $session->get('kpi_trim_filtre') == null  ) {
+
+            //on initialise la date2 au dernier jour de la semaine
+            //$dateWeek2 = $now->setISODate($year,$week,7);//->modify('-1 month');
+            $dateTrim2 = $now;
+            $dateTrim2 = $dateTrim2->format("Y-m-d");
+        }
+        //si on a une recherche active
+        else{
+            $week  = $session->get('kpi_trim_filtre');
+            $year  = $session->get('kpi_year_filtre');
+
+            //$dateTrim2 = $now->setISODate($year,$week,7);//->modify('-1 month');
+            $dateTrim2 = $now->setISODate($year,$week,7);
+            $dateTrim2 = $dateTrim2->format("Y-m-d");
+
+            $date_check = new \DateTime($dateTrim2);
+
+            if($date_check > $date) {
+                $week  = $date->format('W');
+                $year  = $date->format('Y');
+
+                $session->set('kpi_trim_filtre', $week);
+                $session->set('kpi_year_filtre', $year);
+
+                $dateTrim2 = $now->setISODate($year,$week,7);//->modify('-1 month');
+                $dateTrim2 = $dateTrim2->format("Y-m-d");
+            }
+        }
+
+        $dateTrim1 = new \DateTime($dateTrim2);
+        $dateTrim3 = new \DateTime($dateTrim2);
+
+        // Si on on veut récupérer les infos sur une plage de données d'1 trimestre
+        $dateTrim3->modify('first day of this month');
+        // Si on veut récupérer les données sur les 8 derniers trimestre
+        $dateTrim1->modify('-24 months')->modify('first day of this month');
+
+        $dateTrim1 = $dateTrim1->format("Y-m-d");
+        $dateTrim3 = $dateTrim3->format("Y-m-d");
+
+
+
+        $results['dateTrim1']   = $dateTrim1;
+        $results['dateTrim2']   = $dateTrim2;
+        $results['dateTrim3']   = $dateTrim3;
+        $results['week']        = $week;
+        $results['year']        = $year;
+
+        return $results;
+    }
+
+    /**
+     * @param $date     date de référence
+     * @param $session  $_SESSION
+     * @param $trigger  null ou 1 si utilisé pour récupérer les kpis des triggers
+     *
+     */
     public function getDatesWeek(\Datetime $date, $session)
     { 
         $now = new \DateTime();
@@ -272,6 +342,72 @@ class initKpiFilterDatesService
         $results['dateWeek3']   = $dateWeek3;
         $results['year']        = $year;
         $results['week']        = $week;
+        
+        return $results;
+    }
+
+
+
+    /**
+     * @param $date     date de référence
+     * @param $session  $_SESSION
+     * @param $trigger  null ou 1 si utilisé pour récupérer les kpis des triggers
+     *
+     */
+    public function getDatesTrimPost($data, $session, $trigger = null){
+        $now = new \DateTime();
+        $year = $now->format('Y');
+        $month = $now->format('n');
+
+        if(intval($trim) < intval($data['trim'])) {
+            $data['year'] =  strval(intval($year) - 1);
+        }
+        else{
+            $data['year'] = $year;
+        }
+
+        //Set Session variable
+        if($data['year'] == '' ){
+            $session->remove('kpi_year_filtre');
+        }
+        else{
+            $session->set('kpi_year_filtre',$data['year']);
+        }
+        if( isset($data['trim']) ){
+            if($data['trim'] == '' ){
+                $session->remove('kpi_week_filtre');
+            }
+            else{
+                $session->set('kpi_week_filtre', $data['trim']);
+            }
+        }
+
+
+        // On récupère les bons mois et année FY
+        $year  = $session->get('kpi_year_filtre');
+        $trim  = $session->get('kpi_week_filtre');
+       
+
+        $dateTrim2 = new \DateTime();
+        $dateTrim2 = $dateTrim2->setISODate($year,$trim,7);
+        $dateTrim2 = $dateTrim2->format("Y-m-d");
+        
+        $dateTrim1 = new \DateTime($dateTrim2);
+        $dateTrim3 = new \DateTime($dateTrim2);
+        
+        // Si on on veut récupérer les infos sur une plage de données d'1 trimestre
+        $dateTrim3->modify('first day of this month');
+        // Si on veut récupérer les données sur les 8 derniers trimestre
+        $dateTrim1->modify('-24 months')->modify('first day of this month');
+        
+        $dateTrim1 = $dateTrim1->format("Y-m-d");
+        $dateTrim3 = $dateTrim3->format("Y-m-d");
+
+        $results['dateTrim1']   = $dateTrim1;
+        $results['dateTrim2']   = $dateTrim2;
+        $results['dateTrim3']   = $dateTrim3;
+        $results['year']        = $year;
+        $results['trim']        = $trim;
         
         return $results;
     }

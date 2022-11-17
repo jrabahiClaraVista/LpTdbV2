@@ -18,14 +18,16 @@ class KpiFilterType extends AbstractType
     private $user_actuel;
     private $week;
     private $month;
+    private $trim;
     private $year;
     private $scope;
 
-    public function __construct(EntityManager $em, User $user_actuel, User $user, $week, $month, $year, $scope){
+    public function __construct(EntityManager $em, User $user_actuel, User $user, $week, $month, $trim, $year, $scope){
         $this->em = $em;
         $this->user = $user;
         $this->user_actuel = $user_actuel;
         $this->month = $month;
+        $this->trim = $trim;
         $this->year = $year;
         $this->week = $week;
         $this->scope = $scope;
@@ -63,21 +65,20 @@ class KpiFilterType extends AbstractType
 
             //var_dump($form);
 
+            $max_year = date("Y");
+            $min_year = '2016';
+            $dates_year = [];
+
+            for($current_year = 2016; $current_year <= $max_year; $current_year++) {
+                $dates_year[$current_year] = [$current_year];
+            }
             
 
             if($this->scope == 'annuel'){
             //Cheat pour détourner le bug du ChoiceType Expended, on récupere la valeur de ChoiceType ici
 
                 $form->add('year', 'Symfony\Component\Form\Extension\Core\Type\ChoiceType', array(
-                    'choices' => array(
-                      '2016'   => '2016',
-                      '2017'   => '2017',
-                      '2018'   => '2018',
-                      '2019'   => '2019',
-                      '2020'   => '2020',
-                      '2021'   => '2021',
-		      '2022'   => '2022'
-                      ),
+                    'choices' => $dates_year,
                     'choices_as_values' => true,
                     'required' => false,
                     'data' => $this->year,
@@ -122,17 +123,34 @@ class KpiFilterType extends AbstractType
                 }
 
             }
+            elseif($this->scope == 'trimestre') {
+                $dates_trim = [];
+
+                for($i=1;$i<5;$i++) {
+                    $dates_trim["Trimestre $i"] = $i;
+                }
+
+                $form->add('year', 'Symfony\Component\Form\Extension\Core\Type\ChoiceType', array(
+                    'choices' => $dates_year,
+                    'choices_as_values' => true,
+                    'required' => false,
+                    'data' => $this->year,
+                    'empty_value' => false,
+                    )
+                );
+
+                $form->add('trim', 'Symfony\Component\Form\Extension\Core\Type\ChoiceType', array(
+                    'choices' => $dates_trim,
+                    'choices_as_values' => true,
+                    'required' => false,
+                    'data' => $this->trim,
+                    'empty_value' => false,
+                    )
+                );
+            }
             elseif($this->scope == 'mensuel'){
                 $form->add('year', 'Symfony\Component\Form\Extension\Core\Type\ChoiceType', array(
-                    'choices' => array(
-                      '2016'   => '2016',
-                      '2017'   => '2017',
-                      '2018'   => '2018',
-                      '2019'   => '2019',
-                      '2020'   => '2020',
-                      '2021'   => '2021',
-                      '2022'   => '2022'
-                      ),
+                    'choices' => $dates_year,
                     'choices_as_values' => true,
                     'required' => false,
                     'data' => $this->year,
@@ -170,15 +188,7 @@ class KpiFilterType extends AbstractType
             }
             elseif($this->scope == 'hebdomadaire'){
                 $form->add('year', 'Symfony\Component\Form\Extension\Core\Type\ChoiceType', array(
-                    'choices' => array(
-                      '2016'   => '2016',
-                      '2017'   => '2017',
-                      '2018'   => '2018',
-                      '2019'   => '2019',
-                      '2020'   => '2020',
-                      '2021'   => '2021',
-                      '2022'   => '2022'
-                      ),
+                    'choices' => $dates_year,
                     'choices_as_values' => true,
                     'required' => false,
                     'data' => $this->year,
@@ -196,13 +206,6 @@ class KpiFilterType extends AbstractType
                 $now =  new \DateTime('now');
 
                 for($i = 0; $i < 52; $i++) {
-                    //$date =  $date->setISODate(intval($this->year), $i);
-                    /*if($i>=10){
-                        $dates_week[$date->format("d/m/Y")."  - Semaine ".($i)] = $i;
-                    }
-                    else{
-                        $dates_week[$date->format("d/m/Y")."  - Semaine ".($i)] = "0".$i;
-                    }*/
 
                     $date1 = new \DateTime('now');
                     $date2 = new \DateTime('now');
@@ -301,20 +304,20 @@ class KpiFilterType extends AbstractType
                         $date_start->setISODate(intval($this->year), 51)->format("d/m/Y")." - Semaine 51"  => 51,
                         $date_start->setISODate(intval($this->year), 52)->format("d/m/Y")." - Semaine 52"  => 52,
                         $date_start->setISODate(intval($this->year), 53)->format("d/m/Y")." - Semaine 53"  => 53,
-                        )*/,
-            'choices_as_values' => true,
-            'required' => false,
-            'data' => $this->week,
-            'empty_value' => false,
-            'expanded' => false,
-            'multiple' => false,
-            )
-            );
+                            )*/,
+                    'choices_as_values' => true,
+                    'required' => false,
+                    'data' => $this->week,
+                    'empty_value' => false,
+                    'expanded' => false,
+                    'multiple' => false,
+                    )
+                );
             }
 
-                      // Configuration de la liste des boutiques à afficher
+            // Configuration de la liste des boutiques à afficher
 
-                      //get fields value for custom queries
+            //get fields value for custom queries
             if(in_array($this->user_actuel->getRole() , array('ROLE_MARQUE','ROLE_DR'))) {
                 $form->add('dr', 'entity', array(
                   'class' => 'ApplicationSonataUserBundle:User',

@@ -12,7 +12,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Application\Sonata\UserBundle\Entity\User;
 
 /**
- * KpiMonth
+ * KpiWeek
  *
  * @ORM\Table(name="app_kpi_week", uniqueConstraints={
  *      @ORM\UniqueConstraint(name="UNIQUE_USER_DATE", columns={"user_id", "date"})
@@ -44,10 +44,9 @@ class KpiWeek
      */
     private $date;
 
-
     /*
      *
-     *  KPI MONTH
+     *  KPI WEEK
      *
      */
     

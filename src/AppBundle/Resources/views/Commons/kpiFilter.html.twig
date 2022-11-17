@@ -14,8 +14,10 @@
 					<div class="col-xs-6">
 						{% if app.request.attributes.get('_route') in ['app_kpi_month','app_kpi_ytd','app_kpi_fid','app_kpi_planning','app_kpi_satisfaction'] %}
 							{{ form_widget(form.month, { 'attr': {'class' : 'form-control ajax', 'isSubmit': 'no'} }) }}
-						{% else %}
+						{% elseif app.request.attributes.get('_route') in ['app_kpi_week'] %}
 							{{ form_widget(form.week, { 'attr': {'class' : 'form-control ajax', 'isSubmit': 'no'} }) }}
+						{% elseif app.request.attributes.get('_route') in ['app_kpi_trim'] %}
+							{{ form_widget(form.trim, { 'attr': {'class' : 'form-control ajax', 'isSubmit': 'no'} }) }}
 						{% endif %}
 					</div>
 				</div>				
@@ -44,7 +46,7 @@
 					</div>
 				</div>
 			</div>
-			{% if app.request.attributes.get('_route') in ['app_kpi_week'] %}
+			{% if app.request.attributes.get('_route') in ['app_kpi_week','app_kpi_trim'] %}
 				<div class="col-xs-3">
 				</div>
 			{% endif %}

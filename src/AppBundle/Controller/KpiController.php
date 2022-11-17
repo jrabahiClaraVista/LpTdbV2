@@ -12,6 +12,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Application\Sonata\UserBundle\Entity\User as User;
 use AppBundle\Entity\KpiWeek;
 use AppBundle\Entity\KpiMonth;
+use AppBundle\Entity\KpiTrim;
 
 use AppBundle\Form\CampaignKpiType;
 use AppBundle\Form\KpiFilterType;
@@ -1298,6 +1299,419 @@ class KpiController extends Controller
 	        return $this->render($path_week, array(
 	        	'kpis' 				=> $kpis,
 	        	'currentKpi'	 	=> $kpiCurrentWeek,
+	        	'topNpe'			=> $topNpe,
+	        	'topNpes'			=> $topNpes,
+	        	'topNpesa'			=> $topNpesa,
+	        	'topNpeVendeur'		=> $topNpeVendeur,
+	        	'topNpesVendeur'	=> $topNpesVendeur,
+	        	'topNpesaVendeur'	=> $topNpesaVendeur,
+	        	'topNpe2'			=> $topNpe2,
+	        	'topNps2'			=> $topNps2,
+	        	'topNpes2'			=> $topNpes2,
+	        	'topNpeVendeur2'	=> $topNpeVendeur2,
+	        	'topNpsVendeur2'	=> $topNpsVendeur2,
+	        	'topNpesVendeur2'	=> $topNpeVendeur2,
+	        	'user'				=> $user,
+	        	'getBoutiquesDr'	=> $getBoutiquesDr,
+	        	'getDrsMarque'		=> $getDrsMarque,
+	        	'getVendeursBoutique' => $getVendeursBoutique,
+	        	'marque'			=> $marque,
+	        	'form'          	=> $form->createView(),
+	        	'form2'          	=> $form2->createView(),
+	        	'user_actuel'		=> $user_actuel,
+	        	'user_role'			=> $user->getRole()
+	        	)
+	        );
+		}
+	}
+
+	/**
+	 * @ParamConverter("user_actuel", options={"mapping": {"user_actuel": "id"}})
+     */
+	public function kpiTrimAction(User $user_actuel, $user_id, Request $request) {
+		$em = $this->getDoctrine()->getManager();
+		$session = $request->getSession();
+		$routeName = $request->get('_route');
+
+		//$session->clear();
+
+		if($user_id == 0) {$user = $user_actuel;}
+		else {$user = $em->getRepository('ApplicationSonataUserBundle:User')->findOneById($user_id);}
+
+		$session->remove('filtre_reseau');
+		$session->remove('filtre_dr');
+		$session->remove('filtre_boutique');
+		$session->remove('filtre_vendeur');
+
+		$lastKpiTrim = $em->getRepository('AppBundle:KpiTrim')->findOneBy(array('user' => $user), array('date' => "DESC"));
+
+
+		if($lastKpiTrim == null){
+			$session->remove('kpi_trim_filtre');
+			$session->remove('kpi_year_filtre');
+
+			if($routeName == "app_kpi_trim"){
+		        return $this->render('AppBundle:Kpi:no_data.html.twig', array(
+		        	'user'				=> $user,
+		        	)
+		        );
+			}
+		}
+
+		// ATTENTION FAIRE UNE PAGE NO DATA POUR DES RESULTATS NULL
+		$dateTrim = $lastKpiTrim->getDate();
+
+		//initialisation des variable de session
+		$kpiFilterService = $this->container->get('app.kpi_filter_session');
+		$vars = $kpiFilterService->initVars($user, $request);
+
+        $reseau      = $vars[0];
+        $dr 		 = $vars[1];
+        $boutique    = $vars[2];
+        $vendeur     = $vars[3];
+
+
+        //simplification du code par utilisation d'un service pour initialiser les dates utiliser pour filtrer des données
+		$kpiDates = $this->get('app.init_Kpi_dates');
+		$datesTrim = $kpiDates->getDatesTrim($dateTrim, $session, 0);
+
+		$trim 		= $datesTrim['trim'];
+		$year 		= $datesTrim['year'];
+		$dateTrim1 	= $datesTrim['dateTrim1'];//Premier jour du mois à J - X mois
+		$dateTrim2 	= $datesTrim['dateTrim2'];//Dernier jour du mois
+		$dateTrim3 	= $datesTrim['dateTrim3'];//Premier jour du mois
+
+		if($session->get('kpi_year_filtre') != null){
+			$form = $this->createForm(new KpiFilterType($em, $user, $user, $trim, null, $session->get('kpi_year_filtre') , 'hebdomadaire'));
+		}
+		else{
+			$form = $this->createForm(new KpiFilterType($em, $user, $user, $trim, null, $year, 'hebdomadaire'));
+		}
+
+
+		$form->handleRequest($request);
+		//Recuperation des données de la requete
+        $data = $form->getData();
+
+        $currentTrim  = $lastKpiTrim->getDate()->format("W");
+		//$lastKpi 	  = null;
+
+		$brand = $user->getBrand();
+		if ($brand == null) $brand = '';
+
+
+		$vendeurBoutique = $user->getBoutique();
+		if ($vendeurBoutique == null) $vendeurBoutique = '';
+
+		$getBoutiquesDr = null;
+		$getDrsMarque = null;
+
+		//Requetes Mensuelles / hebdomadaire
+		if( $user->getRole() == 'ROLE_MARQUE' ) {
+			$getDrsMarque = $em->getRepository('AppBundle:KpiTrim')->getKpiDrMarque($dateTrim3, $dateTrim2, $brand);
+			$getBoutiquesDr = array();
+			$getVendeursBoutique = null;
+
+			foreach ($getDrsMarque as $key => $dr) {
+				$getBoutiques = $em->getRepository('AppBundle:KpiTrim')->getKpiBoutiqueDr($dr->getUser()->getUsername(), $dateTrim3, $dateTrim2, $brand);
+				$getBoutiquesDr[$key] = $getBoutiques;
+			}
+
+			$kpisCSV = $em->getRepository('AppBundle:KpiTrim')->getKpisMarque($dateTrim1, $dateTrim2, $brand);
+		}
+		if( $user->getRole() == 'ROLE_DR' ) {
+			$getBoutiquesDr = $em->getRepository('AppBundle:KpiTrim')->getKpiBoutiqueDr($user->getUsername(), $dateTrim3, $dateTrim2, $brand);
+			$getVendeursBoutique = array();
+			$getDrsMarque = null;
+
+			foreach ($getBoutiquesDr as $key2 => $boutique) {
+				$getVendeurs = $em->getRepository('AppBundle:KpiTrim')->getKpiVendeurBoutique($boutique->getUser()->getUsername(), $dateTrim3, $dateTrim2, $brand);
+				$getVendeursBoutique[$key2] = $getVendeurs;
+			}
+
+			$kpisCSV = $em->getRepository('AppBundle:KpiTrim')->getKpisDr($dateTrim1, $dateTrim2, $user->getUsername(), $brand);
+		}
+		if( $user->getRole() == 'ROLE_BOUTIQUE' ) {
+			$getVendeursBoutique = $em->getRepository('AppBundle:KpiTrim')->getKpiVendeurBoutique($user->getUsername(), $dateTrim3, $dateTrim2, $brand);
+			$getBoutiquesDr = null;
+			$getDrsMarque = null;
+
+			$kpisCSV = $em->getRepository('AppBundle:KpiTrim')->getKpisBoutique($dateTrim1, $dateTrim2, $user->getBoutique(), $brand);
+		}
+		if( $user->getRole() == 'ROLE_VENDEUR' ) {
+			$getVendeursBoutique = $em->getRepository('AppBundle:KpiTrim')->getKpiVendeurBoutique($user->getBoutique(), $dateTrim3, $dateTrim2, $brand);
+			$getBoutiquesDr = null;
+			$getDrsMarque = null;
+
+			$kpisCSV = $em->getRepository('AppBundle:KpiTrim')->getKpisBoutique($dateTrim1, $dateTrim2, $user->getBoutique(), $brand);
+		}
+
+		if( $user->getRole() == 'ROLE_MARQUE' ) {
+			$marque = $em->getRepository('AppBundle:KpiTrim')->getKpiMarque($dateTrim3, $dateTrim2, $user->getUsername());
+		}
+		else{
+			$marque = $em->getRepository('AppBundle:KpiTrim')->getKpiMarque($dateTrim3, $dateTrim2, $user->getBrand());
+		}
+
+		
+    if ( $request->getMethod() == 'POST' && $form->isSubmitted() ) {
+		//Mise à jour des variable de session
+		$kpiFilterService->updateSessionVars($data);
+		$reseau    = $session->get('filtre_reseau');
+		$dr 	   = $session->get('filtre_dr');
+		$boutique  = $session->get('filtre_boutique');
+		$vendeur   = $session->get('filtre_vendeur');
+
+
+		$datesTrim = $kpiDates->getDatesTrimPost($data, $session, 0);
+	  	$trim 		= $datesTrim['trim'];
+		$trimYear	= $datesTrim['year'];
+		$dateTrim1 	= $datesTrim['dateTrim1'];
+		$dateTrim2 	= $datesTrim['dateTrim2'];
+		$dateTrim3 	= $datesTrim['dateTrim3'];
+
+
+		if($session->get('filtre_vendeur') != null){
+			$id = $session->get('filtre_vendeur')->getId();
+	    }
+	    elseif($session->get('filtre_boutique') != null){
+				$id = $session->get('filtre_boutique')->getId();
+	    }
+		elseif($session->get('filtre_dr') != null){
+			$id = $session->get('filtre_dr')->getId();
+		}
+		elseif($session->get('filtre_reseau') != null){
+			$id = $session->get('filtre_reseau')->getId();
+		}
+		else{
+			$id = $user->getId();
+		}
+
+
+		if($routeName == "app_kpi_trim"){
+			return $this->redirectToRoute('app_kpi_trim', array('user_actuel' => $user_actuel->getId(),'user_id' =>$id));
+		}
+    }
+
+  //Gestion des requêtes selon la page appelée
+
+	if($session->get('filtre_boutique') != null){
+		$kpis = $em->getRepository('AppBundle:KpiTrim')->getUserKpisBetweenDates($session->get('filtre_boutique'), $dateTrim1, $dateTrim2, $brand);
+	}
+	elseif($session->get('filtre_dr') != null){
+		$kpis = $em->getRepository('AppBundle:KpiTrim')->getUserKpisBetweenDates($session->get('filtre_dr'), $dateTrim1, $dateTrim2, $brand);
+	}
+	elseif($session->get('filtre_reseau') != null){
+		$kpis = $em->getRepository('AppBundle:KpiTrim')->getUserKpisBetweenDates($session->get('filtre_reseau'), $dateTrim1, $dateTrim2, $brand);
+	}
+	else{
+		$kpis = $em->getRepository('AppBundle:KpiTrim')->getUserKpisBetweenDates($user, $dateTrim1, $dateTrim2, $brand);
+	}
+
+	$kpiCurrentTrim = null;
+
+	//get current month depending on url parameter
+	foreach ($kpis as $key => $kpi) {
+		if ( $trim == null ) {
+			if ( $key == 0 )
+				$kpiCurrentTrim = $kpi;
+				$trim = $kpiCurrentTrim->getDate()->format("W");
+		}
+		else {
+			if ( $kpi->getDate()->format("W") == $trim && $kpi->getDate()->format("Y") == $year ) {
+				$kpiCurrentTrim = $kpi;
+			}
+		}
+	}
+
+	if ($kpis == null or $kpiCurrentTrim == null){
+		//throw new NotFoundHttpException("No data Available");
+		//$kpiCurrentTrim = $lastKpiTrim;
+		$session->remove('kpi_month_filtre');
+    	$session->remove('kpi_year_filtre');
+    	$session->remove('kpi_trim_filtre');
+
+		//return $this->redirectToRoute('app_kpi_trim', array('user_actuel' => $user_actuel->getId(), 'user_id' =>$user->getId()));
+	}
+
+	//Récupération des top
+	if($routeName == "app_kpi_trim"){
+		$topNpe = $em->getRepository('AppBundle:KpiTrim')->getRank1Npe($dateTrim3, $dateTrim2, $brand);
+		$topNpes = $em->getRepository('AppBundle:KpiTrim')->getRank1Npes($dateTrim3, $dateTrim2, $brand);
+		$topNpesa = $em->getRepository('AppBundle:KpiTrim')->getRank1Npesa($dateTrim3, $dateTrim2, $brand);
+
+		$topNpeVendeur = $em->getRepository('AppBundle:KpiTrim')->getRank1NpeVendeur($dateTrim3, $dateTrim2, $brand);
+		$topNpesVendeur = $em->getRepository('AppBundle:KpiTrim')->getRank1NpesVendeur($dateTrim3, $dateTrim2, $brand);
+		$topNpesaVendeur = $em->getRepository('AppBundle:KpiTrim')->getRank1NpesaVendeur($dateTrim3, $dateTrim2, $brand);
+
+		$topNpe2 = $em->getRepository('AppBundle:KpiTrim')->getRank1Npe2($dateTrim3, $dateTrim2, $brand);
+		$topNps2 = $em->getRepository('AppBundle:KpiTrim')->getRank1Nps2($dateTrim3, $dateTrim2, $brand);
+		$topNpes2 = $em->getRepository('AppBundle:KpiTrim')->getRank1Npes2($dateTrim3, $dateTrim2, $brand);
+
+		$topNpeVendeur2 = $em->getRepository('AppBundle:KpiTrim')->getRank1Npe2Vendeur($dateTrim3, $dateTrim2, $brand, $vendeurBoutique);
+		$topNpsVendeur2 = $em->getRepository('AppBundle:KpiTrim')->getRank1Nps2Vendeur($dateTrim3, $dateTrim2, $brand, $vendeurBoutique);
+		$topNpes2Vendeur2 = $em->getRepository('AppBundle:KpiTrim')->getRank1Npes2Vendeur($dateTrim3, $dateTrim2, $brand, $vendeurBoutique);
+	}
+
+	//Mise à jour du filtre
+	$form = $kpiFilterService->updateForm($user, $request, $form);
+
+	$form2 = $this->createForm(new ExportDataType());
+  	$form2->handleRequest($request);
+
+		//Export CSV
+		if ($form2->isSubmitted()) {
+			//$id_data = $user->getId();
+			/*$idDataMarque 	= $marque->getId();
+			$idDataFiche 	= $kpiCurrentTrim->getId();
+			$idDataAutres	= array();
+			if( $user->getRole() == 'ROLE_MARQUE' ) {
+				foreach ($getDrsMarque as $key => $DrMarque) {
+					array_push($idDataAutres, $DrMarque->getId());
+				}
+			}
+			elseif( $user->getRole() == 'ROLE_DR' ) {
+				foreach ($getBoutiquesDr as $key => $BoutiqueDr) {
+					array_push($idDataAutres, $BoutiqueDr->getId());
+				}
+			}
+			else {
+				foreach ($getVendeursBoutique as $key => $VendeurBoutique) {
+					array_push($idDataAutres, $VendeurBoutique->getId());
+				}
+			}
+
+			$ids = "(".$idDataMarque.",".$idDataFiche;
+
+			foreach ($idDataAutres as $key => $id) {
+				$ids .= ",".$id;
+			}
+			$ids .= ")";
+			*/
+			$ids = "(";
+
+			foreach ($kpisCSV as $key => $id_kpi){
+				if($key == 0){
+					$ids .= $id_kpi['id'];
+				}
+				else{
+					$ids .= ",".$id_kpi['id'];
+				}
+			}
+			$ids .= ")";
+
+			if($kpiCurrentTrim->getDate() < new \Datetime('2018-12-31') || $request->get('old') == t)
+			{
+				$sql = "SELECT u.username,u.role,u.brand,u.dr,u.boutique,u.nom_vendeur,u.prenom_vendeur,d.date,d.nb_transac_T0,d.tx_transac_linked_T0,d.tx_transac_npe_T0,d.tx_transac_npes_T0,d.tx_transac_npesa_T0
+						FROM app_kpi_trim d
+						LEFT JOIN fos_user_user u on d.user_id = u.id
+						WHERE d.id in $ids
+						ORDER BY d.date DESC, u.role";
+				$header     = array('Libelle','Role','Reseau','DR','Boutique','Nom Vendeur','Prenom Vendeur','Date','NOMBRE DE TRANSACTIONS Hebdomadaire',
+		            				'TAUX DE TRANSACTIONS LIÉES Hebdomadaire','CAPTURE EMAIL VALIDE Hebdomadaire','CAPTURE EMAIL + SMS VALIDE Hebdomadaire','CAPTURE EMAIL + SMS + ADRESSE VALIDE Hebdomadaire');
+
+				//Creation du fichier CSV et du header
+	            $handle     = fopen('php://memory', 'r+');
+
+	            //Creation de l'entête du fichier pour être lisible dans Exel
+	            fputs($handle, $bom =( chr(0xEF) . chr(0xBB) . chr(0xBF) ));
+	            fputcsv($handle, $header, ';');
+
+	            //Initialisation de la connection à la BDD
+	            $pdo = $this->container->get('app.pdo_connect');
+	            $pdo = $pdo->initPdoClienteling();
+
+	            //Préparation et execution de la requête
+	            $stmt = $pdo->prepare($sql);
+	            $stmt->execute();
+
+	            //Remplissage du fichier csv.
+	            while ($row = $stmt->fetch(\PDO::FETCH_ASSOC)) {
+	                $row["nb_transac_T0"] = str_replace('.',',',$row["nb_transac_T0"]);
+	                $row["tx_transac_linked_T0"] = str_replace('.',',',$row["tx_transac_linked_T0"]);
+	                $row["tx_transac_npe_T0"] = str_replace('.',',',$row["tx_transac_npe_T0"]);
+	                $row["tx_transac_npes_T0"]  = str_replace('.',',',$row["tx_transac_npes_T0"]);
+	                $row["tx_transac_npesa_T0"]  = str_replace('.',',',$row["tx_transac_npesa_T0"]);
+	                fputcsv($handle, $row, ';');
+	            }
+
+	            //Fermeture du fichier
+	            rewind($handle);
+	            $content = stream_get_contents($handle);
+	            fclose($handle);
+	        }
+	        else{
+	        	$sql = "SELECT u.username,u.role,u.brand,u.dr,u.boutique,u.nom_vendeur,u.prenom_vendeur,d.date,d.nb_transac_t0,d.tx_transac_linked_t0,d.tx_transac_npesi2_t0,d.tx_transac_npei_t0,d.tx_transac_npsi_t0
+						FROM app_kpi_trim d
+						LEFT JOIN fos_user_user u on d.user_id = u.id
+						WHERE d.id in $ids
+						ORDER BY d.date DESC, u.role";
+				$header     = array('Libelle','Role','Reseau','DR','Boutique','Nom Vendeur','Prenom Vendeur','Date','NOMBRE DE TRANSACTIONS Hebdo',
+	            					'TAUX DE TRANSACTIONS LIÉES Hebdo','CAPTURE EMAIL ET/OU SMS VALIDE et OPTIN Hebdo','CAPTURE EMAIL VALIDE et OPTIN Hebdo','CAPTURE SMS VALIDE et OPTIN Hebdo');
+
+				//Creation du fichier CSV et du header
+	            $handle     = fopen('php://memory', 'r+');
+
+	            //Creation de l'entête du fichier pour être lisible dans Exel
+	            fputs($handle, $bom =( chr(0xEF) . chr(0xBB) . chr(0xBF) ));
+	            fputcsv($handle, $header, ';');
+
+	            //Initialisation de la connection à la BDD
+	            $pdo = $this->container->get('app.pdo_connect');
+	            $pdo = $pdo->initPdoClienteling();
+
+	            //Préparation et execution de la requête
+	            $stmt = $pdo->prepare($sql);
+	            $stmt->execute();
+
+	            //Remplissage du fichier csv.
+	            while ($row = $stmt->fetch(\PDO::FETCH_ASSOC)) {
+	                $row["nb_transac_t0"] = str_replace('.',',',$row["nb_transac_t0"]);
+	                $row["tx_transac_linked_t0"] = str_replace('.',',',$row["tx_transac_linked_t0"]);
+	                $row["tx_transac_npesi2_t0"] = str_replace('.',',',$row["tx_transac_npesi2_t0"]);
+	                $row["tx_transac_npei_t0"]  = str_replace('.',',',$row["tx_transac_npei_t0"]);
+	                $row["tx_transac_npsi_t0"]  = str_replace('.',',',$row["tx_transac_npsi_t0"]);
+	                fputcsv($handle, $row, ';');
+	            }
+
+	            //Fermeture du fichier
+	            rewind($handle);
+	            $content = stream_get_contents($handle);
+	            fclose($handle);
+
+	        }
+
+            $date_csv = new \Datetime('now');
+            $date_csv = $date_csv->format('Ymd');
+
+            //Reponse : Téléchargement du fichier
+            return new Response($content, 200, array(
+                'Content-Type' => 'application/force-download; text/csv; charset=UTF-8',
+                'Content-Disposition' => 'attachment; filename="export_donnees_'.$date_csv.'.csv"'
+            ));
+
+        }
+
+        if($kpiCurrentTrim != null) {
+        
+	        if($kpiCurrentTrim->getDate() < new \Datetime('2018-12-31') || $request->get('old') == t)
+			{
+				$path_trim = 'AppBundle:Kpi:trim.html.twig';
+			}
+			else{
+				$path_trim = 'AppBundle:Kpi:trim_2019.html.twig';
+			}
+
+        }
+        else {
+        	$path_trim = 'AppBundle:Kpi:trim_2019.html.twig';
+        }
+
+		//Retourne la bonne page
+		if($routeName == "app_kpi_trim"){
+	        return $this->render($path_trim, array(
+	        	'kpis' 				=> $kpis,
+	        	'currentKpi'	 	=> $kpiCurrentTrim,
 	        	'topNpe'			=> $topNpe,
 	        	'topNpes'			=> $topNpes,
 	        	'topNpesa'			=> $topNpesa,
