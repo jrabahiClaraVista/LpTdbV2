@@ -1641,7 +1641,7 @@ class KpiController extends Controller
 	            fclose($handle);
 	        }
 	        else{
-	        	$sql = "SELECT u.username,u.role,u.brand,u.dr,u.boutique,u.nom_vendeur,u.prenom_vendeur,d.date,d.nb_transac_t0,d.tx_transac_linked_t0,d.tx_transac_npesi2_t0,d.tx_transac_npei_t0,d.tx_transac_npsi_t0
+	        	$sql = "SELECT u.username,u.role,u.brand,u.dr,u.boutique,u.nom_vendeur,u.prenom_vendeur,d.date,d.nb_transac_T0,d.tx_transac_linked_T0,d.tx_transac_npesi2_T0,d.tx_transac_npei_T0,d.tx_transac_npsi_T0
 						FROM app_kpi_trim d
 						LEFT JOIN fos_user_user u on d.user_id = u.id
 						WHERE d.id in $ids
@@ -1666,11 +1666,11 @@ class KpiController extends Controller
 
 	            //Remplissage du fichier csv.
 	            while ($row = $stmt->fetch(\PDO::FETCH_ASSOC)) {
-	                $row["nb_transac_t0"] = str_replace('.',',',$row["nb_transac_t0"]);
-	                $row["tx_transac_linked_t0"] = str_replace('.',',',$row["tx_transac_linked_t0"]);
-	                $row["tx_transac_npesi2_t0"] = str_replace('.',',',$row["tx_transac_npesi2_t0"]);
-	                $row["tx_transac_npei_t0"]  = str_replace('.',',',$row["tx_transac_npei_t0"]);
-	                $row["tx_transac_npsi_t0"]  = str_replace('.',',',$row["tx_transac_npsi_t0"]);
+	                $row["nb_transac_T0"] = str_replace('.',',',$row["nb_transac_T0"]);
+	                $row["tx_transac_linked_T0"] = str_replace('.',',',$row["tx_transac_linked_T0"]);
+	                $row["tx_transac_npesi2_T0"] = str_replace('.',',',$row["tx_transac_npesi2_T0"]);
+	                $row["tx_transac_npei_T0"]  = str_replace('.',',',$row["tx_transac_npei_T0"]);
+	                $row["tx_transac_npsi_T0"]  = str_replace('.',',',$row["tx_transac_npsi_T0"]);
 	                fputcsv($handle, $row, ';');
 	            }
 

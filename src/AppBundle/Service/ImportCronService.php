@@ -589,6 +589,165 @@ class ImportCronService
 
     }
 
+    public function importKpiCaptureTrimestreCSVFile( InputInterface $input, OutputInterface $output, $csv = null)
+    {
+        $date = new \DateTime();
+        $date = $date->format("Ymd");
+
+
+        $file = fopen($csv, "r");
+
+        $header1 = "username_canonical,username,prenom_vendeur,nom_vendeur,email,email_canonical,role,boutique,dr,brand,enabled,updated_at";
+        //$header2 = "date,nb_transac_T0,tx_transac_npe_T0,tx_transac_nve_T0,tx_transac_npes_T0,tx_transac_nves_T0,tx_transac_npesa_T0,tx_transac_nvesa_T0,rank_npe_T0,rank_npes_T0,rank_npesa_T0,nbre_clients_contactables_email_h,nbre_clients_inactifs_email_h,nbre_clients_animes_T0,nbre_clients_transformes_T0,CA_clients_transformes_T0";
+        $header2 = "date,nb_transac_T0,tx_transac_linked_T0,tx_transac_npe_T0,tx_transac_nve_T0,tx_transac_npes_T0,tx_transac_nves_T0,tx_transac_npesa_T0,tx_transac_nvesa_T0,rank_npe_T0,rank_npes_T0,rank_npesa_T0,tx_transac_linked_optin_T0,tx_transac_linked_optout_T0,tx_transac_npei_T0,tx_transac_npeo_T0,tx_transac_npesi_T0,tx_transac_npeso_T0,tx_transac_npesai_T0,tx_transac_npesao_T0,tx_transac_nps_T0,tx_transac_npsi_T0,tx_transac_npso_T0,tx_transac_nvs_T0,tx_transac_npa_T0,tx_transac_npai_T0,tx_transac_npao_T0,tx_transac_nva_T0,tx_transac_npes2_T0,tx_transac_npesi2_T0,tx_transac_npeso2_T0,tx_transac_nves2_T0,tx_transac_npesa2_T0,tx_transac_npesai2_T0,tx_transac_npesao2_T0,tx_transac_nvesa2_T0,rank_npe2_T0,rank_nps2_T0,rank_npes2_T0";
+
+        //valeurs de la requête (correspond au header du fichier)
+        $values1 = ":".str_replace(",", ",:", $header1);
+        //$values1 = str_replace(":user_id,", "", $values1);
+        //tableau des headers à mettre à jours pour la boucle
+        $headers = explode(",", str_replace("user_id,", "", $header1));
+        $update1 = "";
+        $i = 0;
+        $len = count($headers);
+
+        foreach ($headers as $key => $value) {
+            if ($i == $len - 1) $update1 .= $value." = :".$value;
+            else $update1 .= $value." = :".$value.",";
+            $i++;
+        }
+
+        //valeurs de la requête (correspond au header du fichier)
+        $values2 = ":".str_replace(",", ",:", $header2);
+        $values2 = str_replace(":user_id,", "", $values2);
+        //tableau des headers à mettre à jours pour la boucle
+        $headers = explode(",", str_replace("user_id,", "", $header2));
+        $update2 = "";
+        $i = 0;
+        $len = count($headers);
+
+        foreach ($headers as $key => $value) {
+            if ($i == $len - 1) $update2 .= $value." = :".$value;
+            else $update2 .= $value." = :".$value.",";
+            $i++;
+        }
+
+
+        $sql1 = "INSERT INTO fos_user_user ( ".$header1.", created_at, salt, password, roles,locked,expired,credentials_expired,ispremium ) VALUES ( ".$values1.", :created_at, :salt, :password, :roles, 0, 0,0,0 )
+                ON DUPLICATE KEY UPDATE ".$update1."
+        ";
+        $sql2 = "INSERT INTO app_kpi_trim ( user_id, ".$header2." ) VALUES (  (SELECT id from fos_user_user u WHERE u.username = :username) , ".$values2.")
+                ON DUPLICATE KEY UPDATE ".$update2."
+        ";
+
+        $i = 0;
+        $flag = true;
+
+        $date = new \Datetime('now');
+        $date= $date->format('Y-m-d H:i:s');
+
+        //$user = new User;
+        //$this->encoder->encodePassword('Claravista123!', $salt)
+
+        while( ($csvfilelines = fgetcsv($file, 0, $this->separator)) != FALSE )
+        {
+            if($flag) { $flag = false; continue; } //ignore first line of csv
+
+            $stmt1 = $this->pdo->prepare($sql1);
+            $stmt2 = $this->pdo->prepare($sql2);
+
+            $salt = base_convert(sha1(uniqid(mt_rand(), true)), 16, 36);
+
+            $stmt1->bindValue(':username', $csvfilelines[0], \PDO::PARAM_STR);
+            $stmt1->bindValue(':username_canonical', $csvfilelines[0], \PDO::PARAM_STR);
+            $stmt1->bindValue(':prenom_vendeur', $csvfilelines[1], \PDO::PARAM_STR);
+            $stmt1->bindValue(':nom_vendeur', $csvfilelines[2], \PDO::PARAM_STR);
+            $stmt1->bindValue(':email', $csvfilelines[3], \PDO::PARAM_STR);
+            $stmt1->bindValue(':email_canonical', $csvfilelines[3], \PDO::PARAM_STR);
+            $stmt1->bindValue(':role', $csvfilelines[4], \PDO::PARAM_STR);
+            $stmt1->bindValue(':boutique', $csvfilelines[5], \PDO::PARAM_STR);
+            $stmt1->bindValue(':dr', $csvfilelines[6], \PDO::PARAM_STR);
+            $stmt1->bindValue(':brand', $csvfilelines[7], \PDO::PARAM_STR);
+            $stmt1->bindValue(':enabled', 1, \PDO::PARAM_INT);
+            $stmt1->bindValue(':created_at', $date, \PDO::PARAM_STR);
+            $stmt1->bindValue(':updated_at', $date, \PDO::PARAM_STR);
+            $stmt1->bindValue(':salt', $salt, \PDO::PARAM_STR);
+            $stmt1->bindValue(':password', "to_change", \PDO::PARAM_STR);
+            $stmt1->bindValue(':roles', "a:0:{}", \PDO::PARAM_STR);
+
+
+            $stmt2->bindValue(':username', $csvfilelines[0], \PDO::PARAM_STR);
+            $stmt2->bindValue(':date', $csvfilelines[8], \PDO::PARAM_STR);
+            $stmt2->bindValue(':nb_transac_T0', $csvfilelines[9], \PDO::PARAM_STR);
+            $stmt2->bindValue(':tx_transac_linked_T0', $csvfilelines[10], \PDO::PARAM_STR);
+            $stmt2->bindValue(':tx_transac_npe_T0', $csvfilelines[11], \PDO::PARAM_STR);
+            $stmt2->bindValue(':tx_transac_nve_T0', $csvfilelines[12], \PDO::PARAM_STR);
+            $stmt2->bindValue(':tx_transac_npes_T0', $csvfilelines[13], \PDO::PARAM_STR);
+            $stmt2->bindValue(':tx_transac_nves_T0', $csvfilelines[14], \PDO::PARAM_STR);
+            $stmt2->bindValue(':tx_transac_npesa_T0', $csvfilelines[15], \PDO::PARAM_STR);
+            $stmt2->bindValue(':tx_transac_nvesa_T0', $csvfilelines[16], \PDO::PARAM_STR);
+            $stmt2->bindValue(':rank_npe_T0', $csvfilelines[17], \PDO::PARAM_STR);
+            $stmt2->bindValue(':rank_npes_T0', $csvfilelines[18], \PDO::PARAM_STR);
+            $stmt2->bindValue(':rank_npesa_T0', $csvfilelines[19], \PDO::PARAM_STR);
+
+            $stmt2->bindValue(':tx_transac_linked_optin_T0', $csvfilelines[20], \PDO::PARAM_STR);
+            $stmt2->bindValue(':tx_transac_linked_optout_T0', $csvfilelines[21], \PDO::PARAM_STR);
+            $stmt2->bindValue(':tx_transac_npei_T0', $csvfilelines[22], \PDO::PARAM_STR);
+            $stmt2->bindValue(':tx_transac_npeo_T0', $csvfilelines[23], \PDO::PARAM_STR);
+            $stmt2->bindValue(':tx_transac_npesi_T0', $csvfilelines[24], \PDO::PARAM_STR);
+            $stmt2->bindValue(':tx_transac_npeso_T0', $csvfilelines[25], \PDO::PARAM_STR);
+            $stmt2->bindValue(':tx_transac_npesai_T0', $csvfilelines[26], \PDO::PARAM_STR);
+            $stmt2->bindValue(':tx_transac_npesao_T0', $csvfilelines[27], \PDO::PARAM_STR);
+            $stmt2->bindValue(':tx_transac_nps_T0', $csvfilelines[28], \PDO::PARAM_STR);
+            $stmt2->bindValue(':tx_transac_npsi_T0', $csvfilelines[29], \PDO::PARAM_STR);
+            $stmt2->bindValue(':tx_transac_npso_T0', $csvfilelines[30], \PDO::PARAM_STR);
+            $stmt2->bindValue(':tx_transac_nvs_T0', $csvfilelines[31], \PDO::PARAM_STR);
+            $stmt2->bindValue(':tx_transac_npa_T0', $csvfilelines[32], \PDO::PARAM_STR);
+            $stmt2->bindValue(':tx_transac_npai_T0', $csvfilelines[33], \PDO::PARAM_STR);
+            $stmt2->bindValue(':tx_transac_npao_T0', $csvfilelines[34], \PDO::PARAM_STR);
+            $stmt2->bindValue(':tx_transac_nva_T0', $csvfilelines[35], \PDO::PARAM_STR);
+            $stmt2->bindValue(':tx_transac_npes2_T0', $csvfilelines[36], \PDO::PARAM_STR);
+            $stmt2->bindValue(':tx_transac_npesi2_T0', $csvfilelines[37], \PDO::PARAM_STR);
+            $stmt2->bindValue(':tx_transac_npeso2_T0', $csvfilelines[38], \PDO::PARAM_STR);
+            $stmt2->bindValue(':tx_transac_nves2_T0', $csvfilelines[39], \PDO::PARAM_STR);
+            $stmt2->bindValue(':tx_transac_npesa2_T0', $csvfilelines[40], \PDO::PARAM_STR);
+            $stmt2->bindValue(':tx_transac_npesai2_T0', $csvfilelines[41], \PDO::PARAM_STR);
+            $stmt2->bindValue(':tx_transac_npesao2_T0', $csvfilelines[42], \PDO::PARAM_STR);
+            $stmt2->bindValue(':tx_transac_nvesa2_T0', $csvfilelines[43], \PDO::PARAM_STR);
+
+            $stmt2->bindValue(':rank_npe2_T0',$csvfilelines[44], \PDO::PARAM_STR);
+            $stmt2->bindValue(':rank_nps2_T0',$csvfilelines[45], \PDO::PARAM_STR);
+            $stmt2->bindValue(':rank_npes2_T0',$csvfilelines[46], \PDO::PARAM_STR);
+
+            try
+            {
+                $stmt1->execute();
+            }
+            catch(Exception $e)
+            {
+                $output->writeln($e->getMessage());
+                die('Erreur 1 : '.$e->getMessage());
+            }
+
+            try
+            {
+                $stmt2->execute();
+            }
+            catch(Exception $e)
+            {
+                $output->writeln($e->getMessage());
+                die('Erreur 2 : '.$e->getMessage());
+            }
+
+            if($i % 20 == 0){
+                $output->writeln($i." lignes importees");
+                gc_collect_cycles();
+            }
+            $i++;
+        }
+        $output->writeln($i." lignes importees");
+
+    }
+
     public function importVerbatim(InputInterface $input, OutputInterface $output, $csv = null){
 
         $date = new \DateTime();
