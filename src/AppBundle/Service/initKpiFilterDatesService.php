@@ -369,17 +369,6 @@ class initKpiFilterDatesService
      *
      */
     public function getDatesTrimPost($data, $session, $trigger = null){
-        $now = new \DateTime();
-        $year = $now->format('Y');
-        $month = $now->format('n');
-
-        if(intval($trim) < intval($data['trim'])) {
-            $data['year'] =  strval(intval($year) - 1);
-        }
-        else{
-            $data['year'] = $year;
-        }
-
         //Set Session variable
         if($data['year'] == '' ){
             $session->remove('kpi_year_filtre');
@@ -389,21 +378,32 @@ class initKpiFilterDatesService
         }
         if( isset($data['trim']) ){
             if($data['trim'] == '' ){
-                $session->remove('kpi_week_filtre');
+                $session->remove('kpi_trim_filtre');
             }
             else{
-                $session->set('kpi_week_filtre', $data['trim']);
+                $session->set('kpi_trim_filtre', $data['trim']);
             }
         }
 
 
         // On récupère les bons mois et année FY
         $year  = $session->get('kpi_year_filtre');
-        $trim  = $session->get('kpi_week_filtre');
+        $trim  = $session->get('kpi_trim_filtre');
        
+        if($trim == 1) {
+            $month = "01";
+        }
+        elseif($trim == 2) {
+            $month = "04";
+        }
+        elseif($trim == 3) {
+            $month = "07";
+        }
+        elseif($trim == 4) {
+            $month = "10";
+        }
 
-        $dateTrim2 = new \DateTime();
-        $dateTrim2 = $dateTrim2->setISODate($year,$trim,7);
+        $dateTrim2 = new \DateTime($year."-".$month."-01");
         $dateTrim2 = $dateTrim2->format("Y-m-d");
         
         $dateTrim1 = new \DateTime($dateTrim2);
