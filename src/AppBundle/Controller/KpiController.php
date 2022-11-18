@@ -1514,12 +1514,15 @@ class KpiController extends Controller
 	foreach ($kpis as $key => $kpi) {
 		if ( $trim == null ) {
 			if ( $key == 0 )
-				$kpiCurrentTrim = $kpi;
-				$trim = $kpiCurrentTrim->getDate()->format("W");
+			$kpiCurrentMonth = $kpi;
+			$month = $kpiCurrentMonth->getDate()->format("n");
+        	$trim = floor(($month-1)/3)+1;
 		}
 		else {
-			if ( $kpi->getDate()->format("W") == $trim && $kpi->getDate()->format("Y") == $year ) {
-				$kpiCurrentTrim = $kpi;
+			$month = $kpi->getDate()->format("n");
+        	$trim2 = floor(($month-1)/3)+1;
+			if ( $trim2 == $trim && $kpi->getDate()->format("Y") == $year ) {
+				$kpiCurrentMonth = $kpi;
 			}
 		}
 	}
