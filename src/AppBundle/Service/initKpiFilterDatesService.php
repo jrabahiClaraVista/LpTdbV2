@@ -147,7 +147,7 @@ class initKpiFilterDatesService
                 }
 
                 $dateTrim2 = new \DateTime($year."-".$month."-01");
-                $date2->modify('last day of this month');
+                $dateTrim2->modify('last day of this month');
                 $dateTrim2 = $dateTrim2->format("Y-m-d");
             }
         }
@@ -405,7 +405,7 @@ class initKpiFilterDatesService
         }
 
         $dateTrim2 = new \DateTime($year."-".$month."-01");
-        $date2->modify('last day of this month');
+        $dateTrim2->modify('last day of this month');
         $dateTrim2 = $dateTrim2->format("Y-m-d");
         
         $dateTrim1 = new \DateTime($dateTrim2);
