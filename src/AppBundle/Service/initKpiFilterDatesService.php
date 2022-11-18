@@ -156,7 +156,7 @@ class initKpiFilterDatesService
         $dateTrim3 = new \DateTime($dateTrim2);
 
         // Si on on veut récupérer les infos sur une plage de données d'1 trimestre
-        $dateTrim3->modify('-')->modify('first day of this month');
+        $dateTrim3->modify('first day of this month');
         // Si on veut récupérer les données sur les 8 derniers trimestre
         $dateTrim1->modify('-24 months')->modify('first day of this month');
 
