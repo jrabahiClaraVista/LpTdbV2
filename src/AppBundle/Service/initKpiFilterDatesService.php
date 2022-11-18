@@ -100,7 +100,7 @@ class initKpiFilterDatesService
         $now = new \DateTime();
 
         //mois en cours par defaut 
-        $month = date('n'); 
+        $month = date('n')-3; 
         $trim = floor(($month-1)/3)+1;
         $year = $now->format('Y');
 
@@ -132,6 +132,19 @@ class initKpiFilterDatesService
 
                 $session->set('kpi_trim_filtre', $trim);
                 $session->set('kpi_year_filtre', $year);
+
+                if($trim == 1) {
+                    $month = "01";
+                }
+                elseif($trim == 2) {
+                    $month = "04";
+                }
+                elseif($trim == 3) {
+                    $month = "07";
+                }
+                elseif($trim == 4) {
+                    $month = "10";
+                }
 
                 $dateTrim2 = new \DateTime($year."-".$month."-01");
                 $dateTrim2 = $dateTrim2->format("Y-m-d");
