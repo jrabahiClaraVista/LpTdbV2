@@ -111,8 +111,7 @@ class initKpiFilterDatesService
 
             //on initialise la date2 au dernier jour de la semaine
             //$dateWeek2 = $now->setISODate($year,$week,7);//->modify('-1 month');
-            $dateTrim1->modify('-3 months')->modify('first day of this month');
-            $dateTrim2 = $dateTrim2->format("Y-m-d");
+            $dateTrim2 = $now->modify('-3 months')->modify('first day of this month');
         }
         //si on a une recherche active
         else{
