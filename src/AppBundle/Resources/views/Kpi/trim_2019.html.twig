@@ -92,7 +92,7 @@
 
 
 			<div class="inside col-xs-12">
-				<h4 class="text-uppercase black text-center">{{ "Evolution mensuelle des indicateurs de collecte"|trans }}</h4>
+				<h4 class="text-uppercase black text-center">{{ "Evolution trimestrielle des indicateurs de collecte"|trans }}</h4>
 
 				<figure class="col-xs-12 col-md-8 col-md-offset-2">
 					<div id="chartContainer5" class="col-xs-12" style="height: 194px;"></div>
@@ -378,7 +378,7 @@
     		}*/
 
     		// Ajax pour changer le formulaire
-    		/*$.get("/ajax_filter/{{user.id}}/"+user_id+"/mensuel/null/"+$('#appbundle_kpi_filter_month').val()+"/"+$('#appbundle_kpi_filter_year').val(), function( data ) {
+    		/*$.get("/ajax_filter/{{user.id}}/"+user_id+"/trim/null/"+$('#appbundle_kpi_filter_month').val()+"/"+$('#appbundle_kpi_filter_year').val(), function( data ) {
 			    $('#ajax_filter').html( data );
 			});*/
 
@@ -400,7 +400,7 @@
     			var user_id = $(this).val();
     		}*/
 
-    		/*$.get("/ajax_filter/{{user.id}}/"+user_id+"/mensuel/null/"+$('#appbundle_kpi_filter_month').val()+"/"+$('#appbundle_kpi_filter_year').val(), function( data ) {
+    		/*$.get("/ajax_filter/{{user.id}}/"+user_id+"/trim/null/"+$('#appbundle_kpi_filter_month').val()+"/"+$('#appbundle_kpi_filter_year').val(), function( data ) {
 			    $('#ajax_filter').html( data );
 			});*/
 
@@ -434,8 +434,8 @@
 	var year  = date.getFullYear();
 	var day   = date.getDate();
 
-	var startDate = new Date( year , month - 8)
-	var endDate = new Date( year, month);
+	var startDate = new Date( year , month - 9)
+	var endDate = new Date( year, month + 1);
 
 	var dataToBeC1 = {{ 100 - currentKpi.txTransacNpeT0|number_format - currentKpi.txTransacNveT0|number_format }};
 	var dataToBeC2 = {{ 100 - currentKpi.txTransacNpsT0|number_format - currentKpi.txTransacNvsT0|number_format }};
@@ -671,7 +671,7 @@
 					labelFontSize: 14
 				},
 				axisX:{
-			        interval: 2,
+			        interval: 1,
 			        intervalType: "month",
 			        minimum : startDate,
 			        maximum : endDate,
