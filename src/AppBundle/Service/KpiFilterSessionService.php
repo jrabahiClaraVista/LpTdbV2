@@ -156,12 +156,13 @@ class KpiFilterSessionService
         return $form;
     }
 
-    public function updateFormAjax($week, $month, $year, $reseau, $dr, $boutique, $form){
+    public function updateFormAjax($week, $month, $trim, $year, $reseau, $dr, $boutique, $form){
         $form->get('reseau')->setData($reseau);
         $form->get('dr')->setData($dr);
         $form->get('boutique')->setData($boutique);
         $form->get('week')->setData($week);
         $form->get('month')->setData($month);
+        $form->get('trim')->setData($trim);
         $form->get('year')->setData($year);
 
         return $form;

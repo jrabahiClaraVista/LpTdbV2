@@ -124,7 +124,8 @@ class initKpiFilterDatesService
         if( $session->get('kpi_trim_filtre') == null  ) {
 
             //on initialise la date2 au dernier jour de la semaine
-            $dateTrim2 = $now->modify('-3 months')->modify('last day of this month');;
+            $dateTrim2 = new \DateTime($year."-".$month."-01");
+            $dateTrim2->modify('last day of this month');
             $dateTrim2 = $dateTrim2->format("Y-m-d");
         }
         //si on a une recherche active
@@ -132,8 +133,19 @@ class initKpiFilterDatesService
             $trim  = $session->get('kpi_trim_filtre');
             $year  = $session->get('kpi_year_filtre');
 
-            //$dateTrim2 = $now->setISODate($year,$week,7);//->modify('-1 month');
-            //$dateTrim2 = $now->setISODate($year,$week,7);
+            if($trim == 1) {
+                $month = "01";
+            }
+            elseif($trim == 2) {
+                $month = "04";
+            }
+            elseif($trim == 3) {
+                $month = "07";
+            }
+            elseif($trim == 4) {
+                $month = "10";
+            }
+            
             $dateTrim2 = new \DateTime($year."-".$month."-01");
             $dateTrim2->modify('last day of this month');
             $dateTrim2 = $dateTrim2->format("Y-m-d");
