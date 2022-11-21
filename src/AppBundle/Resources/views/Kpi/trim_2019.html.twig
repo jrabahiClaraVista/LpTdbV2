@@ -325,7 +325,7 @@
 	<script type="text/javascript">
 
 	$(function(){
-    	$(document).on('change', '#appbundle_kpi_filter_week', function() {
+    	$(document).on('change', '#appbundle_kpi_filter_trim', function() {
     		$('#clients-filter').submit();
     		$('#spinner').show();
     	});
@@ -672,7 +672,7 @@
 				},
 				axisX:{
 			        interval: 2,
-			        intervalType: "week",
+			        intervalType: "month",
 			        minimum : startDate,
 			        maximum : endDate,
 			        valueFormatString: "DD MMM",
