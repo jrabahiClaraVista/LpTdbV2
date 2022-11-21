@@ -101,7 +101,7 @@ class initKpiFilterDatesService
 
         //mois en cours par defaut 
         $month = $date; 
-        $month = $month->format('n')-3; 
+        $month = $month->format('n'); 
         $trim = floor(($month-1)/3)+1;
         $year = $now->format('Y');
 
