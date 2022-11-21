@@ -1696,7 +1696,7 @@ class KpiController extends Controller
 
         }
 
-       	$path_trim = 'AppBundle:Kpi:trim.html.twig';
+       	$path_trim = 'AppBundle:Kpi:trim_2019.html.twig';
 
 		//Retourne la bonne page
 		if($routeName == "app_kpi_trim"){
