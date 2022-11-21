@@ -104,6 +104,19 @@ class initKpiFilterDatesService
         $trim = floor(($month-1)/3)+1;
         $year = $now->format('Y');
 
+        if($trim == 1) {
+            $month = "01";
+        }
+        elseif($trim == 2) {
+            $month = "04";
+        }
+        elseif($trim == 3) {
+            $month = "07";
+        }
+        elseif($trim == 4) {
+            $month = "10";
+        }
+
         //la derniere date est toujours celle du dernier kpicapture en base, la premiere varie de -12 à -24 mois
         //Affichage des données du dernier mois / mois selectionné : du premier à la fin du mois.
         //On test aussi les var de session month et year, car par defaut pour TOT la valeur est a null
@@ -131,19 +144,6 @@ class initKpiFilterDatesService
 
                 $session->set('kpi_trim_filtre', $trim);
                 $session->set('kpi_year_filtre', $year);
-
-                if($trim == 1) {
-                    $month = "01";
-                }
-                elseif($trim == 2) {
-                    $month = "04";
-                }
-                elseif($trim == 3) {
-                    $month = "07";
-                }
-                elseif($trim == 4) {
-                    $month = "10";
-                }
 
                 $dateTrim2 = new \DateTime($year."-".$month."-01");
                 $dateTrim2->modify('last day of this month');
