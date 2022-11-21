@@ -100,7 +100,8 @@ class initKpiFilterDatesService
         $now = new \DateTime();
 
         //mois en cours par defaut 
-        $month = date('n')-3; 
+        $month = $date; 
+        $month = $month->format('n')-3; 
         $trim = floor(($month-1)/3)+1;
         $year = $now->format('Y');
 
@@ -134,6 +135,7 @@ class initKpiFilterDatesService
             //$dateTrim2 = $now->setISODate($year,$week,7);//->modify('-1 month');
             //$dateTrim2 = $now->setISODate($year,$week,7);
             $dateTrim2 = new \DateTime($year."-".$month."-01");
+            $dateTrim2->modify('last day of this month');
             $dateTrim2 = $dateTrim2->format("Y-m-d");
 
             $date_check = new \DateTime($dateTrim2);
