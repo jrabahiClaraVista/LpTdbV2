@@ -121,8 +121,6 @@ class KpiController extends Controller
         $data = $form->getData();
 
         $currentMonth = $lastKpi->getDate()->format("m");
-		//$lastKpi 	  = null;
-
 
 		$brand = $user->getBrand();
 		if ($brand == null) $brand = '';
@@ -980,9 +978,6 @@ class KpiController extends Controller
 		//Recuperation des données de la requete
         $data = $form->getData();
 
-        $currentWeek  = $lastKpiWeek->getDate()->format("W");
-		//$lastKpi 	  = null;
-
 		$brand = $user->getBrand();
 		if ($brand == null) $brand = '';
 
@@ -1392,9 +1387,6 @@ class KpiController extends Controller
 		$form->handleRequest($request);
 		//Recuperation des données de la requete
         $data = $form->getData();
-
-        $currentTrim  = $lastKpiTrim->getDate()->format("W");
-		//$lastKpi 	  = null;
 
 		$brand = $user->getBrand();
 		if ($brand == null) $brand = '';
