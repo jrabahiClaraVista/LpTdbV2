@@ -325,6 +325,129 @@ class KpiWeek
 
     /*
      *
+     *  KPI SATISFACTION
+     *
+     */
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="nbre_questsatisf_s0", type="integer")
+     */
+    private $nbrequestsatisfs0;
+    
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="nbre_questsatisf_montred_s0", type="integer")
+     */
+    private $nbrequestsatisfmontreds0;
+
+    
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="nbre_questsatisf_piled_s0", type="integer")
+     */
+    private $nbrequestsatisfpileds0;
+
+    
+    /**
+     * @var decimal
+     *
+     * @ORM\Column(name="tx_quest_satisf_promoteur_s0", type="decimal", precision=9, scale=2)
+     */
+    private $txquestsatisfpromoteurds0;
+
+    /**
+     * @var decimal
+     *
+     * @ORM\Column(name="tx_quest_satisf_passif_s0", type="decimal", precision=9, scale=2)
+     */
+    private $txquestsatisfpassifs0;
+
+    /**
+     * @var decimal
+     *
+     * @ORM\Column(name="tx_quest_satisf_detracteur_s0", type="decimal", precision=9, scale=2)
+     */
+    private $txquestsatisfdetracteurs0;
+
+    /**
+     * @var decimal
+     *
+     * @ORM\Column(name="quest_satisf_nps_s0", type="decimal", precision=9, scale=2)
+     */
+    private $questsatisfnpss0;
+
+    
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="quest_satisf_rank_nps_s0", type="integer")
+     */
+    private $questsatisfranknpss0;
+
+
+    /**
+     * @var decimal
+     *
+     * @ORM\Column(name="moy_quest_satisf_montre_q2_s0", type="decimal", precision=9, scale=2)
+     */
+    private $moyquestsatisfmontreq2s0;
+
+    /**
+     * @var decimal
+     *
+     * @ORM\Column(name="moy_quest_satisf_montre_q3_s0", type="decimal", precision=9, scale=2)
+     */
+    private $moyquestsatisfmontreq3s0;
+
+    /**
+     * @var decimal
+     *
+     * @ORM\Column(name="moy_quest_satisf_montre_q4_s0", type="decimal", precision=9, scale=2)
+     */
+    private $moyquestsatisfmontreq4s0;
+
+    /**
+     * @var decimal
+     *
+     * @ORM\Column(name="moy_quest_satisf_montre_q5_s0", type="decimal", precision=9, scale=2)
+     */
+    private $moyquestsatisfmontreq5s0;
+
+    /**
+     * @var decimal
+     *
+     * @ORM\Column(name="moy_quest_satisf_montre_q6_s0", type="decimal", precision=9, scale=2)
+     */
+    private $moyquestsatisfmontreq6s0;
+
+    /**
+     * @var decimal
+     *
+     * @ORM\Column(name="moy_quest_satisf_pile_q2_s0", type="decimal", precision=9, scale=2)
+     */
+    private $moyquestsatisfpileq2s0;
+
+    /**
+     * @var decimal
+     *
+     * @ORM\Column(name="moy_quest_satisf_pile_q3_s0", type="decimal", precision=9, scale=2)
+     */
+    private $moyquestsatisfpileq3s0;
+
+    /**
+     * @var decimal
+     *
+     * @ORM\Column(name="moy_quest_satisf_pile_q4_s0", type="decimal", precision=9, scale=2)
+     */
+    private $moyquestsatisfpileq4s0;
+
+
+    /*
+     *
      *  GETTERS / SETTERS
      *
      */
@@ -954,6 +1077,374 @@ class KpiWeek
     public function getRankNpes2S0()
     {
         return $this->rankNpes2S0;
+    }
+
+    /**
+     * Set nbrequestsatisfs0
+     *
+     * @param integer $nbrequestsatisfs0
+     * @return KpiWeek
+     */
+    public function setNbrequestsatisfs0($nbrequestsatisfs0)
+    {
+        $this->nbrequestsatisfs0 = $nbrequestsatisfs0;
+
+        return $this;
+    }
+
+    /**
+     * Get nbrequestsatisfs0
+     *
+     * @return integer 
+     */
+    public function getNbrequestsatisfs0()
+    {
+        return $this->nbrequestsatisfs0;
+    }
+
+    /**
+     * Set nbrequestsatisfmontreds0
+     *
+     * @param integer $nbrequestsatisfmontreds0
+     * @return KpiWeek
+     */
+    public function setNbrequestsatisfmontreds0($nbrequestsatisfmontreds0)
+    {
+        $this->nbrequestsatisfmontreds0 = $nbrequestsatisfmontreds0;
+
+        return $this;
+    }
+
+    /**
+     * Get nbrequestsatisfmontreds0
+     *
+     * @return integer 
+     */
+    public function getNbrequestsatisfmontreds0()
+    {
+        return $this->nbrequestsatisfmontreds0;
+    }
+
+    /**
+     * Set nbrequestsatisfpileds0
+     *
+     * @param integer $nbrequestsatisfpileds0
+     * @return KpiWeek
+     */
+    public function setNbrequestsatisfpileds0($nbrequestsatisfpileds0)
+    {
+        $this->nbrequestsatisfpileds0 = $nbrequestsatisfpileds0;
+
+        return $this;
+    }
+
+    /**
+     * Get nbrequestsatisfpileds0
+     *
+     * @return integer 
+     */
+    public function getNbrequestsatisfpileds0()
+    {
+        return $this->nbrequestsatisfpileds0;
+    }
+
+    /**
+     * Set txquestsatisfpromoteurds0
+     *
+     * @param integer $txquestsatisfpromoteurds0
+     * @return KpiWeek
+     */
+    public function setTxquestsatisfpromoteurds0($txquestsatisfpromoteurds0)
+    {
+        $this->txquestsatisfpromoteurds0 = $txquestsatisfpromoteurds0;
+
+        return $this;
+    }
+
+    /**
+     * Get txquestsatisfpromoteurds0
+     *
+     * @return integer 
+     */
+    public function getTxquestsatisfpromoteurds0()
+    {
+        return $this->txquestsatisfpromoteurds0;
+    }
+
+    /**
+     * Set txquestsatisfpassifs0
+     *
+     * @param string $txquestsatisfpassifs0
+     * @return KpiWeek
+     */
+    public function setTxquestsatisfpassifs0($txquestsatisfpassifs0)
+    {
+        $this->txquestsatisfpassifs0 = $txquestsatisfpassifs0;
+
+        return $this;
+    }
+
+    /**
+     * Get txquestsatisfpassifs0
+     *
+     * @return string 
+     */
+    public function getTxquestsatisfpassifs0()
+    {
+        return $this->txquestsatisfpassifs0;
+    }
+
+    /**
+     * Set txquestsatisfdetracteurs0
+     *
+     * @param string $txquestsatisfdetracteurs0
+     * @return KpiWeek
+     */
+    public function setTxquestsatisfdetracteurs0($txquestsatisfdetracteurs0)
+    {
+        $this->txquestsatisfdetracteurs0 = $txquestsatisfdetracteurs0;
+
+        return $this;
+    }
+
+    /**
+     * Get txquestsatisfdetracteurs0
+     *
+     * @return string 
+     */
+    public function getTxquestsatisfdetracteurs0()
+    {
+        return $this->txquestsatisfdetracteurs0;
+    }
+
+    /**
+     * Set questsatisfnpss0
+     *
+     * @param string $questsatisfnpss0
+     * @return KpiWeek
+     */
+    public function setQuestsatisfnpss0($questsatisfnpss0)
+    {
+        $this->questsatisfnpss0 = $questsatisfnpss0;
+
+        return $this;
+    }
+
+    /**
+     * Get questsatisfnpss0
+     *
+     * @return string 
+     */
+    public function getQuestsatisfnpss0()
+    {
+        return $this->questsatisfnpss0;
+    }
+
+    /**
+     * Set questsatisfranknpss0
+     *
+     * @param integer $questsatisfranknpss0
+     * @return KpiWeek
+     */
+    public function setQuestsatisfranknpss0($questsatisfranknpss0)
+    {
+        $this->questsatisfranknpss0 = $questsatisfranknpss0;
+
+        return $this;
+    }
+
+    /**
+     * Get questsatisfranknpss0
+     *
+     * @return integer 
+     */
+    public function getQuestsatisfranknpss0()
+    {
+        return $this->questsatisfranknpss0;
+    }
+
+    /**
+     * Set moyquestsatisfmontreq2s0
+     *
+     * @param string $moyquestsatisfmontreq2s0
+     * @return KpiWeek
+     */
+    public function setMoyquestsatisfmontreq2s0($moyquestsatisfmontreq2s0)
+    {
+        $this->moyquestsatisfmontreq2s0 = $moyquestsatisfmontreq2s0;
+
+        return $this;
+    }
+
+    /**
+     * Get moyquestsatisfmontreq2s0
+     *
+     * @return string 
+     */
+    public function getMoyquestsatisfmontreq2s0()
+    {
+        return $this->moyquestsatisfmontreq2s0;
+    }
+
+    /**
+     * Set moyquestsatisfmontreq3s0
+     *
+     * @param string $moyquestsatisfmontreq3s0
+     * @return KpiWeek
+     */
+    public function setMoyquestsatisfmontreq3s0($moyquestsatisfmontreq3s0)
+    {
+        $this->moyquestsatisfmontreq3s0 = $moyquestsatisfmontreq3s0;
+
+        return $this;
+    }
+
+    /**
+     * Get moyquestsatisfmontreq3s0
+     *
+     * @return string 
+     */
+    public function getMoyquestsatisfmontreq3s0()
+    {
+        return $this->moyquestsatisfmontreq3s0;
+    }
+
+    /**
+     * Set moyquestsatisfmontreq4s0
+     *
+     * @param string $moyquestsatisfmontreq4s0
+     * @return KpiWeek
+     */
+    public function setMoyquestsatisfmontreq4s0($moyquestsatisfmontreq4s0)
+    {
+        $this->moyquestsatisfmontreq4s0 = $moyquestsatisfmontreq4s0;
+
+        return $this;
+    }
+
+    /**
+     * Get moyquestsatisfmontreq4s0
+     *
+     * @return string 
+     */
+    public function getMoyquestsatisfmontreq4s0()
+    {
+        return $this->moyquestsatisfmontreq4s0;
+    }
+
+    /**
+     * Set moyquestsatisfmontreq5s0
+     *
+     * @param string $moyquestsatisfmontreq5s0
+     * @return KpiWeek
+     */
+    public function setMoyquestsatisfmontreq5s0($moyquestsatisfmontreq5s0)
+    {
+        $this->moyquestsatisfmontreq5s0 = $moyquestsatisfmontreq5s0;
+
+        return $this;
+    }
+
+    /**
+     * Get moyquestsatisfmontreq5s0
+     *
+     * @return string 
+     */
+    public function getMoyquestsatisfmontreq5s0()
+    {
+        return $this->moyquestsatisfmontreq5s0;
+    }
+
+    /**
+     * Set moyquestsatisfmontreq6s0
+     *
+     * @param string $moyquestsatisfmontreq6s0
+     * @return KpiWeek
+     */
+    public function setMoyquestsatisfmontreq6s0($moyquestsatisfmontreq6s0)
+    {
+        $this->moyquestsatisfmontreq6s0 = $moyquestsatisfmontreq6s0;
+
+        return $this;
+    }
+
+    /**
+     * Get moyquestsatisfmontreq6s0
+     *
+     * @return string 
+     */
+    public function getMoyquestsatisfmontreq6s0()
+    {
+        return $this->moyquestsatisfmontreq6s0;
+    }
+
+    /**
+     * Set moyquestsatisfpileq2s0
+     *
+     * @param string $moyquestsatisfpileq2s0
+     * @return KpiWeek
+     */
+    public function setMoyquestsatisfpileq2s0($moyquestsatisfpileq2s0)
+    {
+        $this->moyquestsatisfpileq2s0 = $moyquestsatisfpileq2s0;
+
+        return $this;
+    }
+
+    /**
+     * Get moyquestsatisfpileq2s0
+     *
+     * @return string 
+     */
+    public function getMoyquestsatisfpileq2s0()
+    {
+        return $this->moyquestsatisfpileq2s0;
+    }
+
+    /**
+     * Set moyquestsatisfpileq3s0
+     *
+     * @param string $moyquestsatisfpileq3s0
+     * @return KpiWeek
+     */
+    public function setMoyquestsatisfpileq3s0($moyquestsatisfpileq3s0)
+    {
+        $this->moyquestsatisfpileq3s0 = $moyquestsatisfpileq3s0;
+
+        return $this;
+    }
+
+    /**
+     * Get moyquestsatisfpileq3s0
+     *
+     * @return string 
+     */
+    public function getMoyquestsatisfpileq3s0()
+    {
+        return $this->moyquestsatisfpileq3s0;
+    }
+
+    /**
+     * Set moyquestsatisfpileq4s0
+     *
+     * @param string $moyquestsatisfpileq4s0
+     * @return KpiWeek
+     */
+    public function setMoyquestsatisfpileq4s0($moyquestsatisfpileq4s0)
+    {
+        $this->moyquestsatisfpileq4s0 = $moyquestsatisfpileq4s0;
+
+        return $this;
+    }
+
+    /**
+     * Get moyquestsatisfpileq4s0
+     *
+     * @return string 
+     */
+    public function getMoyquestsatisfpileq4s0()
+    {
+        return $this->moyquestsatisfpileq4s0;
     }
 
 }
