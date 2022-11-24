@@ -821,6 +821,7 @@
 	var date = new Date({{ currentKpi.date|date("Y") }}, {{ currentKpi.date|date("m") - 1 }});
 	var month = date.getMonth();
 	var year  = date.getFullYear();
+	var day   = date.getDate();
 
 	var startDate = new Date( year , month - 4)
 	var endDate = new Date( year, month, day + 7 );
