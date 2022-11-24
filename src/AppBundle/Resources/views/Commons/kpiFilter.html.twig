@@ -27,7 +27,7 @@
 						{% endif %}
 					</div>
 				</div>				
-				<div class="form-group {% if user_actuel.role not in ['ROLE_MARQUE','ROLE_DR'] or app.request.attributes.get('_route') in ['app_kpi_planning','app_kpi_satisfaction'] %}hidden{% endif %}">
+				<div class="form-group {% if user_actuel.role not in ['ROLE_MARQUE','ROLE_DR'] or app.request.attributes.get('_route') in ['app_kpi_planning','app_kpi_satisfaction','app_kpi_satisfaction_week','app_kpi_satisfaction_trim'] %}hidden{% endif %}">
 					<label for="month" class="col-xs-6 control-label">Réseau</label>
 					<div class="col-xs-6">
 						{{ form_widget(form.reseau, { 'attr': {'class' : 'form-control ajax', 'isSubmit': 'no'} }) }}
