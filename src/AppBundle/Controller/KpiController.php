@@ -1017,9 +1017,11 @@ class KpiController extends Controller
 			$id = $user->getId();
 		}
 
-
 		if($routeName == "app_kpi_week"){
 			return $this->redirectToRoute('app_kpi_week', array('user_actuel' => $user_actuel->getId(),'user_id' =>$id));
+		}
+		if($routeName == "app_kpi_satisfaction_week"){
+			return $this->redirectToRoute('app_kpi_satisfaction_week', array('user_actuel' => $user_actuel->getId(),'user_id' =>$id));
 		}
     }
 
@@ -1666,6 +1668,9 @@ class KpiController extends Controller
 
 		if($routeName == "app_kpi_trim"){
 			return $this->redirectToRoute('app_kpi_trim', array('user_actuel' => $user_actuel->getId(),'user_id' =>$id));
+		}
+		if($routeName == "app_kpi_satisfaction_trim"){
+			return $this->redirectToRoute('app_kpi_satisfaction_trim', array('user_actuel' => $user_actuel->getId(),'user_id' =>$id));
 		}
     }
 
