@@ -48,6 +48,14 @@ app_kpi_satisfaction:
     path:      /kpi/satisfaction/{user_actuel}/{user_id}
     defaults:  { _controller: AppBundle:Kpi:kpi, user_id: 0}
 
+app_kpi_satisfaction_week:
+    path:      /kpi/satisfaction_week/{user_actuel}/{user_id}
+    defaults:  { _controller: AppBundle:Kpi:kpiWeek, user_id: 0}
+
+app_kpi_satisfaction_trim:
+    path:      /kpi/satisfaction_trim/{user_actuel}/{user_id}
+    defaults:  { _controller: AppBundle:Kpi:kpiTrim, user_id: 0}
+
 app_kpi_fid:
     path:      /kpi/fid/{user_actuel}/{user_id}
     defaults:  { _controller: AppBundle:Kpi:kpi, user_id: 0}

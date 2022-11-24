@@ -1,0 +1,944 @@
+{% extends "AppBundle::layout.html.twig" %}
+
+{% block subheader %}
+	{% include 'AppBundle:Commons:kpiNav.html.twig' %}
+{% endblock %}
+
+{% block content %}
+
+	{% block clientsFilter %}
+		{% include 'AppBundle:Commons:kpiFilter.html.twig' %}
+	{% endblock %}
+
+
+	<div class="text-center col-xs-12">
+		<p>Les résultats ci-dessous ne sont pas calculés au niveau vendeur et sont mis à jour toutes les semaines</p>
+	</div>
+
+	<div id="ajax-content">
+					<!-- Nav tabs -->
+		<ul class="nav nav-tabs" role="tablist" style="font-weight:bold">
+			<li role="presentation" class="pull-left active"><a target="_blank" href="#global" aria-controls="global" role="tab" data-toggle="tab">NPS au global</a></li>
+			<li role="presentation" class="pull-left"><a target="_blank" href="#montres" aria-controls="montres" role="tab" data-toggle="tab">Clients montres</a></li>
+			<li role="presentation" class="pull-left"><a target="_blank" href="#piles" aria-controls="piles" role="tab" data-toggle="tab">Clients piles et bracelets</a></li>
+		</ul>
+
+		<div class="tab-content">
+			<div role="tabpanel" class="tab-pane active" style="padding:0; border:0" id="global">
+				<!-- DEBUT BLOC -->
+				{% if currentKpi is not null %}
+
+				<div class="col-xs-12">
+					<h2 class="text-uppercase gris-bg">RÉSULTATS DU NPS</h2>
+
+					<div class="col-xs-12 kpi-box">
+						<div class="inside col-xs-12 col-md-6">
+							<h4 class="text-uppercase black text-center">Mon NPS</h4>
+
+							<!-- Tab panes -->
+							<table class="table table-bordered table-hover" style="margin-bottom:0;">
+								<thead>
+									<tr>
+										<th class="col-xs-2"></th>
+										<th colspan="2" class="col-xs-2 text-center text-uppercase">Sur la semaine</th>
+									</tr>
+								</thead>
+								<thead>
+									<tr>
+										<th class="col-xs-2"></th>
+										<th class="text-center text-uppercase small" style="color:black;">Nombre de<br />répondants</th>
+										<th class="text-center text-uppercase small" style="color:black;">NPS</th>
+									</tr>
+								</thead>
+								<tbody>
+								{% if user_role != "ROLE_MARQUE" %}
+									<tr class="info">
+										<th class="text-right text-uppercase" style="color: #3399FF">Réseau</th>
+										<td class="text-center">{{marque.nbrequestsatisfs0|number_format(0, ',', ' ') }}</td>
+										<td class="text-center">{{marque.questsatisfnpss0|number_format(0, ',', ' ')}}</td>
+									</tr>
+								{% endif %}
+									<tr class="">
+										<th class="text-right text-uppercase" style="color: #000000">{{ currentKpi.user.username|replace({'LOUIS PION': 'RÉSEAU'}) }}</th>
+										<td class="text-center">{{currentKpi.nbrequestsatisfs0|number_format(0, ',', ' ') }}</td>
+										<td class="text-center">{{currentKpi.questsatisfnpss0|number_format(0, ',', ' ')}}</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+
+
+						<div class="inside col-xs-12 col-md-6">
+							<h4 class="text-uppercase black text-center">Évolution de mon NPS</h4>
+
+							<figure class="col-xs-12">
+								<div id="chartContainer4" class="col-xs-12" style="height: 194px;"></div>
+							</figure>
+							<div class="spacer"></div>
+						</div>
+
+						<div class="inside col-xs-12 text-center">
+							<p class="small"><br />Calcul du NPS : (Nombre de promoteurs - Nombre de detracteurs) / (Nombre de personnes interrogées) x 100<br />
+							Note pouvant aller de -100 à 100</p>
+						</div>
+					</div>
+
+				</div>
+				<div class="col-xs-12">
+					<h2 class="text-uppercase gris-bg">DÉTAILS DU NPS</h2>
+
+					<div class="col-xs-12 kpi-box">
+
+						<h4 class="text-uppercase black text-center">Détails de mon NPS</h4>
+
+						<div class="spacer"></div>
+						<table class="table table-bordered table-hover" style="margin-bottom:0;">
+							<thead>
+								<tr>
+									<th class="col-xs-2"></th>
+									<th colspan="3" class="col-xs-2 text-center text-uppercase">Sur la semaine</th>
+									<th colspan="3" class="col-xs-2 text-center text-uppercase">Depuis {% if currentKpi.date|date('Y') == "2017" %}Août{% else %}Janvier{% endif %} {{ currentKpi.date|date('Y') }}</th>
+								</tr>
+							</thead>
+							<thead>
+								<tr>
+									<th class=""></th>
+									<th class="text-center text-uppercase" style="color:green"><i class="fa fa-2x fa-child" aria-hidden="true"></i></th>
+									<th class="text-center text-uppercase" style="color:orange"><i class="fa fa-2x fa-male" aria-hidden="true"></i></th>
+									<th class="text-center text-uppercase" style="color:red"><i class="fa fa-2x fa-male" aria-hidden="true"></i></th>
+									<th class="text-center text-uppercase" style="color:green"><i class="fa fa-2x fa-child" aria-hidden="true"></i></th>
+									<th class="text-center text-uppercase" style="color:orange"><i class="fa fa-2x fa-male" aria-hidden="true"></i></th>
+									<th class="text-center text-uppercase" style="color:red"><i class="fa fa-2x fa-male" aria-hidden="true"></i></th>
+								</tr>
+								<tr>
+									<th class=""></th>
+									<th class="text-center text-uppercase small" style="color:black;">Nombre de promoteurs</th>
+									<th class="text-center text-uppercase small" style="color:black;">Nombre de passifs</th>
+									<th class="text-center text-uppercase small" style="color:black;">Nombre de détracteurs</th>
+									<th class="text-center text-uppercase small" style="color:black;">Nombre de promoteurs</th>
+									<th class="text-center text-uppercase small" style="color:black;">Nombre de passifs</th>
+									<th class="text-center text-uppercase small" style="color:black;">Nombre de détracteurs</th>
+								</tr>
+							</thead>
+							<tbody>
+								{% if user_role != "ROLE_MARQUE" %}
+								<tr class="info">
+									<th class="text-right text-uppercase" style="color: #3399FF">Réseau</th>
+									<td class="text-center">{{marque.txquestsatisfpromoteurds0|number_format(0, ',', ' ') }} %</td>
+									<td class="text-center">{{marque.txquestsatisfpassifs0|number_format(0, ',', ' ') }} %</td>
+									<td class="text-center">{{marque.txquestsatisfdetracteurs0|number_format(0, ',', ' ') }} %</td>
+								</tr>
+								{% endif %}
+								<tr class="">
+									<th class="text-right text-uppercase" style="color: #000000">{{ currentKpi.user.username|replace({'LOUIS PION': 'RÉSEAU'}) }}</th>
+									<td class="text-center">{{currentKpi.txquestsatisfpromoteurds0|number_format(0, ',', ' ') }} %</td>
+									<td class="text-center">{{currentKpi.txquestsatisfpassifs0|number_format(0, ',', ' ') }} %</td>
+									<td class="text-center">{{currentKpi.txquestsatisfdetracteurs0|number_format(0, ',', ' ') }} %</td>
+								</tr>
+							</tbody>
+						</table>
+
+						<div class="inside col-xs-12 text-center">
+							<p class="small"><br /><strong>Promoteurs</strong> : notes 9 et 10 | <strong>Passifs</strong> : notes 7 et 8 | <strong>Détracteurs</strong> : notes 0 à 6</p>
+						</div>
+					</div>
+
+				</div>
+
+				{% else %}
+					<div class="col-xs-12">
+						<h2 class="text-uppercase gris-bg text-center">Aucune donnée NPS pour la date demandée</h2>
+					</div>
+				{% endif %}
+
+				<div class="spacer" style="margin-bottom:0px;"></div>
+
+				{% if user_role not in ['ROLE_BOUTIQUE', 'ROLE_VENDEUR']  %}
+				<div class="col-xs-12">
+					{% if user_role == "ROLE_MARQUE" %}
+						<h2 class="text-uppercase gris-bg">Performances des DR du réseau {{user.username}}</h2>
+					{% elseif user_role == "ROLE_DR" %}
+						<h2 class="text-uppercase gris-bg">Performances des Boutiques du DR {{user.username}}</h2>
+					{% elseif user_role == "ROLE_BOUTIQUE" %}
+						<h2 class="text-uppercase gris-bg">Performances du Réseau</h2>
+					{% endif %}
+					<div class="col-xs-12 kpi-box">
+						<table class="table table-bordered table-hover" style="margin-bottom:0;">
+							<thead>
+								<tr>
+									<th class="col-xs-2"></th>
+									<th colspan="2" class="col-xs-2 text-center text-uppercase">Sur la semaine</th>
+								</tr>
+							</thead>
+							<thead>
+								<tr>
+									<th class="col-xs-2"></th>
+									<th class="col-xs-2 text-center text-uppercase">Nombre de répondants</th>
+									<th class="col-xs-2 text-center text-uppercase">NPS</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr class="info">
+									<th class="text-right text-uppercase" style="color: #3399FF">Réseau</th>
+									<td class="text-center">{{marque.nbrequestsatisfs0|number_format(0, ',', ' ') }}</td>
+									<td class="text-center">{{ marque.questsatisfnpss0|number_format(0, ',', ' ')}}</td>
+								</tr>
+								{% if user_role == "ROLE_MARQUE" %}
+									{% for boutique in getDrsMarque %}
+										{% set keyloop = loop.index %}
+										{% if getDrsMarque is not null %}
+											<tr>
+												<th class="text-right text-uppercase"><i class="fa fa-plus-circle" aria-hidden="true" data="boutiques_{{keyloop}}" style="cursor:pointer;"></i>&nbsp;&nbsp;<a target="_blank" href="{{ path('app_kpi_satisfaction', { 'user_actuel' : userId, 'user_id' : boutique.user.id } ) }}">{{boutique.user.username|replace({'LOUIS PION': 'RÉSEAU'})}}</a></th>
+												<td class="text-center">{{ boutique.nbrequestsatisfs0|number_format(0, ',', ' ') }}</td>
+												<td class="text-center">{{ boutique.questsatisfnpss0|number_format(0, ',', ' ')}}</td>
+											</tr>
+										{% endif %}
+										{% for boutique2 in getBoutiquesDr %}
+											<tbody class="boutiques_{{keyloop}}" style="display:none;">
+											{% for boutique3 in boutique2 %}
+												{% if boutique3.user.dr == boutique.user.username %}
+													<tr>
+														<th class="text-right text-uppercase small"><a target="_blank" href="{{ path('app_kpi_satisfaction', { 'user_actuel' : userId, 'user_id' : boutique3.user.id } ) }}">{{boutique3.user.username|replace({'LOUIS PION': 'RÉSEAU'})}}</a></th>
+														<td class="text-center">{{ boutique3.nbrequestsatisfs0|number_format(0, ',', ' ') }}</td>
+														<td class="text-center">{{ boutique3.questsatisfnpss0|number_format(0, ',', ' ')}}</td>
+													</tr>
+												{% endif %}
+											{% endfor %}
+											</tbody>
+										{% endfor %}
+									{% endfor %}
+								{% elseif user_role == "ROLE_DR" %}
+									{% for boutique in getBoutiquesDr %}
+										{% if getBoutiquesDr is not null and boutique.nbTransacYtd > 0 %}
+											<tr>
+												<th class="text-right text-uppercase"><a target="_blank" href="{{ path('app_kpi_satisfaction', { 'user_actuel' : userId, 'user_id' : boutique.user.id } ) }}">{{boutique.user.username|replace({'LOUIS PION': 'RÉSEAU'})}}</a></th>
+												<td class="text-center">{{ boutique.nbrequestsatisfs0|number_format(0, ',', ' ') }}</td>
+												<td class="text-center">{{ boutique.questsatisfnpss0|number_format(0, ',', ' ')}}</td>
+											</tr>
+										{% endif %}
+									{% endfor %}
+								{% endif %}
+							</tbody>
+						</table>
+					</div>
+				</div>
+
+
+				<div class="spacer" style="margin-bottom:0px;"></div>
+				{% endif %}
+
+				<div class="col-xs-12">
+
+					<h2 class="text-uppercase gris-bg">Le top boutique {{ user.brand }}</h2>
+					<div class="col-xs-12 kpi-box">
+						<div class="inside">
+							<div style="height:20px;" class="spacer"></div>
+
+							{{ form_start(formRank, {'id' : 'data-export'}) }}
+								<div class="col-xs-12">
+									{{ form_widget(formRank.data) }}
+									{{ form_widget(formRank.submit, {'attr': {'class': 'btn big-action-gray-btn'}, 'label' : 'Exporter le classement NPS'}) }}
+								</div>
+							{{ form_end(formRank) }}
+						</div>
+					</div>
+				</div>
+
+
+
+				<!-- FIN BLOC -->
+			</div>
+			<div role="tabpanel" class="tab-pane" style="padding:0;border:0;" id="montres">
+				<!-- DEBUT BLOC -->
+				{% if currentKpi.nbrequestsatisfs0 > 0 %}
+
+				<div class="col-xs-12">
+					<h2 class="text-uppercase gris-bg">RÉSULTATS DU QUESTIONNAIRE</h2>
+
+					<div class="col-xs-12 kpi-box">
+						<div class="inside col-xs-12 col-md-6">
+
+							<h4 class="text-uppercase black text-center">&nbsp;</h4>
+
+							<table class="table table-bordered table-hover" style="margin-bottom:0;">
+								<thead>
+									<tr>
+										<th class="col-xs-2"></th>
+										<th {% if user_id != '101' %}colspan="2"{% endif %} class="col-xs-2 text-center text-uppercase">Sur la semaine</th>
+										<th {% if user_id != '101' %}colspan="2"{% endif %} class="col-xs-2 text-center text-uppercase">Depuis {% if currentKpi.date|date('Y') == "2017" %}Août{% else %}Janvier{% endif %} {{ currentKpi.date|date('Y') }}</th>
+									</tr>
+								</thead>
+								{% if user_id != '101' %}
+								<thead>
+									<tr>
+										<th class="col-xs-2" style="border:0;"></th>
+										{% if user_id != '101' %}<th class="text-center text-uppercase small info" style="color:black;">Réseau</th>{% endif %}
+										<th class="text-center text-uppercase small" style="color:black;">{{ currentKpi.user.username|replace({'LOUIS PION': 'RÉSEAU'}) }}</th>
+									</tr>
+								</thead>
+								{% endif %}
+								<tbody>
+									<tr class="">
+										<th class="text-right text-uppercase small" style="color: #000000">Nombre de répondants</th>
+										{% if user_id != '101' %}
+											<td class="text-center info">{{marque.nbrequestsatisfmontreds0|number_format(0, ',', ' ') }}</td>
+										{% endif %}
+										<td class="text-center">{{currentKpi.nbrequestsatisfmontreds0|number_format(0, ',', ' ')}}</td>
+									</tr>
+									<tr class="">
+										<th class="text-right text-uppercase small" style="color: #000000;">Question n°2</th>
+										{% if user_id != '101' %}
+											<td class="text-center info">{{marque.moyquestsatisfmontreq2s0|number_format(1, ',', ' ') }}</td>
+										{% endif %}
+										<td class="text-center">{{currentKpi.moyquestsatisfmontreq2s0|number_format(1, ',', ' ')}}</td>
+									</tr>
+									<tr class="">
+										<th class="text-right text-uppercase small" style="color: #000000;">Question n°3</th>
+										{% if user_id != '101' %}
+											<td class="text-center info">{{marque.moyquestsatisfmontreq3s0|number_format(1, ',', ' ') }}</td>
+										{% endif %}
+										<td class="text-center">{{currentKpi.moyquestsatisfmontreq3s0|number_format(1, ',', ' ')}}</td>
+									</tr>
+									<tr class="">
+										<th class="text-right text-uppercase small" style="color: #000000;">Question n°4</th>
+										{% if user_id != '101' %}
+											<td class="text-center info">{{marque.moyquestsatisfmontreq4s0|number_format(1, ',', ' ') }}</td>
+										{% endif %}
+										<td class="text-center">{{currentKpi.moyquestsatisfmontreq4s0|number_format(1, ',', ' ')}}</td>
+									</tr>
+									<tr class="">
+										<th class="text-right text-uppercase small" style="color: #000000;">Question n°5</th>
+										{% if user_id != '101' %}
+											<td class="text-center info">{{marque.moyquestsatisfmontreq5s0|number_format(1, ',', ' ') }}</td>
+										{% endif %}
+										<td class="text-center">{{currentKpi.moyquestsatisfmontreq5s0|number_format(1, ',', ' ')}}</td>
+									</tr>
+									<tr class="">
+										<th class="text-right text-uppercase small" style="color: #000000;">Question n°6</th>
+										{% if user_id != '101' %}
+											<td class="text-center info">{{marque.moyquestsatisfmontreq6s0|number_format(1, ',', ' ') }}</td>
+										{% endif %}
+										<td class="text-center">{{currentKpi.moyquestsatisfmontreq6s0|number_format(1, ',', ' ')}}</td>
+									</tr>
+									<tr class="">
+										{% set moyenne_marque_m = (marque.moyquestsatisfmontreq2s0 + marque.moyquestsatisfmontreq3s0 + marque.moyquestsatisfmontreq4s0 + marque.moyquestsatisfmontreq5s0 + marque.moyquestsatisfmontreq6s0) / 5  %}
+										
+										{% set moyenne_currentKpi_m = (currentKpi.moyquestsatisfmontreq2s0 + currentKpi.moyquestsatisfmontreq3s0 + currentKpi.moyquestsatisfmontreq4s0 + currentKpi.moyquestsatisfmontreq5s0 + currentKpi.moyquestsatisfmontreq6s0) / 5  %}
+										
+										<th class="text-right text-uppercase small" style="color: #000000;">Moyenne</th>
+										{% if user_id != '101' %}
+											<td class="text-center info">{{moyenne_marque_m|number_format(1, ',', ' ') }}</td>
+										{% endif %}
+										<td class="text-center">{{moyenne_currentKpi_m|number_format(1, ',', ' ')}}</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+
+						<div class="inside col-xs-12 col-md-6">
+							<h4 class="text-uppercase black text-center">VERBATIMS</h4>
+
+							{{ form_start(formMontre, {'id' : 'data-export'}) }}
+								<div class="col-xs-12">
+									{{ form_widget(formMontre.data) }}
+									{{ form_widget(formMontre.submit, {'attr': {'class': 'btn big-action-gray-btn'}, 'label' : 'Exporter les évaluations clients de la semaine'}) }}
+								</div>
+							{{ form_end(formMontre) }}
+
+							<div class="spacer"></div>
+
+							{{ form_start(formMontreAll, {'id' : 'data-export'}) }}
+								<div class="col-xs-12">
+									{{ form_widget(formMontreAll.data) }}
+									{{ form_widget(formMontreAll.submit, {'attr': {'class': 'btn big-action-gray-btn'}, 'label' : 'Exporter toutes les évaluations clients'}) }}
+								</div>
+							{{ form_end(formMontreAll) }}
+
+							<div class="spacer"></div>
+
+							<p><strong>Rappel des questions : <br /></strong>&nbsp;<br /><span class="small">
+								<strong>N°2 : </strong>Quelle note donneriez-vous à votre accueil en boutique ?<br />
+								<strong>N°3 : </strong>Quelle note donneriez-vous au temps d'attente avant la prise en charge ?<br />
+								<strong>N°4 : </strong>Quelle note donneriez-vous à la présentation des produits (vitrines, merchandising...) ?<br />
+								<strong>N°5 : </strong>Quelle note donneriez-vous au choix des produits (marques, styles...) ?<br />
+								<strong>N°6 : </strong>Quelle note donneriez-vous à votre expérience d'achat (conseils, services proposés...) ?
+								</span>
+							</p>
+
+							<div class="spacer"></div>
+						</div>
+
+						<div class="inside col-xs-12 text-center">
+							<p class="small"><br /></p>
+						</div>
+					</div>
+
+				</div>
+
+				{% else %}
+					<div class="col-xs-12">
+						<h2 class="text-uppercase gris-bg text-center">Aucune donnée NPS pour la date demandée</h2>
+					</div>
+				{% endif %}
+
+				<div class="spacer" style="margin-bottom:0px;"></div>
+
+				{% if user_role not in ['ROLE_BOUTIQUE', 'ROLE_VENDEUR']  %}
+
+				<div class="col-xs-12">
+					{% if user_role == "ROLE_MARQUE" %}
+						<h2 class="text-uppercase gris-bg">Performances des DR du réseau {{user.username}}</h2>
+					{% elseif user_role == "ROLE_DR" %}
+						<h2 class="text-uppercase gris-bg">Performances des Boutiques du DR {{user.username}}</h2>
+					{% elseif user_role == "ROLE_BOUTIQUE" %}
+						<h2 class="text-uppercase gris-bg">Performances du Réseau</h2>
+					{% endif %}
+					<div class="col-xs-12 kpi-box">
+						<table class="table table-bordered table-hover" style="margin-bottom:0;">
+							<thead>
+								<tr>
+									<th class="col-xs-2"></th>
+									<th colspan="7" class="col-xs-2 text-center text-uppercase">Sur la semaine</th>
+									<th colspan="7" class="col-xs-2 text-center text-uppercase">Depuis {% if currentKpi.date|date('Y') == "2017" %}Août{% else %}Janvier{% endif %} {{ currentKpi.date|date('Y') }}</th>
+								</tr>
+							</thead>
+							<thead>
+								<tr>
+									<th class=""></th>
+									<th class="small text-center" style="color:#000;">Nb. de<br />Répondants</th>
+									<th class="small text-center" style="color:#000;">Moy.<br />Q. 2</th>
+									<th class="small text-center" style="color:#000;">Moy.<br />Q. 3</th>
+									<th class="small text-center" style="color:#000;">Moy.<br />Q. 4</th>
+									<th class="small text-center" style="color:#000;">Moy.<br />Q. 5</th>
+									<th class="small text-center" style="color:#000;">Moy.<br />Q. 6</th>
+									<th class="small text-center" style="color:#000;">Moy.</th>
+									<th class="small text-center" style="color:#000;">Nb. de<br />Répondants</th>
+									<th class="small text-center" style="color:#000;">Moy.<br />Q. 2</th>
+									<th class="small text-center" style="color:#000;">Moy.<br />Q. 3</th>
+									<th class="small text-center" style="color:#000;">Moy.<br />Q. 4</th>
+									<th class="small text-center" style="color:#000;">Moy.<br />Q. 5</th>
+									<th class="small text-center" style="color:#000;">Moy.<br />Q. 6</th>
+									<th class="small text-center" style="color:#000;">Moy.</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr class="info">
+									<th class="text-right text-uppercase small" style="color: #3399FF">Réseau</th>
+									<td class="text-center">{{ marque.nbrequestsatisfmontreds0|number_format(0, ',', ' ') }}</td>
+									<td class="text-center">{{ marque.moyquestsatisfmontreq2s0|number_format(1, ',', ' ')}}</td>
+									<td class="text-center">{{ marque.moyquestsatisfmontreq3s0|number_format(1, ',', ' ')}}</td>
+									<td class="text-center">{{ marque.moyquestsatisfmontreq4s0|number_format(1, ',', ' ')}}</td>
+									<td class="text-center">{{ marque.moyquestsatisfmontreq5s0|number_format(1, ',', ' ')}}</td>
+									<td class="text-center">{{ marque.moyquestsatisfmontreq6s0|number_format(1, ',', ' ')}}</td>
+									<td class="text-center ">{{moyenne_marque_m|number_format(1, ',', ' ') }}</td>
+								</tr>
+								{% if user_role == "ROLE_MARQUE" %}
+									{% for boutique in getDrsMarque %}
+										{% set keyloop = loop.index %}
+										{% if getDrsMarque is not null %}
+											{% set moyenne_boutique_m = (boutique.moyquestsatisfmontreq2s0 + boutique.moyquestsatisfmontreq3s0 + boutique.moyquestsatisfmontreq4s0 + boutique.moyquestsatisfmontreq5s0 + boutique.moyquestsatisfmontreq6s0) / 5  %}
+											<tr>
+												<th class="text-right text-uppercase small"><i class="fa fa-plus-circle" aria-hidden="true" data="boutiques2_{{keyloop}}" style="cursor:pointer;"></i>&nbsp;&nbsp;<a target="_blank" href="{{ path('app_kpi_satisfaction', { 'user_actuel' : userId, 'user_id' : boutique.user.id } ) }}">{{boutique.user.username|replace({'LOUIS PION': 'RÉSEAU'})}}</a></th>
+												<td class="text-center">{{ boutique.nbrequestsatisfmontreds0|number_format(0, ',', ' ') }}</td>
+												<td class="text-center">{{ boutique.moyquestsatisfmontreq2s0|number_format(1, ',', ' ')}}</td>
+												<td class="text-center">{{ boutique.moyquestsatisfmontreq3s0|number_format(1, ',', ' ')}}</td>
+												<td class="text-center">{{ boutique.moyquestsatisfmontreq4s0|number_format(1, ',', ' ')}}</td>
+												<td class="text-center">{{ boutique.moyquestsatisfmontreq5s0|number_format(1, ',', ' ')}}</td>
+												<td class="text-center">{{ boutique.moyquestsatisfmontreq6s0|number_format(1, ',', ' ')}}</td>
+												<td class="text-center ">{{moyenne_boutique_m|number_format(1, ',', ' ') }}</td>
+											</tr>
+										{% endif %}
+										{% for boutique2 in getBoutiquesDr %}
+											<tbody class="boutiques2_{{keyloop}}" style="display:none;">
+											{% for boutique3 in boutique2 %}
+												{% if boutique3.user.dr == boutique.user.username %}
+													{% set moyenne_boutique3_m = (boutique3.moyquestsatisfmontreq2s0 + boutique3.moyquestsatisfmontreq3s0 + boutique3.moyquestsatisfmontreq4s0 + boutique3.moyquestsatisfmontreq5s0 + boutique3.moyquestsatisfmontreq6s0) / 5  %}
+													<tr>
+														<th class="text-right text-uppercase small"><a target="_blank" href="{{ path('app_kpi_satisfaction', { 'user_actuel' : userId, 'user_id' : boutique3.user.id } ) }}">{{boutique3.user.username|replace({'LOUIS PION': 'RÉSEAU'})}}</a></th>
+														<td class="text-center">{{ boutique3.nbrequestsatisfmontreds0|number_format(0, ',', ' ') }}</td>
+														<td class="text-center">{{ boutique3.moyquestsatisfmontreq2s0|number_format(1, ',', ' ')}}</td>
+														<td class="text-center">{{ boutique3.moyquestsatisfmontreq3s0|number_format(1, ',', ' ')}}</td>
+														<td class="text-center">{{ boutique3.moyquestsatisfmontreq4s0|number_format(1, ',', ' ')}}</td>
+														<td class="text-center">{{ boutique3.moyquestsatisfmontreq5s0|number_format(1, ',', ' ')}}</td>
+														<td class="text-center">{{ boutique3.moyquestsatisfmontreq6s0|number_format(1, ',', ' ')}}</td>
+														<td class="text-center ">{{moyenne_boutique3_m|number_format(1, ',', ' ') }}</td>
+													</tr>
+												{% endif %}
+											{% endfor %}
+											</tbody>
+										{% endfor %}
+									{% endfor %}
+								{% elseif user_role == "ROLE_DR" %}
+									{% for boutique in getBoutiquesDr %}
+										{% if getBoutiquesDr is not null and boutique.nbTransacYtd > 0 %}
+											{% set moyenne_boutique_m = (boutique.moyquestsatisfmontreq2s0 + boutique.moyquestsatisfmontreq3s0 + boutique.moyquestsatisfmontreq4s0 + boutique.moyquestsatisfmontreq5s0 + boutique.moyquestsatisfmontreq6s0) / 5  %}
+											<tr>
+												<th class="text-right text-uppercase small"><a target="_blank" href="{{ path('app_kpi_satisfaction', { 'user_actuel' : userId, 'user_id' : boutique.user.id } ) }}">{{boutique.user.username|replace({'LOUIS PION': 'RÉSEAU'})}}</a></th>
+												<td class="text-center">{{ boutique.nbrequestsatisfmontreds0|number_format(0, ',', ' ') }}</td>
+												<td class="text-center">{{ boutique.moyquestsatisfmontreq2s0|number_format(1, ',', ' ')}}</td>
+												<td class="text-center">{{ boutique.moyquestsatisfmontreq3s0|number_format(1, ',', ' ')}}</td>
+												<td class="text-center">{{ boutique.moyquestsatisfmontreq4s0|number_format(1, ',', ' ')}}</td>
+												<td class="text-center">{{ boutique.moyquestsatisfmontreq5s0|number_format(1, ',', ' ')}}</td>
+												<td class="text-center">{{ boutique.moyquestsatisfmontreq6s0|number_format(1, ',', ' ')}}</td>
+												<td class="text-center ">{{moyenne_boutique_m|number_format(1, ',', ' ') }}</td>
+											</tr>
+										{% endif %}
+									{% endfor %}
+								{% endif %}
+							</tbody>
+						</table>
+					</div>
+				</div>
+			{% endif %}
+
+
+
+				<!-- FIN BLOC -->
+
+			</div>
+			<div role="tabpanel" class="tab-pane" style="padding:0;border:0;" id="piles">
+				<!-- DEBUT BLOC -->
+				{% if currentKpi.nbrequestsatisfs0 > 0 %}
+
+				<div class="col-xs-12">
+					<h2 class="text-uppercase gris-bg">RÉSULTATS DU QUESTIONNAIRE</h2>
+
+					<div class="col-xs-12 kpi-box">
+						<div class="inside col-xs-12 col-md-6">
+
+							<h4 class="text-uppercase black text-center">&nbsp;</h4>
+
+							<table class="table table-bordered table-hover" style="margin-bottom:0;">
+								<thead>
+									<tr>
+										<th class="col-xs-2"></th>
+										<th {% if user_id != '101' %}colspan="2"{% endif %} class="col-xs-2 text-center text-uppercase">Sur la semaine</th>
+										<th {% if user_id != '101' %}colspan="2"{% endif %} class="col-xs-2 text-center text-uppercase">Depuis {% if currentKpi.date|date('Y') == "2017" %}Août{% else %}Janvier{% endif %} {{ currentKpi.date|date('Y') }}</th>
+									</tr>
+								</thead>
+								{% if user_id != '101' %}
+								<thead>
+									<tr>
+										<th class="col-xs-2" style="border:0;"></th>
+										{% if user_id != '101' %}
+											<th class="text-center text-uppercase small info" style="color:black;">Réseau</th>
+										{% endif %}
+										<th class="text-center text-uppercase small" style="color:black;">{{ currentKpi.user.username|replace({'LOUIS PION': 'RÉSEAU'}) }}</th>
+										{% if user_id != '101' %}
+											<th class="text-center text-uppercase small info" style="color:black;">Réseau</th>
+										{% endif %}
+										<th class="text-center text-uppercase small" style="color:black;">{{ currentKpi.user.username|replace({'LOUIS PION': 'RÉSEAU'}) }}</th>
+									</tr>
+								</thead>
+							{% endif %}
+								<tbody>
+										{% set moyenne_marque_m = (marque.moyquestsatisfpileq2s0 + marque.moyquestsatisfpileq3s0 + marque.moyquestsatisfpileq4s0) / 3  %}
+										{% set moyenne_currentKpi_m = (currentKpi.moyquestsatisfpileq2s0 + currentKpi.moyquestsatisfpileq3s0 + currentKpi.moyquestsatisfpileq4s0) / 3  %}
+									<tr class="">
+										<th class="text-right text-uppercase small" style="color: #000000">Nombre de répondants</th>
+										{% if user_id != '101' %}
+											<td class="text-center info">{{marque.nbrequestsatisfpileds0|number_format(0, ',', ' ') }}</td>
+										{% endif %}
+										<td class="text-center">{{currentKpi.nbrequestsatisfpileds0|number_format(0, ',', ' ')}}</td>
+									</tr>
+									<tr class="">
+										<th class="text-right text-uppercase small" style="color: #000000;">Question n°2</th>
+										{% if user_id != '101' %}
+											<td class="text-center info">{{marque.moyquestsatisfpileq2s0|number_format(1, ',', ' ') }}</td>
+										{% endif %}
+										<td class="text-center">{{currentKpi.moyquestsatisfpileq2s0|number_format(1, ',', ' ')}}</td>
+									</tr>
+									<tr class="">
+										<th class="text-right text-uppercase small" style="color: #000000;">Question n°3</th>
+										{% if user_id != '101' %}
+											<td class="text-center info">{{marque.moyquestsatisfpileq3s0|number_format(1, ',', ' ') }}</td>
+										{% endif %}
+										<td class="text-center">{{currentKpi.moyquestsatisfpileq3s0|number_format(1, ',', ' ')}}</td>
+									</tr>
+									<tr class="">
+										<th class="text-right text-uppercase small" style="color: #000000;">Question n°4</th>
+										{% if user_id != '101' %}
+											<td class="text-center info">{{marque.moyquestsatisfpileq4s0|number_format(1, ',', ' ') }}</td>
+										{% endif %}
+										<td class="text-center">{{currentKpi.moyquestsatisfpileq4s0|number_format(1, ',', ' ')}}</td>
+									</tr>
+									<tr class="">
+										<th class="text-right text-uppercase small" style="color: #000000;">Moyenne</th>
+										{% if user_id != '101' %}
+											<td class="text-center info">{{moyenne_marque_m|number_format(1, ',', ' ') }}</td>
+										{% endif %}
+										<td class="text-center">{{moyenne_currentKpi_m|number_format(1, ',', ' ')}}</td>
+									</tr>
+								</tbody>
+							</table>
+
+						</div>
+
+						<div class="inside col-xs-12 col-md-6">
+							<h4 class="text-uppercase black text-center">VERBATIMS</h4>
+
+							{{ form_start(formPile, {'id' : 'data-export'}) }}
+								<div class="col-xs-12">
+									{{ form_widget(formPile.data) }}
+									{{ form_widget(formPile.submit, {'attr': {'class': 'btn big-action-gray-btn'}, 'label' : 'Exporter les évaluations clients de la semaine'}) }}
+								</div>
+							{{ form_end(formPile) }}
+
+							<div class="spacer"></div>
+
+							{{ form_start(formPileAll, {'id' : 'data-export'}) }}
+								<div class="col-xs-12">
+									{{ form_widget(formPileAll.data) }}
+									{{ form_widget(formPileAll.submit, {'attr': {'class': 'btn big-action-gray-btn'}, 'label' : 'Exporter toutes les évaluations clients'}) }}
+								</div>
+							{{ form_end(formPileAll) }}
+
+							<div class="spacer"></div>
+
+							<p><strong>Rappel des questions : <br /></strong>&nbsp;<br /><span class="small">
+								<strong>N°2 :</strong> Quelle note donneriez-vous à votre accueil en boutique ?<br />
+								<strong>N°3 :</strong> Quelle note donneriez-vous au temps d'attente avant la prise en charge ?<br />
+								<strong>N°4 :</strong> Quelle note donneriez-vous à votre expérience d'achat (conseils, services proposés...) ?
+									</span>
+							</p>
+						</div>
+
+						<div class="inside col-xs-12 text-center">
+							<p class="small"><br /></p>
+						</div>
+					</div>
+
+				</div>
+
+				{% else %}
+					<div class="col-xs-12">
+						<h2 class="text-uppercase gris-bg text-center">Aucune donnée NPS pour la date demandée</h2>
+					</div>
+				{% endif %}
+
+				<div class="spacer" style="margin-bottom:0px;"></div>
+
+				{% if user_role not in ['ROLE_BOUTIQUE', 'ROLE_VENDEUR']  %}
+
+				<div class="col-xs-12">
+					{% if user_role == "ROLE_MARQUE" %}
+						<h2 class="text-uppercase gris-bg">Performances des DR du réseau {{user.username}}</h2>
+					{% elseif user_role == "ROLE_DR" %}
+						<h2 class="text-uppercase gris-bg">Performances des Boutiques du DR {{user.username}}</h2>
+					{% elseif user_role == "ROLE_BOUTIQUE" %}
+						<h2 class="text-uppercase gris-bg">Performances du Réseau</h2>
+					{% endif %}
+					<div class="col-xs-12 kpi-box">
+						<table class="table table-bordered table-hover" style="margin-bottom:0;">
+							<thead>
+								<tr>
+									<th class="col-xs-2"></th>
+									<th colspan="5" class="col-xs-2 text-center text-uppercase">Sur la semaine</th>
+									<th colspan="5" class="col-xs-2 text-center text-uppercase">Depuis {% if currentKpi.date|date('Y') == "2017" %}Août{% else %}Janvier{% endif %} {{ currentKpi.date|date('Y') }}</th>
+								</tr>
+							</thead>
+							<thead>
+								<tr>
+									<th class=""></th>
+									<th class="small text-center" style="color:#000;">Nb. de<br />Répondants</th>
+									<th class="small text-center" style="color:#000;">Moy.<br />Q. 2</th>
+									<th class="small text-center" style="color:#000;">Moy.<br />Q. 3</th>
+									<th class="small text-center" style="color:#000;">Moy.<br />Q. 4</th>
+									<th class="small text-center" style="color:#000;">Moy.</th>
+									<th class="small text-center" style="color:#000;">Nb. de<br />Répondants</th>
+									<th class="small text-center" style="color:#000;">Moy.<br />Q. 2</th>
+									<th class="small text-center" style="color:#000;">Moy.<br />Q. 3</th>
+									<th class="small text-center" style="color:#000;">Moy.<br />Q. 4</th>
+									<th class="small text-center" style="color:#000;">Moy.</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr class="info">
+									<th class="text-right text-uppercase small" style="color: #3399FF">Réseau</th>
+									<td class="text-center">{{ marque.nbrequestsatisfpileds0|number_format(0, ',', ' ') }}</td>
+									<td class="text-center">{{ marque.moyquestsatisfpileq2s0|number_format(1, ',', ' ')}}</td>
+									<td class="text-center">{{ marque.moyquestsatisfpileq3s0|number_format(1, ',', ' ')}}</td>
+									<td class="text-center">{{ marque.moyquestsatisfpileq4s0|number_format(1, ',', ' ')}}</td>
+										<td class="text-center info">{{moyenne_marque_m|number_format(1, ',', ' ') }}</td>
+								</tr>
+								{% if user_role == "ROLE_MARQUE" %}
+									{% for boutique in getDrsMarque %}
+										{% set keyloop = loop.index %}
+										{% if getDrsMarque is not null %}
+											{% set moyenne_boutique_m = (boutique.moyquestsatisfpileq2s0 + boutique.moyquestsatisfpileq3s0 + boutique.moyquestsatisfpileq4s0) / 3  %}
+											<tr>
+												<th class="text-right text-uppercase small"><i class="fa fa-plus-circle" aria-hidden="true" data="boutiques3_{{keyloop}}" style="cursor:pointer;"></i>&nbsp;&nbsp;<a target="_blank" href="{{ path('app_kpi_satisfaction', { 'user_actuel' : userId, 'user_id' : boutique.user.id } ) }}">{{boutique.user.username|replace({'LOUIS PION': 'RÉSEAU'})}}</a></th>
+												<td class="text-center">{{ boutique.nbrequestsatisfpileds0|number_format(0, ',', ' ') }}</td>
+												<td class="text-center">{{ boutique.moyquestsatisfpileq2s0|number_format(1, ',', ' ')}}</td>
+												<td class="text-center">{{ boutique.moyquestsatisfpileq3s0|number_format(1, ',', ' ')}}</td>
+												<td class="text-center">{{ boutique.moyquestsatisfpileq4s0|number_format(1, ',', ' ')}}</td>
+												<td class="text-center">{{ moyenne_boutique_m|number_format(1, ',', ' ')}}</td>
+											</tr>
+										{% endif %}
+										{% for boutique2 in getBoutiquesDr %}
+											<tbody class="boutiques3_{{keyloop}}" style="display:none;">
+											{% for boutique3 in boutique2 %}
+												{% if boutique3.user.dr == boutique.user.username %}
+													{% set moyenne_boutique_m3 = (boutique3.moyquestsatisfpileq2s0 + boutique3.moyquestsatisfpileq3s0 + boutique3.moyquestsatisfpileq4s0) / 3  %}
+													<tr>
+														<th class="text-right text-uppercase small"><a target="_blank" href="{{ path('app_kpi_satisfaction', { 'user_actuel' : userId, 'user_id' : boutique3.user.id } ) }}">{{boutique3.user.username|replace({'LOUIS PION': 'RÉSEAU'})}}</a></th>
+														<td class="text-center">{{ boutique3.nbrequestsatisfpileds0|number_format(0, ',', ' ') }}</td>
+														<td class="text-center">{{ boutique3.moyquestsatisfpileq2s0|number_format(1, ',', ' ')}}</td>
+														<td class="text-center">{{ boutique3.moyquestsatisfpileq3s0|number_format(1, ',', ' ')}}</td>
+														<td class="text-center">{{ boutique3.moyquestsatisfpileq4s0|number_format(1, ',', ' ')}}</td>
+														<td class="text-center">{{ moyenne_boutique_m3|number_format(1, ',', ' ')}}</td>
+													</tr>
+												{% endif %}
+											{% endfor %}
+											</tbody>
+										{% endfor %}
+									{% endfor %}
+								{% elseif user_role == "ROLE_DR" %}
+									{% for boutique in getBoutiquesDr %}
+										{% if getBoutiquesDr is not null and boutique.nbTransacYtd > 0 %}
+											{% set moyenne_boutique_m = (boutique.moyquestsatisfpileq2s0 + boutique.moyquestsatisfpileq3s0 + boutique.moyquestsatisfpileq4s0) / 3  %}
+											<tr>
+												<th class="text-right text-uppercase small"><a target="_blank" href="{{ path('app_kpi_satisfaction', { 'user_actuel' : userId, 'user_id' : boutique.user.id } ) }}">{{boutique.user.username|replace({'LOUIS PION': 'RÉSEAU'})}}</a></th>
+												<td class="text-center">{{ boutique.nbrequestsatisfpileds0|number_format(0, ',', ' ') }}</td>
+												<td class="text-center">{{ boutique.moyquestsatisfpileq2s0|number_format(1, ',', ' ')}}</td>
+												<td class="text-center">{{ boutique.moyquestsatisfpileq3s0|number_format(1, ',', ' ')}}</td>
+												<td class="text-center">{{ boutique.moyquestsatisfpileq4s0|number_format(1, ',', ' ')}}</td>
+												<td class="text-center">{{ moyenne_boutique_m|number_format(1, ',', ' ')}}</td>
+											</tr>
+										{% endif %}
+									{% endfor %}
+								{% endif %}
+							</tbody>
+						</table>
+					</div>
+				</div>
+
+				{% endif %}
+
+				<!-- FIN BLOC -->
+
+			</div>
+		</div>
+
+
+	</div>
+
+	<div style="height:30px;" class="spacer"></div>
+
+{% endblock %}
+
+{% block canvasJs %}
+
+	<script type="text/javascript">
+
+	$(function(){
+
+		$(document).on('change', '#appbundle_kpi_filter_month', function() {
+    		$('#clients-filter').submit();
+    		$('#spinner').show();
+    	});
+    	$(document).on('change', '#appbundle_kpi_filter_year', function() {
+    		$('#clients-filter').submit();
+    		$('#spinner').show();
+    	});
+
+
+    	$(document).on('click', '.fa-plus-circle', function() {
+    		$(this).removeClass('fa-plus-circle');
+    		$(this).addClass('fa-minus-circle');
+
+    		var id = $(this).attr('data');
+    		//$('.'+id).removeClass('hidden');
+    		$('.'+id).show();
+    		console.log('.'+id);
+    	});
+
+
+    	$(document).on('click', '.fa-minus-circle', function() {
+    		$(this).removeClass('fa-minus-circle');
+    		$(this).addClass('fa-plus-circle');
+
+    		var id = $(this).attr('data');
+    		//$('.'+id).addClass('hidden');
+    		$('.'+id).hide();
+    		console.log('.'+id);
+    	});
+
+    	$(document).on('change', '#appbundle_kpi_filter_reseau', function() {
+    		// Ici on réinitialise la page au niveau Marque au changement
+    		//pour éviter le bug d'envoie de formulaire vide si on sélectionne autre chose après
+
+    		$('#appbundle_kpi_filter_submit').attr('disabled','disabled');
+    		$('#appbundle_kpi_filter_boutique').val(null).prop('disabled',true);
+    		$('#appbundle_kpi_filter_dr').val(null).prop('disabled',true);
+    		$('#appbundle_kpi_filter_vendeur').val(null).prop('disabled',true);
+
+    		$('#clients-filter').submit();
+    		$('#spinner').show();
+    	});
+    	$(document).on('change', '#appbundle_kpi_filter_dr', function() {
+    		$('#appbundle_kpi_filter_submit').attr('disabled','disabled');
+    		$('#appbundle_kpi_filter_boutique').val(null).prop('disabled',true);
+    		$('#appbundle_kpi_filter_vendeur').val(null).prop('disabled',true);
+
+    		/*if( $(this).val() == "" && $('#appbundle_kpi_filter_boutique').val() == "" ){
+    			var user_id = $('#appbundle_kpi_filter_reseau').val();
+    		}
+    		else if( $(this).val() == "" && $('#appbundle_kpi_filter_boutique').val() != "" ){
+    			var user_id = $('#appbundle_kpi_filter_boutique').val();
+    		}
+    		else{
+    			var user_id = $(this).val();
+    		}*/
+
+    		// Ajax pour changer le formulaire
+    		/*$.get("/ajax_filter/{{user.id}}/"+user_id+"/mensuel/null/"+$('#appbundle_kpi_filter_month').val()+"/"+$('#appbundle_kpi_filter_year').val(), function( data ) {
+			    $('#ajax_filter').html( data );
+			});*/
+
+			$('#clients-filter').submit();
+			$('#spinner').show();
+    	});
+    	$(document).on('change', '#appbundle_kpi_filter_boutique',function() {
+    		$('#appbundle_kpi_filter_submit').attr('disabled','disabled');
+    		$('#appbundle_kpi_filter_dr').prop('disabled',true);
+    		$('#appbundle_kpi_filter_vendeur').val(null).prop('disabled',true);
+
+    		/*if( $(this).val() == "" && $('#appbundle_kpi_filter_dr').val() == "" ){
+    			var user_id = $('#appbundle_kpi_filter_reseau').val();
+    		}
+    		else if( $(this).val() == "" && $('#appbundle_kpi_filter_dr').val() != "" ){
+    			var user_id = $('#appbundle_kpi_filter_dr').val();
+    		}
+    		else{
+    			var user_id = $(this).val();
+    		}*/
+
+    		/*$.get("/ajax_filter/{{user.id}}/"+user_id+"/mensuel/null/"+$('#appbundle_kpi_filter_month').val()+"/"+$('#appbundle_kpi_filter_year').val(), function( data ) {
+			    $('#ajax_filter').html( data );
+			});*/
+
+			$('#clients-filter').submit();
+			$('#spinner').show();
+    	});
+
+    	$(document).on('change', '#appbundle_kpi_filter_vendeur',function() {
+    		$('#appbundle_kpi_filter_submit').attr('disabled','disabled');
+    		$('#appbundle_kpi_filter_boutique').prop('disabled',true);
+    		$('#appbundle_kpi_filter_dr').prop('disabled',true);
+
+    		/*if( $(this).val() == "" && $('#appbundle_kpi_filter_dr').val() == "" ){
+    			var user_id = $('#appbundle_kpi_filter_reseau').val();
+    		}
+    		else if( $(this).val() == "" && $('#appbundle_kpi_filter_dr').val() != "" ){
+    			var user_id = $('#appbundle_kpi_filter_dr').val();
+    		}
+    		else{
+    			var user_id = $(this).val();
+    		}*/
+
+			$('#clients-filter').submit();
+			$('#spinner').show();
+    	});
+	});
+
+
+	var date = new Date({{ currentKpi.date|date("Y") }}, {{ currentKpi.date|date("m") - 1 }});
+	var month = date.getMonth();
+	var year  = date.getFullYear();
+
+	var startDate = new Date( year , month - 12)
+	var endDate = new Date( year, month +1 );
+
+	var dataToBeC1 = {{ 100 - currentKpi.txTransacNpes0|number_format - currentKpi.txTransacNves0|number_format }};
+	var dataToBeC2 = {{ 100 - currentKpi.txTransacNpess0|number_format - currentKpi.txTransacNvess0|number_format }};
+	var dataToBeC3 = {{ 100 - currentKpi.txTransacNpesas0|number_format - currentKpi.txTransacNvesas0|number_format }};
+
+	if (dataToBeC1 < 0) dataToBeC1 = 0;
+	if (dataToBeC2 < 0) dataToBeC2 = 0;
+	if (dataToBeC3 < 0) dataToBeC3 = 0;
+
+    CanvasJS.addColorSet("set1",
+		[
+		"#E80C7A",
+		"#aaaaaa",
+		"#f0f0f0",
+		]);
+		CanvasJS.addColorSet("set2",
+		[
+		"#f2ce18",
+		"#aaaaaa",
+		"#f0f0f0",
+		]);
+		CanvasJS.addColorSet("set3",
+		[
+		"#2D89FF",
+		"#bbbbbb",
+		"#f0f0f0",
+		]);
+		CanvasJS.addColorSet("set4",
+		[
+		"#E80C7A",
+		"#f2ce18",
+		"#2D89FF",
+		]);
+		CanvasJS.addColorSet("set5",
+		[
+		"#aaaaaa",
+		"#dddddd",
+		]);
+    CanvasJS.addCultureInfo("fr",{
+        shortMonths: ["Jan", "Fev", "Mars", "Avril", "Mai", "Juin", "Juil", "Août","Sept", "Oct", "Nov", "Déc"],
+    });
+
+	window.onload = function () {
+
+
+
+		var chart = new CanvasJS.Chart("chartContainer4",
+		{
+			culture:  "fr",
+			colorSet: "set4",
+			animationEnabled: true,
+			toolTip:{
+				enabled: true,
+				shared: true,
+				content: "<span style='\"'color: {color}'\"'>{name}</span> : {y}"
+			},axisY: {
+				suffix: "",
+				labelFontSize: 14,
+				maximum: 100
+			},
+			axisX:{
+		        interval: 1,
+		        intervalType: "month",
+		        minimum : startDate,
+		        maximum : endDate,
+		        valueFormatString: "MMM",
+		        labelFontSize: 13,
+		        labelAngle: -45
+		    },
+			data: [
+				{
+					xValueType: "dateTime",
+					indexLabelFontColor: "black",
+					indexLabelLineColor: "#4c4c4c",
+					markerSize: 10,
+					name: "NPS",
+					indexLabelPlacement: "inside",
+					type: "line",
+					dataPoints: [
+						{% for kpi in kpis %}
+							{ y: {{ kpi.questsatisfnpss0|number_format }}, x: new Date( {{ kpi.date|date("Y") }}, {{ kpi.date|date("m") - 1 }} ) },
+						{% endfor %}
+					]
+				},
+
+			]
+
+		});
+
+		chart.render();
+	}
+	</script>
+{% endblock %}
