@@ -712,11 +712,7 @@
 
 	$(function(){
 
-		$(document).on('change', '#appbundle_kpi_filter_month', function() {
-    		$('#clients-filter').submit();
-    		$('#spinner').show();
-    	});
-    	$(document).on('change', '#appbundle_kpi_filter_year', function() {
+		$(document).on('change', '#appbundle_kpi_filter_week', function() {
     		$('#clients-filter').submit();
     		$('#spinner').show();
     	});
@@ -826,8 +822,8 @@
 	var month = date.getMonth();
 	var year  = date.getFullYear();
 
-	var startDate = new Date( year , month - 12)
-	var endDate = new Date( year, month +1 );
+	var startDate = new Date( year , month - 4)
+	var endDate = new Date( year, month, day + 7 );
 
 	var dataToBeC1 = {{ 100 - currentKpi.txTransacNpes0|number_format - currentKpi.txTransacNves0|number_format }};
 	var dataToBeC2 = {{ 100 - currentKpi.txTransacNpess0|number_format - currentKpi.txTransacNvess0|number_format }};
@@ -889,8 +885,8 @@
 				maximum: 100
 			},
 			axisX:{
-		        interval: 1,
-		        intervalType: "month",
+		        interval: 2,
+		        intervalType: "week",
 		        minimum : startDate,
 		        maximum : endDate,
 		        valueFormatString: "MMM",

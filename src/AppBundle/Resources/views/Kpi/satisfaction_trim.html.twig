@@ -826,8 +826,8 @@
 	var month = date.getMonth();
 	var year  = date.getFullYear();
 
-	var startDate = new Date( year , month - 12)
-	var endDate = new Date( year, month +1 );
+	var startDate = new Date( year , month - 9)
+	var endDate = new Date( year, month + 1);
 
 	var dataToBeC1 = {{ 100 - currentKpi.txTransacNpet0|number_format - currentKpi.txTransacNvet0|number_format }};
 	var dataToBeC2 = {{ 100 - currentKpi.txTransacNpest0|number_format - currentKpi.txTransacNvest0|number_format }};
@@ -893,7 +893,7 @@
 		        intervalType: "month",
 		        minimum : startDate,
 		        maximum : endDate,
-		        valueFormatString: "MMM",
+		        valueFormatString: "MMM-YY",
 		        labelFontSize: 13,
 		        labelAngle: -45
 		    },
