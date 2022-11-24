@@ -64,30 +64,10 @@ class KpiController extends Controller
 			$session->remove('kpi_month_filtre');
 			$session->remove('kpi_year_filtre');
 
-			if($routeName == "app_kpi_month"){
-				if($routeName == "app_kpi_month"){
-			        return $this->render('AppBundle:Kpi:no_data.html.twig', array(
-			        	'user'				=> $user,
-			        	)
-			        );
-				}
-			}
-			elseif($routeName == "app_kpi_ytd"){
-				if($routeName == "app_kpi_ytd"){
-			        return $this->render('AppBundle:Kpi:no_data.html.twig', array(
-			        	'user'				=> $user,
-			        	)
-			        );
-				}
-			}
-			else{
-				if($routeName == "app_kpi_fid"){
-			        return $this->render('AppBundle:Kpi:no_data.html.twig', array(
-			        	'user'				=> $user,
-			        	)
-			        );
-				}
-			}
+			return $this->render('AppBundle:Kpi:no_data.html.twig', array(
+	        	'user'				=> $user,
+	        	)
+	        );
 		}
 
 		$date = $lastKpi->getDate();
@@ -899,17 +879,14 @@ class KpiController extends Controller
 
 		$lastKpiWeek = $em->getRepository('AppBundle:KpiWeek')->findOneBy(array('user' => $user), array('date' => "DESC"));
 
-
 		if($lastKpiWeek == null){
 			$session->remove('kpi_week_filtre');
 			$session->remove('kpi_year_filtre');
 
-			if($routeName == "app_kpi_week"){
-		        return $this->render('AppBundle:Kpi:no_data.html.twig', array(
-		        	'user'				=> $user,
-		        	)
-		        );
-			}
+			return $this->render('AppBundle:Kpi:no_data.html.twig', array(
+	        	'user'				=> $user,
+	        	)
+	        );
 		}
 
 		// ATTENTION FAIRE UNE PAGE NO DATA POUR DES RESULTATS NULL
@@ -1545,17 +1522,14 @@ class KpiController extends Controller
 
 		$lastKpiTrim = $em->getRepository('AppBundle:KpiTrim')->findOneBy(array('user' => $user), array('date' => "DESC"));
 
-
 		if($lastKpiTrim == null){
 			$session->remove('kpi_trim_filtre');
 			$session->remove('kpi_year_filtre');
 
-			if($routeName == "app_kpi_trim"){
-		        return $this->render('AppBundle:Kpi:no_data.html.twig', array(
-		        	'user'				=> $user,
-		        	)
-		        );
-			}
+			return $this->render('AppBundle:Kpi:no_data.html.twig', array(
+	        	'user'				=> $user,
+	        	)
+	        );
 		}
 
 		// ATTENTION FAIRE UNE PAGE NO DATA POUR DES RESULTATS NULL
