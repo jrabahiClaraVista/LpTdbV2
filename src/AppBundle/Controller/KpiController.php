@@ -1274,7 +1274,7 @@ class KpiController extends Controller
 
         }
 
-        if($routeName == "app_kpi_satisfaction"){
+        if($routeName == "app_kpi_satisfaction_week"){
 	        //Mise à jour du filtre
 			//$kpiFilterService->updateFormVerbatime($user, $request);
 
@@ -1950,7 +1950,7 @@ class KpiController extends Controller
 
         }
 
-        if($routeName == "app_kpi_satisfaction"){
+        if($routeName == "app_kpi_satisfaction_trim"){
 	        //Mise à jour du filtre
 			//$kpiFilterService->updateFormVerbatime($user, $request);
 
