@@ -38,7 +38,7 @@
             </li>
             {% endif %}
             {% if user.brand != "ROYAL QUARTZ" %}
-            <li class="col-xs-3 text-center {% if app.request.attributes.get('_route') == 'app_kpi_satisfaction' %}active{% endif %}">
+            <li class="col-xs-3 text-center {% if app.request.attributes.get('_route') in ['app_kpi_satisfaction','app_kpi_satisfaction_week','app_kpi_satisfaction_trim'] %}active{% endif %}">
                 <a href="{{ path('app_kpi_satisfaction', { 'user_actuel' : userId, 'user_id' : user_id } ) }}" class="one-line">
                     {{"Satisfaction"|trans}}
                 </a>
