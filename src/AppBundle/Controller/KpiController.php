@@ -1382,21 +1382,21 @@ class KpiController extends Controller
 						FROM app_kpi_week k
 						LEFT JOIN fos_user_user u on k.user_id = u.id
 						WHERE u.brand = '$username' and u.role = 'ROLE_BOUTIQUE' and k.date BETWEEN '$date3' and '$date2'
-						ORDER BY k.quest_satisf_rank_nps_ytd";
+						ORDER BY k.quest_satisf_rank_nps_s0";
 				}
 				elseif( $user->getRole() == 'ROLE_DR' ) {
 					$sql3 = "SELECT u.dr, u.boutique, k.date, k.quest_satisf_rank_nps_s0, k.quest_satisf_nps_s0, k.nbre_questsatisf_s0
 						FROM app_kpi_week k
 						LEFT JOIN fos_user_user u on k.user_id = u.id
 						WHERE u.brand = '$reseau' and u.role = 'ROLE_BOUTIQUE' and k.date BETWEEN '$date3' and '$date2'
-						ORDER BY k.quest_satisf_rank_nps_ytd";
+						ORDER BY k.quest_satisf_rank_nps_s0";
 				}
 				elseif( $user->getRole() == 'ROLE_BOUTIQUE' ) {
 					$sql3 = "SELECT u.dr, u.boutique, k.date, k.quest_satisf_rank_nps_s0, k.quest_satisf_nps_s0, k.nbre_questsatisf_s0
 						FROM app_kpi_week k
 						LEFT JOIN fos_user_user u on k.user_id = u.id
 						WHERE u.brand = '$reseau' and u.role = 'ROLE_BOUTIQUE' and k.date BETWEEN '$date3' and '$date2'
-						ORDER BY k.quest_satisf_rank_nps_ytd";
+						ORDER BY k.quest_satisf_rank_nps_s0";
 				}
 
 				$header3     = array('DR','Boutique','Semaine','Classement de la semaine','Note NPS de la semaine','Nombre de répondants sur la semaine');
@@ -2035,21 +2035,21 @@ class KpiController extends Controller
 						FROM app_kpi_trim k
 						LEFT JOIN fos_user_user u on k.user_id = u.id
 						WHERE u.brand = '$username' and u.role = 'ROLE_BOUTIQUE' and k.date BETWEEN '$date3' and '$date2'
-						ORDER BY k.quest_satisf_rank_nps_ytd";
+						ORDER BY k.quest_satisf_rank_nps_t0";
 				}
 				elseif( $user->getRole() == 'ROLE_DR' ) {
 					$sql3 = "SELECT u.dr, u.boutique, k.date, k.quest_satisf_rank_nps_t0, k.quest_satisf_nps_t0, k.nbre_questsatisf_t0
 						FROM app_kpi_trim k
 						LEFT JOIN fos_user_user u on k.user_id = u.id
 						WHERE u.brand = '$reseau' and u.role = 'ROLE_BOUTIQUE' and k.date BETWEEN '$date3' and '$date2'
-						ORDER BY k.quest_satisf_rank_nps_ytd";
+						ORDER BY k.quest_satisf_rank_nps_t0";
 				}
 				elseif( $user->getRole() == 'ROLE_BOUTIQUE' ) {
 					$sql3 = "SELECT u.dr, u.boutique, k.date, k.quest_satisf_rank_nps_t0, k.quest_satisf_nps_t0, k.nbre_questsatisf_t0
 						FROM app_kpi_trim k
 						LEFT JOIN fos_user_user u on k.user_id = u.id
 						WHERE u.brand = '$reseau' and u.role = 'ROLE_BOUTIQUE' and k.date BETWEEN '$date3' and '$date2'
-						ORDER BY k.quest_satisf_rank_nps_ytd";
+						ORDER BY k.quest_satisf_rank_nps_t0";
 				}
 
 				$header3     = array('DR','Boutique','Trimestre','Classement du trimestre','Note NPS du trimestre','Nombre de répondants sur le trimestre');
