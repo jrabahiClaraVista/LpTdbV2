@@ -65,7 +65,8 @@ class KpiController extends Controller
 			$session->remove('kpi_year_filtre');
 
 			return $this->render('AppBundle:Kpi:no_data.html.twig', array(
-	        	'user'				=> $user,
+	        	'user_bis'			=> $user_id,
+	        	'user_actuel'		=> $user_actuel
 	        	)
 	        );
 		}
@@ -884,7 +885,8 @@ class KpiController extends Controller
 			$session->remove('kpi_year_filtre');
 
 			return $this->render('AppBundle:Kpi:no_data.html.twig', array(
-	        	'user'				=> $user,
+	        	'user_bis'			=> $user_id,
+	        	'user_actuel'		=> $user_actuel,
 	        	)
 	        );
 		}
@@ -1527,7 +1529,8 @@ class KpiController extends Controller
 			$session->remove('kpi_year_filtre');
 
 			return $this->render('AppBundle:Kpi:no_data.html.twig', array(
-	        	'user'				=> $user,
+	        	'user_bis'			=> $user_id,
+	        	'user_actuel'		=> $user_actuel,
 	        	)
 	        );
 		}
