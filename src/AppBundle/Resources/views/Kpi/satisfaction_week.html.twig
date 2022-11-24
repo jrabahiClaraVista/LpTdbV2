@@ -905,7 +905,7 @@
 					type: "line",
 					dataPoints: [
 						{% for kpi in kpis %}
-							{ y: {{ kpi.questsatisfnpss0|number_format }}, x: new Date( {{ kpi.date|date("Y") }}, {{ kpi.date|date("m") - 1 }} ) },
+							{ y: {{ kpi.questsatisfnpss0|number_format }}, x: new Date( {{ kpi.date|date("Y") }}, {{ kpi.date|date("m") - 1 }}, {{ kpi.date|date("d") }} ) },
 						{% endfor %}
 					]
 				},
