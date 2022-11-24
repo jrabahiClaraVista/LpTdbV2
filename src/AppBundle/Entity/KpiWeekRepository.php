@@ -48,7 +48,7 @@ class KpiWeekRepository extends EntityRepository
 		  	->setParameter('date2', $date2)
 		  	->andWhere('u.role = :role')
 		  	->setParameter('role', "ROLE_BOUTIQUE")
-		  	->orderBy('k.questsatisfranknpsytd', 'ASC')
+		  	->orderBy('k.questsatisfranknpss0', 'ASC')
 		  	->setMaxResults(3);
 		;
 
