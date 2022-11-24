@@ -1229,17 +1229,17 @@ class KpiController extends Controller
 				if( $user->getRole() == 'ROLE_MARQUE' ) {
 					$sql2 = "SELECT v.marque,v.dr,v.boutique,v.type,v.question,v.note,v.verbatim,v.date
 						FROM app_verbatim v
-						WHERE v.marque = '$username' and v.type = 'Montre' and v.date BETWEEN '$date3' and '$date2'";
+						WHERE v.marque = '$username' and v.type = 'Montre' and v.date BETWEEN '$dateWeek3' and '$dateWeek2'";
 				}
 				elseif( $user->getRole() == 'ROLE_DR' ) {
 					$sql2 = "SELECT v.marque,v.dr,v.boutique,v.type,v.question,v.note,v.verbatim,v.date
 						FROM app_verbatim v
-						WHERE v.dr = '$username' and v.type = 'Montre' and v.date BETWEEN '$date3' and '$date2'";
+						WHERE v.dr = '$username' and v.type = 'Montre' and v.date BETWEEN '$dateWeek3' and '$dateWeek2'";
 				}
 				elseif( $user->getRole() == 'ROLE_BOUTIQUE' ) {
 					$sql2 = "SELECT v.marque,v.dr,v.boutique,v.type,v.question,v.note,v.verbatim,v.date
 						FROM app_verbatim v
-						WHERE v.boutique = '$username' and v.type = 'Montre' and v.date BETWEEN '$date3' and '$date2'";
+						WHERE v.boutique = '$username' and v.type = 'Montre' and v.date BETWEEN '$dateWeek3' and '$dateWeek2'";
 				}
 			}
 
@@ -1271,17 +1271,17 @@ class KpiController extends Controller
 				if( $user->getRole() == 'ROLE_MARQUE' ) {
 					$sql2 = "SELECT v.marque,v.dr,v.boutique,v.type,v.question,v.note,v.verbatim,v.date
 						FROM app_verbatim v
-						WHERE v.marque = '$username' and v.type = 'Pile/Bracelet' and v.date BETWEEN '$date3' and '$date2'";
+						WHERE v.marque = '$username' and v.type = 'Pile/Bracelet' and v.date BETWEEN '$dateWeek3' and '$dateWeek2'";
 				}
 				elseif( $user->getRole() == 'ROLE_DR' ) {
 					$sql2 = "SELECT v.marque,v.dr,v.boutique,v.type,v.question,v.note,v.verbatim,v.date
 						FROM app_verbatim v
-						WHERE v.dr = '$username' and v.type = 'Pile/Bracelet' and v.date BETWEEN '$date3' and '$date2'";
+						WHERE v.dr = '$username' and v.type = 'Pile/Bracelet' and v.date BETWEEN '$dateWeek3' and '$dateWeek2'";
 				}
 				elseif( $user->getRole() == 'ROLE_BOUTIQUE' ) {
 					$sql2 = "SELECT v.marque,v.dr,v.boutique,v.type,v.question,v.note,v.verbatim,v.date
 						FROM app_verbatim v
-						WHERE v.boutique = '$username' and v.type = 'Pile/Bracelet' and v.date BETWEEN '$date3' and '$date2'";
+						WHERE v.boutique = '$username' and v.type = 'Pile/Bracelet' and v.date BETWEEN '$dateWeek3' and '$dateWeek2'";
 				}
 			}
 
@@ -1381,21 +1381,21 @@ class KpiController extends Controller
 					$sql3 = "SELECT u.dr, u.boutique, k.date, k.quest_satisf_rank_nps_s0, k.quest_satisf_nps_s0, k.nbre_questsatisf_s0
 						FROM app_kpi_week k
 						LEFT JOIN fos_user_user u on k.user_id = u.id
-						WHERE u.brand = '$username' and u.role = 'ROLE_BOUTIQUE' and k.date BETWEEN '$date3' and '$date2'
+						WHERE u.brand = '$username' and u.role = 'ROLE_BOUTIQUE' and k.date BETWEEN '$dateWeek3' and '$dateWeek2'
 						ORDER BY k.quest_satisf_rank_nps_s0";
 				}
 				elseif( $user->getRole() == 'ROLE_DR' ) {
 					$sql3 = "SELECT u.dr, u.boutique, k.date, k.quest_satisf_rank_nps_s0, k.quest_satisf_nps_s0, k.nbre_questsatisf_s0
 						FROM app_kpi_week k
 						LEFT JOIN fos_user_user u on k.user_id = u.id
-						WHERE u.brand = '$reseau' and u.role = 'ROLE_BOUTIQUE' and k.date BETWEEN '$date3' and '$date2'
+						WHERE u.brand = '$reseau' and u.role = 'ROLE_BOUTIQUE' and k.date BETWEEN '$dateWeek3' and '$dateWeek2'
 						ORDER BY k.quest_satisf_rank_nps_s0";
 				}
 				elseif( $user->getRole() == 'ROLE_BOUTIQUE' ) {
 					$sql3 = "SELECT u.dr, u.boutique, k.date, k.quest_satisf_rank_nps_s0, k.quest_satisf_nps_s0, k.nbre_questsatisf_s0
 						FROM app_kpi_week k
 						LEFT JOIN fos_user_user u on k.user_id = u.id
-						WHERE u.brand = '$reseau' and u.role = 'ROLE_BOUTIQUE' and k.date BETWEEN '$date3' and '$date2'
+						WHERE u.brand = '$reseau' and u.role = 'ROLE_BOUTIQUE' and k.date BETWEEN '$dateWeek3' and '$dateWeek2'
 						ORDER BY k.quest_satisf_rank_nps_s0";
 				}
 
@@ -1882,17 +1882,17 @@ class KpiController extends Controller
 				if( $user->getRole() == 'ROLE_MARQUE' ) {
 					$sql2 = "SELECT v.marque,v.dr,v.boutique,v.type,v.question,v.note,v.verbatim,v.date
 						FROM app_verbatim v
-						WHERE v.marque = '$username' and v.type = 'Montre' and v.date BETWEEN '$date3' and '$date2'";
+						WHERE v.marque = '$username' and v.type = 'Montre' and v.date BETWEEN '$dateTrim3' and '$dateTrim2'";
 				}
 				elseif( $user->getRole() == 'ROLE_DR' ) {
 					$sql2 = "SELECT v.marque,v.dr,v.boutique,v.type,v.question,v.note,v.verbatim,v.date
 						FROM app_verbatim v
-						WHERE v.dr = '$username' and v.type = 'Montre' and v.date BETWEEN '$date3' and '$date2'";
+						WHERE v.dr = '$username' and v.type = 'Montre' and v.date BETWEEN '$dateTrim3' and '$dateTrim2'";
 				}
 				elseif( $user->getRole() == 'ROLE_BOUTIQUE' ) {
 					$sql2 = "SELECT v.marque,v.dr,v.boutique,v.type,v.question,v.note,v.verbatim,v.date
 						FROM app_verbatim v
-						WHERE v.boutique = '$username' and v.type = 'Montre' and v.date BETWEEN '$date3' and '$date2'";
+						WHERE v.boutique = '$username' and v.type = 'Montre' and v.date BETWEEN '$dateTrim3' and '$dateTrim2'";
 				}
 			}
 
@@ -1924,17 +1924,17 @@ class KpiController extends Controller
 				if( $user->getRole() == 'ROLE_MARQUE' ) {
 					$sql2 = "SELECT v.marque,v.dr,v.boutique,v.type,v.question,v.note,v.verbatim,v.date
 						FROM app_verbatim v
-						WHERE v.marque = '$username' and v.type = 'Pile/Bracelet' and v.date BETWEEN '$date3' and '$date2'";
+						WHERE v.marque = '$username' and v.type = 'Pile/Bracelet' and v.date BETWEEN '$dateTrim3' and '$dateTrim2'";
 				}
 				elseif( $user->getRole() == 'ROLE_DR' ) {
 					$sql2 = "SELECT v.marque,v.dr,v.boutique,v.type,v.question,v.note,v.verbatim,v.date
 						FROM app_verbatim v
-						WHERE v.dr = '$username' and v.type = 'Pile/Bracelet' and v.date BETWEEN '$date3' and '$date2'";
+						WHERE v.dr = '$username' and v.type = 'Pile/Bracelet' and v.date BETWEEN '$dateTrim3' and '$dateTrim2'";
 				}
 				elseif( $user->getRole() == 'ROLE_BOUTIQUE' ) {
 					$sql2 = "SELECT v.marque,v.dr,v.boutique,v.type,v.question,v.note,v.verbatim,v.date
 						FROM app_verbatim v
-						WHERE v.boutique = '$username' and v.type = 'Pile/Bracelet' and v.date BETWEEN '$date3' and '$date2'";
+						WHERE v.boutique = '$username' and v.type = 'Pile/Bracelet' and v.date BETWEEN '$dateTrim3' and '$dateTrim2'";
 				}
 			}
 
@@ -2034,21 +2034,21 @@ class KpiController extends Controller
 					$sql3 = "SELECT u.dr, u.boutique, k.date, k.quest_satisf_rank_nps_t0, k.quest_satisf_nps_t0, k.nbre_questsatisf_t0
 						FROM app_kpi_trim k
 						LEFT JOIN fos_user_user u on k.user_id = u.id
-						WHERE u.brand = '$username' and u.role = 'ROLE_BOUTIQUE' and k.date BETWEEN '$date3' and '$date2'
+						WHERE u.brand = '$username' and u.role = 'ROLE_BOUTIQUE' and k.date BETWEEN '$dateTrim3' and '$dateTrim2'
 						ORDER BY k.quest_satisf_rank_nps_t0";
 				}
 				elseif( $user->getRole() == 'ROLE_DR' ) {
 					$sql3 = "SELECT u.dr, u.boutique, k.date, k.quest_satisf_rank_nps_t0, k.quest_satisf_nps_t0, k.nbre_questsatisf_t0
 						FROM app_kpi_trim k
 						LEFT JOIN fos_user_user u on k.user_id = u.id
-						WHERE u.brand = '$reseau' and u.role = 'ROLE_BOUTIQUE' and k.date BETWEEN '$date3' and '$date2'
+						WHERE u.brand = '$reseau' and u.role = 'ROLE_BOUTIQUE' and k.date BETWEEN '$dateTrim3' and '$dateTrim2'
 						ORDER BY k.quest_satisf_rank_nps_t0";
 				}
 				elseif( $user->getRole() == 'ROLE_BOUTIQUE' ) {
 					$sql3 = "SELECT u.dr, u.boutique, k.date, k.quest_satisf_rank_nps_t0, k.quest_satisf_nps_t0, k.nbre_questsatisf_t0
 						FROM app_kpi_trim k
 						LEFT JOIN fos_user_user u on k.user_id = u.id
-						WHERE u.brand = '$reseau' and u.role = 'ROLE_BOUTIQUE' and k.date BETWEEN '$date3' and '$date2'
+						WHERE u.brand = '$reseau' and u.role = 'ROLE_BOUTIQUE' and k.date BETWEEN '$dateTrim3' and '$dateTrim2'
 						ORDER BY k.quest_satisf_rank_nps_t0";
 				}
 
