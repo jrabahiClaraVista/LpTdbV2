@@ -46,12 +46,12 @@
 					</div>
 				</div>
 			</div>
-			{% if app.request.attributes.get('_route') in ['app_kpi_week'] %}
+			{% if app.request.attributes.get('_route') in ['app_kpi_week','app_kpi_satisfaction_week','app_kpi_satisfaction_trim'] %}
 				<div class="col-xs-3">
 				</div>
 			{% endif %}
 				
-			<div class="col-xs-3 {% if app.request.attributes.get('_route') in ['app_kpi_week'] %}hidden{% endif %}">
+			<div class="col-xs-3 {% if app.request.attributes.get('_route') in ['app_kpi_week','app_kpi_satisfaction_week','app_kpi_satisfaction_trim'] %}hidden{% endif %}">
 				{{ form_widget(form.year, { 'attr': {'class' : 'form-control ajax', 'isSubmit': 'no'} }) }}
 			</div>
 
@@ -61,7 +61,7 @@
 			
 		{{ form_end(form) }}
 
-		{% if app.request.attributes.get('_route') not in ['app_kpi_planning','app_kpi_faq','app_kpi_satisfaction'] %}
+		{% if app.request.attributes.get('_route') not in ['app_kpi_planning','app_kpi_faq','app_kpi_satisfaction','app_kpi_satisfaction_week','app_kpi_satisfaction_trim'] %}
 		{{ form_start(form2, {'id' : 'data-export'}) }}
 			<div class="col-xs-3 pull-right">
 				{{ form_widget(form2.data) }}
