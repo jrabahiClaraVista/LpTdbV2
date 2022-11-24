@@ -343,35 +343,6 @@ class KpiController extends Controller
 
 		//Export CSV
 		if ($form2->isSubmitted()) {
-			//$id_data = $user->getId();
-			/*$idDataMarque 	= $marque->getId();
-			$idDataFiche 	= $kpiCurrentMonth->getId();
-			$idDataAutres	= array();
-
-			if( $user->getRole() == 'ROLE_MARQUE' ) {
-				foreach ($getDrsMarque as $key => $DrMarque) {
-					array_push($idDataAutres, $DrMarque->getId());
-				}
-			}
-			elseif( $user->getRole() == 'ROLE_DR' ) {
-				foreach ($getBoutiquesDr as $key => $BoutiqueDr) {
-					array_push($idDataAutres, $BoutiqueDr->getId());
-				}
-			}
-			else {
-				foreach ($getVendeursBoutique as $key => $VendeurBoutique) {
-					array_push($idDataAutres, $VendeurBoutique->getId());
-				}
-			}
-
-			$ids = "(".$idDataMarque.",".$idDataFiche;
-
-			foreach ($idDataAutres as $key => $id) {
-				$ids .= ",".$id;
-			}
-			$ids .= ")";
-			*/
-
 			
 			$ids = "(";
 
@@ -524,8 +495,6 @@ class KpiController extends Controller
 	            $content = stream_get_contents($handle);
 	            fclose($handle);
 			}
-
-
 
             $date_csv = new \Datetime('now');
             $date_csv = $date_csv->format('Ymd');
@@ -1143,33 +1112,7 @@ class KpiController extends Controller
 
 		//Export CSV
 		if ($form2->isSubmitted()) {
-			//$id_data = $user->getId();
-			/*$idDataMarque 	= $marque->getId();
-			$idDataFiche 	= $kpiCurrentWeek->getId();
-			$idDataAutres	= array();
-			if( $user->getRole() == 'ROLE_MARQUE' ) {
-				foreach ($getDrsMarque as $key => $DrMarque) {
-					array_push($idDataAutres, $DrMarque->getId());
-				}
-			}
-			elseif( $user->getRole() == 'ROLE_DR' ) {
-				foreach ($getBoutiquesDr as $key => $BoutiqueDr) {
-					array_push($idDataAutres, $BoutiqueDr->getId());
-				}
-			}
-			else {
-				foreach ($getVendeursBoutique as $key => $VendeurBoutique) {
-					array_push($idDataAutres, $VendeurBoutique->getId());
-				}
-			}
 
-			$ids = "(".$idDataMarque.",".$idDataFiche;
-
-			foreach ($idDataAutres as $key => $id) {
-				$ids .= ",".$id;
-			}
-			$ids .= ")";
-			*/
 			$ids = "(";
 
 			foreach ($kpisCSV as $key => $id_kpi){
@@ -1724,7 +1667,6 @@ class KpiController extends Controller
 		$dateTrim2 	= $datesTrim['dateTrim2'];
 		$dateTrim3 	= $datesTrim['dateTrim3'];
 
-
 		if($session->get('filtre_vendeur') != null){
 			$id = $session->get('filtre_vendeur')->getId();
 	    }
@@ -1819,33 +1761,7 @@ class KpiController extends Controller
 
 		//Export CSV
 		if ($form2->isSubmitted()) {
-			//$id_data = $user->getId();
-			/*$idDataMarque 	= $marque->getId();
-			$idDataFiche 	= $kpiCurrentTrim->getId();
-			$idDataAutres	= array();
-			if( $user->getRole() == 'ROLE_MARQUE' ) {
-				foreach ($getDrsMarque as $key => $DrMarque) {
-					array_push($idDataAutres, $DrMarque->getId());
-				}
-			}
-			elseif( $user->getRole() == 'ROLE_DR' ) {
-				foreach ($getBoutiquesDr as $key => $BoutiqueDr) {
-					array_push($idDataAutres, $BoutiqueDr->getId());
-				}
-			}
-			else {
-				foreach ($getVendeursBoutique as $key => $VendeurBoutique) {
-					array_push($idDataAutres, $VendeurBoutique->getId());
-				}
-			}
-
-			$ids = "(".$idDataMarque.",".$idDataFiche;
-
-			foreach ($idDataAutres as $key => $id) {
-				$ids .= ",".$id;
-			}
-			$ids .= ")";
-			*/
+			
 			$ids = "(";
 
 			foreach ($kpisCSV as $key => $id_kpi){
