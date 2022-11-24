@@ -1082,6 +1082,9 @@ class KpiController extends Controller
 		$topNpsVendeur2 = $em->getRepository('AppBundle:KpiWeek')->getRank1Nps2Vendeur($dateWeek3, $dateWeek2, $brand, $vendeurBoutique);
 		$topNpes2Vendeur2 = $em->getRepository('AppBundle:KpiWeek')->getRank1Npes2Vendeur($dateWeek3, $dateWeek2, $brand, $vendeurBoutique);
 	}
+	if($routeName == "app_kpi_satisfaction_week"){
+		$topNPS = $em->getRepository('AppBundle:KpiWeek')->getRank1_3NPS($dateWeek3, $dateWeek2, $brand);
+	}
 
 	//Mise à jour du filtre
 	$form = $kpiFilterService->updateForm($user, $request, $form);
@@ -1728,6 +1731,9 @@ class KpiController extends Controller
 		$topNpeVendeur2 = $em->getRepository('AppBundle:KpiTrim')->getRank1Npe2Vendeur($dateTrim3, $dateTrim2, $brand, $vendeurBoutique);
 		$topNpsVendeur2 = $em->getRepository('AppBundle:KpiTrim')->getRank1Nps2Vendeur($dateTrim3, $dateTrim2, $brand, $vendeurBoutique);
 		$topNpes2Vendeur2 = $em->getRepository('AppBundle:KpiTrim')->getRank1Npes2Vendeur($dateTrim3, $dateTrim2, $brand, $vendeurBoutique);
+	}
+	if($routeName == "app_kpi_satisfaction_trim"){
+		$topNPS = $em->getRepository('AppBundle:KpiTrim')->getRank1_3NPS($dateTrim3, $dateTrim2, $brand);
 	}
 
 	//Mise à jour du filtre
