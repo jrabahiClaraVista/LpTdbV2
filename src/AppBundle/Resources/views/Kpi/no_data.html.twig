@@ -7,25 +7,21 @@
 {% block content %}	
 	<h3 class="text-center">Aucune donnée pour la recherche demandée.</h3>
 	<h4 class="text-center"><a href="javascript:window.close();">Fermer la fenêtre</a></h4>
-{% endblock %}
-
-{% block canvasJs %}
 
 	<script type="text/javascript">
+		$(function(){
 
-	$(function(){
-
-		$(document).on('change', '#appbundle_kpi_filter_month', function() {
-    		$('#clients-filter').submit();
-    		$('#spinner').show();
-    	});
-    	$(document).on('change', '#appbundle_kpi_filter_year', function() {
-    		$('#clients-filter').submit();
-    		$('#spinner').show();
-    	});
-    	$(document).on('change', '#appbundle_kpi_filter_week', function() {
-    		$('#clients-filter').submit();
-    		$('#spinner').show();
-    	});
+			$(document).on('change', '#appbundle_kpi_filter_month', function() {
+	    		$('#clients-filter').submit();
+	    		$('#spinner').show();
+	    	});
+	    	$(document).on('change', '#appbundle_kpi_filter_year', function() {
+	    		$('#clients-filter').submit();
+	    		$('#spinner').show();
+	    	});
+	    	$(document).on('change', '#appbundle_kpi_filter_week', function() {
+	    		$('#clients-filter').submit();
+	    		$('#spinner').show();
+	    });
     </script>
 {% endblock %}
