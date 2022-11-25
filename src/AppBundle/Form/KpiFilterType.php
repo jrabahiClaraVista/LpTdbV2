@@ -127,6 +127,18 @@ class KpiFilterType extends AbstractType
                 $dates_trim = [];
 
                 for($i=1;$i<5;$i++) {
+                    if($i == 1) {
+                        $string_month = "(Janv. - Mars)";
+                    }
+                    elseif($i == 2) {
+                        $string_month = "(Avril - Juin)";
+                    }
+                    elseif($i == 3) {
+                        $string_month = "(Juil. - Sept.)";
+                    }
+                    elseif($i == 4) {
+                        $string_month = "(Oct. - Déc.)";
+                    }
                     $dates_trim["Trimestre $i"] = $i;
                 }
 

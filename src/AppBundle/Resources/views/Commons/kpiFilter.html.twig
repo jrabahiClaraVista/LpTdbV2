@@ -1,8 +1,8 @@
 {% if app.request.attributes.get('_route') in ['app_kpi_satisfaction','app_kpi_satisfaction_week','app_kpi_satisfaction_trim'] %}
 	<div style="margin-top:15px">
 		<ul class="nav nav-tabs" role="tablist" style="font-weight:bold">
-			<li class="pull-left {% if app.request.attributes.get('_route') in ['app_kpi_satisfaction'] %}active{% endif %}"><a href="{{ path('app_kpi_satisfaction', { 'user_actuel' : userId, 'user_id' : user_id } ) }}">NPS mensuel</a></li>
 			<li class="pull-left {% if app.request.attributes.get('_route') in ['app_kpi_satisfaction_week'] %}active{% endif %}"><a href="{{ path('app_kpi_satisfaction_week', { 'user_actuel' : userId, 'user_id' : user_id } ) }}">NPS Hebdomadaire</a></li>
+			<li class="pull-left {% if app.request.attributes.get('_route') in ['app_kpi_satisfaction'] %}active{% endif %}"><a href="{{ path('app_kpi_satisfaction', { 'user_actuel' : userId, 'user_id' : user_id } ) }}">NPS Mensuel &amp; Cumul Annuel</a></li>
 			<li class="pull-left {% if app.request.attributes.get('_route') in ['app_kpi_satisfaction_trim'] %}active{% endif %}"><a href="{{ path('app_kpi_satisfaction_trim', { 'user_actuel' : userId, 'user_id' : user_id } ) }}">NPS Trimestriel</a></li>
 		</ul>
 	</div>
@@ -57,7 +57,7 @@
 				</div>
 			{% endif %}
 				
-			<div class="col-xs-3 {% if app.request.attributes.get('_route') in ['app_kpi_week','app_kpi_satisfaction_week','app_kpi_satisfaction_trim'] %}hidden{% endif %}">
+			<div class="col-xs-3 {% if app.request.attributes.get('_route') in ['app_kpi_week','app_kpi_satisfaction_week'] %}hidden{% endif %}">
 				{{ form_widget(form.year, { 'attr': {'class' : 'form-control ajax', 'isSubmit': 'no'} }) }}
 			</div>
 
