@@ -59,12 +59,12 @@
                 <li style="color:black;padding-top:3px;">
                     <span style="font-size: 16px;">PERFORMANCES CRM {{ user.username }}</span><br />
                     {% if currentKpi is defined and currentKpi is not null %}
-	                    {% if app.request.get('_route') in ['app_kpi_month','app_kpi_ytd','app_kpi_fid','app_kpi_planning','app_kpi_satisfaction']%}
+	                    {% if app.request.get('_route') in ['app_kpi_month','app_kpi_ytd','app_kpi_fid','app_kpi_planning','app_kpi_satisfaction'] %}
 	                    	<span class="small">Rapport du mois {{ getMonthWording(currentKpi.date|date('m'), "de ") }} {{currentKpi.date|date('Y')}}</span>
-		                {% elseif app.request.get('_route') in ['app_kpi_week','app_kpi_satisfaction_week']%}
+		                {% elseif app.request.get('_route') in ['app_kpi_week','app_kpi_satisfaction_week'] %}
 		                	<span class="small">Rapport de la semaine du {{ currentKpi.date|date('d') }} {{ getMonthWording(currentKpi.date|date('m'), "") }} {{currentKpi.date|date('Y')}}</span>
 		                {% elseif app.request.get('_route') in ['app_kpi_trim','app_kpi_satisfaction_trim']%}
-		                	<span class="small">Rapport du trimstre de {{ getMonthWording(currentKpi.date|date('m'), "") }} à  {{ getMonthWording(currentKpi.date|modify("+3 months")|date('m'), "") }}{{currentKpi.date|date('Y')}}</span>
+		                	<span class="small">Rapport du trimstre de {{ getMonthWording(currentKpi.date|date('m'), "") }} à  {{ getMonthWording(currentKpi.date|date_modify("+3 months")|date('m'), "") }}{{currentKpi.date|date('Y')}}</span>
 		                {% endif %}
 		            {% endif %}
                 </li>
