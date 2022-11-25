@@ -139,7 +139,7 @@ class KpiFilterType extends AbstractType
                     elseif($i == 4) {
                         $string_month = "(Oct. - Déc.)";
                     }
-                    $dates_trim["Trimestre $i"] = $i;
+                    $dates_trim["Trimestre $i $string_month"] = $i;
                 }
 
                 $form->add('year', 'Symfony\Component\Form\Extension\Core\Type\ChoiceType', array(
