@@ -54,7 +54,7 @@
 
 {% block LpTopTitle %}
     {% if is_granted("IS_AUTHENTICATED_ANONYMOUSLY") %}
-        {% if app.request.get('_route') in ['app_kpi_month','app_kpi_ytd','app_kpi_fid','app_kpi_planning','app_kpi_week','app_kpi_trim','app_kpi_satisfaction'] %}
+        {% if app.request.get('_route') in ['app_kpi_month','app_kpi_ytd','app_kpi_fid','app_kpi_planning','app_kpi_week','app_kpi_trim','app_kpi_satisfaction','app_kpi_satisfaction_week','app_kpi_satisfaction_trim'] %}
             <ul class="nav navbar-nav {% if not is_granted("ROLE_ADMIN") %}navbar-right{% endif %}">
                 <li style="color:black;padding-top:3px;">
                     <span style="font-size: 16px;">PERFORMANCES CRM {{ user.username }}</span><br />
@@ -64,7 +64,7 @@
 		                {% else %}
 		                	<span class="small">Rapport de la semaine du {{ currentKpi.date|date('d') }} {{ getMonthWording(currentKpi.date|date('m'), "") }} {{currentKpi.date|date('Y')}}</span>
 		                {% endif %}
-		             {% endif %}
+		            {% endif %}
                 </li>
             </ul>
         {% endif %}
