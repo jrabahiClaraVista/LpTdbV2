@@ -307,17 +307,25 @@
 										{% endif %}
 										<td class="text-center">{{currentKpi.moyquestsatisfmontreq5s0|number_format(1, ',', ' ')}}</td>
 									</tr>
+									{% if currentKpi.date < date("2022-10-28") %}
+										<tr class="">
+											<th class="text-right text-uppercase small" style="color: #000000;">Question n°6</th>
+											{% if user_id != '101' %}
+												<td class="text-center info">{{marque.moyquestsatisfmontreq6s0|number_format(1, ',', ' ') }}</td>
+											{% endif %}
+											<td class="text-center">{{currentKpi.moyquestsatisfmontreq6s0|number_format(1, ',', ' ')}}</td>
+										</tr>
+									{% endif %}
 									<tr class="">
-										<th class="text-right text-uppercase small" style="color: #000000;">Question n°6</th>
-										{% if user_id != '101' %}
-											<td class="text-center info">{{marque.moyquestsatisfmontreq6s0|number_format(1, ',', ' ') }}</td>
+										{% if currentKpi.date < date("2022-10-28") %}
+											{% set moyenne_marque_m = (marque.moyquestsatisfmontreq2s0 + marque.moyquestsatisfmontreq3s0 + marque.moyquestsatisfmontreq4s0 + marque.moyquestsatisfmontreq5s0 + marque.moyquestsatisfmontreq6s0) / 5  %}
+											
+											{% set moyenne_currentKpi_m = (currentKpi.moyquestsatisfmontreq2s0 + currentKpi.moyquestsatisfmontreq3s0 + currentKpi.moyquestsatisfmontreq4s0 + currentKpi.moyquestsatisfmontreq5s0 + currentKpi.moyquestsatisfmontreq6s0) / 5  %}
+										{% else %}
+											{% set moyenne_marque_m = (marque.moyquestsatisfmontreq2s0 + marque.moyquestsatisfmontreq3s0 + marque.moyquestsatisfmontreq4s0 + marque.moyquestsatisfmontreq5s0) / 4  %}
+											
+											{% set moyenne_currentKpi_m = (currentKpi.moyquestsatisfmontreq2s0 + currentKpi.moyquestsatisfmontreq3s0 + currentKpi.moyquestsatisfmontreq4s0 + currentKpi.moyquestsatisfmontreq5s0 ) / 4  %}
 										{% endif %}
-										<td class="text-center">{{currentKpi.moyquestsatisfmontreq6s0|number_format(1, ',', ' ')}}</td>
-									</tr>
-									<tr class="">
-										{% set moyenne_marque_m = (marque.moyquestsatisfmontreq2s0 + marque.moyquestsatisfmontreq3s0 + marque.moyquestsatisfmontreq4s0 + marque.moyquestsatisfmontreq5s0 + marque.moyquestsatisfmontreq6s0) / 5  %}
-										
-										{% set moyenne_currentKpi_m = (currentKpi.moyquestsatisfmontreq2s0 + currentKpi.moyquestsatisfmontreq3s0 + currentKpi.moyquestsatisfmontreq4s0 + currentKpi.moyquestsatisfmontreq5s0 + currentKpi.moyquestsatisfmontreq6s0) / 5  %}
 										
 										<th class="text-right text-uppercase small" style="color: #000000;">Moyenne</th>
 										{% if user_id != '101' %}
@@ -355,7 +363,9 @@
 								<strong>N°3 : </strong>Quelle note donneriez-vous au temps d'attente avant la prise en charge ?<br />
 								<strong>N°4 : </strong>Quelle note donneriez-vous à la présentation des produits (vitrines, merchandising...) ?<br />
 								<strong>N°5 : </strong>Quelle note donneriez-vous au choix des produits (marques, styles...) ?<br />
-								<strong>N°6 : </strong>Quelle note donneriez-vous à votre expérience d'achat (conseils, services proposés...) ?
+								{% if currentKpi.date < date("2022-10-28") %}
+									<strong>N°6 : </strong>Quelle note donneriez-vous à votre expérience d'achat (conseils, services proposés...) ?
+								{% endif %}
 								</span>
 							</p>
 
@@ -403,7 +413,9 @@
 									<th class="small text-center" style="color:#000;">Moy.<br />Q. 3</th>
 									<th class="small text-center" style="color:#000;">Moy.<br />Q. 4</th>
 									<th class="small text-center" style="color:#000;">Moy.<br />Q. 5</th>
-									<th class="small text-center" style="color:#000;">Moy.<br />Q. 6</th>
+									{% if currentKpi.date < date("2022-10-28") %}
+										<th class="small text-center" style="color:#000;">Moy.<br />Q. 6</th>
+									{% endif %}
 									<th class="small text-center" style="color:#000;">Moy.</th>
 								</tr>
 							</thead>
@@ -415,14 +427,20 @@
 									<td class="text-center">{{ marque.moyquestsatisfmontreq3s0|number_format(1, ',', ' ')}}</td>
 									<td class="text-center">{{ marque.moyquestsatisfmontreq4s0|number_format(1, ',', ' ')}}</td>
 									<td class="text-center">{{ marque.moyquestsatisfmontreq5s0|number_format(1, ',', ' ')}}</td>
-									<td class="text-center">{{ marque.moyquestsatisfmontreq6s0|number_format(1, ',', ' ')}}</td>
+									{% if currentKpi.date < date("2022-10-28") %}
+										<td class="text-center">{{ marque.moyquestsatisfmontreq6s0|number_format(1, ',', ' ')}}</td>
+									{% endif %}
 									<td class="text-center ">{{moyenne_marque_m|number_format(1, ',', ' ') }}</td>
 								</tr>
 								{% if user_role == "ROLE_MARQUE" %}
 									{% for boutique in getDrsMarque %}
 										{% set keyloop = loop.index %}
 										{% if getDrsMarque is not null %}
-											{% set moyenne_boutique_m = (boutique.moyquestsatisfmontreq2s0 + boutique.moyquestsatisfmontreq3s0 + boutique.moyquestsatisfmontreq4s0 + boutique.moyquestsatisfmontreq5s0 + boutique.moyquestsatisfmontreq6s0) / 5  %}
+											{% if currentKpi.date < date("2022-10-28") %}
+												{% set moyenne_boutique_m = (boutique.moyquestsatisfmontreq2s0 + boutique.moyquestsatisfmontreq3s0 + boutique.moyquestsatisfmontreq4s0 + boutique.moyquestsatisfmontreq5s0 + boutique.moyquestsatisfmontreq6s0) / 5  %}
+											{% else %}
+												{% set moyenne_boutique_m = (boutique.moyquestsatisfmontreq2s0 + boutique.moyquestsatisfmontreq3s0 + boutique.moyquestsatisfmontreq4s0 + boutique.moyquestsatisfmontreq5s0) / 4  %}
+											{% endif %}
 											<tr>
 												<th class="text-right text-uppercase small"><i class="fa fa-plus-circle" aria-hidden="true" data="boutiques2_{{keyloop}}" style="cursor:pointer;"></i>&nbsp;&nbsp;<a target="_blank" href="{{ path('app_kpi_satisfaction', { 'user_actuel' : userId, 'user_id' : boutique.user.id } ) }}">{{boutique.user.username|replace({'LOUIS PION': 'RÉSEAU'})}}</a></th>
 												<td class="text-center">{{ boutique.nbrequestsatisfmontreds0|number_format(0, ',', ' ') }}</td>
@@ -430,7 +448,9 @@
 												<td class="text-center">{{ boutique.moyquestsatisfmontreq3s0|number_format(1, ',', ' ')}}</td>
 												<td class="text-center">{{ boutique.moyquestsatisfmontreq4s0|number_format(1, ',', ' ')}}</td>
 												<td class="text-center">{{ boutique.moyquestsatisfmontreq5s0|number_format(1, ',', ' ')}}</td>
-												<td class="text-center">{{ boutique.moyquestsatisfmontreq6s0|number_format(1, ',', ' ')}}</td>
+												{% if currentKpi.date < date("2022-10-28") %}
+													<td class="text-center">{{ boutique.moyquestsatisfmontreq6s0|number_format(1, ',', ' ')}}</td>
+												{% endif %}
 												<td class="text-center ">{{moyenne_boutique_m|number_format(1, ',', ' ') }}</td>
 											</tr>
 										{% endif %}
@@ -438,7 +458,11 @@
 											<tbody class="boutiques2_{{keyloop}}" style="display:none;">
 											{% for boutique3 in boutique2 %}
 												{% if boutique3.user.dr == boutique.user.username %}
-													{% set moyenne_boutique3_m = (boutique3.moyquestsatisfmontreq2s0 + boutique3.moyquestsatisfmontreq3s0 + boutique3.moyquestsatisfmontreq4s0 + boutique3.moyquestsatisfmontreq5s0 + boutique3.moyquestsatisfmontreq6s0) / 5  %}
+													{% if currentKpi.date < date("2022-10-28") %}
+														{% set moyenne_boutique3_m = (boutique3.moyquestsatisfmontreq2s0 + boutique3.moyquestsatisfmontreq3s0 + boutique3.moyquestsatisfmontreq4s0 + boutique3.moyquestsatisfmontreq5s0 + boutique3.moyquestsatisfmontreq6s0) / 5  %}
+													{% else %}
+														{% set moyenne_boutique3_m = (boutique3.moyquestsatisfmontreq2s0 + boutique3.moyquestsatisfmontreq3s0 + boutique3.moyquestsatisfmontreq4s0 + boutique3.moyquestsatisfmontreq5s0) / 4  %}
+													{% endif %}
 													<tr>
 														<th class="text-right text-uppercase small"><a target="_blank" href="{{ path('app_kpi_satisfaction', { 'user_actuel' : userId, 'user_id' : boutique3.user.id } ) }}">{{boutique3.user.username|replace({'LOUIS PION': 'RÉSEAU'})}}</a></th>
 														<td class="text-center">{{ boutique3.nbrequestsatisfmontreds0|number_format(0, ',', ' ') }}</td>
@@ -446,7 +470,9 @@
 														<td class="text-center">{{ boutique3.moyquestsatisfmontreq3s0|number_format(1, ',', ' ')}}</td>
 														<td class="text-center">{{ boutique3.moyquestsatisfmontreq4s0|number_format(1, ',', ' ')}}</td>
 														<td class="text-center">{{ boutique3.moyquestsatisfmontreq5s0|number_format(1, ',', ' ')}}</td>
-														<td class="text-center">{{ boutique3.moyquestsatisfmontreq6s0|number_format(1, ',', ' ')}}</td>
+														{% if currentKpi.date < date("2022-10-28") %}
+															<td class="text-center">{{ boutique3.moyquestsatisfmontreq6s0|number_format(1, ',', ' ')}}</td>
+														{% endif %}
 														<td class="text-center ">{{moyenne_boutique3_m|number_format(1, ',', ' ') }}</td>
 													</tr>
 												{% endif %}
@@ -457,7 +483,11 @@
 								{% elseif user_role == "ROLE_DR" %}
 									{% for boutique in getBoutiquesDr %}
 										{% if getBoutiquesDr is not null and boutique.nbTransacYtd > 0 %}
-											{% set moyenne_boutique_m = (boutique.moyquestsatisfmontreq2s0 + boutique.moyquestsatisfmontreq3s0 + boutique.moyquestsatisfmontreq4s0 + boutique.moyquestsatisfmontreq5s0 + boutique.moyquestsatisfmontreq6s0) / 5  %}
+											{% if currentKpi.date < date("2022-10-28") %}
+												{% set moyenne_boutique_m = (boutique.moyquestsatisfmontreq2s0 + boutique.moyquestsatisfmontreq3s0 + boutique.moyquestsatisfmontreq4s0 + boutique.moyquestsatisfmontreq5s0 + boutique.moyquestsatisfmontreq6s0) / 5  %}
+											{% else %}
+												{% set moyenne_boutique_m = (boutique.moyquestsatisfmontreq2s0 + boutique.moyquestsatisfmontreq3s0 + boutique.moyquestsatisfmontreq4s0 + boutique.moyquestsatisfmontreq5s0) / 4  %}
+											{% endif %}
 											<tr>
 												<th class="text-right text-uppercase small"><a target="_blank" href="{{ path('app_kpi_satisfaction', { 'user_actuel' : userId, 'user_id' : boutique.user.id } ) }}">{{boutique.user.username|replace({'LOUIS PION': 'RÉSEAU'})}}</a></th>
 												<td class="text-center">{{ boutique.nbrequestsatisfmontreds0|number_format(0, ',', ' ') }}</td>
@@ -465,7 +495,9 @@
 												<td class="text-center">{{ boutique.moyquestsatisfmontreq3s0|number_format(1, ',', ' ')}}</td>
 												<td class="text-center">{{ boutique.moyquestsatisfmontreq4s0|number_format(1, ',', ' ')}}</td>
 												<td class="text-center">{{ boutique.moyquestsatisfmontreq5s0|number_format(1, ',', ' ')}}</td>
-												<td class="text-center">{{ boutique.moyquestsatisfmontreq6s0|number_format(1, ',', ' ')}}</td>
+												{% if currentKpi.date < date("2022-10-28") %}
+													<td class="text-center">{{ boutique.moyquestsatisfmontreq6s0|number_format(1, ',', ' ')}}</td>
+												{% endif %}
 												<td class="text-center ">{{moyenne_boutique_m|number_format(1, ',', ' ') }}</td>
 											</tr>
 										{% endif %}
