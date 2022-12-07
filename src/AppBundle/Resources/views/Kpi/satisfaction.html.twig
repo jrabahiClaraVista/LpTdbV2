@@ -20,7 +20,7 @@
 		<ul class="nav nav-tabs" role="tablist" style="font-weight:bold">
 			<li role="presentation" class="pull-left active"><a target="_blank" href="#global" aria-controls="global" role="tab" data-toggle="tab">NPS au global</a></li>
 			<li role="presentation" class="pull-left"><a target="_blank" href="#montres" aria-controls="montres" role="tab" data-toggle="tab">Clients Montres</a></li>
-			{% if currentKpi.date < date("2022-11-01") %}
+			{% if currentKpi.date < date("2022-10-01") %}
 				<li role="presentation" class="pull-left"><a target="_blank" href="#piles" aria-controls="piles" role="tab" data-toggle="tab">Clients Piles et Bracelets</a></li>
 			{% endif %}
 		</ul>
@@ -403,7 +403,7 @@
 										{% endif %}
 										<td class="text-center">{{moyenne_currentKpi_m|number_format(1, ',', ' ')}}</td>
 										{% if user_id != '101' %}
-											<td class="text-center info">{{marque.moyquestsatisfmontreq6ytd|number_format(1, ',', ' ')}}</td>
+											<td class="text-center info">{{marque.moyenne_marque_ytd|number_format(1, ',', ' ')}}</td>
 										{% endif %}
 										<td class="text-center">{{moyenne_currentKpi_ytd|number_format(1, ',', ' ')}}</td>
 									</tr>
