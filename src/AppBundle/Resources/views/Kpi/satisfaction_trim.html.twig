@@ -20,7 +20,7 @@
 		<ul class="nav nav-tabs" role="tablist" style="font-weight:bold">
 			<li role="presentation" class="pull-left active"><a target="_blank" href="#global" aria-controls="global" role="tab" data-toggle="tab">NPS au global</a></li>
 			<li role="presentation" class="pull-left"><a target="_blank" href="#montres" aria-controls="montres" role="tab" data-toggle="tab">Clients Montres</a></li>
-			{% if currentKpi.date < date("2022-11-01") %}
+			{% if currentKpi.date < date("2022-10-30") %}
 				<li role="presentation" class="pull-left"><a target="_blank" href="#piles" aria-controls="piles" role="tab" data-toggle="tab">Clients Piles et Bracelets</a></li>
 			{% endif %}
 		</ul>
@@ -315,7 +315,7 @@
 										<td class="text-center">{{currentKpi.moyquestsatisfmontreq6t0|number_format(1, ',', ' ')}}</td>
 									</tr>
 									<tr class="">
-										{% if currentKpi.date < date("2022-11-01") %}
+										{% if currentKpi.date < date("2022-10-30") %}
 											{% set moyenne_marque_m = (marque.moyquestsatisfmontreq2t0 + marque.moyquestsatisfmontreq3t0 + marque.moyquestsatisfmontreq4t0 + marque.moyquestsatisfmontreq5t0 + marque.moyquestsatisfmontreq6t0) / 5  %}
 											
 											{% set moyenne_currentKpi_m = (currentKpi.moyquestsatisfmontreq2t0 + currentKpi.moyquestsatisfmontreq3t0 + currentKpi.moyquestsatisfmontreq4t0 + currentKpi.moyquestsatisfmontreq5t0 + currentKpi.moyquestsatisfmontreq6t0) / 5  %}
@@ -428,7 +428,7 @@
 									{% for boutique in getDrsMarque %}
 										{% set keyloop = loop.index %}
 										{% if getDrsMarque is not null %}
-											{% if currentKpi.date < date("2022-11-01") %}
+											{% if currentKpi.date < date("2022-10-30") %}
 												{% set moyenne_boutique_m = (boutique.moyquestsatisfmontreq2t0 + boutique.moyquestsatisfmontreq3t0 + boutique.moyquestsatisfmontreq4t0 + boutique.moyquestsatisfmontreq5t0 + boutique.moyquestsatisfmontreq6t0) / 5  %}
 											{% else %}
 												{% set moyenne_boutique_m = (boutique.moyquestsatisfmontreq2t0 + boutique.moyquestsatisfmontreq3t0 + boutique.moyquestsatisfmontreq4t0 + boutique.moyquestsatisfmontreq5t0 ) / 4  %}
@@ -448,7 +448,7 @@
 											<tbody class="boutiques2_{{keyloop}}" style="display:none;">
 											{% for boutique3 in boutique2 %}
 												{% if boutique3.user.dr == boutique.user.username %}
-													{% if currentKpi.date < date("2022-11-01") %}
+													{% if currentKpi.date < date("2022-10-30") %}
 														{% set moyenne_boutique3_m = (boutique3.moyquestsatisfmontreq2t0 + boutique3.moyquestsatisfmontreq3t0 + boutique3.moyquestsatisfmontreq4t0 + boutique3.moyquestsatisfmontreq5t0 + boutique3.moyquestsatisfmontreq6t0) / 5  %}
 													{% else %}
 														{% set moyenne_boutique3_m = (boutique3.moyquestsatisfmontreq2t0 + boutique3.moyquestsatisfmontreq3t0 + boutique3.moyquestsatisfmontreq4t0 + boutique3.moyquestsatisfmontreq5t0) / 4  %}
@@ -471,7 +471,7 @@
 								{% elseif user_role == "ROLE_DR" %}
 									{% for boutique in getBoutiquesDr %}
 										{% if getBoutiquesDr is not null and boutique.nbTransacYtd > 0 %}
-											{% if currentKpi.date < date("2022-11-01") %}
+											{% if currentKpi.date < date("2022-10-30") %}
 												{% set moyenne_boutique_m = (boutique.moyquestsatisfmontreq2t0 + boutique.moyquestsatisfmontreq3t0 + boutique.moyquestsatisfmontreq4t0 + boutique.moyquestsatisfmontreq5t0 + boutique.moyquestsatisfmontreq6t0) / 5  %}
 											{% else %}
 												{% set moyenne_boutique_m = (boutique.moyquestsatisfmontreq2t0 + boutique.moyquestsatisfmontreq3t0 + boutique.moyquestsatisfmontreq4t0 + boutique.moyquestsatisfmontreq5t0) / 4  %}
