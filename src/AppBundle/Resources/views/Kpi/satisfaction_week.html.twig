@@ -183,7 +183,7 @@
 										{% set keyloop = loop.index %}
 										{% if getDrsMarque is not null %}
 											<tr>
-												<th class="text-right text-uppercase"><i class="fa fa-plus-circle" aria-hidden="true" data="boutiques_{{keyloop}}" style="cursor:pointer;"></i>&nbsp;&nbsp;<a target="_blank" href="{{ path('app_kpi_satisfaction', { 'user_actuel' : userId, 'user_id' : boutique.user.id } ) }}">{{boutique.user.username|replace({'LOUIS PION': 'RÉSEAU'})}}</a></th>
+												<th class="text-right text-uppercase"><i class="fa fa-plus-circle" aria-hidden="true" data="boutiques_{{keyloop}}" style="cursor:pointer;"></i>&nbsp;&nbsp;<a target="_blank" href="{{ path('app_kpi_satisfaction_week', { 'user_actuel' : userId, 'user_id' : boutique.user.id } ) }}">{{boutique.user.username|replace({'LOUIS PION': 'RÉSEAU'})}}</a></th>
 												<td class="text-center">{{ boutique.nbrequestsatisfs0|number_format(0, ',', ' ') }}</td>
 												<td class="text-center">{{ boutique.questsatisfnpss0|number_format(0, ',', ' ')}}</td>
 											</tr>
@@ -193,7 +193,7 @@
 											{% for boutique3 in boutique2 %}
 												{% if boutique3.user.dr == boutique.user.username %}
 													<tr>
-														<th class="text-right text-uppercase small"><a target="_blank" href="{{ path('app_kpi_satisfaction', { 'user_actuel' : userId, 'user_id' : boutique3.user.id } ) }}">{{boutique3.user.username|replace({'LOUIS PION': 'RÉSEAU'})}}</a></th>
+														<th class="text-right text-uppercase small"><a target="_blank" href="{{ path('app_kpi_satisfaction_week', { 'user_actuel' : userId, 'user_id' : boutique3.user.id } ) }}">{{boutique3.user.username|replace({'LOUIS PION': 'RÉSEAU'})}}</a></th>
 														<td class="text-center">{{ boutique3.nbrequestsatisfs0|number_format(0, ',', ' ') }}</td>
 														<td class="text-center">{{ boutique3.questsatisfnpss0|number_format(0, ',', ' ')}}</td>
 													</tr>
@@ -204,9 +204,9 @@
 									{% endfor %}
 								{% elseif user_role == "ROLE_DR" %}
 									{% for boutique in getBoutiquesDr %}
-										{% if getBoutiquesDr is not null and boutique.nbTransacYtd > 0 %}
+										{% if getBoutiquesDr is not null %}
 											<tr>
-												<th class="text-right text-uppercase"><a target="_blank" href="{{ path('app_kpi_satisfaction', { 'user_actuel' : userId, 'user_id' : boutique.user.id } ) }}">{{boutique.user.username|replace({'LOUIS PION': 'RÉSEAU'})}}</a></th>
+												<th class="text-right text-uppercase"><a target="_blank" href="{{ path('app_kpi_satisfaction_week', { 'user_actuel' : userId, 'user_id' : boutique.user.id } ) }}">{{boutique.user.username|replace({'LOUIS PION': 'RÉSEAU'})}}</a></th>
 												<td class="text-center">{{ boutique.nbrequestsatisfs0|number_format(0, ',', ' ') }}</td>
 												<td class="text-center">{{ boutique.questsatisfnpss0|number_format(0, ',', ' ')}}</td>
 											</tr>
@@ -442,7 +442,7 @@
 												{% set moyenne_boutique_m = (boutique.moyquestsatisfmontreq2s0 + boutique.moyquestsatisfmontreq3s0 + boutique.moyquestsatisfmontreq4s0 + boutique.moyquestsatisfmontreq5s0) / 4  %}
 											{% endif %}
 											<tr>
-												<th class="text-right text-uppercase small"><i class="fa fa-plus-circle" aria-hidden="true" data="boutiques2_{{keyloop}}" style="cursor:pointer;"></i>&nbsp;&nbsp;<a target="_blank" href="{{ path('app_kpi_satisfaction', { 'user_actuel' : userId, 'user_id' : boutique.user.id } ) }}">{{boutique.user.username|replace({'LOUIS PION': 'RÉSEAU'})}}</a></th>
+												<th class="text-right text-uppercase small"><i class="fa fa-plus-circle" aria-hidden="true" data="boutiques2_{{keyloop}}" style="cursor:pointer;"></i>&nbsp;&nbsp;<a target="_blank" href="{{ path('app_kpi_satisfaction_week', { 'user_actuel' : userId, 'user_id' : boutique.user.id } ) }}">{{boutique.user.username|replace({'LOUIS PION': 'RÉSEAU'})}}</a></th>
 												<td class="text-center">{{ boutique.nbrequestsatisfmontreds0|number_format(0, ',', ' ') }}</td>
 												<td class="text-center">{{ boutique.moyquestsatisfmontreq2s0|number_format(1, ',', ' ')}}</td>
 												<td class="text-center">{{ boutique.moyquestsatisfmontreq3s0|number_format(1, ',', ' ')}}</td>
@@ -464,7 +464,7 @@
 														{% set moyenne_boutique3_m = (boutique3.moyquestsatisfmontreq2s0 + boutique3.moyquestsatisfmontreq3s0 + boutique3.moyquestsatisfmontreq4s0 + boutique3.moyquestsatisfmontreq5s0) / 4  %}
 													{% endif %}
 													<tr>
-														<th class="text-right text-uppercase small"><a target="_blank" href="{{ path('app_kpi_satisfaction', { 'user_actuel' : userId, 'user_id' : boutique3.user.id } ) }}">{{boutique3.user.username|replace({'LOUIS PION': 'RÉSEAU'})}}</a></th>
+														<th class="text-right text-uppercase small"><a target="_blank" href="{{ path('app_kpi_satisfaction_week', { 'user_actuel' : userId, 'user_id' : boutique3.user.id } ) }}">{{boutique3.user.username|replace({'LOUIS PION': 'RÉSEAU'})}}</a></th>
 														<td class="text-center">{{ boutique3.nbrequestsatisfmontreds0|number_format(0, ',', ' ') }}</td>
 														<td class="text-center">{{ boutique3.moyquestsatisfmontreq2s0|number_format(1, ',', ' ')}}</td>
 														<td class="text-center">{{ boutique3.moyquestsatisfmontreq3s0|number_format(1, ',', ' ')}}</td>
@@ -482,14 +482,14 @@
 									{% endfor %}
 								{% elseif user_role == "ROLE_DR" %}
 									{% for boutique in getBoutiquesDr %}
-										{% if getBoutiquesDr is not null and boutique.nbTransacYtd > 0 %}
+										{% if getBoutiquesDr is not null %}
 											{% if currentKpi.date < date("2022-10-28") %}
 												{% set moyenne_boutique_m = (boutique.moyquestsatisfmontreq2s0 + boutique.moyquestsatisfmontreq3s0 + boutique.moyquestsatisfmontreq4s0 + boutique.moyquestsatisfmontreq5s0 + boutique.moyquestsatisfmontreq6s0) / 5  %}
 											{% else %}
 												{% set moyenne_boutique_m = (boutique.moyquestsatisfmontreq2s0 + boutique.moyquestsatisfmontreq3s0 + boutique.moyquestsatisfmontreq4s0 + boutique.moyquestsatisfmontreq5s0) / 4  %}
 											{% endif %}
 											<tr>
-												<th class="text-right text-uppercase small"><a target="_blank" href="{{ path('app_kpi_satisfaction', { 'user_actuel' : userId, 'user_id' : boutique.user.id } ) }}">{{boutique.user.username|replace({'LOUIS PION': 'RÉSEAU'})}}</a></th>
+												<th class="text-right text-uppercase small"><a target="_blank" href="{{ path('app_kpi_satisfaction_week', { 'user_actuel' : userId, 'user_id' : boutique.user.id } ) }}">{{boutique.user.username|replace({'LOUIS PION': 'RÉSEAU'})}}</a></th>
 												<td class="text-center">{{ boutique.nbrequestsatisfmontreds0|number_format(0, ',', ' ') }}</td>
 												<td class="text-center">{{ boutique.moyquestsatisfmontreq2s0|number_format(1, ',', ' ')}}</td>
 												<td class="text-center">{{ boutique.moyquestsatisfmontreq3s0|number_format(1, ',', ' ')}}</td>
@@ -674,7 +674,7 @@
 										{% if getDrsMarque is not null %}
 											{% set moyenne_boutique_m = (boutique.moyquestsatisfpileq2s0 + boutique.moyquestsatisfpileq3s0 + boutique.moyquestsatisfpileq4s0) / 3  %}
 											<tr>
-												<th class="text-right text-uppercase small"><i class="fa fa-plus-circle" aria-hidden="true" data="boutiques3_{{keyloop}}" style="cursor:pointer;"></i>&nbsp;&nbsp;<a target="_blank" href="{{ path('app_kpi_satisfaction', { 'user_actuel' : userId, 'user_id' : boutique.user.id } ) }}">{{boutique.user.username|replace({'LOUIS PION': 'RÉSEAU'})}}</a></th>
+												<th class="text-right text-uppercase small"><i class="fa fa-plus-circle" aria-hidden="true" data="boutiques3_{{keyloop}}" style="cursor:pointer;"></i>&nbsp;&nbsp;<a target="_blank" href="{{ path('app_kpi_satisfaction_week', { 'user_actuel' : userId, 'user_id' : boutique.user.id } ) }}">{{boutique.user.username|replace({'LOUIS PION': 'RÉSEAU'})}}</a></th>
 												<td class="text-center">{{ boutique.nbrequestsatisfpileds0|number_format(0, ',', ' ') }}</td>
 												<td class="text-center">{{ boutique.moyquestsatisfpileq2s0|number_format(1, ',', ' ')}}</td>
 												<td class="text-center">{{ boutique.moyquestsatisfpileq3s0|number_format(1, ',', ' ')}}</td>
@@ -688,7 +688,7 @@
 												{% if boutique3.user.dr == boutique.user.username %}
 													{% set moyenne_boutique_m3 = (boutique3.moyquestsatisfpileq2s0 + boutique3.moyquestsatisfpileq3s0 + boutique3.moyquestsatisfpileq4s0) / 3  %}
 													<tr>
-														<th class="text-right text-uppercase small"><a target="_blank" href="{{ path('app_kpi_satisfaction', { 'user_actuel' : userId, 'user_id' : boutique3.user.id } ) }}">{{boutique3.user.username|replace({'LOUIS PION': 'RÉSEAU'})}}</a></th>
+														<th class="text-right text-uppercase small"><a target="_blank" href="{{ path('app_kpi_satisfaction_week', { 'user_actuel' : userId, 'user_id' : boutique3.user.id } ) }}">{{boutique3.user.username|replace({'LOUIS PION': 'RÉSEAU'})}}</a></th>
 														<td class="text-center">{{ boutique3.nbrequestsatisfpileds0|number_format(0, ',', ' ') }}</td>
 														<td class="text-center">{{ boutique3.moyquestsatisfpileq2s0|number_format(1, ',', ' ')}}</td>
 														<td class="text-center">{{ boutique3.moyquestsatisfpileq3s0|number_format(1, ',', ' ')}}</td>
@@ -702,10 +702,10 @@
 									{% endfor %}
 								{% elseif user_role == "ROLE_DR" %}
 									{% for boutique in getBoutiquesDr %}
-										{% if getBoutiquesDr is not null and boutique.nbTransacYtd > 0 %}
+										{% if getBoutiquesDr is not null %}
 											{% set moyenne_boutique_m = (boutique.moyquestsatisfpileq2s0 + boutique.moyquestsatisfpileq3s0 + boutique.moyquestsatisfpileq4s0) / 3  %}
 											<tr>
-												<th class="text-right text-uppercase small"><a target="_blank" href="{{ path('app_kpi_satisfaction', { 'user_actuel' : userId, 'user_id' : boutique.user.id } ) }}">{{boutique.user.username|replace({'LOUIS PION': 'RÉSEAU'})}}</a></th>
+												<th class="text-right text-uppercase small"><a target="_blank" href="{{ path('app_kpi_satisfaction_week', { 'user_actuel' : userId, 'user_id' : boutique.user.id } ) }}">{{boutique.user.username|replace({'LOUIS PION': 'RÉSEAU'})}}</a></th>
 												<td class="text-center">{{ boutique.nbrequestsatisfpileds0|number_format(0, ',', ' ') }}</td>
 												<td class="text-center">{{ boutique.moyquestsatisfpileq2s0|number_format(1, ',', ' ')}}</td>
 												<td class="text-center">{{ boutique.moyquestsatisfpileq3s0|number_format(1, ',', ' ')}}</td>
