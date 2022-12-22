@@ -360,7 +360,11 @@
 
 							<p><strong>Rappel des questions : <br /></strong>&nbsp;<br /><span class="small">
 								<strong>N°2 : </strong>Quelle note donneriez-vous à votre accueil en boutique ?<br />
-								<strong>N°3 : </strong>Quelle note donneriez-vous au temps d'attente avant la prise en charge ?<br />
+								{% if currentKpi.date < date("2022-10-01") %}
+									<strong>N°3 : </strong>Quelle note donneriez-vous au temps d'attente avant la prise en charge ?<br />
+								{% else %}
+									<strong>N°3 : </strong>Quelle note donneriez-vous à votre expérience d'achat ?<br />
+								{% endif %}
 								<strong>N°4 : </strong>Quelle note donneriez-vous à la présentation des produits (vitrines, merchandising...) ?<br />
 								<strong>N°5 : </strong>Quelle note donneriez-vous au choix des produits (marques, styles...) ?<br />
 								{% if currentKpi.date < date("2022-10-01") %}
