@@ -116,6 +116,7 @@ class initKpiFilterDatesService
         }
         elseif($trim == 4) {
             $month = "10";
+            $year = $year - 1;
         }
 
         //la derniere date est toujours celle du dernier kpicapture en base, la premiere varie de -12 à -24 mois
