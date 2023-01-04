@@ -1585,7 +1585,7 @@ class KpiController extends Controller
 		$getBoutiquesDr = null;
 		$getDrsMarque = null;
 
-		//Requetes Mensuelles / hebdomadaire
+		//Requetes Trimestrielle
 		if( $user->getRole() == 'ROLE_MARQUE' ) {
 			$getDrsMarque = $em->getRepository('AppBundle:KpiTrim')->getKpiDrMarque($dateTrim3, $dateTrim2, $brand);
 			$getBoutiquesDr = array();
@@ -1769,8 +1769,8 @@ class KpiController extends Controller
 						LEFT JOIN fos_user_user u on d.user_id = u.id
 						WHERE d.id in $ids
 						ORDER BY d.date DESC, u.role";
-				$header     = array('Libelle','Role','Reseau','DR','Boutique','Nom Vendeur','Prenom Vendeur','Date','NOMBRE DE TRANSACTIONS Hebdomadaire',
-		            				'TAUX DE TRANSACTIONS LIÉES Hebdomadaire','CAPTURE EMAIL VALIDE Hebdomadaire','CAPTURE EMAIL + SMS VALIDE Hebdomadaire','CAPTURE EMAIL + SMS + ADRESSE VALIDE Hebdomadaire');
+				$header     = array('Libelle','Role','Reseau','DR','Boutique','Nom Vendeur','Prenom Vendeur','Date','NOMBRE DE TRANSACTIONS Trimestrielle',
+		            				'TAUX DE TRANSACTIONS LIÉES Trimestrielle','CAPTURE EMAIL VALIDE Trimestrielle','CAPTURE EMAIL + SMS VALIDE Trimestrielle','CAPTURE EMAIL + SMS + ADRESSE VALIDE Trimestrielle');
 
 				//Creation du fichier CSV et du header
 	            $handle     = fopen('php://memory', 'r+');
@@ -1808,8 +1808,8 @@ class KpiController extends Controller
 						LEFT JOIN fos_user_user u on d.user_id = u.id
 						WHERE d.id in $ids
 						ORDER BY d.date DESC, u.role";
-				$header     = array('Libelle','Role','Reseau','DR','Boutique','Nom Vendeur','Prenom Vendeur','Date','NOMBRE DE TRANSACTIONS Hebdo',
-	            					'TAUX DE TRANSACTIONS LIÉES Hebdo','CAPTURE EMAIL ET/OU SMS VALIDE et OPTIN Hebdo','CAPTURE EMAIL VALIDE et OPTIN Hebdo','CAPTURE SMS VALIDE et OPTIN Hebdo');
+				$header     = array('Libelle','Role','Reseau','DR','Boutique','Nom Vendeur','Prenom Vendeur','Date','NOMBRE DE TRANSACTIONS Trimestrielle',
+	            					'TAUX DE TRANSACTIONS LIÉES Trimestrielle','CAPTURE EMAIL ET/OU SMS VALIDE et OPTIN Trimestrielle','CAPTURE EMAIL VALIDE et OPTIN Trimestrielle','CAPTURE SMS VALIDE et OPTIN Trimestrielle');
 
 				//Creation du fichier CSV et du header
 	            $handle     = fopen('php://memory', 'r+');
