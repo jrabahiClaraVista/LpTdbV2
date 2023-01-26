@@ -12,7 +12,9 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 /**
  * Verbatim
  *
- * @ORM\Table(name="app_verbatim")
+ * @ORM\Table(name="app_verbatim", uniqueConstraints={
+ *      @ORM\UniqueConstraint(name="UNIQUE_VERBATIM", columns={"hash", "boutique", "question", "date"})
+ * })
  * @ORM\Entity(repositoryClass="AppBundle\Entity\VerbatimRepository")
  * @ORM\HasLifecycleCallbacks()
  */
@@ -26,6 +28,13 @@ class Verbatim
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $id;
+    
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="hash", type="string", length=255, nullable=true)
+     */
+    private $hash;
     
     /**
      * @var string
@@ -114,6 +123,29 @@ class Verbatim
     public function getType()
     {
         return $this->type;
+    }
+
+    /**
+     * Set hash
+     *
+     * @param string $hash
+     * @return Verbatim
+     */
+    public function setHash($hash)
+    {
+        $this->hash = $hash;
+
+        return $this;
+    }
+
+    /**
+     * Get hash
+     *
+     * @return string 
+     */
+    public function getHash()
+    {
+        return $this->hash;
     }
 
     /**

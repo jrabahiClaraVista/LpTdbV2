@@ -184,7 +184,7 @@ class ImportCronService
         $date = $date->format("Ym");
         $dateWeek = $dateWeek->format("YmdW");
 
-        rename ("/data/ftp/imports/Verbatim_Mois.csv" , "/data/ftp/imports/archives/Verbatim_Mois_".$date.".csv" );
+        rename ("/data/ftp/imports/Verbatim_Quotidien.csv" , "/data/ftp/imports/archives/Verbatim_Quotidien_".$date.".csv" );
     }
 
 
@@ -804,7 +804,7 @@ class ImportCronService
 
         $file = fopen($csv, "r");
 
-        $header1 = "type,marque,dr,boutique,question,note,verbatim,date";
+        $header1 = "hash,type,marque,dr,boutique,question,note,verbatim,date";
 
         //tableau des headers à mettre à jours pour la boucle
         $headers = explode(",", str_replace("user_id,", "", $header1));
@@ -840,14 +840,15 @@ class ImportCronService
 
             $stmt1 = $this->pdo->prepare($sql1);
 
-            $stmt1->bindValue(':type', $csvfilelines[0], \PDO::PARAM_STR);
-            $stmt1->bindValue(':marque', $csvfilelines[1], \PDO::PARAM_STR);
-            $stmt1->bindValue(':dr', $csvfilelines[2], \PDO::PARAM_STR);
-            $stmt1->bindValue(':boutique', $csvfilelines[3], \PDO::PARAM_STR);
-            $stmt1->bindValue(':question', $csvfilelines[4], \PDO::PARAM_STR);
-            $stmt1->bindValue(':note', $csvfilelines[5], \PDO::PARAM_STR);
-            $stmt1->bindValue(':verbatim', $csvfilelines[6], \PDO::PARAM_STR);
-            $stmt1->bindValue(':date', $csvfilelines[7], \PDO::PARAM_STR);
+            $stmt1->bindValue(':hash', $csvfilelines[0], \PDO::PARAM_STR);
+            $stmt1->bindValue(':type', $csvfilelines[1], \PDO::PARAM_STR);
+            $stmt1->bindValue(':marque', $csvfilelines[2], \PDO::PARAM_STR);
+            $stmt1->bindValue(':dr', $csvfilelines[3], \PDO::PARAM_STR);
+            $stmt1->bindValue(':boutique', $csvfilelines[4], \PDO::PARAM_STR);
+            $stmt1->bindValue(':question', $csvfilelines[5], \PDO::PARAM_STR);
+            $stmt1->bindValue(':note', $csvfilelines[6], \PDO::PARAM_STR);
+            $stmt1->bindValue(':verbatim', $csvfilelines[7], \PDO::PARAM_STR);
+            $stmt1->bindValue(':date', $csvfilelines[8], \PDO::PARAM_STR);
 
             //$output->writeln($sql1);
 

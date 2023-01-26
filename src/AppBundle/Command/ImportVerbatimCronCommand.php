@@ -33,10 +33,10 @@ class ImportVerbatimCronCommand extends ContainerAwareCommand
 
         if($ip == "127.0.0.1")
         {
-            $filename1 = "D:\wamp64\www\LpTdbV3\web\imports\Verbatim_Mois.csv";
+            $filename1 = "D:\wamp64\www\LpTdbV3\web\imports\Verbatim_Quotidien.csv";
         }
         else{
-			$filename1 = "/data/ftp/imports/Verbatim_Mois.csv";
+			$filename1 = "/data/ftp/imports/Verbatim_Quotidien.csv";
         }
 
 		if ( file_exists($filename1) ) {
