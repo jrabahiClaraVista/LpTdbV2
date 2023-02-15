@@ -181,7 +181,7 @@ class ImportCronService
     {
         $date = new \DateTime();
         $dateWeek = new \DateTime();
-        $date = $date->format("Ym");
+        $date = $date->format("Ymd");
         $dateWeek = $dateWeek->format("YmdW");
 
         rename ("/data/ftp/imports/Verbatim_Quotidien.csv" , "/data/ftp/imports/archives/Verbatim_Quotidien_".$date.".csv" );
