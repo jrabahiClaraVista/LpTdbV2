@@ -516,17 +516,17 @@ class KpiController extends Controller
 				if( $user->getRole() == 'ROLE_MARQUE' ) {
 					$sql2 = "SELECT v.marque,v.dr,v.boutique,v.type,v.question,v.note,v.verbatim,v.date
 						FROM app_verbatim v
-						WHERE v.marque = '$username' and v.type = 'Montre' and v.date >= '$date3' and v.date < DATE_ADD('$date2',1)";
+						WHERE v.marque = '$username' and v.type = 'Montre' and v.date >= '$date3' and v.date < DATE_ADD('$date2',INTERVAL 1 DAY)";
 				}
 				elseif( $user->getRole() == 'ROLE_DR' ) {
 					$sql2 = "SELECT v.marque,v.dr,v.boutique,v.type,v.question,v.note,v.verbatim,v.date
 						FROM app_verbatim v
-						WHERE v.dr = '$username' and v.type = 'Montre' and v.date >= '$date3' and v.date < DATE_ADD('$date2',1)";
+						WHERE v.dr = '$username' and v.type = 'Montre' and v.date >= '$date3' and v.date < DATE_ADD('$date2',INTERVAL 1 DAY)";
 				}
 				elseif( $user->getRole() == 'ROLE_BOUTIQUE' ) {
 					$sql2 = "SELECT v.marque,v.dr,v.boutique,v.type,v.question,v.note,v.verbatim,v.date
 						FROM app_verbatim v
-						WHERE v.boutique = '$username' and v.type = 'Montre' and v.date >= '$date3' and v.date < DATE_ADD('$date2',1)";
+						WHERE v.boutique = '$username' and v.type = 'Montre' and v.date >= '$date3' and v.date < DATE_ADD('$date2',INTERVAL 1 DAY)";
 				}
 			}
 
@@ -558,17 +558,17 @@ class KpiController extends Controller
 				if( $user->getRole() == 'ROLE_MARQUE' ) {
 					$sql2 = "SELECT v.marque,v.dr,v.boutique,v.type,v.question,v.note,v.verbatim,v.date
 						FROM app_verbatim v
-						WHERE v.marque = '$username' and v.type = 'Pile/Bracelet' and v.date >= '$date3' and v.date < DATE_ADD('$date2',1)";
+						WHERE v.marque = '$username' and v.type = 'Pile/Bracelet' and v.date >= '$date3' and v.date < DATE_ADD('$date2',INTERVAL 1 DAY)";
 				}
 				elseif( $user->getRole() == 'ROLE_DR' ) {
 					$sql2 = "SELECT v.marque,v.dr,v.boutique,v.type,v.question,v.note,v.verbatim,v.date
 						FROM app_verbatim v
-						WHERE v.dr = '$username' and v.type = 'Pile/Bracelet' and v.date >= '$date3' and v.date < DATE_ADD('$date2',1)";
+						WHERE v.dr = '$username' and v.type = 'Pile/Bracelet' and v.date >= '$date3' and v.date < DATE_ADD('$date2',INTERVAL 1 DAY)";
 				}
 				elseif( $user->getRole() == 'ROLE_BOUTIQUE' ) {
 					$sql2 = "SELECT v.marque,v.dr,v.boutique,v.type,v.question,v.note,v.verbatim,v.date
 						FROM app_verbatim v
-						WHERE v.boutique = '$username' and v.type = 'Pile/Bracelet' and v.date >= '$date3' and v.date < DATE_ADD('$date2',1)";
+						WHERE v.boutique = '$username' and v.type = 'Pile/Bracelet' and v.date >= '$date3' and v.date < DATE_ADD('$date2',INTERVAL 1 DAY)";
 				}
 			}
 
@@ -1229,17 +1229,17 @@ class KpiController extends Controller
 				if( $user->getRole() == 'ROLE_MARQUE' ) {
 					$sql2 = "SELECT v.marque,v.dr,v.boutique,v.type,v.question,v.note,v.verbatim,v.date
 						FROM app_verbatim v
-						WHERE v.marque = '$username' and v.type = 'Montre' and v.date >= '$dateWeek3' and v.date < DATE_ADD('$dateWeek2',1)";
+						WHERE v.marque = '$username' and v.type = 'Montre' and v.date >= '$dateWeek3' and v.date < DATE_ADD('$dateWeek2',INTERVAL 1 DAY)";
 				}
 				elseif( $user->getRole() == 'ROLE_DR' ) {
 					$sql2 = "SELECT v.marque,v.dr,v.boutique,v.type,v.question,v.note,v.verbatim,v.date
 						FROM app_verbatim v
-						WHERE v.dr = '$username' and v.type = 'Montre' and v.date >= '$dateWeek3' and v.date < DATE_ADD('$dateWeek2',1)";
+						WHERE v.dr = '$username' and v.type = 'Montre' and v.date >= '$dateWeek3' and v.date < DATE_ADD('$dateWeek2',INTERVAL 1 DAY)";
 				}
 				elseif( $user->getRole() == 'ROLE_BOUTIQUE' ) {
 					$sql2 = "SELECT v.marque,v.dr,v.boutique,v.type,v.question,v.note,v.verbatim,v.date
 						FROM app_verbatim v
-						WHERE v.boutique = '$username' and v.type = 'Montre' and v.date >= '$dateWeek3' and v.date < DATE_ADD('$dateWeek2',1)";
+						WHERE v.boutique = '$username' and v.type = 'Montre' and v.date >= '$dateWeek3' and v.date < DATE_ADD('$dateWeek2',INTERVAL 1 DAY)";
 				}
 			}
 
@@ -1271,17 +1271,17 @@ class KpiController extends Controller
 				if( $user->getRole() == 'ROLE_MARQUE' ) {
 					$sql2 = "SELECT v.marque,v.dr,v.boutique,v.type,v.question,v.note,v.verbatim,v.date
 						FROM app_verbatim v
-						WHERE v.marque = '$username' and v.type = 'Pile/Bracelet' and v.date >= '$dateWeek3' and v.date < DATE_ADD('$dateWeek2',1)";
+						WHERE v.marque = '$username' and v.type = 'Pile/Bracelet' and v.date >= '$dateWeek3' and v.date < DATE_ADD('$dateWeek2',INTERVAL 1 DAY)";
 				}
 				elseif( $user->getRole() == 'ROLE_DR' ) {
 					$sql2 = "SELECT v.marque,v.dr,v.boutique,v.type,v.question,v.note,v.verbatim,v.date
 						FROM app_verbatim v
-						WHERE v.dr = '$username' and v.type = 'Pile/Bracelet' and v.date >= '$dateWeek3' and v.date < DATE_ADD('$dateWeek2',1)";
+						WHERE v.dr = '$username' and v.type = 'Pile/Bracelet' and v.date >= '$dateWeek3' and v.date < DATE_ADD('$dateWeek2',INTERVAL 1 DAY)";
 				}
 				elseif( $user->getRole() == 'ROLE_BOUTIQUE' ) {
 					$sql2 = "SELECT v.marque,v.dr,v.boutique,v.type,v.question,v.note,v.verbatim,v.date
 						FROM app_verbatim v
-						WHERE v.boutique = '$username' and v.type = 'Pile/Bracelet' and v.date >= '$dateWeek3' and v.date < DATE_ADD('$dateWeek2',1)";
+						WHERE v.boutique = '$username' and v.type = 'Pile/Bracelet' and v.date >= '$dateWeek3' and v.date < DATE_ADD('$dateWeek2',INTERVAL 1 DAY)";
 				}
 			}
 
@@ -1882,17 +1882,17 @@ class KpiController extends Controller
 				if( $user->getRole() == 'ROLE_MARQUE' ) {
 					$sql2 = "SELECT v.marque,v.dr,v.boutique,v.type,v.question,v.note,v.verbatim,v.date
 						FROM app_verbatim v
-						WHERE v.marque = '$username' and v.type = 'Montre' and v.date >= '$dateTrim3' and v.date < DATE_ADD('$dateTrim2',1)";
+						WHERE v.marque = '$username' and v.type = 'Montre' and v.date >= '$dateTrim3' and v.date < DATE_ADD('$dateTrim2',INTERVAL 1 DAY)";
 				}
 				elseif( $user->getRole() == 'ROLE_DR' ) {
 					$sql2 = "SELECT v.marque,v.dr,v.boutique,v.type,v.question,v.note,v.verbatim,v.date
 						FROM app_verbatim v
-						WHERE v.dr = '$username' and v.type = 'Montre' and v.date >= '$dateTrim3' and v.date < DATE_ADD('$dateTrim2',1)";
+						WHERE v.dr = '$username' and v.type = 'Montre' and v.date >= '$dateTrim3' and v.date < DATE_ADD('$dateTrim2',INTERVAL 1 DAY)";
 				}
 				elseif( $user->getRole() == 'ROLE_BOUTIQUE' ) {
 					$sql2 = "SELECT v.marque,v.dr,v.boutique,v.type,v.question,v.note,v.verbatim,v.date
 						FROM app_verbatim v
-						WHERE v.boutique = '$username' and v.type = 'Montre' and v.date >= '$dateTrim3' and v.date < DATE_ADD('$dateTrim2',1)";
+						WHERE v.boutique = '$username' and v.type = 'Montre' and v.date >= '$dateTrim3' and v.date < DATE_ADD('$dateTrim2',INTERVAL 1 DAY)";
 				}
 			}
 
@@ -1924,17 +1924,17 @@ class KpiController extends Controller
 				if( $user->getRole() == 'ROLE_MARQUE' ) {
 					$sql2 = "SELECT v.marque,v.dr,v.boutique,v.type,v.question,v.note,v.verbatim,v.date
 						FROM app_verbatim v
-						WHERE v.marque = '$username' and v.type = 'Pile/Bracelet' and v.date >= '$dateTrim3' and v.date < DATE_ADD('$dateTrim2',1)";
+						WHERE v.marque = '$username' and v.type = 'Pile/Bracelet' and v.date >= '$dateTrim3' and v.date < DATE_ADD('$dateTrim2',INTERVAL 1 DAY)";
 				}
 				elseif( $user->getRole() == 'ROLE_DR' ) {
 					$sql2 = "SELECT v.marque,v.dr,v.boutique,v.type,v.question,v.note,v.verbatim,v.date
 						FROM app_verbatim v
-						WHERE v.dr = '$username' and v.type = 'Pile/Bracelet' and v.date >= '$dateTrim3' and v.date < DATE_ADD('$dateTrim2',1)";
+						WHERE v.dr = '$username' and v.type = 'Pile/Bracelet' and v.date >= '$dateTrim3' and v.date < DATE_ADD('$dateTrim2',INTERVAL 1 DAY)";
 				}
 				elseif( $user->getRole() == 'ROLE_BOUTIQUE' ) {
 					$sql2 = "SELECT v.marque,v.dr,v.boutique,v.type,v.question,v.note,v.verbatim,v.date
 						FROM app_verbatim v
-						WHERE v.boutique = '$username' and v.type = 'Pile/Bracelet' and v.date >= '$dateTrim3' and v.date < DATE_ADD('$dateTrim2',1)";
+						WHERE v.boutique = '$username' and v.type = 'Pile/Bracelet' and v.date >= '$dateTrim3' and v.date < DATE_ADD('$dateTrim2',INTERVAL 1 DAY)";
 				}
 			}
 
