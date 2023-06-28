@@ -33,7 +33,7 @@
 					{% if currentKpi.objectifHardbounceT0 < currentKpi.nbHardbounceT0 %}
 						{% set colorh = 'red' %}
 					{% endif %}
-					<figure class="col-xs-12">
+					<figure class="col-xs-12" style="padding-top: 20px;">
 						<figcaption class="col-xs-12 col-lg-4 alert alert-info text-center">
 							<h3>Rappel des objectifs</h3>
 							<p><strong>Moins de {{ currentKpi.objectifDesaboT0 }} désabonnements email </strong></p>
@@ -41,15 +41,15 @@
 						</figcaption>
 						<div class="col-xs-12 col-lg-4 text-center">
 							<h4>SUIVI DU DESABONNEMENT SUR LE TRIMESTRE</h4>
-							<p>
-								<span style="color: {{colord}};" class="font-size:20px; font-weight: bold;" aria-hidden="true">{{ currentKpi.nbDesaboT0 }}</span> / {{ currentKpi.objectifDesaboT0 }}
+							<p style="font-size:20px; font-weight: bold;">
+								<span style="color: {{colord}};" aria-hidden="true">{{ currentKpi.nbDesaboT0 }}</span> / {{ currentKpi.objectifDesaboT0 }}
 							</p>
 						</div>
 
 						<div class="col-xs-12 col-lg-4 text-center">
 							<h4>SUIVI DU HARDBOUNCE SUR LE TRIMESTRE</h4>
-							<p>
-								<span style="color: {{colorh}};" class="font-size:20px; font-weight: bold;" aria-hidden="true">{{ currentKpi.nbHardbounceT0 }}</span> / {{ currentKpi.objectifHardbounceT0 }}
+							<p style="font-size:20px; font-weight: bold;">
+								<span style="color: {{colorh}};" aria-hidden="true">{{ currentKpi.nbHardbounceT0 }}</span> / {{ currentKpi.objectifHardbounceT0 }}
 							</p>
 						</div>
 					</figure>
