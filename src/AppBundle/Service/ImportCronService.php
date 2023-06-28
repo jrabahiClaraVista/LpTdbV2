@@ -177,6 +177,19 @@ class ImportCronService
             rename ("/data/ftp/imports/TABLEAU_DE_BORD_trim_lp_rq.csv" , "/data/ftp/imports/archives/TABLEAU_DE_BORD_trim_lp_rq_".$dateTrim.".csv" );
     }
 
+    public function renameLastImportTrimHebdo($name = null)
+    {
+        $date = new \DateTime();
+        $dateTrim = new \DateTime();
+        $date = $date->format("Ym");
+        $dateTrim = $dateTrim->format("YmdW");
+
+        if($name != null)
+            rename ("/data/ftp/imports/Desabo_Hardbounce_LP.csv" , "/data/ftp/imports/archives/".$name.".csv" );
+        else
+            rename ("/data/ftp/imports/Desabo_Hardbounce_LP.csv" , "/data/ftp/imports/archives/Desabo_Hardbounce_LP_".$dateTrim.".csv" );
+    }
+
     public function renameLastImportVerbatim()
     {
         $date = new \DateTime();
@@ -765,6 +778,130 @@ class ImportCronService
             $stmt2->bindValue(':rank_npe2_T0',$csvfilelines[60], \PDO::PARAM_STR);
             $stmt2->bindValue(':rank_nps2_T0',$csvfilelines[61], \PDO::PARAM_STR);
             $stmt2->bindValue(':rank_npes2_T0',$csvfilelines[62], \PDO::PARAM_STR);
+
+            try
+            {
+                $stmt1->execute();
+            }
+            catch(Exception $e)
+            {
+                $output->writeln($e->getMessage());
+                die('Erreur 1 : '.$e->getMessage());
+            }
+
+            try
+            {
+                $stmt2->execute();
+            }
+            catch(Exception $e)
+            {
+                $output->writeln($e->getMessage());
+                die('Erreur 2 : '.$e->getMessage());
+            }
+
+            if($i % 20 == 0){
+                $output->writeln($i." lignes importees");
+                gc_collect_cycles();
+            }
+            $i++;
+        }
+        $output->writeln($i." lignes importees");
+
+    }
+
+    public function importKpiCaptureTrimestreHebdoCSVFile( InputInterface $input, OutputInterface $output, $csv = null)
+    {
+        $date = new \DateTime();
+        $date = $date->format("Ymd");
+
+
+        $file = fopen($csv, "r");
+
+        $header1 = "username_canonical,username,prenom_vendeur,nom_vendeur,email,email_canonical,role,boutique,dr,brand,enabled,updated_at";
+        
+        $header2 = "date,date_calcul,nb_desabo,nb_hardbounce,objectif_desabo,objectif_hardbounce";
+
+        //valeurs de la requête (correspond au header du fichier)
+        $values1 = ":".str_replace(",", ",:", $header1);
+        //$values1 = str_replace(":user_id,", "", $values1);
+        //tableau des headers à mettre à jours pour la boucle
+        $headers = explode(",", str_replace("user_id,", "", $header1));
+        $update1 = "";
+        $i = 0;
+        $len = count($headers);
+
+        foreach ($headers as $key => $value) {
+            if ($i == $len - 1) $update1 .= $value." = :".$value;
+            else $update1 .= $value." = :".$value.",";
+            $i++;
+        }
+
+        //valeurs de la requête (correspond au header du fichier)
+        $values2 = ":".str_replace(",", ",:", $header2);
+        $values2 = str_replace(":user_id,", "", $values2);
+        //tableau des headers à mettre à jours pour la boucle
+        $headers = explode(",", str_replace("user_id,", "", $header2));
+        $update2 = "";
+        $i = 0;
+        $len = count($headers);
+
+        foreach ($headers as $key => $value) {
+            if ($i == $len - 1) $update2 .= $value." = :".$value;
+            else $update2 .= $value." = :".$value.",";
+            $i++;
+        }
+
+
+        $sql1 = "INSERT INTO fos_user_user ( ".$header1.", created_at, salt, password, roles,locked,expired,credentials_expired,ispremium ) VALUES ( ".$values1.", :created_at, :salt, :password, :roles, 0, 0,0,0 )
+                ON DUPLICATE KEY UPDATE ".$update1."
+        ";
+        $sql2 = "INSERT INTO app_kpi_trim_hebdo ( user_id, ".$header2." ) VALUES (  (SELECT id from fos_user_user u WHERE u.username = :username) , ".$values2.")
+                ON DUPLICATE KEY UPDATE ".$update2."
+        ";
+
+        $i = 0;
+        $flag = true;
+
+        $date = new \Datetime('now');
+        $date= $date->format('Y-m-d H:i:s');
+
+        //$user = new User;
+        //$this->encoder->encodePassword('Claravista123!', $salt)
+
+        while( ($csvfilelines = fgetcsv($file, 0, $this->separator)) != FALSE )
+        {
+            if($flag) { $flag = false; continue; } //ignore first line of csv
+
+            $stmt1 = $this->pdo->prepare($sql1);
+            $stmt2 = $this->pdo->prepare($sql2);
+
+            $salt = base_convert(sha1(uniqid(mt_rand(), true)), 16, 36);
+
+            $stmt1->bindValue(':username', $csvfilelines[0], \PDO::PARAM_STR);
+            $stmt1->bindValue(':username_canonical', $csvfilelines[0], \PDO::PARAM_STR);
+            $stmt1->bindValue(':prenom_vendeur', $csvfilelines[1], \PDO::PARAM_STR);
+            $stmt1->bindValue(':nom_vendeur', $csvfilelines[2], \PDO::PARAM_STR);
+            $stmt1->bindValue(':email', $csvfilelines[3], \PDO::PARAM_STR);
+            $stmt1->bindValue(':email_canonical', $csvfilelines[3], \PDO::PARAM_STR);
+            $stmt1->bindValue(':role', $csvfilelines[4], \PDO::PARAM_STR);
+            $stmt1->bindValue(':boutique', $csvfilelines[5], \PDO::PARAM_STR);
+            $stmt1->bindValue(':dr', $csvfilelines[6], \PDO::PARAM_STR);
+            $stmt1->bindValue(':brand', $csvfilelines[7], \PDO::PARAM_STR);
+            $stmt1->bindValue(':enabled', 1, \PDO::PARAM_INT);
+            $stmt1->bindValue(':created_at', $date, \PDO::PARAM_STR);
+            $stmt1->bindValue(':updated_at', $date, \PDO::PARAM_STR);
+            $stmt1->bindValue(':salt', $salt, \PDO::PARAM_STR);
+            $stmt1->bindValue(':password', "to_change", \PDO::PARAM_STR);
+            $stmt1->bindValue(':roles', "a:0:{}", \PDO::PARAM_STR);
+
+
+            $stmt2->bindValue(':username', $csvfilelines[0], \PDO::PARAM_STR);
+            $stmt2->bindValue(':date', $csvfilelines[8], \PDO::PARAM_STR);
+            $stmt2->bindValue(':date_calcul', $csvfilelines[9], \PDO::PARAM_STR);
+            $stmt2->bindValue(':nb_desabo', $csvfilelines[10], \PDO::PARAM_STR);
+            $stmt2->bindValue(':nb_hardbounce', $csvfilelines[11], \PDO::PARAM_STR);
+            $stmt2->bindValue(':objectif_desabo', $csvfilelines[12], \PDO::PARAM_STR);
+            $stmt2->bindValue(':objectif_hardbounce', $csvfilelines[13], \PDO::PARAM_STR);
 
             try
             {
