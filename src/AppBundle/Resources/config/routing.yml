@@ -40,6 +40,10 @@ app_kpi_trim:
     path:      /kpi/t/{user_actuel}/{user_id}
     defaults:  { _controller: AppBundle:Kpi:kpiTrim, user_id: 0}
 
+app_kpi_trim_hebdo:
+    path:      /kpi/th/{user_actuel}/{user_id}
+    defaults:  { _controller: AppBundle:Kpi:kpiTrimHebdo, user_id: 0}
+
 app_kpi_ytd:
     path:      /kpi/ytd/{user_actuel}/{user_id}
     defaults:  { _controller: AppBundle:Kpi:kpi, user_id: 0}

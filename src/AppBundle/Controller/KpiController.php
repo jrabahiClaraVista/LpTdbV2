@@ -13,6 +13,7 @@ use Application\Sonata\UserBundle\Entity\User as User;
 use AppBundle\Entity\KpiWeek;
 use AppBundle\Entity\KpiMonth;
 use AppBundle\Entity\KpiTrim;
+use AppBundle\Entity\KpiTrimHebdo;
 
 use AppBundle\Form\CampaignKpiType;
 use AppBundle\Form\KpiFilterType;
@@ -2143,6 +2144,237 @@ class KpiController extends Controller
 	        	'formRank'      	=> $formRank->createView(),
 	        	'scope'				=> "trimestre",
 	        	'user_bis'			=> $user_id,
+	        	'user_actuel'		=> $user_actuel,
+	        	'user_role'			=> $user->getRole()
+	        	)
+	        );
+		}
+	}
+
+	/**
+	 * @ParamConverter("user_actuel", options={"mapping": {"user_actuel": "id"}})
+     */
+	public function kpiTrimHebdoAction(User $user_actuel, $user_id, Request $request) {
+		$em = $this->getDoctrine()->getManager();
+		$session = $request->getSession();
+		$routeName = $request->get('_route');
+
+		//$session->clear();
+
+		if($user_id == 0) {$user = $user_actuel;}
+		else {$user = $em->getRepository('ApplicationSonataUserBundle:User')->findOneById($user_id);}
+
+		$session->remove('filtre_reseau');
+		$session->remove('filtre_dr');
+		$session->remove('filtre_boutique');
+		$session->remove('filtre_vendeur');
+
+		$lastKpiTrim = $em->getRepository('AppBundle:KpiTrimHebdo')->findOneBy(array('user' => $user), array('date' => "DESC"));
+
+		if($lastKpiTrim == null){
+			$session->remove('kpi_trim_filtre');
+			$session->remove('kpi_year_filtre');
+
+			return $this->render('AppBundle:Kpi:no_data.html.twig', array(
+	        	'user_bis'			=> $user_id,
+	        	'user_actuel'		=> $user_actuel,
+	        	)
+	        );
+		}
+
+		// ATTENTION FAIRE UNE PAGE NO DATA POUR DES RESULTATS NULL
+		$dateTrim = $lastKpiTrim->getDate();
+
+		//initialisation des variable de session
+		$kpiFilterService = $this->container->get('app.kpi_filter_session');
+		$vars = $kpiFilterService->initVars($user, $request);
+
+        $reseau      = $vars[0];
+        $dr 		 = $vars[1];
+        $boutique    = $vars[2];
+        $vendeur     = $vars[3];
+
+
+        //simplification du code par utilisation d'un service pour initialiser les dates utiliser pour filtrer des données
+		$kpiDates = $this->get('app.init_Kpi_dates');
+		$datesTrim = $kpiDates->getDatesTrim($dateTrim, $session, 0);
+
+		$trim 		= $datesTrim['trim'];
+		$year 		= $datesTrim['year'];
+		$dateTrim1 	= $datesTrim['dateTrim1'];//Premier jour du mois à J - X mois
+		$dateTrim2 	= $datesTrim['dateTrim2'];//Dernier jour du mois
+		$dateTrim3 	= $datesTrim['dateTrim3'];//Premier jour du mois
+
+		if($session->get('kpi_trim_filtre') != null){
+			$form = $this->createForm(new KpiFilterType($em, $user, $user, null, null, $session->get('kpi_trim_filtre'), $session->get('kpi_year_filtre') , 'trimestre'));
+		}
+		else{
+			$form = $this->createForm(new KpiFilterType($em, $user, $user, null, null, $trim, $year, 'trimestre'));
+		}
+
+
+		$form->handleRequest($request);
+		//Recuperation des données de la requete
+        $data = $form->getData();
+
+		$brand = $user->getBrand();
+		if ($brand == null) $brand = '';
+
+
+		$vendeurBoutique = $user->getBoutique();
+		if ($vendeurBoutique == null) $vendeurBoutique = '';
+
+		$getBoutiquesDr = null;
+		$getDrsMarque = null;
+
+		//Requetes Trimestrielle
+		if( $user->getRole() == 'ROLE_MARQUE' ) {
+			$getDrsMarque = $em->getRepository('AppBundle:KpiTrimHebdo')->getKpiDrMarque($dateTrim3, $dateTrim2, $brand);
+			$getBoutiquesDr = array();
+			$getVendeursBoutique = null;
+
+			foreach ($getDrsMarque as $key => $dr) {
+				$getBoutiques = $em->getRepository('AppBundle:KpiTrimHebdo')->getKpiBoutiqueDr($dr->getUser()->getUsername(), $dateTrim3, $dateTrim2, $brand);
+				$getBoutiquesDr[$key] = $getBoutiques;
+			}
+
+			$kpisCSV = $em->getRepository('AppBundle:KpiTrimHebdo')->getKpisMarque($dateTrim1, $dateTrim2, $brand);
+		}
+		if( $user->getRole() == 'ROLE_DR' ) {
+			$getBoutiquesDr = $em->getRepository('AppBundle:KpiTrimHebdo')->getKpiBoutiqueDr($user->getUsername(), $dateTrim3, $dateTrim2, $brand);
+			$getVendeursBoutique = array();
+			$getDrsMarque = null;
+
+			foreach ($getBoutiquesDr as $key2 => $boutique) {
+				$getVendeurs = $em->getRepository('AppBundle:KpiTrimHebdo')->getKpiVendeurBoutique($boutique->getUser()->getUsername(), $dateTrim3, $dateTrim2, $brand);
+				$getVendeursBoutique[$key2] = $getVendeurs;
+			}
+
+			$kpisCSV = $em->getRepository('AppBundle:KpiTrimHebdo')->getKpisDr($dateTrim1, $dateTrim2, $user->getUsername(), $brand);
+		}
+		if( $user->getRole() == 'ROLE_BOUTIQUE' ) {
+			$getVendeursBoutique = $em->getRepository('AppBundle:KpiTrimHebdo')->getKpiVendeurBoutique($user->getUsername(), $dateTrim3, $dateTrim2, $brand);
+			$getBoutiquesDr = null;
+			$getDrsMarque = null;
+
+			$kpisCSV = $em->getRepository('AppBundle:KpiTrimHebdo')->getKpisBoutique($dateTrim1, $dateTrim2, $user->getBoutique(), $brand);
+		}
+		if( $user->getRole() == 'ROLE_VENDEUR' ) {
+			$getVendeursBoutique = $em->getRepository('AppBundle:KpiTrimHebdo')->getKpiVendeurBoutique($user->getBoutique(), $dateTrim3, $dateTrim2, $brand);
+			$getBoutiquesDr = null;
+			$getDrsMarque = null;
+
+			$kpisCSV = $em->getRepository('AppBundle:KpiTrimHebdo')->getKpisBoutique($dateTrim1, $dateTrim2, $user->getBoutique(), $brand);
+		}
+
+		if( $user->getRole() == 'ROLE_MARQUE' ) {
+			$marque = $em->getRepository('AppBundle:KpiTrimHebdo')->getKpiMarque($dateTrim3, $dateTrim2, $user->getUsername());
+		}
+		else{
+			$marque = $em->getRepository('AppBundle:KpiTrimHebdo')->getKpiMarque($dateTrim3, $dateTrim2, $user->getBrand());
+		}
+
+		
+	    if ( $request->getMethod() == 'POST' && $form->isSubmitted() ) {
+			//Mise à jour des variable de session
+			$kpiFilterService->updateSessionVars($data);
+			$reseau    = $session->get('filtre_reseau');
+			$dr 	   = $session->get('filtre_dr');
+			$boutique  = $session->get('filtre_boutique');
+			$vendeur   = $session->get('filtre_vendeur');
+
+
+			$datesTrim = $kpiDates->getDatesTrimPost($data, $session, 0);
+		  	$trim 		= $datesTrim['trim'];
+			$trimYear	= $datesTrim['year'];
+			$dateTrim1 	= $datesTrim['dateTrim1'];
+			$dateTrim2 	= $datesTrim['dateTrim2'];
+			$dateTrim3 	= $datesTrim['dateTrim3'];
+
+			if($session->get('filtre_vendeur') != null){
+				$id = $session->get('filtre_vendeur')->getId();
+		    }
+		    elseif($session->get('filtre_boutique') != null){
+					$id = $session->get('filtre_boutique')->getId();
+		    }
+			elseif($session->get('filtre_dr') != null){
+				$id = $session->get('filtre_dr')->getId();
+			}
+			elseif($session->get('filtre_reseau') != null){
+				$id = $session->get('filtre_reseau')->getId();
+			}
+			else{
+				$id = $user->getId();
+			}
+
+			if($routeName == "app_kpi_trim_hebdo"){
+				return $this->redirectToRoute('app_kpi_trim_hebdo', array('user_actuel' => $user_actuel->getId(),'user_id' =>$id));
+			}
+	    }
+
+		//Gestion des requêtes selon la page appelée
+
+		if($session->get('filtre_boutique') != null){
+			$kpis = $em->getRepository('AppBundle:KpiTrimHebdo')->getUserKpisBetweenDates($session->get('filtre_boutique'), $dateTrim1, $dateTrim2, $brand);
+		}
+		elseif($session->get('filtre_dr') != null){
+			$kpis = $em->getRepository('AppBundle:KpiTrimHebdo')->getUserKpisBetweenDates($session->get('filtre_dr'), $dateTrim1, $dateTrim2, $brand);
+		}
+		elseif($session->get('filtre_reseau') != null){
+			$kpis = $em->getRepository('AppBundle:KpiTrimHebdo')->getUserKpisBetweenDates($session->get('filtre_reseau'), $dateTrim1, $dateTrim2, $brand);
+		}
+		else{
+			$kpis = $em->getRepository('AppBundle:KpiTrimHebdo')->getUserKpisBetweenDates($user, $dateTrim1, $dateTrim2, $brand);
+		}
+
+		$kpiCurrentTrimHebdo = null;
+
+		//get current month depending on url parameter
+		foreach ($kpis as $key => $kpi) {
+			if ( $trim == null ) {
+				if ( $key == 0 )
+				$kpiCurrentTrimHebdo = $kpi;
+				$month = $kpiCurrentTrimHebdo->getDate()->format("n");
+	        	$trim = floor(($month-1)/3)+1;
+			}
+			else {
+				$month = $kpi->getDate()->format("n");
+	        	$trim2 = floor(($month-1)/3)+1;
+				if ( $trim2 == $trim && $kpi->getDate()->format("Y") == $year ) {
+					$kpiCurrentTrimHebdo = $kpi;
+				}
+			}
+		}
+
+		if ($kpis == null or $kpiCurrentTrimHebdo == null){
+			//throw new NotFoundHttpException("No data Available");
+			//$kpiCurrentTrim = $lastKpiTrim;
+			$session->remove('kpi_month_filtre');
+	    	$session->remove('kpi_year_filtre');
+	    	$session->remove('kpi_trim_filtre');
+	    	$session->remove('kpi_week_filtre');
+
+			//return $this->redirectToRoute('app_kpi_trim', array('user_actuel' => $user_actuel->getId(), 'user_id' =>$user->getId()));
+		}
+
+
+		//Mise à jour du filtre
+		$form = $kpiFilterService->updateForm($user, $request, $form);
+
+		$path_trim = 'AppBundle:Kpi:trim_desabo.html.twig';
+	
+		//Retourne la bonne page
+		if($routeName == "app_kpi_trim_hebdo"){
+	        return $this->render($path_trim, array(
+	        	'kpis' 				=> $kpis,
+	        	'currentKpi'	 	=> $kpiCurrentTrimHebdo,
+	        	'user'				=> $user,
+	        	'getBoutiquesDr'	=> $getBoutiquesDr,
+	        	'getDrsMarque'		=> $getDrsMarque,
+	        	'getVendeursBoutique' => $getVendeursBoutique,
+	        	'marque'			=> $marque,
+	        	'form'          	=> $form->createView(),
+	        	'form2'          	=> $form2->createView(),
 	        	'user_actuel'		=> $user_actuel,
 	        	'user_role'			=> $user->getRole()
 	        	)
