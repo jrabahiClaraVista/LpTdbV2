@@ -26,11 +26,11 @@
         </ul>
         <ul class="nav navbar-nav col-xs-12">
             {% if user.brand != "ROYAL QUARTZ" %}
-            <li class="col-xs-3 text-center {% if app.request.attributes.get('_route') == 'app_kpi_fid' %}active{% endif %}">
+            <li class="col-xs-4 text-center {% if app.request.attributes.get('_route') == 'app_kpi_fid' %}active{% endif %}">
                 <a href="{{ path('app_kpi_fid', { 'user_actuel' : userId, 'user_id' : user_id } ) }}" class="one-line">
                     {{"Fidélité"|trans}}
                 </a>
-            </li>
+            </li>{#
             <li class="col-xs-3 text-center {% if app.request.attributes.get('_route') == 'app_kpi_planning' %}active{% endif %}">
                 <a href="{{ path('app_kpi_planning', { 'user_actuel' : userId, 'user_id' : user_id } ) }}" class="one-line">
                     {{"Campagnes"|trans}}
@@ -42,9 +42,14 @@
                 <a href="{{ path('app_kpi_satisfaction', { 'user_actuel' : userId, 'user_id' : user_id } ) }}" class="one-line">
                     {{"Satisfaction"|trans}}
                 </a>
-            </li>
+            </li>#}
             {% endif %}
-            <li class="col-xs-3 text-center {% if app.request.attributes.get('_route') == 'app_kpi_faq' %}active{% endif %}">
+            <li class="col-xs-4 text-center {% if app.request.attributes.get('_route') == 'app_kpi_trim_hebdo' %}active{% endif %}">
+                <a href="{{ path('app_kpi_trim_hebdo', { 'user_actuel' : userId, 'user_id' : user_id } ) }}" class="one-line">
+                    {{"DESABONNEMENT"|trans }}<br />&amp; {{ "HARDBOUNCE"|trans}}
+                </a>
+            </li>  
+            <li class="col-xs-4 text-center {% if app.request.attributes.get('_route') == 'app_kpi_faq' %}active{% endif %}">
                 <a href="{{ path('app_kpi_faq', { 'user_actuel' : userId, 'user_id' : user_id } ) }}" class="one-line">
                     {{"FAQ"|trans}}
                 </a>
