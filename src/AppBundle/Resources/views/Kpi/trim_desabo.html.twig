@@ -17,13 +17,13 @@
 
 	<div id="ajax-content">
 
-	{% if currentKpi.objectifDesabo > 0 %}
+	{% if currentKpi.nbDesabo > 0 %}
 
 	<div class="col-xs-12">
 		<h2 class="text-uppercase gris-bg">{{ "Suivi du nombre de désabonnements et hardbounces sur le trimestre"|trans }}</h2>
 		<div class="col-xs-12 kpi-box">
 
-			{% if user_role != "ROLE_VENDEUR" and currentKpi.txTransacLinkedT0 > 0 %}
+			{% if user_role != "ROLE_VENDEUR" %}
 				<div class="inside col-xs-12 bordered-bottom">
 					{% set colord = 'green' %}
 					{% if currentKpi.objectifDesabo < currentKpi.nbDesabo %}
