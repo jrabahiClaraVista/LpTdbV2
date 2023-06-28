@@ -22,7 +22,7 @@
 							{{ form_widget(form.month, { 'attr': {'class' : 'form-control ajax', 'isSubmit': 'no'} }) }}
 						{% elseif app.request.attributes.get('_route') in ['app_kpi_week','app_kpi_satisfaction_week'] %}
 							{{ form_widget(form.week, { 'attr': {'class' : 'form-control ajax', 'isSubmit': 'no'} }) }}
-						{% elseif app.request.attributes.get('_route') in ['app_kpi_trim','app_kpi_satisfaction_trim'] %}
+						{% elseif app.request.attributes.get('_route') in ['app_kpi_trim','app_kpi_satisfaction_trim','app_kpi_trim_hebdo'] %}
 							{{ form_widget(form.trim, { 'attr': {'class' : 'form-control ajax', 'isSubmit': 'no'} }) }}
 						{% endif %}
 					</div>
@@ -67,7 +67,7 @@
 			
 		{{ form_end(form) }}
 
-		{% if app.request.attributes.get('_route') not in ['app_kpi_planning','app_kpi_faq','app_kpi_satisfaction','app_kpi_satisfaction_week','app_kpi_satisfaction_trim'] %}
+		{% if app.request.attributes.get('_route') not in ['app_kpi_planning','app_kpi_faq','app_kpi_satisfaction','app_kpi_satisfaction_week','app_kpi_satisfaction_trim','app_kpi_trim_hebdo'] %}
 		{{ form_start(form2, {'id' : 'data-export'}) }}
 			<div class="col-xs-3 pull-right">
 				{{ form_widget(form2.data) }}

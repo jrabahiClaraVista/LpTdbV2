@@ -2374,7 +2374,6 @@ class KpiController extends Controller
 	        	'getVendeursBoutique' => $getVendeursBoutique,
 	        	'marque'			=> $marque,
 	        	'form'          	=> $form->createView(),
-	        	'form2'          	=> $form2->createView(),
 	        	'user_actuel'		=> $user_actuel,
 	        	'user_role'			=> $user->getRole()
 	        	)
