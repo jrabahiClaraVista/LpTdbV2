@@ -124,7 +124,7 @@
 						{% elseif user_role == "ROLE_DR" %}
 							{% for boutique in getBoutiquesDr %}
 								{% set keyloop = loop.index %}
-								{% if getBoutiquesDr is not null and boutique.nbTransacT0 > 0 %}
+								{% if getBoutiquesDr is not null and boutique.nbDesaboT0 > 0 %}
 									<tr>
 										<th class="text-right text-uppercase"><i class="fa fa-plus-circle" aria-hidden="true" data="boutiques_{{keyloop}}" style="cursor:pointer;"></i>&nbsp;&nbsp;<a target="_blank" href="{{ path('app_kpi_trim_hebdo', { 'user_actuel' : userId, 'user_id' : boutique.user.id } ) }}">{{boutique.user.username}}</a></th>
 										<td class="text-center">{{ boutique.nbDesaboT0|number_format(0, ',', ' ') }}</td>
