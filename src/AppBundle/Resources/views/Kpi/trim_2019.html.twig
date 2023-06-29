@@ -175,7 +175,7 @@
 								{% set keyloop = loop.index %}
 								{% if getDrsMarque is not null %}
 									<tr>
-										<th class="text-right text-uppercase"><i class="fa fa-plus-circle" aria-hidden="true" data="boutiques_{{keyloop}}" style="cursor:pointer;"></i>&nbsp;&nbsp;<a target="_blank" href="{{ path('app_kpi_month', { 'user_actuel' : userId, 'user_id' : boutique.user.id } ) }}">{{boutique.user.username}}</a></th>
+										<th class="text-right text-uppercase"><i class="fa fa-plus-circle" aria-hidden="true" data="boutiques_{{keyloop}}" style="cursor:pointer;"></i>&nbsp;&nbsp;<a target="_blank" href="{{ path('app_kpi_trim', { 'user_actuel' : userId, 'user_id' : boutique.user.id } ) }}">{{boutique.user.username}}</a></th>
 										<td class="text-center">{{ boutique.nbTransacT0|number_format(0, ',', ' ') }}</td>
 										<td class="text-center">{{ boutique.txTransacLinkedT0|number_format}} %</td>
 										<td class="text-center">{{ boutique.txTransacNpesi2T0|number_format}} %</td>
@@ -188,7 +188,7 @@
 									{% for boutique3 in boutique2 %}
 										{% if boutique3.user.dr == boutique.user.username %}
 											<tr>
-												<th class="text-right text-uppercase small"><a target="_blank" href="{{ path('app_kpi_month', { 'user_actuel' : userId, 'user_id' : boutique3.user.id } ) }}">{{boutique3.user.username}}</a></th>
+												<th class="text-right text-uppercase small"><a target="_blank" href="{{ path('app_kpi_trim', { 'user_actuel' : userId, 'user_id' : boutique3.user.id } ) }}">{{boutique3.user.username}}</a></th>
 												<td class="text-center">{{ boutique3.nbTransacT0|number_format(0, ',', ' ') }}</td>
 												<td class="text-center">{{ boutique3.txTransacLinkedT0|number_format}} %</td>
 												<td class="text-center">{{ boutique3.txTransacNpesi2T0|number_format}} %</td>
@@ -205,7 +205,7 @@
 								{% set keyloop = loop.index %}
 								{% if getBoutiquesDr is not null and boutique.nbTransacT0 > 0 %}
 									<tr>
-										<th class="text-right text-uppercase"><i class="fa fa-plus-circle" aria-hidden="true" data="boutiques_{{keyloop}}" style="cursor:pointer;"></i>&nbsp;&nbsp;<a target="_blank" href="{{ path('app_kpi_month', { 'user_actuel' : userId, 'user_id' : boutique.user.id } ) }}">{{boutique.user.username}}</a></th>
+										<th class="text-right text-uppercase"><i class="fa fa-plus-circle" aria-hidden="true" data="boutiques_{{keyloop}}" style="cursor:pointer;"></i>&nbsp;&nbsp;<a target="_blank" href="{{ path('app_kpi_trim', { 'user_actuel' : userId, 'user_id' : boutique.user.id } ) }}">{{boutique.user.username}}</a></th>
 										<td class="text-center">{{ boutique.nbTransacT0|number_format(0, ',', ' ') }}</td>
 										<td class="text-center">{{ boutique.txTransacLinkedT0|number_format}} %</td>
 										<td class="text-center">{{ boutique.txTransacNpesi2T0|number_format}} %</td>
@@ -218,7 +218,7 @@
 									{% for boutique3 in boutique2 %}
 										{% if boutique3.user.boutique == boutique.user.username %}
 											<tr>
-												<th class="text-right text-uppercase small"><a target="_blank" href="{{ path('app_kpi_month', { 'user_actuel' : userId, 'user_id' : boutique3.user.id } ) }}">{{boutique3.user.nameAndSurname}}</a></th>
+												<th class="text-right text-uppercase small"><a target="_blank" href="{{ path('app_kpi_trim', { 'user_actuel' : userId, 'user_id' : boutique3.user.id } ) }}">{{boutique3.user.nameAndSurname}}</a></th>
 												<td class="text-center">{{ boutique3.nbTransacT0|number_format(0, ',', ' ') }}</td>
 												<td class="text-center">{{ boutique3.txTransacLinkedT0|number_format}} %</td>
 												<td class="text-center">{{ boutique3.txTransacNpesi2T0|number_format}} %</td>
@@ -234,7 +234,7 @@
 							{% for boutique in getVendeursBoutique %}
 								{% if getVendeursBoutique is not null and boutique.nbTransacT0 > 0 %}
 									<tr>
-										<th class="text-right text-uppercase"><a target="_blank" href="{{ path('app_kpi_month', { 'user_actuel' : userId, 'user_id' : boutique.user.id } ) }}">{{boutique.user.nameAndSurname}}</a></th>
+										<th class="text-right text-uppercase"><a target="_blank" href="{{ path('app_kpi_trim', { 'user_actuel' : userId, 'user_id' : boutique.user.id } ) }}">{{boutique.user.nameAndSurname}}</a></th>
 										<td class="text-center">{{ boutique.nbTransacT0|number_format(0, ',', ' ') }}</td>
 										<td class="text-center">{{ boutique.txTransacLinkedT0|number_format}} %</td>
 										<td class="text-center">{{ boutique.txTransacNpesi2T0|number_format}} %</td>

@@ -36,8 +36,8 @@
 					<figure class="col-xs-12" style="padding-top: 20px;">
 						<figcaption class="col-xs-12 col-lg-4 alert alert-info text-center">
 							<h3>Rappel des objectifs</h3>
-							<p><strong>Moins de {{ currentKpi.objectifDesaboT0 }} désabonnements email </strong></p>
-							<p><strong>Moins de {{ currentKpi.objectifHardbounceT0 }} de harbbounces email </strong></p>
+							<p><strong>Maximum 0,5 % de désabonnements email </strong></p>
+							<p><strong>Maximum 1,0 % de hardbounces email </strong></p>
 						</figcaption>
 						<div class="col-xs-12 col-lg-4 text-center">
 							<h4>SUIVI DU DESABONNEMENT<br />SUR LE TRIMESTRE</h4>
@@ -102,7 +102,7 @@
 								{% set keyloop = loop.index %}
 								{% if getDrsMarque is not null %}
 									<tr>
-										<th class="text-right text-uppercase"><i class="fa fa-plus-circle" aria-hidden="true" data="boutiques_{{keyloop}}" style="cursor:pointer;"></i>&nbsp;&nbsp;<a target="_blank" href="{{ path('app_kpi_month', { 'user_actuel' : userId, 'user_id' : boutique.user.id } ) }}">{{boutique.user.username}}</a></th>
+										<th class="text-right text-uppercase"><i class="fa fa-plus-circle" aria-hidden="true" data="boutiques_{{keyloop}}" style="cursor:pointer;"></i>&nbsp;&nbsp;<a target="_blank" href="{{ path('app_kpi_trim_hebdo', { 'user_actuel' : userId, 'user_id' : boutique.user.id } ) }}">{{boutique.user.username}}</a></th>
 										<td class="text-center">{{ boutique.nbDesaboT0|number_format(0, ',', ' ') }}</td>
 										<td class="text-center">{{ boutique.nbHardbounceT0|number_format(0, ',', ' ')}}</td>
 									</tr>
@@ -112,7 +112,7 @@
 									{% for boutique3 in boutique2 %}
 										{% if boutique3.user.dr == boutique.user.username %}
 											<tr>
-												<th class="text-right text-uppercase small"><a target="_blank" href="{{ path('app_kpi_month', { 'user_actuel' : userId, 'user_id' : boutique3.user.id } ) }}">{{boutique3.user.username}}</a></th>
+												<th class="text-right text-uppercase small"><a target="_blank" href="{{ path('app_kpi_trim_hebdo', { 'user_actuel' : userId, 'user_id' : boutique3.user.id } ) }}">{{boutique3.user.username}}</a></th>
 												<td class="text-center">{{ boutique3.nbDesaboT0|number_format(0, ',', ' ') }}</td>
 												<td class="text-center">{{ boutique3.nbHardbounceT0|number_format(0, ',', ' ')}}</td>
 											</tr>
@@ -126,7 +126,7 @@
 								{% set keyloop = loop.index %}
 								{% if getBoutiquesDr is not null and boutique.nbTransacT0 > 0 %}
 									<tr>
-										<th class="text-right text-uppercase"><i class="fa fa-plus-circle" aria-hidden="true" data="boutiques_{{keyloop}}" style="cursor:pointer;"></i>&nbsp;&nbsp;<a target="_blank" href="{{ path('app_kpi_month', { 'user_actuel' : userId, 'user_id' : boutique.user.id } ) }}">{{boutique.user.username}}</a></th>
+										<th class="text-right text-uppercase"><i class="fa fa-plus-circle" aria-hidden="true" data="boutiques_{{keyloop}}" style="cursor:pointer;"></i>&nbsp;&nbsp;<a target="_blank" href="{{ path('app_kpi_trim_hebdo', { 'user_actuel' : userId, 'user_id' : boutique.user.id } ) }}">{{boutique.user.username}}</a></th>
 										<td class="text-center">{{ boutique.nbDesaboT0|number_format(0, ',', ' ') }}</td>
 										<td class="text-center">{{ boutique.nbHardbounceT0|number_format(0, ',', ' ')}}</td>
 									</tr>
@@ -136,7 +136,7 @@
 									{% for boutique3 in boutique2 %}
 										{% if boutique3.user.boutique == boutique.user.username %}
 											<tr>
-												<th class="text-right text-uppercase small"><a target="_blank" href="{{ path('app_kpi_month', { 'user_actuel' : userId, 'user_id' : boutique3.user.id } ) }}">{{boutique3.user.nameAndSurname}}</a></th>
+												<th class="text-right text-uppercase small"><a target="_blank" href="{{ path('app_kpi_trim_hebdo', { 'user_actuel' : userId, 'user_id' : boutique3.user.id } ) }}">{{boutique3.user.nameAndSurname}}</a></th>
 												<td class="text-center">{{ boutique3.nbDesaboT0|number_format(0, ',', ' ') }}</td>
 												<td class="text-center">{{ boutique3.nbHardbounceT0|number_format(0, ',', ' ')}}</td>
 											</tr>
@@ -149,7 +149,7 @@
 							{% for boutique in getVendeursBoutique %}
 								{% if getVendeursBoutique is not null and boutique.nbDesaboT0 > 0 %}
 									<tr>
-										<th class="text-right text-uppercase"><a target="_blank" href="{{ path('app_kpi_month', { 'user_actuel' : userId, 'user_id' : boutique.user.id } ) }}">{{boutique.user.nameAndSurname}}</a></th>
+										<th class="text-right text-uppercase"><a target="_blank" href="{{ path('app_kpi_trim_hebdo', { 'user_actuel' : userId, 'user_id' : boutique.user.id } ) }}">{{boutique.user.nameAndSurname}}</a></th>
 										<td class="text-center">{{ boutique.nbDesaboT0|number_format(0, ',', ' ') }}</td>
 										<td class="text-center">{{ boutique.nbHardbounceT0|number_format(0, ',', ' ')}}</td>
 									</tr>

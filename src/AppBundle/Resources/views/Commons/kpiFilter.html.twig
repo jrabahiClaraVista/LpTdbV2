@@ -44,13 +44,15 @@
 					<div class="col-xs-6">
 						{{ form_widget(form.boutique, { 'attr': {'class' : 'form-control ajax', 'isSubmit': 'no'} }) }}
 					</div>
-				</div>				
+				</div>		
+				{% if app.request.attributes.get('_route') not in ['app_kpi_trim_hebdo'] %}		
 				<div class="form-group {% if app.request.attributes.get('_route') in ['app_kpi_fid','app_kpi_planning','app_kpi_satisfaction','app_kpi_satisfaction_week','app_kpi_satisfaction_trim'] %}hidden{% endif %}">
 					<label for="month" class="col-xs-6 control-label">Liste des vendeurs</label>
 					<div class="col-xs-6">
 						{{ form_widget(form.vendeur, { 'attr': {'class' : 'form-control ajax', 'isSubmit': 'no'} }) }}
 					</div>
 				</div>
+				{{ endif }}
 			</div>
 			{% if app.request.attributes.get('_route') in ['app_kpi_week','app_kpi_satisfaction_week'] %}
 				<div class="col-xs-3">
