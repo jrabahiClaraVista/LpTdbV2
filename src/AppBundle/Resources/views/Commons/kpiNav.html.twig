@@ -46,7 +46,7 @@
             {% endif %}
             <li class="col-xs-4 text-center {% if app.request.attributes.get('_route') == 'app_kpi_trim_hebdo' %}active{% endif %}">
                 <a href="{{ path('app_kpi_trim_hebdo', { 'user_actuel' : userId, 'user_id' : user_id } ) }}" class="one-line">
-                    {{"DESABONNEMENT"|trans }}<br />&amp; {{ "HARDBOUNCE"|trans}}
+                    {{"DÉSABONNEMENT"|trans }}<br />&amp; {{ "HARDBOUNCE"|trans}}
                 </a>
             </li>  
             <li class="col-xs-4 text-center {% if app.request.attributes.get('_route') == 'app_kpi_faq' %}active{% endif %}">
