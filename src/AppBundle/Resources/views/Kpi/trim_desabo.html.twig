@@ -155,13 +155,13 @@
 							{% endfor %}
 						{% elseif user_role == "ROLE_BOUTIQUE" %}
 							{% for boutique in getVendeursBoutique %}
-								{% if getVendeursBoutique is not null and boutique.nbDesaboT0 > 0 %}
+								{#% if getVendeursBoutique is not null and boutique.nbDesaboT0 > 0 %#}
 									<tr>
 										<th class="text-right text-uppercase"><a target="_blank" href="{{ path('app_kpi_trim_hebdo', { 'user_actuel' : userId, 'user_id' : boutique.user.id } ) }}">{{boutique.user.nameAndSurname}}</a></th>
 										<td class="text-center">{{ boutique.nbDesaboT0|number_format(0, ',', ' ') }}</td>
 										<td class="text-center">{{ boutique.nbHardbounceT0|number_format(0, ',', ' ')}}</td>
 									</tr>
-								{% endif %}
+								{#% endif %#}
 							{% endfor %}
 						{% endif %}
 					</tbody>
