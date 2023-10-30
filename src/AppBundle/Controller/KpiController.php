@@ -2392,7 +2392,7 @@ class KpiController extends Controller
 					u.username,u.brand,u.dr,a.date,a.nb_desabo, a.objectif_desabo, a.nb_hardbounce, a.objectif_hardbounce
 				FROM app_kpi_trim_hebdo a
 				LEFT JOIN fos_user_user u on a.user_id = u.id
-				WHERE a.date = '$kpi_date' 
+				WHERE a.date = '$date_kpi' 
 					AND u.role in ('ROLE_MARQUE','ROLE_DR','ROLE_BOUTIQUE')
 				ORDER BY u.dr,u.username
 					";
