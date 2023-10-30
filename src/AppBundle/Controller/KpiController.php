@@ -2357,9 +2357,91 @@ class KpiController extends Controller
 			//return $this->redirectToRoute('app_kpi_trim', array('user_actuel' => $user_actuel->getId(), 'user_id' =>$user->getId()));
 		}
 
-
 		//Mise à jour du filtre
 		$form = $kpiFilterService->updateForm($user, $request, $form);
+
+
+		//Export data
+		$form2 = $this->createForm(new ExportDataType());
+        $form2->handleRequest($request);
+
+        $date_kpi = $kpiCurrentTrimHebdo->getDate()->format('Y-m-d');
+
+		//Export CSV
+		if ($form2->isSubmitted()) {
+
+			$condition = "(";
+
+			if( $user->getRole() == 'ROLE_MARQUE' ) {
+				$condition .= "true";
+			}
+			elseif( $user->getRole() == 'ROLE_DR' ) {
+				$condition .= "true";
+			}
+			elseif( $user->getRole() == 'ROLE_BOUTIQUE' ) {
+				$condition .= "true";
+			}
+			else{
+				$condition .= "true";
+			}
+
+			$condition .= ")";
+
+
+			$sql = "SELECT
+					u.username,u.brand,u.dr,a.date,a.nb_desabo, a.objectif_desabo, a.nb_hardbounce, a.objectif_hardbounce
+				FROM app_kpi_trim_hebdo a
+				LEFT JOIN fos_user_user u on a.user_id = u.id
+				WHERE a.date = '$kpi_date' 
+					AND u.role in ('ROLE_MARQUE','ROLE_DR','ROLE_BOUTIQUE')
+				ORDER BY u.dr,u.username
+					";
+			$header     = array('Libelle','Reseau','DR','Trimestre','NOMBRE DE Désabos Trimestrielle',
+            					'Objectif de Désabo','NOMBRE DE Hardbounces Trimestrielle','Objectif de Hardbounce');
+		
+            //Creation du fichier CSV et du header
+            $handle     = fopen('php://memory', 'r+');
+
+            //Creation de l'entête du fichier pour être lisible dans Exel
+            fputs($handle, $bom =( chr(0xEF) . chr(0xBB) . chr(0xBF) ));
+            fputcsv($handle, $header, ';');
+
+            //Initialisation de la connection à la BDD
+            $pdo = $this->container->get('app.pdo_connect');
+            $pdo = $pdo->initPdoClienteling();
+
+            //Préparation et execution de la requête
+            $stmt = $pdo->prepare($sql);
+            $stmt->execute();
+
+            //Remplissage du fichier csv.
+            while ($row = $stmt->fetch(\PDO::FETCH_ASSOC)) {
+                $row["username"] = str_replace('.',',',$row["username"]);
+                $row["brand"] = str_replace('.',',',$row["brand"]);
+                $row["dr"] = str_replace('.',',',$row["dr"]);
+                $row["date"]  = str_replace('.',',',$row["date"]);
+                $row["nb_desabo"]  = str_replace('.',',',$row["nb_desabo"]);
+                $row["objectif_desabo"]  = str_replace('.',',',$row["objectif_desabo"]);
+                $row["nb_hardbounce"]  = str_replace('.',',',$row["nb_hardbounce"]);
+                $row["objectif_hardbounce"]  = str_replace('.',',',$row["objectif_hardbounce"]);
+            	
+                fputcsv($handle, $row, ';');
+            }
+
+            //Fermeture du fichier
+            rewind($handle);
+            $content = stream_get_contents($handle);
+            fclose($handle);
+
+            $date_csv = new \Datetime('now');
+            $date_csv = $date_csv->format('Ymd');
+
+            //Reponse : Téléchargement du fichier
+            return new Response($content, 200, array(
+                'Content-Type' => 'application/force-download; text/csv; charset=UTF-8',
+                'Content-Disposition' => 'attachment; filename="export_donnees_desabo_hardbounce_'.$date_csv.'.csv"'
+            ));
+		}
 
 		$path_trim = 'AppBundle:Kpi:trim_desabo.html.twig';
 	
@@ -2375,7 +2457,8 @@ class KpiController extends Controller
 	        	'marque'			=> $marque,
 	        	'form'          	=> $form->createView(),
 	        	'user_actuel'		=> $user_actuel,
-	        	'user_role'			=> $user->getRole()
+	        	'user_role'			=> $user->getRole(),
+	        	'form2'          	=> $form2->createView(),
 	        	)
 	        );
 		}
