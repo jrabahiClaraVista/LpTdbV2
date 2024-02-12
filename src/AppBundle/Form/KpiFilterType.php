@@ -462,7 +462,7 @@ class KpiFilterType extends AbstractType
                           ->add('orderBy','u.role DESC ,u.username ASC')
                           ;
                       },
-                      'empty_value' => 'Tous',
+                      'empty_value' => false,
                       'required' => false,
                       'data' =>$this->user
                       )
@@ -500,7 +500,7 @@ class KpiFilterType extends AbstractType
                         ->add('orderBy','u.role DESC ,u.username ASC')
                         ;
                     },
-                    'empty_value' => 'Tous',
+                    'empty_value' => false,
                     'required' => false,
                     'data' =>$this->em->getRepository("ApplicationSonataUserBundle:User")->findOneBy(array("username" => $this->user->getBoutique()))
                     )

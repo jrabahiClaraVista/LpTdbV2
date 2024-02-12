@@ -76,7 +76,7 @@ class KpiController extends Controller
 
 		//initialisation des variable de session
 		$kpiFilterService = $this->container->get('app.kpi_filter_session');
-		$vars = $kpiFilterService->initVars($user, $request);
+		$vars = $kpiFilterService->initVars($user_actuel, $request);
 
         $reseau      = $vars[0];
         $dr 	     = $vars[1];
@@ -318,7 +318,7 @@ class KpiController extends Controller
 		}
 
 		//Mise à jour du filtre
-		$form = $kpiFilterService->updateForm($user, $request, $form);
+		$form = $kpiFilterService->updateForm($user_actuel, $request, $form);
 
 		$form2 = $this->createForm(new ExportDataType());
         $form2->handleRequest($request);
@@ -897,7 +897,7 @@ class KpiController extends Controller
 
 		//initialisation des variable de session
 		$kpiFilterService = $this->container->get('app.kpi_filter_session');
-		$vars = $kpiFilterService->initVars($user, $request);
+		$vars = $kpiFilterService->initVars($user_actuel, $request);
 
         $reseau      = $vars[0];
         $dr 		 = $vars[1];
@@ -1090,7 +1090,7 @@ class KpiController extends Controller
 	}
 
 	//Mise à jour du filtre
-	$form = $kpiFilterService->updateForm($user, $request, $form);
+	$form = $kpiFilterService->updateForm($user_actuel, $request, $form);
 
 	$form2 = $this->createForm(new ExportDataType());
   	$form2->handleRequest($request);
@@ -1546,7 +1546,7 @@ class KpiController extends Controller
 
 		//initialisation des variable de session
 		$kpiFilterService = $this->container->get('app.kpi_filter_session');
-		$vars = $kpiFilterService->initVars($user, $request);
+		$vars = $kpiFilterService->initVars($user_actuel, $request);
 
         $reseau      = $vars[0];
         $dr 		 = $vars[1];
@@ -1743,7 +1743,7 @@ class KpiController extends Controller
 	}
 
 	//Mise à jour du filtre
-	$form = $kpiFilterService->updateForm($user, $request, $form);
+	$form = $kpiFilterService->updateForm($user_actuel, $request, $form);
 
 	$form2 = $this->createForm(new ExportDataType());
   	$form2->handleRequest($request);
@@ -2187,7 +2187,7 @@ class KpiController extends Controller
 
 		//initialisation des variable de session
 		$kpiFilterService = $this->container->get('app.kpi_filter_session');
-		$vars = $kpiFilterService->initVars($user, $request);
+		$vars = $kpiFilterService->initVars($user_actuel, $request);
 
         $reseau      = $vars[0];
         $dr 		 = $vars[1];
@@ -2358,7 +2358,7 @@ class KpiController extends Controller
 		}
 
 		//Mise à jour du filtre
-		$form = $kpiFilterService->updateForm($user, $request, $form);
+		$form = $kpiFilterService->updateForm($user_actuel, $request, $form);
 
 
 		//Export data
