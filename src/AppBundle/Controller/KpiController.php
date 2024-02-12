@@ -76,7 +76,7 @@ class KpiController extends Controller
 
 		//initialisation des variable de session
 		$kpiFilterService = $this->container->get('app.kpi_filter_session');
-		$vars = $kpiFilterService->initVars($user_actuel, $request);
+		$vars = $kpiFilterService->initVars($user, $request);
 
         $reseau      = $vars[0];
         $dr 	     = $vars[1];
@@ -94,9 +94,9 @@ class KpiController extends Controller
 		$date3 = $dates['date3'];//Premier jour du mois
 
 		if($session->get('kpi_year_filtre') != null)
-			$form = $this->createForm(new KpiFilterType($em, $user, $user, null, $month, null, $session->get('kpi_year_filtre') , 'mensuel'));
+			$form = $this->createForm(new KpiFilterType($em, $user_actuel, $user, null, $month, null, $session->get('kpi_year_filtre') , 'mensuel'));
 		else
-			$form = $this->createForm(new KpiFilterType($em, $user, $user, null, $month, null, $year, 'mensuel'));
+			$form = $this->createForm(new KpiFilterType($em, $user_actuel, $user, null, $month, null, $year, 'mensuel'));
 
 		$form->handleRequest($request);
 		//Recuperation des données de la requete
@@ -318,7 +318,7 @@ class KpiController extends Controller
 		}
 
 		//Mise à jour du filtre
-		$form = $kpiFilterService->updateForm($user_actuel, $request, $form);
+		$form = $kpiFilterService->updateForm($user, $request, $form);
 
 		$form2 = $this->createForm(new ExportDataType());
         $form2->handleRequest($request);
@@ -897,7 +897,7 @@ class KpiController extends Controller
 
 		//initialisation des variable de session
 		$kpiFilterService = $this->container->get('app.kpi_filter_session');
-		$vars = $kpiFilterService->initVars($user_actuel, $request);
+		$vars = $kpiFilterService->initVars($user, $request);
 
         $reseau      = $vars[0];
         $dr 		 = $vars[1];
@@ -916,10 +916,10 @@ class KpiController extends Controller
 		$dateWeek3 	= $datesWeek['dateWeek3'];//Premier jour du mois
 
 		if($session->get('kpi_year_filtre') != null){
-			$form = $this->createForm(new KpiFilterType($em, $user, $user, $week, null, null, $session->get('kpi_year_filtre') , 'hebdomadaire'));
+			$form = $this->createForm(new KpiFilterType($em, $user_actuel, $user, $week, null, null, $session->get('kpi_year_filtre') , 'hebdomadaire'));
 		}
 		else{
-			$form = $this->createForm(new KpiFilterType($em, $user, $user, $week, null, null, $year, 'hebdomadaire'));
+			$form = $this->createForm(new KpiFilterType($em, $user_actuel, $user, $week, null, null, $year, 'hebdomadaire'));
 		}
 
 
@@ -1090,7 +1090,7 @@ class KpiController extends Controller
 	}
 
 	//Mise à jour du filtre
-	$form = $kpiFilterService->updateForm($user_actuel, $request, $form);
+	$form = $kpiFilterService->updateForm($user, $request, $form);
 
 	$form2 = $this->createForm(new ExportDataType());
   	$form2->handleRequest($request);
@@ -1546,7 +1546,7 @@ class KpiController extends Controller
 
 		//initialisation des variable de session
 		$kpiFilterService = $this->container->get('app.kpi_filter_session');
-		$vars = $kpiFilterService->initVars($user_actuel, $request);
+		$vars = $kpiFilterService->initVars($user, $request);
 
         $reseau      = $vars[0];
         $dr 		 = $vars[1];
@@ -1565,10 +1565,10 @@ class KpiController extends Controller
 		$dateTrim3 	= $datesTrim['dateTrim3'];//Premier jour du mois
 
 		if($session->get('kpi_trim_filtre') != null){
-			$form = $this->createForm(new KpiFilterType($em, $user, $user, null, null, $session->get('kpi_trim_filtre'), $session->get('kpi_year_filtre') , 'trimestre'));
+			$form = $this->createForm(new KpiFilterType($em, $user_actuel, $user, null, null, $session->get('kpi_trim_filtre'), $session->get('kpi_year_filtre') , 'trimestre'));
 		}
 		else{
-			$form = $this->createForm(new KpiFilterType($em, $user, $user, null, null, $trim, $year, 'trimestre'));
+			$form = $this->createForm(new KpiFilterType($em, $user_actuel, $user, null, null, $trim, $year, 'trimestre'));
 		}
 
 
@@ -1743,7 +1743,7 @@ class KpiController extends Controller
 	}
 
 	//Mise à jour du filtre
-	$form = $kpiFilterService->updateForm($user_actuel, $request, $form);
+	$form = $kpiFilterService->updateForm($user, $request, $form);
 
 	$form2 = $this->createForm(new ExportDataType());
   	$form2->handleRequest($request);
@@ -2187,7 +2187,7 @@ class KpiController extends Controller
 
 		//initialisation des variable de session
 		$kpiFilterService = $this->container->get('app.kpi_filter_session');
-		$vars = $kpiFilterService->initVars($user_actuel, $request);
+		$vars = $kpiFilterService->initVars($user, $request);
 
         $reseau      = $vars[0];
         $dr 		 = $vars[1];
@@ -2206,10 +2206,10 @@ class KpiController extends Controller
 		$dateTrim3 	= $datesTrim['dateTrim3'];//Premier jour du mois
 
 		if($session->get('kpi_trim_filtre') != null){
-			$form = $this->createForm(new KpiFilterType($em, $user, $user, null, null, $session->get('kpi_trim_filtre'), $session->get('kpi_year_filtre') , 'trimestre'));
+			$form = $this->createForm(new KpiFilterType($em, $user_actuel, $user, null, null, $session->get('kpi_trim_filtre'), $session->get('kpi_year_filtre') , 'trimestre'));
 		}
 		else{
-			$form = $this->createForm(new KpiFilterType($em, $user, $user, null, null, $trim, $year, 'trimestre'));
+			$form = $this->createForm(new KpiFilterType($em, $user_actuel, $user, null, null, $trim, $year, 'trimestre'));
 		}
 
 
@@ -2358,7 +2358,7 @@ class KpiController extends Controller
 		}
 
 		//Mise à jour du filtre
-		$form = $kpiFilterService->updateForm($user_actuel, $request, $form);
+		$form = $kpiFilterService->updateForm($user, $request, $form);
 
 
 		//Export data
